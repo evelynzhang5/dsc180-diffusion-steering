@@ -1,0 +1,17 @@
+# Additions to the DSMLP scipy-ml image, not a complete environment lock.
+# Retain its preinstalled CUDA-enabled PyTorch.
+numpy
+scipy
+matplotlib
+pandas
+pyarrow
+Pillow
+requests
+tqdm
+psutil
+click
+imageio
+imageio-ffmpeg
+ninja
+nbconvert
+ipykernel
