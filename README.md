@@ -10,17 +10,14 @@ evaluation tables and training experiments are not implemented in this starter.
 
 ## Files
 
-- cifar10_edm_lab.ipynb: unchanged full supplied lab, including later training.
-- cifar10_parts1_3.ipynb: shortened copy with a CUDA assertion, automatic figure
-  saving, and the two requested conditional/CFG trajectory figures.
-- requirements.txt: packages used on top of the DSMLP scipy-ml image.
-- notes.md: predictions, observations, issues, and next experiments.
+- cifar10_edm_lab.ipynb: the full supplied lab, unchanged (parts 1–6).
+- cifar10_parts1_3.ipynb: parts 1–3 only, plus a CUDA check, figure export, and the part 3 trajectories.
+- requirements.txt: packages added on top of the DSMLP scipy-ml image.
+- notes.md: run log, predictions, and observations.
+- handoff.md: deliverables checklist, project direction, open questions.
+- concepts.md: background theory (study notes).
 - figures/parts1_3/: created by a successful run.
 - downloads/ and outputs/: local working data; excluded from Git.
-
-The shortened copy preserves the lab's sampler and pretrained-model code.
-Its extra trajectory comparison uses class cat, seed 0, three samples, and
-guidance weights 1 and 4. It does not supply answers to the observation questions.
 
 ## DSMLP setup
 
@@ -137,7 +134,7 @@ Never commit passwords, access tokens, or private keys.
 If GitHub authentication is already configured in the container:
 
 ```bash
-git add README.md notes.md .gitignore requirements.txt cifar10_edm_lab.ipynb cifar10_parts1_3.ipynb figures/
+git add README.md notes.md handoff.md concepts.md .gitignore requirements.txt cifar10_edm_lab.ipynb cifar10_parts1_3.ipynb figures/
 git commit -m "Run CIFAR-10 EDM parts 1-3 on DSMLP"
 git push
 ```
