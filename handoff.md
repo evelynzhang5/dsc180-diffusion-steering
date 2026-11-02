@@ -13,7 +13,7 @@ Setup
 
 Generation and sampling (parts 1–5)
 - [x] Sample grids (parts 1–3): figures/parts1_3/
-- [ ] Trajectory figures for w = 1 and w = 4, with answers to part 3's questions in notes (figures done; answers still to write)
+- [x] Trajectory figures for w = 1 and w = 4, with answers to part 3's questions in notes
 - [x] Part 5 table and plots: accuracy, FID, FID_class vs. w, at 1,000 images (README)
 
 Training
@@ -27,15 +27,16 @@ Report
 - [ ] Title, abstract, introduction (problem, related work, data), repo link
 - [ ] Preliminary results: this week's figures and tables, one sentence each, each reproducible from the README
 
-## Plan to finish early (target Wednesday, November 4; Thursday as buffer)
+## Remaining work (target Wednesday, November 4; Thursday as buffer)
+
+Parts 1–6, the MNIST CFG network and 3.3 h of full-data EDM training are done (Nov 1).
 
 | Day | Work |
 | --- | --- |
-| Sun Nov 1 | MNIST CFG network trained and evaluated (done locally on MPS). Start CIFAR-10 parts 1–3 on DSMLP. |
-| Mon Nov 2 | CIFAR-10 parts 4–5: the w sweep at 1,000 images (accuracy, FID, FID_class). Start part 6 training (100 and 1,000 images) in the background. Write part 3 answers in notes. |
-| Tue Nov 3 | Part 6 results: FID across snapshots, nearest-neighbor figure, CFG grids. Draft report title, abstract, introduction. |
-| Wed Nov 4 | Preliminary-results section (one sentence per figure); README commands checked against every figure; push. |
-| Thu Nov 5 | Buffer. Optional: start the full 50k EDM run if a GPU is free. |
+| Mon Nov 2 | Review and edit the report draft ([report.md](report.md)): title, abstract, introduction. Part 3 answers are in notes. |
+| Tue Nov 3 | Optional: snapshot FID for the full EDM run (notebook cell 39 on DSMLP). Check every README command against its figure. |
+| Wed Nov 4 | Final pass on preliminary results; export the report to PDF; push. |
+| Thu Nov 5 | Buffer. |
 
 ## Capstone direction
 

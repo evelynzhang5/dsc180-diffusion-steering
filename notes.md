@@ -22,24 +22,48 @@ in `figures/parts1_3/run_environment.json`; don't copy them here.
 ## Parts 1–3
 
 ### Before viewing the CFG grid
-Prediction: what will change as guidance weight w increases from 1 to 4?
+Prediction: as w goes from 1 to 4, samples should look more clearly like cats,
+with stronger contrast and saturation, and the columns should look more alike
+(less variety).
 
 ### Observations
-- Unconditional samples:
-- Conditional samples:
-- CFG grid (same seed across weights):
-- Any artifacts or loss of diversity:
+- Unconditional samples (figures/parts1_3/01): varied classes and backgrounds,
+  mostly recognizable objects at 32x32.
+- Conditional samples (03): each row reads as its class; within-class variety is
+  still large (pose, color, background).
+- CFG grid (04, same noise per column): w = 0 gives unrelated classes (bird,
+  plane, car, deer, ship). From w = 1 every column becomes a cat, but layout and
+  colors are inherited from the w = 0 image with the same noise (e.g. the ship's
+  teal background stays in column 7). From w = 1 to 4 the pose barely changes;
+  contrast, saturation and edge sharpness rise, and faces become more frontal.
+- Artifacts: at w = 3–4 some samples look oversaturated or posterized (column 8
+  turns bright orange; column 1 loses its cat shape at w = 4), consistent with
+  FID rising from 31.3 (w = 1) to 39.0 (w = 4) in part 5.
 
 ### Part 3 trajectory questions
-Comparison: cat, three samples, seed 0, w = 1 versus w = 4.
+Comparison: cat, three samples, seed 0, w = 1 versus w = 4 (figures/parts1_3/05
+and 06). Displayed noise levels: σ = 80, 28, 8.4, 3.3, 1.1, 0.3, 0.06, 0.002.
 
-1. At which displayed noise level does the class first appear in the denoiser estimate?
-   Does it appear earlier for w = 4?
-2. From which displayed noise level onward does the image barely change?
-3. At low noise, how do the w = 4 estimates differ from the w = 1 estimates?
+1. **When does the class appear?** For w = 1, the denoiser estimate D(x; σ) is a
+   flat brown blur at σ = 80 and 28, a centered blob at 8.4, a coarse layout at
+   3.3, and a recognizable animal only at σ = 1.1. Even then, two of the three
+   are ambiguous (sample 2 looks like a guinea pig or rabbit). For w = 4 the cat
+   appears earlier: pointed ears and a cat face are visible at σ = 3.3 in sample 1,
+   and all three are clearly cats at σ = 1.1. At σ = 80 the w = 4 estimates
+   already have a warmer, less uniform tint than the w = 1 ones.
+2. **When does the image stop changing?** For both weights, the estimates at
+   σ = 0.3, 0.06 and 0.002 look nearly identical. The coarse layout is fixed by
+   about σ = 1.1; the steps below 0.3 only remove the last pixel noise from x.
+3. **Low-noise differences:** at σ ≤ 0.3 the w = 4 estimates have higher
+   contrast, more saturated orange, darker backgrounds and sharper edges. They
+   are more prototypical cats (frontal faces, large ears), but sample 3 has
+   garish colors (red nose, green eyes) and sample 2 has exaggerated stripes.
+   The w = 1 estimates are more muted and natural but less clearly cats.
 
-Record actual observations and the corresponding sigma values. Do not infer
-an exact transition between displayed snapshots without inspecting more steps.
+Takeaway for direction A: the class is decided between σ ≈ 8 and 1, and very
+little changes below σ ≈ 0.3. Guidance probably matters most at middle noise
+levels; strong guidance at low noise mostly adds saturation. This is the
+motivation for testing noise-dependent w.
 
 ## MNIST CFG network (Nov 1, 2026)
 

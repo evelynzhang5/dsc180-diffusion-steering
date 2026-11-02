@@ -18,6 +18,7 @@ FID across the full-data training snapshots (notebook cell 39), and the report.
 - train_mnist.py: the MNIST CFG network deliverable: trains the lab's U-Net from scratch and measures CFG.
 - requirements.txt: packages added on top of the DSMLP scipy-ml image.
 - notes.md: run log, predictions, and observations.
+- report.md: checkpoint report draft (title, abstract, introduction, preliminary results).
 - handoff.md: deliverables checklist, project direction, open questions.
 - concepts.md: background theory (study notes).
 - scripts/dsmlp_run_all.sh: the DSMLP batch job that ran both CIFAR-10 notebooks and EDM training.
