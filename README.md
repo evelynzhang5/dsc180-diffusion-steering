@@ -205,8 +205,12 @@ on all 50,000 images, stopped by the time limit after 1,205 kimg (24 ticks,
 3.3 hours, about 9.7 s per kimg). Loss fell from 1.02 at the start to 0.196.
 Snapshots were saved at 0, 502 and 1,004 kimg (kept on DSMLP; not in Git).
 Training stats: results/edm_train/stats.jsonl, training_options.json, log.txt;
-loss curve: figures/edm_train/loss.png. To continue, rerun train.py with
-`--resume` pointing at the newest training-state-*.pt.
+loss curve: figures/edm_train/loss.png. This run cannot be resumed exactly:
+train.py saves its optimizer state (training-state-*.pt) only every `--dump`
+ticks, 500 by default, and the run stopped at tick 24. To keep training from
+the last weights, start a new run with `--transfer=<run folder>/network-snapshot-001004.pkl`
+(fresh optimizer, image count restarts at 0), and add `--dump=10` so that later
+runs can be continued with `--resume`.
 
 FID across the snapshots (notebook cell 39, 1,000 unconditional samples each,
 seeds from 3000) comes from scripts/edm_snapshot_fid.py. It runs the lab cells
