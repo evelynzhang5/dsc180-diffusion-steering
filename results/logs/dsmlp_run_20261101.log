@@ -1,0 +1,237 @@
+time="2026-11-01T10:49:45-08:00" level=warning msg="skipping device /dev/char/10:200 for systemd: stat /sys/dev/char/10:200: no such file or directory"
+== [2026-11-01 10:49:45] start on steer-run
+Sun Nov  1 10:49:45 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.161.08             Driver Version: 535.161.08   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA GeForce GTX 1080 Ti     Off | 00000000:8A:00.0 Off |                  N/A |
+| 23%   23C    P8               9W / 250W |      0MiB / 11264MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+Already up to date.
+e4aff85 add readme and notebooks
+2.2.1+cu121 12.1
+NVIDIA GeForce GTX 1080 Ti
+== [2026-11-01 10:49:53] nbconvert cifar10_parts1_3.ipynb
+[NbConvertApp] Converting notebook cifar10_parts1_3.ipynb to notebook
+0.00s - Debugger warning: It seems that frozen modules are being used, which may
+0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+0.00s - to python to disable frozen modules.
+0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+[NbConvertApp] Writing 3715496 bytes to cifar10_parts1_3.executed.ipynb
+== [2026-11-01 10:51:22] cifar10_parts1_3.ipynb exit 0 after 1 min
+== [2026-11-01 10:51:22] nbconvert cifar10_edm_lab.ipynb
+[NbConvertApp] Converting notebook cifar10_edm_lab.ipynb to notebook
+0.00s - Debugger warning: It seems that frozen modules are being used, which may
+0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+0.00s - to python to disable frozen modules.
+0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+[NbConvertApp] Writing 7084964 bytes to cifar10_edm_lab.executed.ipynb
+== [2026-11-01 13:07:06] cifar10_edm_lab.ipynb exit 0 after 135 min
+== [2026-11-01 13:07:06] EDM train.py for 197 min
+
+Training options:
+{
+  "dataset_kwargs": {
+    "class_name": "training.dataset.ImageFolderDataset",
+    "path": "/home/yuz271/dsc180-diffusion-steering/outputs/cifar10-32x32-n50000.zip",
+    "use_labels": false,
+    "xflip": false,
+    "cache": true,
+    "resolution": 32,
+    "max_size": 50000
+  },
+  "data_loader_kwargs": {
+    "pin_memory": true,
+    "num_workers": 1,
+    "prefetch_factor": 2
+  },
+  "network_kwargs": {
+    "model_type": "SongUNet",
+    "embedding_type": "positional",
+    "encoder_type": "standard",
+    "decoder_type": "standard",
+    "channel_mult_noise": 1,
+    "resample_filter": [
+      1,
+      1
+    ],
+    "model_channels": 128,
+    "channel_mult": [
+      2,
+      2,
+      2
+    ],
+    "class_name": "training.networks.EDMPrecond",
+    "augment_dim": 9,
+    "dropout": 0.13,
+    "use_fp16": false
+  },
+  "loss_kwargs": {
+    "class_name": "training.loss.EDMLoss"
+  },
+  "optimizer_kwargs": {
+    "class_name": "torch.optim.Adam",
+    "lr": 0.001,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08
+  },
+  "augment_kwargs": {
+    "class_name": "training.augment.AugmentPipe",
+    "p": 0.12,
+    "xflip": 100000000.0,
+    "yflip": 1,
+    "scale": 1,
+    "rotate_frac": 1,
+    "aniso": 1,
+    "translate_frac": 1
+  },
+  "total_kimg": 10000,
+  "ema_halflife_kimg": 500,
+  "batch_size": 512,
+  "batch_gpu": 64,
+  "loss_scaling": 1.0,
+  "cudnn_benchmark": true,
+  "kimg_per_tick": 50,
+  "snapshot_ticks": 10,
+  "state_dump_ticks": 500,
+  "seed": 536775293,
+  "run_dir": "training-runs/00000-cifar10-32x32-n50000-uncond-ddpmpp-edm-gpus1-batch512-fp32"
+}
+
+Output directory:        training-runs/00000-cifar10-32x32-n50000-uncond-ddpmpp-edm-gpus1-batch512-fp32
+Dataset path:            /home/yuz271/dsc180-diffusion-steering/outputs/cifar10-32x32-n50000.zip
+Class-conditional:       False
+Network architecture:    ddpmpp
+Preconditioning & loss:  edm
+Number of GPUs:          1
+Batch size:              512
+Mixed-precision:         False
+
+Creating output directory...
+Loading dataset...
+Constructing network...
+
+EDMPrecond                Parameters  Buffers  Output shape       Datatype
+---                       ---         ---      ---                ---     
+model.map_noise           -           -        [64, 128]          float32 
+model.map_layer0          66048       -        [64, 512]          float32 
+model.map_layer1          262656      -        [64, 512]          float32 
+model.enc.32x32_conv      3584        -        [64, 128, 32, 32]  float32 
+model.enc.32x32_block0    1050368     -        [64, 256, 32, 32]  float32 
+model.enc.32x32_block1    1312512     -        [64, 256, 32, 32]  float32 
+model.enc.32x32_block2    1312512     -        [64, 256, 32, 32]  float32 
+model.enc.32x32_block3    1312512     -        [64, 256, 32, 32]  float32 
+model.enc.16x16_down      1378304     8        [64, 256, 16, 16]  float32 
+model.enc.16x16_block0    1576192     -        [64, 256, 16, 16]  float32 
+model.enc.16x16_block1    1576192     -        [64, 256, 16, 16]  float32 
+model.enc.16x16_block2    1576192     -        [64, 256, 16, 16]  float32 
+model.enc.16x16_block3    1576192     -        [64, 256, 16, 16]  float32 
+model.enc.8x8_down        1378304     8        [64, 256, 8, 8]    float32 
+model.enc.8x8_block0      1312512     -        [64, 256, 8, 8]    float32 
+model.enc.8x8_block1      1312512     -        [64, 256, 8, 8]    float32 
+model.enc.8x8_block2      1312512     -        [64, 256, 8, 8]    float32 
+model.enc.8x8_block3      1312512     -        [64, 256, 8, 8]    float32 
+model.dec.8x8_in0         1576192     -        [64, 256, 8, 8]    float32 
+model.dec.8x8_in1         1312512     -        [64, 256, 8, 8]    float32 
+model.dec.8x8_block0      2034176     -        [64, 256, 8, 8]    float32 
+model.dec.8x8_block1      2034176     -        [64, 256, 8, 8]    float32 
+model.dec.8x8_block2      2034176     -        [64, 256, 8, 8]    float32 
+model.dec.8x8_block3      2034176     -        [64, 256, 8, 8]    float32 
+model.dec.8x8_block4      2034176     -        [64, 256, 8, 8]    float32 
+model.dec.16x16_up        1378304     8        [64, 256, 16, 16]  float32 
+model.dec.16x16_block0    2034176     -        [64, 256, 16, 16]  float32 
+model.dec.16x16_block1    2034176     -        [64, 256, 16, 16]  float32 
+model.dec.16x16_block2    2034176     -        [64, 256, 16, 16]  float32 
+model.dec.16x16_block3    2034176     -        [64, 256, 16, 16]  float32 
+model.dec.16x16_block4    2297856     -        [64, 256, 16, 16]  float32 
+model.dec.32x32_up        1378304     8        [64, 256, 32, 32]  float32 
+model.dec.32x32_block0    2034176     -        [64, 256, 32, 32]  float32 
+model.dec.32x32_block1    2034176     -        [64, 256, 32, 32]  float32 
+model.dec.32x32_block2    2034176     -        [64, 256, 32, 32]  float32 
+model.dec.32x32_block3    2034176     -        [64, 256, 32, 32]  float32 
+model.dec.32x32_block4    1706240     -        [64, 256, 32, 32]  float32 
+model.dec.32x32_aux_norm  512         -        [64, 256, 32, 32]  float32 
+model.dec.32x32_aux_conv  6915        -        [64, 3, 32, 32]    float32 
+model                     1152        -        [64, 3, 32, 32]    float32 
+<top-level>               -           -        [64, 3, 32, 32]    float32 
+---                       ---         ---      ---                ---     
+Total                     55733891    32       -                  -       
+
+Setting up optimizer...
+Training for 10000 kimg...
+
+tick 0     kimg 0.5       time 18s          sec/tick 10.5    sec/kimg 20.47   maintenance 7.1    cpumem 1.58   gpumem 8.84   reserved 9.96  
+tick 1     kimg 50.7      time 8m 23s       sec/tick 485.0   sec/kimg 9.67    maintenance 0.9    cpumem 1.75   gpumem 8.91   reserved 9.81  
+tick 2     kimg 100.9     time 16m 29s      sec/tick 485.1   sec/kimg 9.67    maintenance 0.0    cpumem 1.76   gpumem 8.91   reserved 9.81  
+tick 3     kimg 151.0     time 24m 34s      sec/tick 485.2   sec/kimg 9.67    maintenance 0.0    cpumem 1.76   gpumem 8.91   reserved 9.81  
+tick 4     kimg 201.2     time 32m 39s      sec/tick 485.1   sec/kimg 9.67    maintenance 0.0    cpumem 1.76   gpumem 8.91   reserved 9.81  
+tick 5     kimg 251.4     time 40m 44s      sec/tick 485.1   sec/kimg 9.67    maintenance 0.0    cpumem 1.76   gpumem 8.91   reserved 9.81  
+tick 6     kimg 301.6     time 48m 50s      sec/tick 485.4   sec/kimg 9.67    maintenance 0.0    cpumem 1.76   gpumem 8.91   reserved 9.81  
+tick 7     kimg 351.7     time 56m 55s      sec/tick 485.2   sec/kimg 9.67    maintenance 0.0    cpumem 1.76   gpumem 8.91   reserved 9.81  
+tick 8     kimg 401.9     time 1h 05m 00s   sec/tick 485.5   sec/kimg 9.68    maintenance 0.0    cpumem 1.76   gpumem 8.91   reserved 9.81  
+tick 9     kimg 452.1     time 1h 13m 06s   sec/tick 485.4   sec/kimg 9.67    maintenance 0.0    cpumem 1.76   gpumem 8.91   reserved 9.81  
+tick 10    kimg 502.3     time 1h 21m 11s   sec/tick 485.3   sec/kimg 9.67    maintenance 0.0    cpumem 1.76   gpumem 8.91   reserved 9.81  
+tick 11    kimg 552.4     time 1h 29m 18s   sec/tick 486.1   sec/kimg 9.69    maintenance 0.8    cpumem 1.76   gpumem 8.91   reserved 9.82  
+tick 12    kimg 602.6     time 1h 37m 23s   sec/tick 485.3   sec/kimg 9.67    maintenance 0.0    cpumem 1.76   gpumem 8.91   reserved 9.82  
+tick 13    kimg 652.8     time 1h 45m 28s   sec/tick 484.6   sec/kimg 9.66    maintenance 0.0    cpumem 1.76   gpumem 8.91   reserved 9.82  
+tick 14    kimg 703.0     time 1h 53m 33s   sec/tick 485.0   sec/kimg 9.67    maintenance 0.0    cpumem 1.76   gpumem 8.91   reserved 9.82  
+tick 15    kimg 753.2     time 2h 01m 38s   sec/tick 485.1   sec/kimg 9.67    maintenance 0.0    cpumem 1.76   gpumem 8.91   reserved 9.82  
+tick 16    kimg 803.3     time 2h 09m 43s   sec/tick 485.5   sec/kimg 9.67    maintenance 0.0    cpumem 1.76   gpumem 8.91   reserved 9.82  
+tick 17    kimg 853.5     time 2h 17m 48s   sec/tick 484.6   sec/kimg 9.66    maintenance 0.0    cpumem 1.76   gpumem 8.91   reserved 9.82  
+tick 18    kimg 903.7     time 2h 25m 53s   sec/tick 484.7   sec/kimg 9.66    maintenance 0.0    cpumem 1.76   gpumem 8.91   reserved 9.82  
+tick 19    kimg 953.9     time 2h 33m 57s   sec/tick 484.6   sec/kimg 9.66    maintenance 0.0    cpumem 1.76   gpumem 8.91   reserved 9.82  
+tick 20    kimg 1004.0    time 2h 42m 02s   sec/tick 485.0   sec/kimg 9.67    maintenance 0.0    cpumem 1.76   gpumem 8.91   reserved 9.82  
+tick 21    kimg 1054.2    time 2h 50m 08s   sec/tick 484.9   sec/kimg 9.66    maintenance 0.8    cpumem 1.76   gpumem 8.91   reserved 9.82  
+tick 22    kimg 1104.4    time 2h 58m 13s   sec/tick 485.0   sec/kimg 9.67    maintenance 0.0    cpumem 1.76   gpumem 8.91   reserved 9.82  
+tick 23    kimg 1154.6    time 3h 06m 18s   sec/tick 485.1   sec/kimg 9.67    maintenance 0.0    cpumem 1.76   gpumem 8.91   reserved 9.82  
+tick 24    kimg 1204.7    time 3h 14m 23s   sec/tick 485.0   sec/kimg 9.67    maintenance 0.0    cpumem 1.76   gpumem 8.91   reserved 9.82  
+[2026-11-01 16:24:45,657] torch.distributed.elastic.agent.server.api: [WARNING] Received 2 death signal, shutting down workers
+[2026-11-01 16:24:45,658] torch.distributed.elastic.multiprocessing.api: [WARNING] Sending process 534 closing signal SIGINT
+
+Aborted!
+Traceback (most recent call last):
+  File "/opt/conda/bin/torchrun", line 8, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 347, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/distributed/run.py", line 812, in main
+    run(args)
+  File "/opt/conda/lib/python3.11/site-packages/torch/distributed/run.py", line 803, in run
+    elastic_launch(
+  File "/opt/conda/lib/python3.11/site-packages/torch/distributed/launcher/api.py", line 135, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/distributed/launcher/api.py", line 259, in launch_agent
+    result = agent.run()
+             ^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/distributed/elastic/metrics/api.py", line 123, in wrapper
+    result = f(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/distributed/elastic/agent/server/api.py", line 727, in run
+    result = self._invoke_run(role)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/distributed/elastic/agent/server/api.py", line 868, in _invoke_run
+    time.sleep(monitor_interval)
+  File "/opt/conda/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/api.py", line 62, in _terminate_process_handler
+    raise SignalException(f"Process {os.getpid()} got signal: {sigval}", sigval=sigval)
+torch.distributed.elastic.multiprocessing.api.SignalException: Process 492 got signal: 2
+== [2026-11-01 16:24:46] train.py exit 124; run folder: /home/yuz271/dsc180-diffusion-steering/downloads/edm-008a4e5316c8e3bfe61a62f874bddba254295afb/training-runs/00000-cifar10-32x32-n50000-uncond-ddpmpp-edm-gpus1-batch512-fp32
+== [2026-11-01 16:24:46] done; log at /home/yuz271/runs/20261101-104945/log.txt

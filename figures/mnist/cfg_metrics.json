@@ -1,0 +1,47 @@
+{
+  "checkpoint": "outputs/mnist_cfg/mnist_cfg.pt",
+  "seed": 0,
+  "fid_real_floor": 8.441,
+  "results": [
+    {
+      "w": 0,
+      "n": 5000,
+      "steps": 16,
+      "nfe_per_image": 16,
+      "label_accuracy": 0.102,
+      "fid": 127.05,
+      "fid_class": 2864.596,
+      "pixel_spread": 0.2393
+    },
+    {
+      "w": 1,
+      "n": 5000,
+      "steps": 16,
+      "nfe_per_image": 16,
+      "label_accuracy": 0.9756,
+      "fid": 16.018,
+      "fid_class": 48.308,
+      "pixel_spread": 0.1908
+    },
+    {
+      "w": 2,
+      "n": 5000,
+      "steps": 16,
+      "nfe_per_image": 32,
+      "label_accuracy": 1.0,
+      "fid": 61.247,
+      "fid_class": 145.163,
+      "pixel_spread": 0.1759
+    },
+    {
+      "w": 4,
+      "n": 5000,
+      "steps": 16,
+      "nfe_per_image": 32,
+      "label_accuracy": 1.0,
+      "fid": 158.637,
+      "fid_class": 308.065,
+      "pixel_spread": 0.1721
+    }
+  ]
+}

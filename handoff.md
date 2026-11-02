@@ -9,23 +9,33 @@ Where the project stands and where it is going. The assignment itself is the box
 Setup
 - [x] Public GitHub repo with README
 - [x] Notes file
-- [ ] Parts 1–3 run on a DSMLP GPU
+- [x] Parts 1–3 run on a DSMLP GPU (Nov 1, GTX 1080 Ti)
 
 Generation and sampling (parts 1–5)
-- [ ] Sample grids (parts 1–3)
-- [ ] Trajectory figures for w = 1 and w = 4, with answers to part 3's questions in notes
-- [ ] Part 5 table and plots: accuracy, FID, FID_class vs. w, at 1,000 images
+- [x] Sample grids (parts 1–3): figures/parts1_3/
+- [ ] Trajectory figures for w = 1 and w = 4, with answers to part 3's questions in notes (figures done; answers still to write)
+- [x] Part 5 table and plots: accuracy, FID, FID_class vs. w, at 1,000 images (README)
 
 Training
-- [ ] Part 6: FID across snapshots for 100 and 1,000 training images
-- [ ] Part 6: samples next to their nearest training images
-- [ ] Part 6: CFG grids
-- [ ] MNIST CFG network (separate MNIST guidance lab, not in this repo): label accuracy and FID per w
-- [ ] Encouraged: full 50k-image EDM training run, loss curve and FID across snapshots
+- [x] Part 6: FID across snapshots for 100 and 1,000 training images
+- [x] Part 6: samples next to their nearest training images
+- [x] Part 6: CFG grids
+- [x] MNIST CFG network: label accuracy and FID per w, from [train_mnist.py](train_mnist.py) (see README, "MNIST CFG network")
+- [ ] Encouraged: full 50k-image EDM training run, loss curve and FID across snapshots (1,205 kimg trained and loss curve done; snapshot FID via cell 39 still to run)
 
 Report
 - [ ] Title, abstract, introduction (problem, related work, data), repo link
 - [ ] Preliminary results: this week's figures and tables, one sentence each, each reproducible from the README
+
+## Plan to finish early (target Wednesday, November 4; Thursday as buffer)
+
+| Day | Work |
+| --- | --- |
+| Sun Nov 1 | MNIST CFG network trained and evaluated (done locally on MPS). Start CIFAR-10 parts 1–3 on DSMLP. |
+| Mon Nov 2 | CIFAR-10 parts 4–5: the w sweep at 1,000 images (accuracy, FID, FID_class). Start part 6 training (100 and 1,000 images) in the background. Write part 3 answers in notes. |
+| Tue Nov 3 | Part 6 results: FID across snapshots, nearest-neighbor figure, CFG grids. Draft report title, abstract, introduction. |
+| Wed Nov 4 | Preliminary-results section (one sentence per figure); README commands checked against every figure; push. |
+| Thu Nov 5 | Buffer. Optional: start the full 50k EDM run if a GPU is free. |
 
 ## Capstone direction
 
@@ -71,7 +81,7 @@ Same checkpoints, sampler, noise schedule, and step count; matched seeds; same c
 ## Open questions
 
 1. Full citation for the NA-RFM paper, and whether official code exists and works with EDM.
-2. Details of the MNIST guidance lab (notebook, classifier, FID features).
+2. ~~Details of the MNIST guidance lab.~~ Resolved: [guidance_mnist.ipynb](guidance_mnist.ipynb) is the lab; the checkpoint only uses its helpers (U-Net, CFG sampler, frozen classifier). FID uses the classifier's 128 features against the MNIST test set.
 3. Whether the capstone may use external datasets/models beyond the course materials.
 
 ## Notes for the next assistant

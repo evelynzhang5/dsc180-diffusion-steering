@@ -1,0 +1,36 @@
+{
+  "completed_at_utc": "2026-11-01T18:51:21.096240+00:00",
+  "python": "3.11.9",
+  "pytorch": "2.2.1+cu121",
+  "pytorch_cuda": "12.1",
+  "gpu": "NVIDIA GeForce GTX 1080 Ti",
+  "edm_commit": "008a4e5316c8e3bfe61a62f874bddba254295afb",
+  "packages": {
+    "numpy": "1.26.4",
+    "scipy": "1.13.0",
+    "matplotlib": "3.8.4",
+    "pandas": "2.2.2",
+    "pyarrow": "15.0.2",
+    "Pillow": "10.4.0"
+  },
+  "figure_paths": [
+    "figures/parts1_3/01_unconditional_samples.png",
+    "figures/parts1_3/02_unconditional_trajectory.png",
+    "figures/parts1_3/03_conditional_samples.png",
+    "figures/parts1_3/04_cfg_cat_grid.png",
+    "figures/parts1_3/05_cat_trajectory_w1.png",
+    "figures/parts1_3/06_cat_trajectory_w4.png"
+  ],
+  "sampler": {
+    "steps": 18,
+    "sigma_min": 0.002,
+    "sigma_max": 80.0,
+    "rho": 7.0
+  },
+  "trajectory_class": "cat",
+  "trajectory_seed": 0,
+  "trajectory_guidance_weights": [
+    1,
+    4
+  ]
+}

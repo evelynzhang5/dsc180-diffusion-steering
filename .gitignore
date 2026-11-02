@@ -1,0 +1,15 @@
+# Downloaded data and model weights (fetched again by the notebooks and scripts)
+downloads/
+*.pt
+*.pkl
+*.npz
+
+# Run outputs (figures/ is kept; checkpoints and samples are not)
+outputs/
+*.executed.ipynb
+
+# Python and Jupyter clutter
+__pycache__/
+.ipynb_checkpoints/
+.venv/
+.DS_Store
