@@ -1,0 +1,10 @@
+{
+  "n_images": 1000,
+  "seed_start": 3000,
+  "run_dir": "downloads/edm-008a4e5316c8e3bfe61a62f874bddba254295afb/training-runs/00000-cifar10-32x32-n50000-uncond-ddpmpp-edm-gpus1-batch512-fp32",
+  "fid_by_million_images": {
+    "0": 412.3779981151667,
+    "0.502": 105.4571872025436,
+    "1.004": 76.52667532049236
+  }
+}

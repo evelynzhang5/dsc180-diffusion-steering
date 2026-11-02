@@ -6,8 +6,8 @@ parts 1–3 of the supplied capstone lab. Record observations in notes.md.
 
 **Status (November 1, 2026):** parts 1–6 of the CIFAR-10 lab ran end to end on a
 DSMLP GTX 1080 Ti (commit e4aff85), followed by 3.3 hours (1.2 million images) of
-EDM's full-data training. The MNIST CFG network was trained locally. Not yet done:
-FID across the full-data training snapshots (notebook cell 39), and the report.
+EDM's full-data training, with FID across its snapshots. The MNIST CFG network was
+trained locally. The checkpoint report draft is report.md.
 
 ## Files
 
@@ -205,10 +205,21 @@ on all 50,000 images, stopped by the time limit after 1,205 kimg (24 ticks,
 Snapshots were saved at 0, 502 and 1,004 kimg (kept on DSMLP; not in Git).
 Training stats: results/edm_train/stats.jsonl, training_options.json, log.txt;
 loss curve: figures/edm_train/loss.png. To continue, rerun train.py with
-`--resume` pointing at the newest training-state-*.pt; for FID across snapshots,
-set RUN_DIR in notebook cell 39 to the run folder
-`downloads/edm-008a4e5316c8e3bfe61a62f874bddba254295afb/training-runs/00000-cifar10-32x32-n50000-uncond-ddpmpp-edm-gpus1-batch512-fp32`
-and run that cell on a GPU.
+`--resume` pointing at the newest training-state-*.pt.
+
+FID across the snapshots (notebook cell 39, 1,000 unconditional samples each,
+seeds from 3000) comes from scripts/edm_snapshot_fid.py. It runs the lab cells
+that cell 39 needs (1, 3, 5, 7, 21), then cell 39 with RUN_DIR set to the run
+folder above, and writes figures/edm_train/loss_fid.png and
+results/edm_train/snapshot_fid.json. Run it on a GPU from the repository root:
+
+```bash
+python scripts/edm_snapshot_fid.py
+```
+
+| million training images | 0 | 0.502 | 1.004 |
+| --- | --- | --- | --- |
+| FID (1,000 images) | 412.4 | 105.5 | 76.5 |
 
 ## MNIST CFG network
 

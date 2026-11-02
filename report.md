@@ -169,9 +169,22 @@ guidance to reach the requested class.
 
 ### 2.4 Full-data EDM training (encouraged)
 
-![EDM training loss](figures/edm_train/loss.png)
-*Figure 13.* EDM's full 55.7M-parameter network trained on all 50,000 CIFAR-10 images for 3.3 hours (1,205 kimg)
-on a GTX 1080 Ti. The loss fell from 1.02 to 0.196. FID across the saved snapshots is still to be computed.
+![EDM training loss and FID](figures/edm_train/loss_fid.png)
+*Figure 13.* EDM's full 55.7M-parameter network trained without labels on all 50,000 CIFAR-10 images for 3.3 hours
+(1,205 kimg) on a GTX 1080 Ti. The loss is nearly flat after about 0.4 million images, yet FID keeps falling, so
+the loss alone understates how much the samples are still improving.
+
+**Table 3.** FID of the full-data run's snapshots, 1,000 unconditional samples each, against the same reference as
+Table 1.
+
+| million training images | 0 | 0.502 | 1.004 |
+| --- | --- | --- | --- |
+| FID | 412.4 | 105.5 | 76.5 |
+
+Unlike the 100- and 1,000-image runs in Section 2.3, whose FID rises as they memorize, FID here falls at every
+snapshot: with all 50,000 images the network cannot memorize and learns to generalize. After 1 million training
+images it is still far from the pretrained unconditional model (FID 31.2 at w = 0 in Table 1, also with 1,000
+samples), which EDM trained on 200 million images.
 
 ## 3. Next steps
 

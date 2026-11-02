@@ -21,7 +21,7 @@ Training
 - [x] Part 6: samples next to their nearest training images
 - [x] Part 6: CFG grids
 - [x] MNIST CFG network: label accuracy and FID per w, from [train_mnist.py](train_mnist.py) (see README, "MNIST CFG network")
-- [ ] Encouraged: full 50k-image EDM training run, loss curve and FID across snapshots (1,205 kimg trained and loss curve done; snapshot FID via cell 39 still to run)
+- [x] Encouraged: full 50k-image EDM training run, loss curve and FID across snapshots (1,205 kimg; FID 412 → 106 → 77; report Table 3)
 
 Report
 - [ ] Title, abstract, introduction (problem, related work, data), repo link
@@ -34,7 +34,7 @@ Parts 1–6, the MNIST CFG network and 3.3 h of full-data EDM training are done 
 | Day | Work |
 | --- | --- |
 | Mon Nov 2 | Review and edit the report draft ([report.md](report.md)): title, abstract, introduction. Part 3 answers are in notes. |
-| Tue Nov 3 | Optional: snapshot FID for the full EDM run (notebook cell 39 on DSMLP). Check every README command against its figure. |
+| Tue Nov 3 | Check every README command against its figure. (Snapshot FID for the full EDM run done Nov 1.) |
 | Wed Nov 4 | Final pass on preliminary results; export the report to PDF; push. |
 | Thu Nov 5 | Buffer. |
 
