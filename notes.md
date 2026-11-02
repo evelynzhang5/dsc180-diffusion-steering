@@ -19,6 +19,18 @@ in `figures/parts1_3/run_environment.json`; don't copy them here.
   pending pod already holds it. Pods stop after 6 hours by default
   (K8S_TIMEOUT_SECONDS=43200 allows 12).
 
+### Full-data EDM training, run 2
+- Date: November 1–2, 2026 (batch pod edm-train2, GTX 1080 Ti, 12-hour limit)
+- Git commit: 84addec (scripts/dsmlp_train_edm.sh 12 run2)
+- Status and elapsed time: started from run 1's 1,004-kimg snapshot with
+  `--transfer`; trained 10.6 h (76 ticks, 3,764 kimg, 10.2 s/kimg) and stopped
+  at its deadline as planned, then snapshot FID for 8 snapshots in 21 min.
+  FID 76.5 → 50.2; loss 0.195 → 0.182. Results committed in 0587a04.
+- Problems and fixes: the laptop's SSH session lapsed at the 8-hour Duo limit
+  overnight, so the status watcher stopped; the pod was unaffected. Run 2 used
+  `--dump=10`, so training-state-003512.pt on DSMLP can be continued exactly
+  with `--resume` (not planned).
+
 ## Parts 1–3
 
 ### Before viewing the CFG grid

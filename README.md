@@ -261,7 +261,7 @@ needs PyTorch, torchvision, SciPy and matplotlib, and runs on CUDA, Apple MPS or
 CPU (`--device auto` picks the first available).
 
 ```bash
-python train_mnist.py train                          # about 30 min on an Apple M-series GPU; minutes on a DSMLP GPU
+python train_mnist.py train                          # about 22 min on an Apple M-series GPU; minutes on a DSMLP GPU
 python train_mnist.py eval --out figures/mnist       # 5,000 samples per w
 ```
 

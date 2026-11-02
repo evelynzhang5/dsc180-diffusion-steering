@@ -16,7 +16,9 @@ better trade-off between class accuracy, sample quality (FID) and diversity than
 average. As a baseline, we reproduce the constant-w trade-off with NVIDIA's pretrained EDM models on CIFAR-10
 and with a small class-conditional network we train on MNIST. On CIFAR-10 (1,000 samples per w), raising w from
 1 to 4 increases label accuracy from 95.5% to 98.9% while FID worsens from 31.3 to 39.0. On MNIST (5,000 samples
-per w), accuracy reaches 100% at w = 2 while FID worsens from 16.0 to 61.2. Sampling trajectories suggest that the
+per w), accuracy reaches 100% at w = 2 while FID worsens from 16.0 to 61.2. Training EDM's full network on all
+50,000 CIFAR-10 images for 14 GPU-hours (4.8 million images) brings FID from 412 to 50.2, against 31.2 for the
+pretrained model. Sampling trajectories suggest that the
 class is decided between σ ≈ 8 and σ ≈ 1, while strong guidance at low noise mostly adds saturation. Next we will
 compare early-heavy and late-heavy guidance schedules with a constant baseline under matched seeds and samplers.
 

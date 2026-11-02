@@ -1,6 +1,6 @@
 # Diffusion Steering Capstone — Handoff
 
-**Last updated:** November 1, 2026
+**Last updated:** November 2, 2026
 
 Where the project stands and where it is going. The assignment itself is the box at the top of [cifar10_edm_lab.ipynb](cifar10_edm_lab.ipynb) (source of truth); how to reproduce results is in [README.md](README.md); observations are in [notes.md](notes.md); background theory is in [concepts.md](concepts.md).
 
@@ -24,17 +24,17 @@ Training
 - [x] Encouraged: full 50k-image EDM training run, loss curve and FID across snapshots (run 1: 1,205 kimg, FID 412 → 77; run 2, 12-hour pod: +3,764 kimg, FID 77 → 50.2 at 4.5M images; report Figure 16, Table 3)
 
 Report
-- [ ] Title, abstract, introduction (problem, related work, data), repo link
-- [ ] Preliminary results: this week's figures and tables, one sentence each, each reproducible from the README
+- [x] Title, abstract, introduction (problem, related work, data), repo link: drafted in [report.md](report.md); still to port to the Overleaf LaTeX template and export as PDF
+- [x] Preliminary results: this week's figures and tables, one sentence each, each reproducible from the README (report Section 2, Figures 1–16, Tables 1–3)
 
 ## Remaining work (target Wednesday, November 4; Thursday as buffer)
 
-Parts 1–6, the MNIST CFG network and 3.3 h of full-data EDM training are done (Nov 1).
+Parts 1–6, the MNIST CFG network, about 14 h of full-data EDM training over two runs (Nov 1–2; no further training planned) and the report draft are done. Left: review the draft, add the NA-RFM citation, port to LaTeX/PDF.
 
 | Day | Work |
 | --- | --- |
-| Mon Nov 2 | Review and edit the report draft ([report.md](report.md)): title, abstract, introduction. Part 3 answers are in notes. |
-| Tue Nov 3 | Check every README command against its figure. (Snapshot FID for the full EDM run done Nov 1.) |
+| Mon Nov 2 | Review and edit the report draft ([report.md](report.md)): title, abstract, introduction; add the NA-RFM citation. Part 3 answers are in notes. |
+| Tue Nov 3 | Check every README command against its figure. (Snapshot FID for both full EDM runs done.) |
 | Wed Nov 4 | Final pass on preliminary results; export the report to PDF; push. |
 | Thu Nov 5 | Buffer. |
 
@@ -81,7 +81,7 @@ Same checkpoints, sampler, noise schedule, and step count; matched seeds; same c
 
 ## Open questions
 
-1. Full citation for the NA-RFM paper, and whether official code exists and works with EDM.
+1. NA-RFM citation found: Wang, Belkin & Wang, ICML 2026, arXiv:2602.11395 (not yet in report.md). Still open: whether official code exists and works with EDM.
 2. ~~Details of the MNIST guidance lab.~~ Resolved: [guidance_mnist.ipynb](guidance_mnist.ipynb) is the lab; the checkpoint only uses its helpers (U-Net, CFG sampler, frozen classifier). FID uses the classifier's 128 features against the MNIST test set.
 3. Whether the capstone may use external datasets/models beyond the course materials.
 
