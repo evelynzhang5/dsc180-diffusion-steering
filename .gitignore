@@ -6,7 +6,6 @@ downloads/
 
 # Run outputs (figures/ is kept; checkpoints and samples are not)
 outputs/
-*.executed.ipynb
 
 # Python and Jupyter clutter
 __pycache__/

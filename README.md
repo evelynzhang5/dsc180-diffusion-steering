@@ -13,6 +13,7 @@ trained locally. The checkpoint report draft is report.md.
 
 - cifar10_edm_lab.ipynb: the full supplied lab, unchanged (parts 1–6).
 - cifar10_parts1_3.ipynb: parts 1–3 only, plus a CUDA check, figure export, and the part 3 trajectories.
+- cifar10_edm_lab.executed.ipynb, cifar10_parts1_3.executed.ipynb: the same notebooks with all outputs, as run on DSMLP on November 1, 2026 (GTX 1080 Ti).
 - guidance_mnist.ipynb: the supplied MNIST guidance lab (pretrained generator; parts 1–4).
 - mnist_guidance_lab.py: the lab's helpers (U-Net, CFG sampler, frozen digit classifier), as written by guidance_mnist.ipynb.
 - train_mnist.py: the MNIST CFG network deliverable: trains the lab's U-Net from scratch and measures CFG.
@@ -195,7 +196,7 @@ vs. real test images 21.3. Label accuracy of one-network CFG (10 samples shown):
 | figures/lab/14_part6_cfg_grid_n100.png, 15_part6_cfg_grid_n1000.png | one-network CFG grids, w = 0, 1, 2, 4 |
 
 The figures/lab images are the embedded outputs of the executed notebook,
-extracted in cell order (the executed notebook itself is not committed).
+extracted in cell order from cifar10_edm_lab.executed.ipynb.
 
 ### Full-data EDM training (encouraged)
 
