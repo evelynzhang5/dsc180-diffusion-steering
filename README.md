@@ -244,7 +244,7 @@ evaluator.pt is fetched from the course link and checked against its SHA-256.
 
 | Output | What it shows |
 | --- | --- |
-| outputs/mnist_cfg/loss.png, loss.csv | training loss per step |
+| figures/mnist/loss.png | training loss per step (`train` writes it, with loss.csv, to outputs/mnist_cfg/; copy it with `cp outputs/mnist_cfg/loss.png figures/mnist/`) |
 | figures/mnist/cfg_grid.png | one row per w, digits 0–9, same noise in every row |
 | figures/mnist/cfg_metrics.csv, .json, .png | label accuracy, FID, FID_class and pixel spread per w |
 

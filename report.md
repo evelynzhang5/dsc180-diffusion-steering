@@ -98,13 +98,27 @@ samples, so these values are only comparable with each other, not with published
 
 ### 2.1 Sampling with the pretrained EDM models (CIFAR-10)
 
+![Unconditional samples](figures/parts1_3/01_unconditional_samples.png)
+*Figure 1.* Thirty samples from the pretrained unconditional model (seed 0) cover many classes (cars, dogs, horses,
+ships, frogs, planes) and are mostly recognizable objects at 32×32.
+
+![Unconditional trajectory](figures/parts1_3/02_unconditional_trajectory.png)
+*Figure 2.* The noisy image x and the denoiser's estimate D(x; σ) for three unconditional samples. At σ = 80 and 28
+the estimate is a gray average image, a centered blob appears at σ = 8.4, the object is visible at σ = 3.3, and
+below σ ≈ 1.1 the estimate barely changes while the remaining noise is removed from x.
+
+![Conditional samples](figures/parts1_3/03_conditional_samples.png)
+*Figure 3.* The conditional model with one class per row and the same starting noise in each column. Every row
+reads as its class, while each column shares background, color and layout, so the noise fixes the composition
+and the label decides what object is drawn.
+
 ![CFG toward cat](figures/parts1_3/04_cfg_cat_grid.png)
-*Figure 1.* With the same starting noise in each column, w = 0 gives unrelated classes. From w = 1 every column is
+*Figure 4.* With the same starting noise in each column, w = 0 gives unrelated classes. From w = 1 every column is
 a cat whose layout and colors come from the w = 0 image, and raising w to 4 mainly adds contrast and saturation.
 
 ![Trajectory w=1](figures/parts1_3/05_cat_trajectory_w1.png)
 ![Trajectory w=4](figures/parts1_3/06_cat_trajectory_w4.png)
-*Figures 2–3.* The denoiser's clean-image estimate D(x; σ) for three cat samples at w = 1 (top) and w = 4 (bottom).
+*Figures 5–6.* The denoiser's clean-image estimate D(x; σ) for three cat samples at w = 1 (top) and w = 4 (bottom).
 The cat becomes recognizable at σ ≈ 1.1 for w = 1 but already at σ ≈ 3.3 for w = 4, and the estimates barely
 change below σ ≈ 0.3, which suggests that guidance matters most at middle noise levels.
 
@@ -117,7 +131,7 @@ change below σ ≈ 0.3, which suggests that guidance matters most at middle noi
 | FID_class | – | 112.1 | 107.6 | 108.9 | 112.4 | 117.5 |
 
 ![CFG sweep](figures/lab/08_cfg_sweep_acc_fid.png)
-*Figure 4.* Accuracy rises quickly up to w = 1.5 and then levels off, while FID grows steadily beyond w = 1.5. The
+*Figure 7.* Accuracy rises quickly up to w = 1.5 and then levels off, while FID grows steadily beyond w = 1.5. The
 best per-class FID is at w = 1.5, so moderate guidance gives the best balance here.
 
 ### 2.2 MNIST CFG network trained from scratch
@@ -126,7 +140,7 @@ We trained the course's MNIST U-Net (1.9M parameters) from scratch on the 60,000
 replacing the label with "no label" for a random 10% of examples, and sampled with 16 DDIM steps.
 
 ![MNIST loss](figures/mnist/loss.png)
-*Figure 5.* The training loss falls quickly in the first epoch and is nearly flat after about epoch 10.
+*Figure 8.* The training loss falls quickly in the first epoch and is nearly flat after about epoch 10.
 
 **Table 2.** One-network CFG on MNIST, 5,000 samples per w. The FID of 5,000 real training digits against the test
 set is 8.4, which is the lowest value to expect.
@@ -138,11 +152,11 @@ set is 8.4, which is the lowest value to expect.
 | FID_class | – | 48.3 | 145.2 | 308.1 |
 
 ![MNIST CFG grid](figures/mnist/cfg_grid.png)
-*Figure 6.* The same noise in every row: digits are correct from w = 1, and higher w makes strokes thicker and more
+*Figure 9.* The same noise in every row: digits are correct from w = 1, and higher w makes strokes thicker and more
 uniform. That explains why FID worsens even though accuracy reaches 100%.
 
 ![MNIST metrics](figures/mnist/cfg_metrics.png)
-*Figure 7.* On MNIST, w = 1 already gives near-perfect accuracy and the best FID. This leaves less room for an
+*Figure 10.* On MNIST, w = 1 already gives near-perfect accuracy and the best FID. This leaves less room for an
 accuracy gain than on CIFAR-10, so on MNIST the schedules must be judged mainly on FID and diversity.
 
 ### 2.3 Training EDM's network on 100 and 1,000 CIFAR-10 images
@@ -151,26 +165,26 @@ We trained a reduced EDM network (7.0M parameters) with 10% label dropout on 100
 20,000 updates each.
 
 ![Part 6 loss and FID](figures/lab/09_part6_loss_fid_snapshots.png)
-*Figure 8.* Loss keeps falling, but FID against the full training set gets worse at every snapshot. The models
+*Figure 11.* Loss keeps falling, but FID against the full training set gets worse at every snapshot. The models
 increasingly reproduce their few training images instead of the full distribution.
 
 ![Nearest neighbors, 100 images](figures/lab/12_part6_nearest_n100.png)
 ![Nearest neighbors, 1,000 images](figures/lab/13_part6_nearest_n1000.png)
-*Figures 9–10.* Each sample above its nearest training image. With 100 training images the samples are nearly exact
+*Figures 12–13.* Each sample above its nearest training image. With 100 training images the samples are nearly exact
 copies (median distance 1.3, versus 23.7 for real test images). With 1,000 images the samples are blurry and not
 copies. Their median distance to the nearest training image is lower than for test images (14.0 versus 21.3), but
 blurry images are close in pixel distance to many images, so this alone does not show memorization.
 
 ![CFG grid, 100 images](figures/lab/14_part6_cfg_grid_n100.png)
 ![CFG grid, 1,000 images](figures/lab/15_part6_cfg_grid_n1000.png)
-*Figures 11–12.* One-network CFG with w = 0, 1, 2, 4. On the 10 samples shown, label accuracy for the 100-image
+*Figures 14–15.* One-network CFG with w = 0, 1, 2, 4. On the 10 samples shown, label accuracy for the 100-image
 model is 8%, 93%, 100% and 100%. For the 1,000-image model it is 6%, 49%, 76% and 89%: this model needs stronger
 guidance to reach the requested class.
 
 ### 2.4 Full-data EDM training (encouraged)
 
 ![EDM training loss and FID](figures/edm_train/loss_fid.png)
-*Figure 13.* EDM's full 55.7M-parameter network trained without labels on all 50,000 CIFAR-10 images for 3.3 hours
+*Figure 16.* EDM's full 55.7M-parameter network trained without labels on all 50,000 CIFAR-10 images for 3.3 hours
 (1,205 kimg) on a GTX 1080 Ti. The loss is nearly flat after about 0.4 million images, yet FID keeps falling, so
 the loss alone understates how much the samples are still improving.
 
