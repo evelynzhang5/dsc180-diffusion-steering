@@ -21,7 +21,7 @@ Training
 - [x] Part 6: samples next to their nearest training images
 - [x] Part 6: CFG grids
 - [x] MNIST CFG network: label accuracy and FID per w, from [train_mnist.py](train_mnist.py) (see README, "MNIST CFG network")
-- [x] Encouraged: full 50k-image EDM training run, loss curve and FID across snapshots (1,205 kimg; FID 412 → 106 → 77; report Table 3)
+- [x] Encouraged: full 50k-image EDM training run, loss curve and FID across snapshots (run 1: 1,205 kimg, FID 412 → 77; run 2, 12-hour pod: +3,764 kimg, FID 77 → 50.2 at 4.5M images; report Figure 16, Table 3)
 
 Report
 - [ ] Title, abstract, introduction (problem, related work, data), repo link

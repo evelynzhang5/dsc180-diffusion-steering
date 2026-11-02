@@ -183,22 +183,27 @@ guidance to reach the requested class.
 
 ### 2.4 Full-data EDM training (encouraged)
 
-![EDM training loss and FID](figures/edm_train/loss_fid.png)
-*Figure 16.* EDM's full 55.7M-parameter network trained without labels on all 50,000 CIFAR-10 images for 3.3 hours
-(1,205 kimg) on a GTX 1080 Ti. The loss is nearly flat after about 0.4 million images, yet FID keeps falling, so
-the loss alone understates how much the samples are still improving.
+![EDM training loss and FID](figures/edm_train/loss_fid_combined.png)
+*Figure 16.* EDM's full 55.7M-parameter network trained without labels on all 50,000 CIFAR-10 images on a GTX 1080 Ti,
+in two DSMLP jobs. Run 1 trained for 3.3 hours (1.205 million images). Run 2 restarted from run 1's snapshot at
+1.004 million images with `--transfer` and trained for 10.6 more hours (3.764 million images), so the final network
+has seen 4.77 million. `--transfer` keeps the weights but starts a fresh optimizer; run 2's loss nevertheless picks
+up where run 1's left off (its first point covers only 512 images) and drifts slowly from 0.195 to 0.182, while FID
+falls by a third. The loss alone understates how much the samples are still improving.
 
-**Table 3.** FID of the full-data run's snapshots, 1,000 unconditional samples each, against the same reference as
-Table 1.
+**Table 3.** FID of both runs' snapshots, 1,000 unconditional samples each (seeds from 3000), against the same
+reference as Table 1. Run 2's image counts are shifted by the 1.004 million images run 1 had seen at its snapshot.
 
-| million training images | 0 | 0.502 | 1.004 |
-| --- | --- | --- | --- |
-| FID | 412.4 | 105.5 | 76.5 |
+| million training images | 0 | 0.502 | 1.004 | 1.506 | 2.008 | 2.509 | 3.011 | 3.513 | 4.015 | 4.516 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| run | 1 | 1 | 1 / 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 |
+| FID | 412.4 | 105.5 | 76.5 | 73.1 | 67.7 | 59.9 | 56.2 | 54.2 | 52.2 | 50.2 |
 
 Unlike the 100- and 1,000-image runs in Section 2.3, whose FID rises as they memorize, FID here falls at every
-snapshot: with all 50,000 images the network cannot memorize and learns to generalize. After 1 million training
-images it is still far from the pretrained unconditional model (FID 31.2 at w = 0 in Table 1, also with 1,000
-samples), which EDM trained on 200 million images.
+snapshot: with all 50,000 images the network cannot memorize and learns to generalize. After 4.5 million training
+images it is at FID 50.2, still well above the pretrained unconditional model (FID 31.2 at w = 0 in Table 1, also
+with 1,000 samples), which EDM trained on 200 million images, and still falling by about 2 points per half million
+images.
 
 ## 3. Next steps
 

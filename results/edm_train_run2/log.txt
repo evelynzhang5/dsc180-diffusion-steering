@@ -1,0 +1,131 @@
+Loading dataset...
+Constructing network...
+
+EDMPrecond                Parameters  Buffers  Output shape       Datatype
+---                       ---         ---      ---                ---     
+model.map_noise           -           -        [64, 128]          float32 
+model.map_layer0          66048       -        [64, 512]          float32 
+model.map_layer1          262656      -        [64, 512]          float32 
+model.enc.32x32_conv      3584        -        [64, 128, 32, 32]  float32 
+model.enc.32x32_block0    1050368     -        [64, 256, 32, 32]  float32 
+model.enc.32x32_block1    1312512     -        [64, 256, 32, 32]  float32 
+model.enc.32x32_block2    1312512     -        [64, 256, 32, 32]  float32 
+model.enc.32x32_block3    1312512     -        [64, 256, 32, 32]  float32 
+model.enc.16x16_down      1378304     8        [64, 256, 16, 16]  float32 
+model.enc.16x16_block0    1576192     -        [64, 256, 16, 16]  float32 
+model.enc.16x16_block1    1576192     -        [64, 256, 16, 16]  float32 
+model.enc.16x16_block2    1576192     -        [64, 256, 16, 16]  float32 
+model.enc.16x16_block3    1576192     -        [64, 256, 16, 16]  float32 
+model.enc.8x8_down        1378304     8        [64, 256, 8, 8]    float32 
+model.enc.8x8_block0      1312512     -        [64, 256, 8, 8]    float32 
+model.enc.8x8_block1      1312512     -        [64, 256, 8, 8]    float32 
+model.enc.8x8_block2      1312512     -        [64, 256, 8, 8]    float32 
+model.enc.8x8_block3      1312512     -        [64, 256, 8, 8]    float32 
+model.dec.8x8_in0         1576192     -        [64, 256, 8, 8]    float32 
+model.dec.8x8_in1         1312512     -        [64, 256, 8, 8]    float32 
+model.dec.8x8_block0      2034176     -        [64, 256, 8, 8]    float32 
+model.dec.8x8_block1      2034176     -        [64, 256, 8, 8]    float32 
+model.dec.8x8_block2      2034176     -        [64, 256, 8, 8]    float32 
+model.dec.8x8_block3      2034176     -        [64, 256, 8, 8]    float32 
+model.dec.8x8_block4      2034176     -        [64, 256, 8, 8]    float32 
+model.dec.16x16_up        1378304     8        [64, 256, 16, 16]  float32 
+model.dec.16x16_block0    2034176     -        [64, 256, 16, 16]  float32 
+model.dec.16x16_block1    2034176     -        [64, 256, 16, 16]  float32 
+model.dec.16x16_block2    2034176     -        [64, 256, 16, 16]  float32 
+model.dec.16x16_block3    2034176     -        [64, 256, 16, 16]  float32 
+model.dec.16x16_block4    2297856     -        [64, 256, 16, 16]  float32 
+model.dec.32x32_up        1378304     8        [64, 256, 32, 32]  float32 
+model.dec.32x32_block0    2034176     -        [64, 256, 32, 32]  float32 
+model.dec.32x32_block1    2034176     -        [64, 256, 32, 32]  float32 
+model.dec.32x32_block2    2034176     -        [64, 256, 32, 32]  float32 
+model.dec.32x32_block3    2034176     -        [64, 256, 32, 32]  float32 
+model.dec.32x32_block4    1706240     -        [64, 256, 32, 32]  float32 
+model.dec.32x32_aux_norm  512         -        [64, 256, 32, 32]  float32 
+model.dec.32x32_aux_conv  6915        -        [64, 3, 32, 32]    float32 
+model                     1152        -        [64, 3, 32, 32]    float32 
+<top-level>               -           -        [64, 3, 32, 32]    float32 
+---                       ---         ---      ---                ---     
+Total                     55733891    32       -                  -       
+
+Setting up optimizer...
+Loading network weights from "/home/yuz271/dsc180-diffusion-steering/downloads/edm-008a4e5316c8e3bfe61a62f874bddba254295afb/training-runs/00000-cifar10-32x32-n50000-uncond-ddpmpp-edm-gpus1-batch512-fp32/network-snapshot-001004.pkl"...
+Training for 200000 kimg...
+
+tick 0     kimg 0.5       time 18s          sec/tick 10.6    sec/kimg 20.70   maintenance 7.0    cpumem 1.57   gpumem 8.84   reserved 9.78  
+tick 1     kimg 50.7      time 8m 48s       sec/tick 509.2   sec/kimg 10.15   maintenance 1.0    cpumem 1.59   gpumem 8.91   reserved 9.35  
+tick 2     kimg 100.9     time 17m 19s      sec/tick 510.9   sec/kimg 10.18   maintenance 0.0    cpumem 1.59   gpumem 8.91   reserved 9.35  
+tick 3     kimg 151.0     time 25m 49s      sec/tick 510.4   sec/kimg 10.17   maintenance 0.0    cpumem 1.59   gpumem 8.91   reserved 9.35  
+tick 4     kimg 201.2     time 34m 20s      sec/tick 510.9   sec/kimg 10.18   maintenance 0.0    cpumem 1.59   gpumem 8.91   reserved 9.35  
+tick 5     kimg 251.4     time 42m 50s      sec/tick 510.2   sec/kimg 10.17   maintenance 0.0    cpumem 1.59   gpumem 8.91   reserved 9.35  
+tick 6     kimg 301.6     time 51m 21s      sec/tick 510.5   sec/kimg 10.17   maintenance 0.0    cpumem 1.59   gpumem 8.91   reserved 9.35  
+tick 7     kimg 351.7     time 59m 52s      sec/tick 510.7   sec/kimg 10.18   maintenance 0.0    cpumem 1.59   gpumem 8.91   reserved 9.35  
+tick 8     kimg 401.9     time 1h 08m 22s   sec/tick 510.3   sec/kimg 10.17   maintenance 0.0    cpumem 1.59   gpumem 8.91   reserved 9.35  
+tick 9     kimg 452.1     time 1h 16m 52s   sec/tick 510.4   sec/kimg 10.17   maintenance 0.0    cpumem 1.59   gpumem 8.91   reserved 9.35  
+tick 10    kimg 502.3     time 1h 25m 23s   sec/tick 510.4   sec/kimg 10.17   maintenance 0.0    cpumem 1.59   gpumem 8.91   reserved 9.35  
+tick 11    kimg 552.4     time 1h 33m 56s   sec/tick 510.4   sec/kimg 10.17   maintenance 3.3    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 12    kimg 602.6     time 1h 42m 27s   sec/tick 510.4   sec/kimg 10.17   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 13    kimg 652.8     time 1h 50m 57s   sec/tick 509.9   sec/kimg 10.16   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 14    kimg 703.0     time 1h 59m 26s   sec/tick 509.7   sec/kimg 10.16   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 15    kimg 753.2     time 2h 07m 56s   sec/tick 509.7   sec/kimg 10.16   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 16    kimg 803.3     time 2h 16m 26s   sec/tick 509.5   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 17    kimg 853.5     time 2h 24m 55s   sec/tick 509.7   sec/kimg 10.16   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 18    kimg 903.7     time 2h 33m 26s   sec/tick 510.5   sec/kimg 10.17   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 19    kimg 953.9     time 2h 41m 56s   sec/tick 509.6   sec/kimg 10.16   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 20    kimg 1004.0    time 2h 50m 25s   sec/tick 509.3   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 21    kimg 1054.2    time 2h 58m 57s   sec/tick 509.1   sec/kimg 10.15   maintenance 3.2    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 22    kimg 1104.4    time 3h 07m 26s   sec/tick 509.3   sec/kimg 10.15   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 23    kimg 1154.6    time 3h 15m 56s   sec/tick 509.3   sec/kimg 10.15   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 24    kimg 1204.7    time 3h 24m 25s   sec/tick 509.4   sec/kimg 10.15   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 25    kimg 1254.9    time 3h 32m 54s   sec/tick 509.3   sec/kimg 10.15   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 26    kimg 1305.1    time 3h 41m 23s   sec/tick 509.0   sec/kimg 10.14   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 27    kimg 1355.3    time 3h 49m 53s   sec/tick 509.1   sec/kimg 10.15   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 28    kimg 1405.4    time 3h 58m 21s   sec/tick 508.9   sec/kimg 10.14   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 29    kimg 1455.6    time 4h 06m 51s   sec/tick 509.1   sec/kimg 10.15   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 30    kimg 1505.8    time 4h 15m 20s   sec/tick 509.0   sec/kimg 10.14   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 31    kimg 1556.0    time 4h 23m 52s   sec/tick 509.1   sec/kimg 10.15   maintenance 3.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 32    kimg 1606.1    time 4h 32m 21s   sec/tick 509.1   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 33    kimg 1656.3    time 4h 40m 50s   sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 34    kimg 1706.5    time 4h 49m 19s   sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 35    kimg 1756.7    time 4h 57m 48s   sec/tick 509.1   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 36    kimg 1806.8    time 5h 06m 18s   sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 37    kimg 1857.0    time 5h 14m 47s   sec/tick 509.1   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 38    kimg 1907.2    time 5h 23m 16s   sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 39    kimg 1957.4    time 5h 31m 45s   sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 40    kimg 2007.6    time 5h 40m 14s   sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 41    kimg 2057.7    time 5h 48m 46s   sec/tick 509.2   sec/kimg 10.15   maintenance 2.4    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 42    kimg 2107.9    time 5h 57m 15s   sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 43    kimg 2158.1    time 6h 05m 44s   sec/tick 509.3   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 44    kimg 2208.3    time 6h 14m 14s   sec/tick 509.3   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 45    kimg 2258.4    time 6h 22m 43s   sec/tick 509.3   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 46    kimg 2308.6    time 6h 31m 12s   sec/tick 509.3   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 47    kimg 2358.8    time 6h 39m 42s   sec/tick 509.4   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 48    kimg 2409.0    time 6h 48m 11s   sec/tick 509.3   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 49    kimg 2459.1    time 6h 56m 40s   sec/tick 509.4   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 50    kimg 2509.3    time 7h 05m 10s   sec/tick 509.4   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 51    kimg 2559.5    time 7h 13m 42s   sec/tick 509.1   sec/kimg 10.15   maintenance 3.1    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 52    kimg 2609.7    time 7h 22m 11s   sec/tick 509.4   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 53    kimg 2659.8    time 7h 30m 40s   sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 54    kimg 2710.0    time 7h 39m 10s   sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 55    kimg 2760.2    time 7h 47m 39s   sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 56    kimg 2810.4    time 7h 56m 08s   sec/tick 509.3   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 57    kimg 2860.5    time 8h 04m 37s   sec/tick 509.4   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 58    kimg 2910.7    time 8h 13m 07s   sec/tick 509.3   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 59    kimg 2960.9    time 8h 21m 36s   sec/tick 509.1   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 60    kimg 3011.1    time 8h 30m 05s   sec/tick 509.1   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 61    kimg 3061.2    time 8h 38m 38s   sec/tick 509.2   sec/kimg 10.15   maintenance 3.7    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 62    kimg 3111.4    time 8h 47m 07s   sec/tick 509.0   sec/kimg 10.14   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 63    kimg 3161.6    time 8h 55m 36s   sec/tick 509.0   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 64    kimg 3211.8    time 9h 04m 05s   sec/tick 509.0   sec/kimg 10.14   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 65    kimg 3262.0    time 9h 12m 34s   sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 66    kimg 3312.1    time 9h 21m 03s   sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 67    kimg 3362.3    time 9h 29m 32s   sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 68    kimg 3412.5    time 9h 38m 02s   sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 69    kimg 3462.7    time 9h 46m 31s   sec/tick 509.3   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 70    kimg 3512.8    time 9h 55m 00s   sec/tick 509.3   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 71    kimg 3563.0    time 10h 03m 33s  sec/tick 509.3   sec/kimg 10.15   maintenance 3.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 72    kimg 3613.2    time 10h 12m 02s  sec/tick 509.3   sec/kimg 10.15   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 73    kimg 3663.4    time 10h 20m 31s  sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 74    kimg 3713.5    time 10h 29m 01s  sec/tick 509.5   sec/kimg 10.15   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 75    kimg 3763.7    time 10h 37m 30s  sec/tick 509.4   sec/kimg 10.15   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+
+Aborted!

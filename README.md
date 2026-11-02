@@ -4,9 +4,10 @@ Study unconditional generation, class conditioning, and classifier-free guidance
 (CFG) with the pretrained NVIDIA EDM CIFAR-10 models. This starter reproduces
 parts 1–3 of the supplied capstone lab. Record observations in notes.md.
 
-**Status (November 1, 2026):** parts 1–6 of the CIFAR-10 lab ran end to end on a
-DSMLP GTX 1080 Ti (commit e4aff85), followed by 3.3 hours (1.2 million images) of
-EDM's full-data training, with FID across its snapshots. The MNIST CFG network was
+**Status (November 2, 2026):** parts 1–6 of the CIFAR-10 lab ran end to end on a
+DSMLP GTX 1080 Ti (commit e4aff85), followed by about 14 hours of EDM's full-data
+training over two jobs (4.77 million images, FID 412 → 50.2), with FID across its
+snapshots. The MNIST CFG network was
 trained locally. The checkpoint report draft is report.md.
 
 ## Files
@@ -23,10 +24,12 @@ trained locally. The checkpoint report draft is report.md.
 - handoff.md: deliverables checklist, project direction, open questions.
 - concepts.md: background theory (study notes).
 - scripts/dsmlp_run_all.sh: the DSMLP batch job that ran both CIFAR-10 notebooks and EDM training.
+- scripts/dsmlp_train_edm.sh: 12-hour DSMLP job that continues EDM training, then measures snapshot FID.
+- scripts/edm_snapshot_fid.py, scripts/edm_combine_runs.py: snapshot FID (GPU) and the two-run loss/FID plot.
 - figures/parts1_3/: parts 1–3 figures, exported by cifar10_parts1_3.ipynb.
 - figures/lab/: parts 4–6 figures, extracted from the executed full lab notebook.
-- figures/edm_train/: loss curve of the full-data EDM training run.
-- results/: small result files: the part 5 sweep, EDM training stats and log, and the batch job log.
+- figures/edm_train/: loss and snapshot FID of the full-data EDM training runs.
+- results/: small result files: the part 5 sweep, both EDM training runs' stats, logs and snapshot FID, and the batch job logs.
 - downloads/ and outputs/: local working data; excluded from Git.
 
 ## DSMLP setup
@@ -225,6 +228,29 @@ python scripts/edm_snapshot_fid.py
 | million training images | 0 | 0.502 | 1.004 |
 | --- | --- | --- | --- |
 | FID (1,000 images) | 412.4 | 105.5 | 76.5 |
+
+Run 2 continued from the 1,004-kimg snapshot in a 12-hour batch pod
+(`K8S_TIMEOUT_SECONDS=43200`) with scripts/dsmlp_train_edm.sh. The script uses
+`--transfer` the first time and `--resume` on the newest training-state-*.pt
+after that; it stops training 75 minutes before the pod limit and then runs
+edm_snapshot_fid.py with the tag run2:
+
+```bash
+bash scripts/dsmlp_train_edm.sh 12 run2
+```
+
+It trained for 10.6 hours (76 ticks, 3,764 kimg, about 10.2 s per kimg) with
+`--dump=10`, so training-state-003512.pt on DSMLP can be continued exactly.
+Training stats: results/edm_train_run2/; job log:
+results/logs/dsmlp_train_run2_20261102.log; FID:
+results/edm_train/snapshot_fid_run2.json and figures/edm_train/loss_fid_run2.png
+(run 2's own image count). scripts/edm_combine_runs.py puts both runs on one
+axis, shifting run 2 by the 1.004 million images of its starting snapshot, and
+writes figures/edm_train/loss_fid_combined.png (report Figure 16):
+
+| million training images (both runs) | 1.004 | 1.506 | 2.008 | 2.509 | 3.011 | 3.513 | 4.015 | 4.516 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| FID (1,000 images) | 76.5 | 73.1 | 67.7 | 59.9 | 56.2 | 54.2 | 52.2 | 50.2 |
 
 ## MNIST CFG network
 

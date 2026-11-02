@@ -1,0 +1,284 @@
+From https://github.com/evelynzhang5/dsc180-diffusion-steering
+   8c06ba5..84addec  main       -> origin/main
+Updating 8c06ba5..84addec
+Fast-forward
+ .gitignore                          |    1 -
+ README.md                           |   34 +-
+ cifar10_edm_lab.executed.ipynb      | 1762 +++++++++++++++++++++++++++++++++++
+ cifar10_parts1_3.executed.ipynb     |  902 ++++++++++++++++++
+ figures/edm_train/loss_fid.png      |  Bin 0 -> 65886 bytes
+ handoff.md                          |    4 +-
+ report.md                           |   51 +-
+ results/edm_train/snapshot_fid.json |   10 +
+ scripts/dsmlp_train_edm.sh          |   33 +
+ scripts/edm_snapshot_fid.py         |   13 +-
+ 10 files changed, 2780 insertions(+), 30 deletions(-)
+ create mode 100644 cifar10_edm_lab.executed.ipynb
+ create mode 100644 cifar10_parts1_3.executed.ipynb
+ create mode 100644 figures/edm_train/loss_fid.png
+ create mode 100644 results/edm_train/snapshot_fid.json
+ create mode 100755 scripts/dsmlp_train_edm.sh
+84addec Add 12-hour EDM training job (transfer from Nov 1 snapshot, resumable) and FID output tags
+GPU 0: NVIDIA GeForce GTX 1080 Ti (UUID: GPU-42473232-27c7-d23c-73f8-f9dff2019380)
+== [2026-11-01 21:04:20] train.py --transfer=/home/yuz271/dsc180-diffusion-steering/downloads/edm-008a4e5316c8e3bfe61a62f874bddba254295afb/training-runs/00000-cifar10-32x32-n50000-uncond-ddpmpp-edm-gpus1-batch512-fp32/network-snapshot-001004.pkl for 644 min
+
+Training options:
+{
+  "dataset_kwargs": {
+    "class_name": "training.dataset.ImageFolderDataset",
+    "path": "/home/yuz271/dsc180-diffusion-steering/outputs/cifar10-32x32-n50000.zip",
+    "use_labels": false,
+    "xflip": false,
+    "cache": true,
+    "resolution": 32,
+    "max_size": 50000
+  },
+  "data_loader_kwargs": {
+    "pin_memory": true,
+    "num_workers": 1,
+    "prefetch_factor": 2
+  },
+  "network_kwargs": {
+    "model_type": "SongUNet",
+    "embedding_type": "positional",
+    "encoder_type": "standard",
+    "decoder_type": "standard",
+    "channel_mult_noise": 1,
+    "resample_filter": [
+      1,
+      1
+    ],
+    "model_channels": 128,
+    "channel_mult": [
+      2,
+      2,
+      2
+    ],
+    "class_name": "training.networks.EDMPrecond",
+    "augment_dim": 9,
+    "dropout": 0.13,
+    "use_fp16": false
+  },
+  "loss_kwargs": {
+    "class_name": "training.loss.EDMLoss"
+  },
+  "optimizer_kwargs": {
+    "class_name": "torch.optim.Adam",
+    "lr": 0.001,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08
+  },
+  "augment_kwargs": {
+    "class_name": "training.augment.AugmentPipe",
+    "p": 0.12,
+    "xflip": 100000000.0,
+    "yflip": 1,
+    "scale": 1,
+    "rotate_frac": 1,
+    "aniso": 1,
+    "translate_frac": 1
+  },
+  "total_kimg": 200000,
+  "ema_halflife_kimg": 500,
+  "batch_size": 512,
+  "batch_gpu": 64,
+  "loss_scaling": 1.0,
+  "cudnn_benchmark": true,
+  "kimg_per_tick": 50,
+  "snapshot_ticks": 10,
+  "state_dump_ticks": 10,
+  "seed": 1771514069,
+  "resume_pkl": "/home/yuz271/dsc180-diffusion-steering/downloads/edm-008a4e5316c8e3bfe61a62f874bddba254295afb/training-runs/00000-cifar10-32x32-n50000-uncond-ddpmpp-edm-gpus1-batch512-fp32/network-snapshot-001004.pkl",
+  "ema_rampup_ratio": null,
+  "run_dir": "training-runs/00001-cifar10-32x32-n50000-uncond-ddpmpp-edm-gpus1-batch512-fp32"
+}
+
+Output directory:        training-runs/00001-cifar10-32x32-n50000-uncond-ddpmpp-edm-gpus1-batch512-fp32
+Dataset path:            /home/yuz271/dsc180-diffusion-steering/outputs/cifar10-32x32-n50000.zip
+Class-conditional:       False
+Network architecture:    ddpmpp
+Preconditioning & loss:  edm
+Number of GPUs:          1
+Batch size:              512
+Mixed-precision:         False
+
+Creating output directory...
+Loading dataset...
+Constructing network...
+
+EDMPrecond                Parameters  Buffers  Output shape       Datatype
+---                       ---         ---      ---                ---     
+model.map_noise           -           -        [64, 128]          float32 
+model.map_layer0          66048       -        [64, 512]          float32 
+model.map_layer1          262656      -        [64, 512]          float32 
+model.enc.32x32_conv      3584        -        [64, 128, 32, 32]  float32 
+model.enc.32x32_block0    1050368     -        [64, 256, 32, 32]  float32 
+model.enc.32x32_block1    1312512     -        [64, 256, 32, 32]  float32 
+model.enc.32x32_block2    1312512     -        [64, 256, 32, 32]  float32 
+model.enc.32x32_block3    1312512     -        [64, 256, 32, 32]  float32 
+model.enc.16x16_down      1378304     8        [64, 256, 16, 16]  float32 
+model.enc.16x16_block0    1576192     -        [64, 256, 16, 16]  float32 
+model.enc.16x16_block1    1576192     -        [64, 256, 16, 16]  float32 
+model.enc.16x16_block2    1576192     -        [64, 256, 16, 16]  float32 
+model.enc.16x16_block3    1576192     -        [64, 256, 16, 16]  float32 
+model.enc.8x8_down        1378304     8        [64, 256, 8, 8]    float32 
+model.enc.8x8_block0      1312512     -        [64, 256, 8, 8]    float32 
+model.enc.8x8_block1      1312512     -        [64, 256, 8, 8]    float32 
+model.enc.8x8_block2      1312512     -        [64, 256, 8, 8]    float32 
+model.enc.8x8_block3      1312512     -        [64, 256, 8, 8]    float32 
+model.dec.8x8_in0         1576192     -        [64, 256, 8, 8]    float32 
+model.dec.8x8_in1         1312512     -        [64, 256, 8, 8]    float32 
+model.dec.8x8_block0      2034176     -        [64, 256, 8, 8]    float32 
+model.dec.8x8_block1      2034176     -        [64, 256, 8, 8]    float32 
+model.dec.8x8_block2      2034176     -        [64, 256, 8, 8]    float32 
+model.dec.8x8_block3      2034176     -        [64, 256, 8, 8]    float32 
+model.dec.8x8_block4      2034176     -        [64, 256, 8, 8]    float32 
+model.dec.16x16_up        1378304     8        [64, 256, 16, 16]  float32 
+model.dec.16x16_block0    2034176     -        [64, 256, 16, 16]  float32 
+model.dec.16x16_block1    2034176     -        [64, 256, 16, 16]  float32 
+model.dec.16x16_block2    2034176     -        [64, 256, 16, 16]  float32 
+model.dec.16x16_block3    2034176     -        [64, 256, 16, 16]  float32 
+model.dec.16x16_block4    2297856     -        [64, 256, 16, 16]  float32 
+model.dec.32x32_up        1378304     8        [64, 256, 32, 32]  float32 
+model.dec.32x32_block0    2034176     -        [64, 256, 32, 32]  float32 
+model.dec.32x32_block1    2034176     -        [64, 256, 32, 32]  float32 
+model.dec.32x32_block2    2034176     -        [64, 256, 32, 32]  float32 
+model.dec.32x32_block3    2034176     -        [64, 256, 32, 32]  float32 
+model.dec.32x32_block4    1706240     -        [64, 256, 32, 32]  float32 
+model.dec.32x32_aux_norm  512         -        [64, 256, 32, 32]  float32 
+model.dec.32x32_aux_conv  6915        -        [64, 3, 32, 32]    float32 
+model                     1152        -        [64, 3, 32, 32]    float32 
+<top-level>               -           -        [64, 3, 32, 32]    float32 
+---                       ---         ---      ---                ---     
+Total                     55733891    32       -                  -       
+
+Setting up optimizer...
+Loading network weights from "/home/yuz271/dsc180-diffusion-steering/downloads/edm-008a4e5316c8e3bfe61a62f874bddba254295afb/training-runs/00000-cifar10-32x32-n50000-uncond-ddpmpp-edm-gpus1-batch512-fp32/network-snapshot-001004.pkl"...
+Training for 200000 kimg...
+
+tick 0     kimg 0.5       time 18s          sec/tick 10.6    sec/kimg 20.70   maintenance 7.0    cpumem 1.57   gpumem 8.84   reserved 9.78  
+tick 1     kimg 50.7      time 8m 48s       sec/tick 509.2   sec/kimg 10.15   maintenance 1.0    cpumem 1.59   gpumem 8.91   reserved 9.35  
+tick 2     kimg 100.9     time 17m 19s      sec/tick 510.9   sec/kimg 10.18   maintenance 0.0    cpumem 1.59   gpumem 8.91   reserved 9.35  
+tick 3     kimg 151.0     time 25m 49s      sec/tick 510.4   sec/kimg 10.17   maintenance 0.0    cpumem 1.59   gpumem 8.91   reserved 9.35  
+tick 4     kimg 201.2     time 34m 20s      sec/tick 510.9   sec/kimg 10.18   maintenance 0.0    cpumem 1.59   gpumem 8.91   reserved 9.35  
+tick 5     kimg 251.4     time 42m 50s      sec/tick 510.2   sec/kimg 10.17   maintenance 0.0    cpumem 1.59   gpumem 8.91   reserved 9.35  
+tick 6     kimg 301.6     time 51m 21s      sec/tick 510.5   sec/kimg 10.17   maintenance 0.0    cpumem 1.59   gpumem 8.91   reserved 9.35  
+tick 7     kimg 351.7     time 59m 52s      sec/tick 510.7   sec/kimg 10.18   maintenance 0.0    cpumem 1.59   gpumem 8.91   reserved 9.35  
+tick 8     kimg 401.9     time 1h 08m 22s   sec/tick 510.3   sec/kimg 10.17   maintenance 0.0    cpumem 1.59   gpumem 8.91   reserved 9.35  
+tick 9     kimg 452.1     time 1h 16m 52s   sec/tick 510.4   sec/kimg 10.17   maintenance 0.0    cpumem 1.59   gpumem 8.91   reserved 9.35  
+tick 10    kimg 502.3     time 1h 25m 23s   sec/tick 510.4   sec/kimg 10.17   maintenance 0.0    cpumem 1.59   gpumem 8.91   reserved 9.35  
+tick 11    kimg 552.4     time 1h 33m 56s   sec/tick 510.4   sec/kimg 10.17   maintenance 3.3    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 12    kimg 602.6     time 1h 42m 27s   sec/tick 510.4   sec/kimg 10.17   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 13    kimg 652.8     time 1h 50m 57s   sec/tick 509.9   sec/kimg 10.16   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 14    kimg 703.0     time 1h 59m 26s   sec/tick 509.7   sec/kimg 10.16   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 15    kimg 753.2     time 2h 07m 56s   sec/tick 509.7   sec/kimg 10.16   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 16    kimg 803.3     time 2h 16m 26s   sec/tick 509.5   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 17    kimg 853.5     time 2h 24m 55s   sec/tick 509.7   sec/kimg 10.16   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 18    kimg 903.7     time 2h 33m 26s   sec/tick 510.5   sec/kimg 10.17   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 19    kimg 953.9     time 2h 41m 56s   sec/tick 509.6   sec/kimg 10.16   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 20    kimg 1004.0    time 2h 50m 25s   sec/tick 509.3   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 21    kimg 1054.2    time 2h 58m 57s   sec/tick 509.1   sec/kimg 10.15   maintenance 3.2    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 22    kimg 1104.4    time 3h 07m 26s   sec/tick 509.3   sec/kimg 10.15   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 23    kimg 1154.6    time 3h 15m 56s   sec/tick 509.3   sec/kimg 10.15   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 24    kimg 1204.7    time 3h 24m 25s   sec/tick 509.4   sec/kimg 10.15   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 25    kimg 1254.9    time 3h 32m 54s   sec/tick 509.3   sec/kimg 10.15   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 26    kimg 1305.1    time 3h 41m 23s   sec/tick 509.0   sec/kimg 10.14   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 27    kimg 1355.3    time 3h 49m 53s   sec/tick 509.1   sec/kimg 10.15   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 28    kimg 1405.4    time 3h 58m 21s   sec/tick 508.9   sec/kimg 10.14   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 29    kimg 1455.6    time 4h 06m 51s   sec/tick 509.1   sec/kimg 10.15   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 30    kimg 1505.8    time 4h 15m 20s   sec/tick 509.0   sec/kimg 10.14   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 31    kimg 1556.0    time 4h 23m 52s   sec/tick 509.1   sec/kimg 10.15   maintenance 3.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 32    kimg 1606.1    time 4h 32m 21s   sec/tick 509.1   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 33    kimg 1656.3    time 4h 40m 50s   sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 34    kimg 1706.5    time 4h 49m 19s   sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 35    kimg 1756.7    time 4h 57m 48s   sec/tick 509.1   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 36    kimg 1806.8    time 5h 06m 18s   sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 37    kimg 1857.0    time 5h 14m 47s   sec/tick 509.1   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 38    kimg 1907.2    time 5h 23m 16s   sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 39    kimg 1957.4    time 5h 31m 45s   sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 40    kimg 2007.6    time 5h 40m 14s   sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 41    kimg 2057.7    time 5h 48m 46s   sec/tick 509.2   sec/kimg 10.15   maintenance 2.4    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 42    kimg 2107.9    time 5h 57m 15s   sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 43    kimg 2158.1    time 6h 05m 44s   sec/tick 509.3   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 44    kimg 2208.3    time 6h 14m 14s   sec/tick 509.3   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 45    kimg 2258.4    time 6h 22m 43s   sec/tick 509.3   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 46    kimg 2308.6    time 6h 31m 12s   sec/tick 509.3   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 47    kimg 2358.8    time 6h 39m 42s   sec/tick 509.4   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 48    kimg 2409.0    time 6h 48m 11s   sec/tick 509.3   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 49    kimg 2459.1    time 6h 56m 40s   sec/tick 509.4   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 50    kimg 2509.3    time 7h 05m 10s   sec/tick 509.4   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 51    kimg 2559.5    time 7h 13m 42s   sec/tick 509.1   sec/kimg 10.15   maintenance 3.1    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 52    kimg 2609.7    time 7h 22m 11s   sec/tick 509.4   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 53    kimg 2659.8    time 7h 30m 40s   sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 54    kimg 2710.0    time 7h 39m 10s   sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 55    kimg 2760.2    time 7h 47m 39s   sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 56    kimg 2810.4    time 7h 56m 08s   sec/tick 509.3   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 57    kimg 2860.5    time 8h 04m 37s   sec/tick 509.4   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 58    kimg 2910.7    time 8h 13m 07s   sec/tick 509.3   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 59    kimg 2960.9    time 8h 21m 36s   sec/tick 509.1   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 60    kimg 3011.1    time 8h 30m 05s   sec/tick 509.1   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 61    kimg 3061.2    time 8h 38m 38s   sec/tick 509.2   sec/kimg 10.15   maintenance 3.7    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 62    kimg 3111.4    time 8h 47m 07s   sec/tick 509.0   sec/kimg 10.14   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 63    kimg 3161.6    time 8h 55m 36s   sec/tick 509.0   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 64    kimg 3211.8    time 9h 04m 05s   sec/tick 509.0   sec/kimg 10.14   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 65    kimg 3262.0    time 9h 12m 34s   sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 66    kimg 3312.1    time 9h 21m 03s   sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 67    kimg 3362.3    time 9h 29m 32s   sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 68    kimg 3412.5    time 9h 38m 02s   sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 69    kimg 3462.7    time 9h 46m 31s   sec/tick 509.3   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 70    kimg 3512.8    time 9h 55m 00s   sec/tick 509.3   sec/kimg 10.15   maintenance 0.0    cpumem 1.61   gpumem 8.91   reserved 9.35  
+tick 71    kimg 3563.0    time 10h 03m 33s  sec/tick 509.3   sec/kimg 10.15   maintenance 3.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 72    kimg 3613.2    time 10h 12m 02s  sec/tick 509.3   sec/kimg 10.15   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 73    kimg 3663.4    time 10h 20m 31s  sec/tick 509.2   sec/kimg 10.15   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 74    kimg 3713.5    time 10h 29m 01s  sec/tick 509.5   sec/kimg 10.15   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+tick 75    kimg 3763.7    time 10h 37m 30s  sec/tick 509.4   sec/kimg 10.15   maintenance 0.0    cpumem 1.60   gpumem 8.91   reserved 9.35  
+[2026-11-02 07:49:16,080] torch.distributed.elastic.agent.server.api: [WARNING] Received 2 death signal, shutting down workers
+[2026-11-02 07:49:16,081] torch.distributed.elastic.multiprocessing.api: [WARNING] Sending process 149 closing signal SIGINT
+
+Aborted!
+Traceback (most recent call last):
+  File "/opt/conda/bin/torchrun", line 8, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 347, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/distributed/run.py", line 812, in main
+    run(args)
+  File "/opt/conda/lib/python3.11/site-packages/torch/distributed/run.py", line 803, in run
+    elastic_launch(
+  File "/opt/conda/lib/python3.11/site-packages/torch/distributed/launcher/api.py", line 135, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/distributed/launcher/api.py", line 259, in launch_agent
+    result = agent.run()
+             ^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/distributed/elastic/metrics/api.py", line 123, in wrapper
+    result = f(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/distributed/elastic/agent/server/api.py", line 727, in run
+    result = self._invoke_run(role)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/distributed/elastic/agent/server/api.py", line 868, in _invoke_run
+    time.sleep(monitor_interval)
+  File "/opt/conda/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/api.py", line 62, in _terminate_process_handler
+    raise SignalException(f"Process {os.getpid()} got signal: {sigval}", sigval=sigval)
+torch.distributed.elastic.multiprocessing.api.SignalException: Process 107 got signal: 2
+== [2026-11-02 07:49:17] train.py exit 124
+== [2026-11-02 07:49:17] snapshot FID for /home/yuz271/dsc180-diffusion-steering/downloads/edm-008a4e5316c8e3bfe61a62f874bddba254295afb/training-runs/00001-cifar10-32x32-n50000-uncond-ddpmpp-edm-gpus1-batch512-fp32/
+device cuda, QUICK = False, 1000 images per setting
+downloads ready
+50000 training and 10000 test images
+network-snapshot-000000.pkl: FID 76.5
+network-snapshot-000502.pkl: FID 73.1
+network-snapshot-001004.pkl: FID 67.7
+network-snapshot-001505.pkl: FID 59.9
+network-snapshot-002007.pkl: FID 56.2
+network-snapshot-002509.pkl: FID 54.2
+network-snapshot-003011.pkl: FID 52.2
+network-snapshot-003512.pkl: FID 50.2
+wrote figures/edm_train/loss_fid_run2.png and results/edm_train/snapshot_fid_run2.json
+== [2026-11-02 08:10:36] done
