@@ -179,7 +179,7 @@ blurry images are close in pixel distance to many images, so this alone does not
 
 ![CFG grid, 100 images](figures/lab/14_part6_cfg_grid_n100.png)
 ![CFG grid, 1,000 images](figures/lab/15_part6_cfg_grid_n1000.png)
-*Figures 14–15.* One-network CFG with w = 0, 1, 2, 4. On the 10 samples shown, label accuracy for the 100-image
+*Figures 14–15.* One-network CFG with w = 0, 1, 2, 4 (10 of 100 samples shown). On all 100, label accuracy for the 100-image
 model is 8%, 93%, 100% and 100%. For the 1,000-image model it is 6%, 49%, 76% and 89%: this model needs stronger
 guidance to reach the requested class.
 

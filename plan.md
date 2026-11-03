@@ -1,8 +1,8 @@
-# Diffusion Steering Capstone — Handoff
+# Diffusion Steering Capstone Plan
 
-**Last updated:** November 2, 2026
+Where the project stands and where it is going. 
 
-Where the project stands and where it is going. The assignment itself is the box at the top of [cifar10_edm_lab.ipynb](cifar10_edm_lab.ipynb) (source of truth); how to reproduce results is in [README.md](README.md); observations are in [notes.md](notes.md); background theory is in [concepts.md](concepts.md).
+The assignment itself is the box at the top of [cifar10_edm_lab.ipynb](cifar10_edm_lab.ipynb) (source of truth); how to reproduce results is in [README.md](README.md); observations are in [notes.md](notes.md); background theory is in [concepts.md](concepts.md).
 
 ## Checkpoint deliverables (due Friday, November 6)
 

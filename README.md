@@ -4,33 +4,37 @@ Study unconditional generation, class conditioning, and classifier-free guidance
 (CFG) with the pretrained NVIDIA EDM CIFAR-10 models. This starter reproduces
 parts 1–3 of the supplied capstone lab. Record observations in notes.md.
 
-**Status (November 2, 2026):** parts 1–6 of the CIFAR-10 lab ran end to end on a
-DSMLP GTX 1080 Ti (commit e4aff85), followed by about 14 hours of EDM's full-data
-training over two jobs (4.77 million images, FID 412 → 50.2), with FID across its
-snapshots. The MNIST CFG network was
-trained locally. The checkpoint report draft is report.md.
 
 ## Files
 
-- cifar10_edm_lab.ipynb: the full supplied lab, unchanged (parts 1–6).
-- cifar10_parts1_3.ipynb: parts 1–3 only, plus a CUDA check, figure export, and the part 3 trajectories.
-- cifar10_edm_lab.executed.ipynb, cifar10_parts1_3.executed.ipynb: the same notebooks with all outputs, as run on DSMLP on November 1, 2026 (GTX 1080 Ti).
-- guidance_mnist.ipynb: the supplied MNIST guidance lab (pretrained generator; parts 1–4).
-- mnist_guidance_lab.py: the lab's helpers (U-Net, CFG sampler, frozen digit classifier), as written by guidance_mnist.ipynb.
+- cifar10_edm_lab.ipynb: the full supplied lab (parts 1–6), saved with its outputs from the DSMLP run on November 1, 2026 (GTX 1080 Ti).
+- cifar10_parts1_3.ipynb: parts 1–3 only, plus a CUDA check, figure export, and the part 3 trajectories, saved with its outputs from the same run.
+- mnist_guidance_lab.py: helpers from the course's MNIST guidance lab (U-Net, CFG sampler, frozen digit classifier), used by train_mnist.py.
 - train_mnist.py: the MNIST CFG network deliverable: trains the lab's U-Net from scratch and measures CFG.
 - requirements.txt: packages added on top of the DSMLP scipy-ml image.
 - notes.md: run log, predictions, and observations.
 - report.md: checkpoint report draft (title, abstract, introduction, preliminary results).
-- handoff.md: deliverables checklist, project direction, open questions.
-- concepts.md: background theory (study notes).
+- report_tex/: the checkpoint report in the course's LaTeX template (report.tex, reference.bib, figure/, compiled report.pdf). Build with `cd report_tex && latexmk -xelatex report.tex`, or upload the folder to Overleaf and compile with XeLaTeX.
+- plan.md: where the project stands, next steps, open questions.
 - scripts/dsmlp_run_all.sh: the DSMLP batch job that ran both CIFAR-10 notebooks and EDM training.
 - scripts/dsmlp_train_edm.sh: 12-hour DSMLP job that continues EDM training, then measures snapshot FID.
 - scripts/edm_snapshot_fid.py, scripts/edm_combine_runs.py: snapshot FID (GPU) and the two-run loss/FID plot.
 - figures/parts1_3/: parts 1–3 figures, exported by cifar10_parts1_3.ipynb.
-- figures/lab/: parts 4–6 figures, extracted from the executed full lab notebook.
+- figures/lab/: parts 4–6 figures, extracted from the outputs saved in cifar10_edm_lab.ipynb.
 - figures/edm_train/: loss and snapshot FID of the full-data EDM training runs.
 - results/: small result files: the part 5 sweep, both EDM training runs' stats, logs and snapshot FID, and the batch job logs.
-- downloads/ and outputs/: local working data; excluded from Git.
+
+
+## Contribution statement (human and AI)
+
+**Evelyn Zhang** chose the project and its research question within the course's
+diffusion-steering topic, set up the GitHub repository and DSMLP access, supplied
+the course materials (assignment, lab notebooks, LaTeX template), brainstormed directions for online research, set the timeline/to-do list, decided which GPU to use and when to stop training, monitored the logs, reviewed the code, verified the visualizations and results, and wrote rough draft and design for report.
+
+**AI (Claude Code, Anthropic, model Claude Opus 5.5)** was used primarily for:
+implementing the coding (the DSMLP batch scripts in scripts/, train_mnist.py, the snapshot-FID and plotting scripts); running and monitoring the experiments (the CIFAR-10 notebooks and EDM training on DSMLP, MNIST training locally); debugging; supplementing documentation (this README, notes.md, plan.md);
+literature search and reference checking; drafting and editing the report and
+porting it to LaTeX; and explaining the methods to the author. 
 
 ## DSMLP setup
 
@@ -111,7 +115,7 @@ sample grids contain fewer images.
 For a fresh, sequential run from the container terminal, use this exact command:
 
 ```bash
-python -m jupyter nbconvert --to notebook --execute cifar10_parts1_3.ipynb --output cifar10_parts1_3.executed.ipynb --ExecutePreprocessor.timeout=-1 --ExecutePreprocessor.kernel_name=python3
+python -m jupyter nbconvert --to notebook --execute cifar10_parts1_3.ipynb --output cifar10_parts1_3.ipynb --ExecutePreprocessor.timeout=-1 --ExecutePreprocessor.kernel_name=python3
 ```
 
 Use either interactive execution or this command, not both simultaneously.
@@ -141,7 +145,9 @@ There are no numeric results tables in parts 1–3.
 All of these come from one DSMLP batch job, scripts/dsmlp_run_all.sh. It clones
 or updates this repository in the pod's home directory, installs requirements.txt,
 executes cifar10_parts1_3.ipynb and then the full cifar10_edm_lab.ipynb with
-nbconvert, and spends the rest of the pod's 6-hour limit on EDM's train.py (the
+nbconvert (writing the results to *.executed.ipynb copies next to the originals;
+these copies are not kept in Git, and the committed notebooks already hold the
+same outputs), and spends the rest of the pod's 6-hour limit on EDM's train.py (the
 command printed by notebook cell 37). Submit it from a clone of this repository
 on dsmlp-login (the login host's home directory is not the pod's):
 
@@ -186,7 +192,7 @@ updates, FID on 1,000 unconditional samples per snapshot.
 
 Median pixel distance to the nearest training image at the last snapshot:
 100 images: samples 1.3 vs. real test images 23.7; 1,000 images: samples 14.0
-vs. real test images 21.3. Label accuracy of one-network CFG (10 samples shown):
+vs. real test images 21.3. Label accuracy of one-network CFG (100 samples per w; the grids show 10):
 100 images w = 0, 1, 2, 4: 8%, 93%, 100%, 100%; 1,000 images: 6%, 49%, 76%, 89%.
 
 | Figure | What it shows |
@@ -198,10 +204,10 @@ vs. real test images 21.3. Label accuracy of one-network CFG (10 samples shown):
 | figures/lab/12_part6_nearest_n100.png, 13_part6_nearest_n1000.png | samples next to their nearest training images |
 | figures/lab/14_part6_cfg_grid_n100.png, 15_part6_cfg_grid_n1000.png | one-network CFG grids, w = 0, 1, 2, 4 |
 
-The figures/lab images are the embedded outputs of the executed notebook,
-extracted in cell order from cifar10_edm_lab.executed.ipynb.
+The figures/lab images are the embedded outputs of the full lab notebook,
+extracted in cell order from cifar10_edm_lab.ipynb.
 
-### Full-data EDM training (encouraged)
+### Full-data EDM training (encouraged/optional)
 
 EDM's train.py with `--cond=0 --arch=ddpmpp --batch=512 --batch-gpu=64 --duration=10 --snap=10`
 on all 50,000 images, stopped by the time limit after 1,205 kimg (24 ticks,
@@ -295,7 +301,7 @@ Never commit passwords, access tokens, or private keys.
 If GitHub authentication is already configured in the container:
 
 ```bash
-git add README.md notes.md handoff.md concepts.md .gitignore requirements.txt cifar10_edm_lab.ipynb cifar10_parts1_3.ipynb guidance_mnist.ipynb mnist_guidance_lab.py train_mnist.py figures/
+git add README.md notes.md plan.md report.md .gitignore requirements.txt cifar10_edm_lab.ipynb cifar10_parts1_3.ipynb mnist_guidance_lab.py train_mnist.py scripts/ figures/ results/ report_tex/
 git commit -m "Run CIFAR-10 EDM parts 1-3 on DSMLP"
 git push
 ```
@@ -304,19 +310,6 @@ If it is not configured, download the changed notebook, notes, and figures from
 Jupyter and upload them to your repository through GitHub's website for this first
 run. HTTPS cloning a public repository does not require authentication.
 
-## Troubleshooting
-
-- CUDA unavailable: verify that you launched with -g 1 and selected the container's
-  Python kernel. Do not continue with CPU fallback for the GPU assignment.
-- Pending container: wait for GPU scheduling; avoid launching duplicate GPU pods.
-- Jupyter URL fails off campus: use the UCSD VPN or the SSH tunnel above.
-- Workspace not found: run workspace --list on the login host and use your enrolled
-  course workspace.
-- Missing pyarrow: rerun the requirements install in the container Python environment.
-  In a notebook, use %pip install pyarrow and restart the kernel.
-- A download fails: rerun from the download cell; it retries/resumes downloads.
-- Closing the launch SSH session stops this foreground container. Save your work
-  first; release the container when finished.
 
 ## References
 

@@ -1,12 +1,13 @@
 # Experiment notes
 
 A dated log of what I ran and what I saw. Reproduction commands live in
-[README.md](README.md); the to-do list lives in [handoff.md](handoff.md).
+[README.md](README.md); the to-do list lives in [plan.md](plan.md).
 
 ## Run log
 
 One entry per GPU run. Machine and package versions are recorded automatically
-in `figures/parts1_3/run_environment.json`; don't copy them here.
+in `figures/parts1_3/run_environment.json`
+
 
 ### Parts 1–3, first DSMLP run
 - Date: November 1, 2026 (batch pod steer-run, GTX 1080 Ti)
