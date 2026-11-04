@@ -6,7 +6,7 @@ downloads/
 
 # Run outputs (figures/ is kept; checkpoints and samples are not)
 outputs/
-guidance_mnist.ipynb
+
 # Python and Jupyter clutter
 __pycache__/
 .ipynb_checkpoints/
@@ -14,14 +14,4 @@ __pycache__/
 .DS_Store
 
 concepts.md
-
-# LaTeX build files (report_tex/report.pdf is kept)
-report_tex/*.aux
-report_tex/*.bbl
-report_tex/*.blg
-report_tex/*.log
-report_tex/*.out
-report_tex/*.toc
-report_tex/*.fls
-report_tex/*.fdb_latexmk
-report_tex/*.xdv
+guidance_mnist.ipynb
