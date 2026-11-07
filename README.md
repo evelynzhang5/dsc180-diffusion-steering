@@ -1,6 +1,6 @@
 # Diffusion Steering: Classifier-Free Guidance Across Noise Levels
 
-report: https://drive.google.com/file/d/11__ZQDO_zcYuv8LZ4fclv9TY_r1OLisQ/view?usp=sharing
+report: https://drive.google.com/file/d/1g770Y5qUykiv7fV8qXJDeAzsil7pHX60/view?usp=sharing
 
  We study classifier-free guidance (CFG) in diffusion models,
 which steers a sample toward a class with a guidance weight w, and ask whether w
@@ -221,4 +221,4 @@ generator instead, add `--checkpoint generator.pt --out outputs/mnist_course`.
 - [EDM paper](https://arxiv.org/abs/2206.00364) and [source](https://github.com/NVlabs/edm)
 - [CIFAR-10 data](https://huggingface.co/datasets/uoft-cs/cifar10) and [classifiers](https://github.com/chenyaofo/pytorch-cifar-models)
 - [UCSD container launch guide](https://support.ucsd.edu/services?id=kb_article_view&sysparm_article=KB0032269)
-- [Checkpoint Report](https://drive.google.com/file/d/11__ZQDO_zcYuv8LZ4fclv9TY_r1OLisQ/view?usp=sharing)
+- [Checkpoint Report](https://drive.google.com/file/d/1g770Y5qUykiv7fV8qXJDeAzsil7pHX60/view?usp=sharing)
