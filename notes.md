@@ -167,6 +167,11 @@ and can we stop that selectively?
 
 ## Quarter 2 proposal: guide toward the condition while protecting what it leaves open
 
+> **Update:** the current Quarter 2 plan is a different direction, predicting
+> when a steering intervention will help text-to-image generation. It lives in
+> [quarter2/README.md](quarter2/README.md). The proposal below is kept as an
+> alternative.
+
 ### Why not just noise-dependent schedules
 The original plan compared constant, early-heavy (3 − 2τ) and late-heavy (1 + 2τ)
 schedules. That alone is not a new contribution, and the obvious extensions are

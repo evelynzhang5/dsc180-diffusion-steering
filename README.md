@@ -1,6 +1,8 @@
 # Diffusion Steering: Classifier-Free Guidance Across Noise Levels
 
-DSC 180 capstone. We study classifier-free guidance (CFG) in diffusion models,
+report: https://drive.google.com/file/d/11__ZQDO_zcYuv8LZ4fclv9TY_r1OLisQ/view?usp=sharing
+
+ We study classifier-free guidance (CFG) in diffusion models,
 which steers a sample toward a class with a guidance weight w, and ask whether w
 should change across noise levels instead of staying constant. This repository
 holds the Quarter 1 checkpoint work:
@@ -20,7 +22,8 @@ holds the Quarter 1 checkpoint work:
 | `scripts/` | DSMLP batch jobs, snapshot FID, and the training-curve plot |
 | `figures/` | Every figure used in the report |
 | `results/` | Small result files: CFG sweep, training stats, FID values, job logs |
-| `notes.md` | Run log and observations |
+| `notes.md` | Quarter 1 findings, part by part, and run log |
+| `quarter2/` | Quarter 2 project: proposal and prompt set (see its README) |
 | `requirements.txt` | Packages added on top of the DSMLP scipy-ml image |
 
 Downloaded data, model weights and run outputs (`downloads/`, `outputs/`, `*.pt`,
@@ -218,3 +221,4 @@ generator instead, add `--checkpoint generator.pt --out outputs/mnist_course`.
 - [EDM paper](https://arxiv.org/abs/2206.00364) and [source](https://github.com/NVlabs/edm)
 - [CIFAR-10 data](https://huggingface.co/datasets/uoft-cs/cifar10) and [classifiers](https://github.com/chenyaofo/pytorch-cifar-models)
 - [UCSD container launch guide](https://support.ucsd.edu/services?id=kb_article_view&sysparm_article=KB0032269)
+- [Checkpoint Report](https://drive.google.com/file/d/11__ZQDO_zcYuv8LZ4fclv9TY_r1OLisQ/view?usp=sharing)

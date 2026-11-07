@@ -1,0 +1,242 @@
+[
+  {
+    "id": "p00",
+    "prompt": "A red mug to the left of a blue bowl.",
+    "object_1": "mug",
+    "color_1": "red",
+    "object_2": "bowl",
+    "color_2": "blue",
+    "relation": "object_1 left of object_2",
+    "pair": "red mug / blue bowl"
+  },
+  {
+    "id": "p01",
+    "prompt": "A red mug to the right of a blue bowl.",
+    "object_1": "mug",
+    "color_1": "red",
+    "object_2": "bowl",
+    "color_2": "blue",
+    "relation": "object_1 right of object_2",
+    "pair": "red mug / blue bowl"
+  },
+  {
+    "id": "p02",
+    "prompt": "A blue bowl to the left of a red mug.",
+    "object_1": "bowl",
+    "color_1": "blue",
+    "object_2": "mug",
+    "color_2": "red",
+    "relation": "object_1 left of object_2",
+    "pair": "red mug / blue bowl"
+  },
+  {
+    "id": "p03",
+    "prompt": "A blue bowl to the right of a red mug.",
+    "object_1": "bowl",
+    "color_1": "blue",
+    "object_2": "mug",
+    "color_2": "red",
+    "relation": "object_1 right of object_2",
+    "pair": "red mug / blue bowl"
+  },
+  {
+    "id": "p04",
+    "prompt": "A green book to the left of a yellow vase.",
+    "object_1": "book",
+    "color_1": "green",
+    "object_2": "vase",
+    "color_2": "yellow",
+    "relation": "object_1 left of object_2",
+    "pair": "green book / yellow vase"
+  },
+  {
+    "id": "p05",
+    "prompt": "A green book to the right of a yellow vase.",
+    "object_1": "book",
+    "color_1": "green",
+    "object_2": "vase",
+    "color_2": "yellow",
+    "relation": "object_1 right of object_2",
+    "pair": "green book / yellow vase"
+  },
+  {
+    "id": "p06",
+    "prompt": "A yellow vase to the left of a green book.",
+    "object_1": "vase",
+    "color_1": "yellow",
+    "object_2": "book",
+    "color_2": "green",
+    "relation": "object_1 left of object_2",
+    "pair": "green book / yellow vase"
+  },
+  {
+    "id": "p07",
+    "prompt": "A yellow vase to the right of a green book.",
+    "object_1": "vase",
+    "color_1": "yellow",
+    "object_2": "book",
+    "color_2": "green",
+    "relation": "object_1 right of object_2",
+    "pair": "green book / yellow vase"
+  },
+  {
+    "id": "p08",
+    "prompt": "A black chair to the left of a white lamp.",
+    "object_1": "chair",
+    "color_1": "black",
+    "object_2": "lamp",
+    "color_2": "white",
+    "relation": "object_1 left of object_2",
+    "pair": "black chair / white lamp"
+  },
+  {
+    "id": "p09",
+    "prompt": "A black chair to the right of a white lamp.",
+    "object_1": "chair",
+    "color_1": "black",
+    "object_2": "lamp",
+    "color_2": "white",
+    "relation": "object_1 right of object_2",
+    "pair": "black chair / white lamp"
+  },
+  {
+    "id": "p10",
+    "prompt": "A white lamp to the left of a black chair.",
+    "object_1": "lamp",
+    "color_1": "white",
+    "object_2": "chair",
+    "color_2": "black",
+    "relation": "object_1 left of object_2",
+    "pair": "black chair / white lamp"
+  },
+  {
+    "id": "p11",
+    "prompt": "A white lamp to the right of a black chair.",
+    "object_1": "lamp",
+    "color_1": "white",
+    "object_2": "chair",
+    "color_2": "black",
+    "relation": "object_1 right of object_2",
+    "pair": "black chair / white lamp"
+  },
+  {
+    "id": "p12",
+    "prompt": "A yellow ball to the left of a purple box.",
+    "object_1": "ball",
+    "color_1": "yellow",
+    "object_2": "box",
+    "color_2": "purple",
+    "relation": "object_1 left of object_2",
+    "pair": "yellow ball / purple box"
+  },
+  {
+    "id": "p13",
+    "prompt": "A yellow ball to the right of a purple box.",
+    "object_1": "ball",
+    "color_1": "yellow",
+    "object_2": "box",
+    "color_2": "purple",
+    "relation": "object_1 right of object_2",
+    "pair": "yellow ball / purple box"
+  },
+  {
+    "id": "p14",
+    "prompt": "A purple box to the left of a yellow ball.",
+    "object_1": "box",
+    "color_1": "purple",
+    "object_2": "ball",
+    "color_2": "yellow",
+    "relation": "object_1 left of object_2",
+    "pair": "yellow ball / purple box"
+  },
+  {
+    "id": "p15",
+    "prompt": "A purple box to the right of a yellow ball.",
+    "object_1": "box",
+    "color_1": "purple",
+    "object_2": "ball",
+    "color_2": "yellow",
+    "relation": "object_1 right of object_2",
+    "pair": "yellow ball / purple box"
+  },
+  {
+    "id": "p16",
+    "prompt": "A blue clock to the left of a orange backpack.",
+    "object_1": "clock",
+    "color_1": "blue",
+    "object_2": "backpack",
+    "color_2": "orange",
+    "relation": "object_1 left of object_2",
+    "pair": "blue clock / orange backpack"
+  },
+  {
+    "id": "p17",
+    "prompt": "A blue clock to the right of a orange backpack.",
+    "object_1": "clock",
+    "color_1": "blue",
+    "object_2": "backpack",
+    "color_2": "orange",
+    "relation": "object_1 right of object_2",
+    "pair": "blue clock / orange backpack"
+  },
+  {
+    "id": "p18",
+    "prompt": "A orange backpack to the left of a blue clock.",
+    "object_1": "backpack",
+    "color_1": "orange",
+    "object_2": "clock",
+    "color_2": "blue",
+    "relation": "object_1 left of object_2",
+    "pair": "blue clock / orange backpack"
+  },
+  {
+    "id": "p19",
+    "prompt": "A orange backpack to the right of a blue clock.",
+    "object_1": "backpack",
+    "color_1": "orange",
+    "object_2": "clock",
+    "color_2": "blue",
+    "relation": "object_1 right of object_2",
+    "pair": "blue clock / orange backpack"
+  },
+  {
+    "id": "p20",
+    "prompt": "A pink cup to the left of a green apple.",
+    "object_1": "cup",
+    "color_1": "pink",
+    "object_2": "apple",
+    "color_2": "green",
+    "relation": "object_1 left of object_2",
+    "pair": "pink cup / green apple"
+  },
+  {
+    "id": "p21",
+    "prompt": "A pink cup to the right of a green apple.",
+    "object_1": "cup",
+    "color_1": "pink",
+    "object_2": "apple",
+    "color_2": "green",
+    "relation": "object_1 right of object_2",
+    "pair": "pink cup / green apple"
+  },
+  {
+    "id": "p22",
+    "prompt": "A green apple to the left of a pink cup.",
+    "object_1": "apple",
+    "color_1": "green",
+    "object_2": "cup",
+    "color_2": "pink",
+    "relation": "object_1 left of object_2",
+    "pair": "pink cup / green apple"
+  },
+  {
+    "id": "p23",
+    "prompt": "A green apple to the right of a pink cup.",
+    "object_1": "apple",
+    "color_1": "green",
+    "object_2": "cup",
+    "color_2": "pink",
+    "relation": "object_1 right of object_2",
+    "pair": "pink cup / green apple"
+  }
+]
