@@ -15,8 +15,9 @@ Course convention: t = 0 is noise, t = 1 is data, x_t = sin(pi t/2) x1 + cos(pi 
    On half A, within each digit, mean activation of the thickest third minus the thinnest third; the ten digits'
    differences are averaged and normalized. Within-digit, so the direction is not "naturally thick digit (0)
    vs. thin digit (1)".
-3. Readability on half B: R^2 of a ridge probe (fit on A) predicting within-digit thickness from activations, and
-   the correlation of the projection on the direction with it.
+3. Readability on half B: R^2 of a ridge probe predicting within-digit thickness from activations, and the
+   correlation of the projection on the direction with it. Centering, scale and the ridge penalty (5-fold CV) all
+   come from half A, so half B is an untouched test set.
 4. Intervention: same starting noise for every run. At one step, the block's output h gets + a * |h| * d
    (a = strength, |h| per image). Directions: +d, -d, and 4 random unit directions. Immediate effect = change in
    that step's clean-image guess; final effect = change in the finished digit; both vs. the unedited run, in
@@ -77,11 +78,12 @@ class Edit:
     """Forward hook on one block: records its output, and adds a * |h| * d when active."""
     def __init__(self, module):
         self.d, self.a, self.active, self.last = None, 0.0, False, None
+        self.absolute = False  # True: add a * d (fixed size) instead of a * |h| * d
         module.register_forward_hook(self.hook)
 
     def hook(self, mod, inp, out):
         if self.active and self.d is not None:
-            norm = out.flatten(1).norm(dim=1).view(-1, 1, 1, 1)
+            norm = 1.0 if self.absolute else out.flatten(1).norm(dim=1).view(-1, 1, 1, 1)
             out = out + self.a * norm * self.d
         self.last = out
         return out
@@ -144,6 +146,38 @@ def ridge_r2(XA, tA, XB, tB, lam):
     return float(1 - ((tB - pred) ** 2).sum() / ((tB - tB.mean()) ** 2).sum())
 
 
+def probe(hA, thA, yA, hB, thB, yB, d=None, lams=(0.1, 1.0, 10.0, 100.0, 1000.0), folds=5):
+    """Held-out readability of within-digit thickness. Everything is derived from half A: per-digit means used to
+    center both halves, the feature scale, and the ridge penalty (5-fold CV inside A). Half B is touched only for
+    the final R^2 and the correlation of its projection on d. Returns (R^2 on B, corr on B, chosen penalty)."""
+    hA, hB = hA.double(), hB.double()
+    thA, thB = torch.as_tensor(thA, dtype=torch.float64), torch.as_tensor(thB, dtype=torch.float64)
+    yA, yB = torch.as_tensor(yA), torch.as_tensor(yB)
+    XA, XB, tA, tB = hA.clone(), hB.clone(), thA.clone(), thB.clone()
+    for c in range(10):
+        ma, mb = yA == c, yB == c
+        mu_h, mu_t = hA[ma].mean(0), thA[ma].mean()
+        XA[ma] -= mu_h
+        XB[mb] -= mu_h
+        tA[ma] -= mu_t
+        tB[mb] -= mu_t
+    scale = float(XA.norm(dim=1).mean())
+    XA, XB = XA / scale, XB / scale
+    idx = torch.randperm(len(XA), generator=torch.Generator().manual_seed(0))
+    parts = idx.chunk(folds)
+    def cv(lam):
+        out = []
+        for f in range(folds):
+            te = parts[f]
+            tr = torch.cat([parts[g] for g in range(folds) if g != f])
+            out.append(ridge_r2(XA[tr], tA[tr], XA[te], tA[te], lam))
+        return float(np.mean(out))
+    lam = max(lams, key=cv)
+    r2 = ridge_r2(XA, tA, XB, tB, lam)
+    corr = float(np.corrcoef((XB @ d.double()).numpy(), tB.numpy())[0, 1]) if d is not None else float("nan")
+    return r2, corr, lam
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--out", required=True)
@@ -201,12 +235,7 @@ def main():
                 diffs.append(hc[torch.from_numpy(tc >= hi)].mean(0) - hc[torch.from_numpy(tc <= lo)].mean(0))
             d = torch.stack(diffs).mean(0)
             d = d / d.norm()
-            tA, tB = torch.tensor(th_w[A]), torch.tensor(th_w[B])
-            XA, XB = within(hA.double(), yA), within(hB.double(), yB)
-            scale = float(XA.norm(dim=1).mean())
-            r2 = max(ridge_r2(XA / scale, tA, XB / scale, tB, lam) for lam in (1.0, 10.0, 100.0))
-            proj = (XB @ d.double()).numpy()
-            corr = float(np.corrcoef(proj, tB.numpy())[0, 1])
+            r2, corr, _ = probe(hA, th[A], yA, hB, th[B], yB, d)
             print(f"{layer} step {k} (t={t:.2f}): probe R^2 {r2:.2f}, direction corr {corr:.2f}", flush=True)
 
             shape = edits[layer].last.shape[1:]

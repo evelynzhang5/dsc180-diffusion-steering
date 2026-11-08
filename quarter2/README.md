@@ -111,7 +111,7 @@ the within-digit SD of real digits (0.87 px). Reports: `outputs/q2_mnist_thickne
 
 | `u2`, strength 0.5 | t = 0.25 | t = 0.5 | t = 0.75 |
 | --- | --- | --- | --- |
-| readable: held-out probe R^2 | 0.57 | 0.82 | 0.87 |
+| readable: probe R^2 on half B (penalty picked on B; corrected values in the transfer test) | 0.57 | 0.82 | 0.87 |
 | immediate change in the clean-image guess (random: <= 0.05) | +1.2 | +0.5 | +0.2 |
 | final change, edit on one step (16 / 64 steps) | +0.19 / +0.05 | +0.09 / +0.02 | +0.05 / +0.01 |
 | final change, edit held on every remaining step (16 / 64 steps) | +1.4 / +1.4 | +0.6 / +0.6 | +0.2 / +0.3 |
@@ -146,17 +146,105 @@ curves: `outputs/q2_mnist_release/`.
 | random directions, gap at the end | -0.01 | 0.00 | 0.00 |
 | accuracy drop | 0.1% | -0.1% | -0.1% |
 
-- **No attenuation after release:** once the edit is off, the thickness difference stays flat to the end (kept
-  0.85-1.13 across layers, starts, signs and both step counts). The earlier "one-step edits fade" was the edit's
-  direct effect on the network's guess disappearing when switched off, not later steps undoing it.
+- **No attenuation of the measured attribute after release:** once the edit is off, the mean thickness
+  difference in unedited clean-image guesses stays about flat through the final image (end / release 0.85-1.13
+  across layers, starts, signs and both step counts). The earlier "one-step edits fade" was the edit's direct
+  effect on the network's guess disappearing when switched off, not later steps undoing it. These are ratios of
+  averages; the per-image picture is in the transfer test below.
 - **Step count does not matter at matched duration:** 16 and 64 steps agree within 0.02 SD everywhere.
 - **What shrinks late is sensitivity:** the same relative activation edit moves the guess about 7x less at t0 = 0.75
   than at 0.25, while the sampler's per-step weight on the guess only falls about 2x (DDIM: 1 - tan(pi t/2) /
-  tan(pi s/2) for a step t -> s). In the local model dz_(k+1) = A_k dz_k + B_k u_k, thickness behaves as if A_k
-  keeps it (about 1) and B_k falls with t.
+  tan(pi s/2) for a step t -> s). In the local model dz_(k+1) = A_k dz_k + B_k u_k, the thickness component behaves
+  as if it is carried along (not that A_k is the identity: the full state difference grows after release) while
+  the injected part B_k u_k falls with t. Caveat: each t0 here uses a direction learned at that t0, so this
+  compares different directions; the transfer test separates the two.
 - **The state change is thickness-aligned:** per unit of state change at release, the learned direction gives
   4-6 SD of thickness, random directions about 0. The state difference itself keeps growing after release (x1.5-3,
   for random directions too), so state norm is not the right persistence measure; the attribute is.
+
+### Direction-transfer matrix (Nov 7, 2026): the late decline belongs to when you apply, not when you learned
+
+`mnist_transfer.py`: directions learned at t = 0.25, 0.5, 0.75, each applied at each of those times (same layer,
+window 0.125, strength 0.5 x |h|, then off), plus 8 random directions; per-image results; an untouched test seed
+(seed 1) alongside the dev seed. Probe R^2 now picks the penalty and centering on half A only (values unchanged:
+u2 0.57 / 0.82 / 0.87). Report: `outputs/q2_mnist_transfer/`.
+
+| `u2`, final change (test seed, 95% CI over images) | applied 0.25 | applied 0.5 | applied 0.75 |
+| --- | --- | --- | --- |
+| learned at 0.25 | +0.38 (0.35, 0.40) | +0.17 (0.16, 0.18) | +0.10 (0.09, 0.10) |
+| learned at 0.5 | +0.40 (0.38, 0.42) | +0.18 (0.17, 0.19) | +0.10 (0.10, 0.11) |
+| learned at 0.75 | +0.35 (0.33, 0.37) | +0.16 (0.15, 0.17) | +0.10 (0.09, 0.10) |
+| random, mean absolute change per image | 0.046 | 0.029 | 0.022 |
+| RMS change of the guess while on (learned = applied) | 0.170 | 0.103 | 0.042 |
+| thickness per unit of that change | 7.4 | 5.5 | 4.4 |
+
+- **Every direction weakens late by about the same factor (about 4x):** rows are within about 10% of each other,
+  so this is not a badly learned late direction. Directions are similar across t (cosine 0.72-0.92) and their
+  control transfers with them; the one learned at 0.5 is marginally best everywhere.
+- **Most of the decline is the size of the denoiser's response:** the same relative activation edit moves its
+  guess about 4x less at 0.75 than at 0.25; the share of that movement that is thickness falls less (7.4 -> 4.4).
+- **Per image:** 83-94% of digits change in the requested direction (u2), the effect is similar for all ten
+  digits, and dev and test seeds agree within 0.01. The per-image slope of final on release change is 0.25-0.70
+  with low R^2 (0.13-0.46), so individual digits vary much more than the averages; part of that is measurement
+  noise in the blurry guess at release, so it does not show per-image attenuation either way.
+- **d3 is weak late:** at t = 0.75 its effect (+0.02) is about the size of random edits and only 38-44% of
+  digits move the requested way.
+- The share of guess pixels at the +-1 clamp drops when editing (mostly the black background moving slightly off
+  -1), so clipping is not absorbing the edit; this measure is too coarse to say more.
+
+### Fixed-size edits and calibration (Nov 7, 2026): the late window is weaker but not worse
+
+`mnist_calibrate.py`. **Part 1 (dev seed 0):** one direction (learned at 0.5) applied for 2 steps at each time,
+either as the usual relative edit (a x |h_t|) or as a fixed absolute edit (eps x d, same eps at every t). At the
+first edited call: the raw (unclipped) denoiser response, the clipped response, the sampler-state change at release,
+and the final thickness. Report: `outputs/q2_mnist_calibrate/`.
+
+| `u2` | t = 0.25 | t = 0.5 | t = 0.75 | late / early |
+| --- | --- | --- | --- | --- |
+| activation norm \|h\| (unedited) | 53.8 | 44.4 | 34.4 | 0.64 |
+| final change per unit eps, fixed-size edit | 0.015 | 0.008 | 0.0065 | 0.43 |
+| raw output change per unit eps (network gain along d) | 0.0064 | 0.0046 | 0.0027 | 0.42 |
+| final change, relative edit a = 0.5 | +0.39 | +0.18 | +0.10 | 0.26 |
+| clipped / raw output change | 1.00 | 0.99 | 0.97 | |
+
+- **Two causes, multiplied:** relative edits shrink late because |h| shrinks (x0.64), and at a fixed size the
+  network responds about 2.4x less along d (x0.42). 0.64 x 0.42 = 0.27 matches the observed 0.26. Final change
+  per unit of raw output change does not fall late, so the sampler's conversion into thickness is not the cause.
+- **Clipping absorbs at most 3%** of the output change (raw vs. clipped compared directly).
+- **Locally linear and symmetric:** doubling eps doubles the change (0.08 / 0.17 / 0.34 at t = 0.25), and +eps
+  / -eps are within about 15%.
+- **d3:** |h| is flat over t, so relative and fixed edits are the same; its gain falls 5x (0.0067 -> 0.0013).
+  The decline there is all sensitivity.
+
+**Part 2: same requested change, compare the damage (u2).** For each window, the relative strength was tuned on dev
+seed 0 to give a mean change of +-0.2 SD and then +-0.5 SD. Strengths were then frozen and evaluated on a fresh seed
+(2). Seed 1 informed this design; seed 3 is untouched. Reports: `outputs/q2_mnist_calibrate/` (0.2) and
+`outputs/q2_mnist_calibrate_t05/` (0.5).
+
+| target +-0.5 SD, fresh seed (thicken / thin) | window 0.25 | window 0.5 | window 0.75 | every step (NA-RFM-style) |
+| --- | --- | --- | --- | --- |
+| strength a | 0.66 / 0.85 | 1.84 / 1.70 | 1.98 / 1.90 | 0.10 / 0.12 |
+| activation change, total over edited calls | 69 / 89 | 160 / 148 | 130 / 125 | 77 / 92 |
+| achieved change (target +-0.50) | +0.52 / -0.49 | +0.51 / -0.49 | +0.51 / -0.50 | +0.51 / -0.49 |
+| digits moved the requested way | 96% / 97% | 96% / 98% | 97% / 99% | 97% / 98% |
+| correct -> wrong (of 1000; wrong -> correct) | 8 (4) / 5 (2) | 7 (4) / 2 (1) | 3 (4) / 0 (1) | 4 (3) / 7 (4) |
+| mean abs. slant change (SD of real slant) | 0.114 / 0.114 | 0.106 / 0.088 | 0.096 / 0.082 | 0.108 / 0.124 |
+| mean centroid shift (px) | 0.25 / 0.29 | 0.25 / 0.26 | 0.22 / 0.26 | 0.24 / 0.29 |
+
+Random direction (window 0.5, a = 0.5): change 0.00, slant 0.013, shift 0.04 px, 0 broken.
+
+- **Hitting a requested mean change is easy:** a strength tuned on one seed lands within 0.02 SD of the target
+  on the fresh seed, for every window and both targets. Calibration needs a short search, not a single slope:
+  the response bends at larger strengths (window 0.5 needs a = 0.57 for 0.2 but 1.84 for 0.5).
+- **Weaker is not worse:** the late window needs about 2x the activation change of the early one, but it is
+  slightly more selective. It has the least slant drift (0.08-0.10 vs. 0.11 early), the fewest broken digits
+  (3 vs. 13 over both signs) and a narrower per-image spread. At +-0.2 SD the same ordering holds (slant 0.040-0.045
+  late vs. 0.057-0.062 early), with 0-3 broken digits everywhere.
+- **Holding the edit on every step is not better** than one tuned 2-step window. It sits with the early window.
+- **The differences are small.** Identity damage stays under 1% everywhere, and slant drift differs by about
+  25%. Some slant and position change may simply come with a thicker stroke. On this task, a fixed window with a
+  tuned strength already controls the attribute; a calibration method would have little to improve. This is the
+  stopping result the review anticipated for MNIST thickness, unless a harder attribute separates the methods.
 
 ## Files and how to run
 
@@ -172,14 +260,18 @@ the `.jsonl` records are still local, so `analyze.py` and `scorer_check.py` run 
 | File | What it does |
 | --- | --- |
 | `mnist_thickness.py` | Thickness readability vs. effect of activation edits (learned direction, its negative, random), one-step vs. held edits |
+| `mnist_transfer.py` | Direction-transfer matrix: learned-at x applied-at, per-image results, test seed |
+| `mnist_calibrate.py` | Fixed-size vs. relative edits (network gain, clipping) and windows calibrated to the same thickness change on a fresh seed |
 | `mnist_release.py` | Release-and-follow: edit on for a fixed time window, then off; follows both trajectories at 16 and 64 steps |
 
 ```bash
 python quarter2/mnist/mnist_thickness.py --out outputs/q2_mnist_thickness/steps16 --steps 16 --n 1000
 python quarter2/mnist/mnist_release.py --out outputs/q2_mnist_release --n 1000
+python quarter2/mnist/mnist_transfer.py --out outputs/q2_mnist_transfer --n 1000
+python quarter2/mnist/mnist_calibrate.py --out outputs/q2_mnist_calibrate --target 0.2   # and --target 0.5
 ```
 
-Both use `generator.pt`, `evaluator.pt` and `mnist_guidance_lab.py` from the repository root and run on a laptop
+All use `generator.pt`, `evaluator.pt` and `mnist_guidance_lab.py` from the repository root and run on a laptop
 (Apple MPS or CPU) in minutes.
 
 **`sd_pilots/` (archived)**
