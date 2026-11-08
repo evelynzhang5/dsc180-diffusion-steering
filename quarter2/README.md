@@ -1,6 +1,6 @@
 # Quarter 2: What Makes a Steering Intervention Control the Final Image?
 
-**Status (Nov 7, 2026):** the text-to-image pilots (SD 1.5, `sd_pilots/`) are finished and archived as a
+**Status (Nov 8, 2026):** the text-to-image pilots (SD 1.5, `sd_pilots/`) are finished and archived as a
 bounded negative result: the tested nudges showed no robust advantage over random pushes. The work now continues
 on MNIST (`mnist/`): when an attribute is readable from the generator's activations, what decides whether an edit
 changes it and whether the change lasts? The original question (predicting when an intervention helps) and the
@@ -246,6 +246,86 @@ Random direction (window 0.5, a = 0.5): change 0.00, slant 0.013, shift 0.04 px,
   tuned strength already controls the attribute; a calibration method would have little to improve. This is the
   stopping result the review anticipated for MNIST thickness, unless a harder attribute separates the methods.
 
+## Reference-set bias test (Nov 8, 2026): a confounded reference set makes a confounded edit
+
+The timing work above closed with "a tuned fixed window is enough". The next question is what makes a learned
+direction reliable. `mnist_bias.py` learns a thickness direction from four reference sets of real digits:
+- 60 thick + 60 thin per digit in each set;
+- natural, balanced on slant, aligned (thick digits lean one way) and opposed (they lean the other way);
+- three learners: mean difference, ridge probe, and RFM-style (top eigenvector of the AGOP on the top 256 PCs).
+
+Each direction is tuned on dev seed 0 to change thickness by +-0.3 SD and evaluated on seed 2. The outcome is
+the slant change at matched thickness. Report: `outputs/q2_mnist_bias/`.
+
+| signed slant change (SD of real slant), thicken / thin | mean difference | ridge | RFM |
+| --- | --- | --- | --- |
+| natural (corr 0.04 in MNIST) | +0.02 / -0.03 | -0.00 / -0.00 | -0.02 / +0.01 |
+| balanced | +0.01 / -0.02 | +0.00 / -0.01 | -0.00 / -0.01 |
+| aligned (corr +0.65 in the set) | **+0.33 / -0.16** | +0.20 / -0.13 | +0.21 / -0.12 |
+| opposed (corr -0.63) | **-0.29 / +0.16** | -0.18 / +0.14 | -0.27 / +0.13 |
+
+Thickness change is +-0.30 in every row. Random-direction slant floor: 0.013.
+
+- **The bias in the reference set reaches the generated digits.** It shows in all ten digits (+0.13 to +0.52
+  when thickening with the aligned set), and its sign follows the bias. The confounded directions also need
+  2-4x more strength for the same thickness and break more digits (up to 20 of 1000 vs. 5).
+- **No learner removes it.** Ridge and RFM reduce the leak by different amounts depending on the learner and
+  the bias sign: from about 7% (RFM, opposed, thickening) to about 40% (ridge, aligned, thickening). A better classifier of the
+  labeled groups does not give a cleaner edit: ridge accuracy is higher on the biased sets (0.95 vs. 0.87),
+  because slant makes the groups easier to tell apart.
+- **Thickening leaks about twice as much slant as thinning.**
+- **A slant-balanced reference set reduces measured leakage to about the balanced-reference baseline**, but
+  only if you know slant is the nuisance and can label it. MNIST's own thickness-slant
+  correlation is tiny (0.04), so natural sampling already behaves like balanced. The bias here is deliberately
+  strong (slant gap 1.6 SD between groups). Whether this is a research problem depends on the next test:
+  milder bias, and fixes under a limited budget of nuisance labels.
+
+### Bias under a limited slant-label budget (Nov 8, 2026, DSMLP GPU): about 100 labels fix moderate bias
+
+`mnist_bias_budget.py` (pod script `dsmlp_bias_budget.sh`, 72 minutes on one GPU).
+- **Reference sets:** seven sets of the same size and digit mix, with actual within-digit thickness-slant
+  correlations of 0.02, +0.21, -0.17, +0.37, -0.41, +0.67 and -0.66.
+- **Corrections**, each given 20 or 100 slant labels (5 independent draws) or all 1,200 (upper bound):
+  - stratify: predict slant, then compare thick vs. thin within slant quarters;
+  - subtract: project a slant direction out;
+  - controlled: ridge on thickness with slant regressed out.
+- **Matching:** each direction is re-tuned to +-0.3 SD of thickness, per sign, on dev seed 0, then evaluated
+  on seed 2.
+
+Report: `outputs/q2_mnist_bias_budget/report.md`.
+
+| slant change when thickening (mean over draws) | none | stratify 20 / 100 / all | subtract 20 / 100 / all | controlled 20 / 100 / all |
+| --- | --- | --- | --- | --- |
+| corr 0.02 (baseline) | +0.004 | +0.009 / -0.000 / +0.002 | +0.004 / +0.003 / +0.003 | -0.06* / +0.010 / -0.001 |
+| corr +0.21 | +0.067 | +0.024 / -0.006 / +0.001 | +0.055 / +0.037 / +0.035 | +0.04* / -0.017 / -0.016 |
+| corr +0.37 | +0.148 | +0.062 / +0.016 / +0.001 | +0.128 / +0.094 / +0.066 | +0.02* / +0.007 / +0.006 |
+| corr -0.41 | -0.135 | -0.050 / -0.012 / -0.009 | -0.122 / -0.101 / -0.083 | +0.01* / -0.013 / -0.034 |
+| corr +0.67 | +0.336 | +0.266 / +0.092 / (no overlap) | +0.322 / +0.206 / +0.181 | +0.02* / +0.034 / +0.014 |
+| corr -0.66 | -0.334 | -0.228 / -0.071 / (no overlap) | -0.319 / -0.295 / -0.191 | -0.01* / -0.055 / -0.033 |
+
+\* = at least one draw could not reach the thickness target (see the report). Thinning shows the same pattern at
+about half the size.
+
+- **Leakage grows about linearly with the bias:** 0.3-0.5 SD of slant per unit of correlation when
+  thickening. Identity damage rises only at the strongest bias (24-28 broken digits vs. 9).
+- **100 slant labels (8% of the reference set) restore about the baseline for mild and moderate bias.**
+  Stratifying on predicted slant brings |leak| to 0.016 or less at |corr| <= 0.4, consistently across draws and
+  both signs.
+- **Strong bias needs the controlled ridge.** At |corr| 0.66 the set has no thick low-slant digits, so stratifying
+  with true labels has nothing to compare. With 100 labels it removes about 75% of the leak, and only because
+  prediction noise creates some overlap. The controlled ridge with 100 labels gets to 0.03-0.06, but draws vary
+  (up to 0.12), it needs about 2x the strength, and it breaks slightly more digits (13-14 vs. 9).
+- **Subtracting a slant direction is weak.** It removes 20-55% of the leak even with every label. This does not
+  show that slant occupies several directions: the slant direction may be inaccurate, a full projection may be the
+  wrong amount to remove, or the direction that predicts slant may not be the one that changes it in the output.
+- **20 labels are not enough for any correction.** Stratify roughly halves the leak; the controlled ridge often
+  cannot reach the thickness target and breaks 30-40 digits.
+- **Decision (by the review's table):** for a known nuisance on MNIST, small label budgets of about 100 fix mild
+  and moderate bias with ordinary stratification. Only strong bias with very few labels stays unsolved, which
+  is a stress-test result rather than a broad practical gap. Stop method development for known-nuisance
+  correction on MNIST. The open problem is discovery: finding which unintended attribute contaminated a
+  reference set, without labels for it.
+
 ## Files and how to run
 
 Two folders. `mnist/` is the current work; `sd_pilots/` is the finished text-to-image study (archived: kept so the
@@ -262,6 +342,8 @@ the `.jsonl` records are still local, so `analyze.py` and `scorer_check.py` run 
 | `mnist_thickness.py` | Thickness readability vs. effect of activation edits (learned direction, its negative, random), one-step vs. held edits |
 | `mnist_transfer.py` | Direction-transfer matrix: learned-at x applied-at, per-image results, test seed |
 | `mnist_calibrate.py` | Fixed-size vs. relative edits (network gain, clipping) and windows calibrated to the same thickness change on a fresh seed |
+| `mnist_bias.py` | Reference-set bias: thickness directions learned from slant-balanced vs. slant-confounded sets (mean difference, ridge, RFM), slant change at matched thickness |
+| `mnist_bias_budget.py`, `dsmlp_bias_budget.sh` | Bias levels x slant-label budgets x simple corrections (stratify, subtract, controlled ridge), matched thickness; DSMLP pod script |
 | `mnist_release.py` | Release-and-follow: edit on for a fixed time window, then off; follows both trajectories at 16 and 64 steps |
 
 ```bash
@@ -269,6 +351,7 @@ python quarter2/mnist/mnist_thickness.py --out outputs/q2_mnist_thickness/steps1
 python quarter2/mnist/mnist_release.py --out outputs/q2_mnist_release --n 1000
 python quarter2/mnist/mnist_transfer.py --out outputs/q2_mnist_transfer --n 1000
 python quarter2/mnist/mnist_calibrate.py --out outputs/q2_mnist_calibrate --target 0.2   # and --target 0.5
+python quarter2/mnist/mnist_bias.py --out outputs/q2_mnist_bias
 ```
 
 All use `generator.pt`, `evaluator.pt` and `mnist_guidance_lab.py` from the repository root and run on a laptop
