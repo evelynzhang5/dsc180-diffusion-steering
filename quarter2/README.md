@@ -326,6 +326,57 @@ about half the size.
   correction on MNIST. The open problem is discovery: finding which unintended attribute contaminated a
   reference set, without labels for it.
 
+## Side-effect audit (Nov 8, 2026, DSMLP GPU): output evidence beats reference differences, but MNIST is too easy
+
+`mnist_audit.py` (pod script `dsmlp_audit.sh`) is a toy version of "predict unintended steering effects on unseen
+prompts". Digit classes play the role of prompts, and a bank of 7 measured attributes plays the role of a VLM:
+slant, width, height, horizontal / vertical position, stroke length and darkness.
+
+**Setup.**
+- **Reference sets:** each one secretly confounds thickness with one attribute, at strong (q = 1) or moderate
+  (q = 0.75) strength, plus one natural set.
+- **Edit:** the thickness edit is tuned to +0.3 SD on 5 digit classes.
+- **Audits:** run on those 5 classes and scored against the true side effects on the other 5 (both splits; 210
+  items). All effects are per 1 SD of thickness.
+- **REF:** reference thick-minus-thin difference.
+- **OUT-1:** one edited-vs.-unedited run.
+- **OUT-rep:** two runs that must both be significant with the same sign.
+- **BOTH:** REF and OUT-rep agree.
+
+Report: `outputs/q2_mnist_audit/report.md`.
+
+| tau = 0.15 (89 true side effects of 210) | flagged | false alarms | recall | rank corr. with truth |
+| --- | --- | --- | --- | --- |
+| REF (reference differences) | 110 | 33 | 0.87 | 0.63 |
+| OUT-1, 20 digits per class | 129 | 42 | 0.98 | 0.79 |
+| OUT-1, 100 per class | 105 | 22 | 0.93 | 0.82 |
+| OUT-rep, 20 per class | 62 | 0 | 0.70 | 0.72 |
+| OUT-rep, 100 per class | 75 | 3 | 0.81 | 0.75 |
+| BOTH, 100 per class | 67 | 1 | 0.74 | 0.75 |
+
+- **Reference differences mispredict in both directions.**
+  - **Bias that doesn't reach the output:** a position bias (centroid +0.86 SD in the references) does not reach
+    the output (-0.17 and -0.05). Height is overpredicted 2x, and the natural set's stroke length has the wrong
+    sign (-0.25 predicted, +0.09 true).
+  - **Effects the references don't show:** with the slant set, the edit adds more slant than the references show
+    (+1.27 vs. +0.84) and widens digits (+0.63).
+- **Paired output runs are the better evidence.** Repeating the run and requiring significance in both cuts false
+  alarms from 22-42 to 0-3. A single 100-per-class run already has the best rank correlation. With 20 per class,
+  repetition is what keeps false alarms out.
+- **Side effects transfer across digit classes almost perfectly:** 98% same sign, median error 0.10. On MNIST, a
+  side effect seen on 5 classes predicts the other 5.
+- **Some side effects come with the target itself.** Darkness rises about 0.9 SD per SD of thickness in every set,
+  and width about 0.3. These may be partly how the meters work (thick strokes have more full-intensity pixels),
+  not leakage.
+- **Verdict.** The gate passes, since intervention evidence clearly beats reference differences. But the result
+  is unsurprising, because the output audit measures the effect directly. MNIST also leaves out the two hard parts
+  of Proposal 1:
+  - side effects that are not in a fixed list (the VLM's job);
+  - contexts where effects do not transfer, which are 98% consistent here.
+
+  Both need natural images, so the next step is the Stable Diffusion check that reference bias propagates
+  (blur vs. portrait framing), scored with programmatic meters.
+
 ## Files and how to run
 
 Two folders. `mnist/` is the current work; `sd_pilots/` is the finished text-to-image study (archived: kept so the
@@ -344,6 +395,7 @@ the `.jsonl` records are still local, so `analyze.py` and `scorer_check.py` run 
 | `mnist_calibrate.py` | Fixed-size vs. relative edits (network gain, clipping) and windows calibrated to the same thickness change on a fresh seed |
 | `mnist_bias.py` | Reference-set bias: thickness directions learned from slant-balanced vs. slant-confounded sets (mean difference, ridge, RFM), slant change at matched thickness |
 | `mnist_bias_budget.py`, `dsmlp_bias_budget.sh` | Bias levels x slant-label budgets x simple corrections (stratify, subtract, controlled ridge), matched thickness; DSMLP pod script |
+| `mnist_audit.py`, `dsmlp_audit.sh` | Side-effect audit: reference differences vs. paired edited outputs as predictors of side effects on held-out digit classes; DSMLP pod script |
 | `mnist_release.py` | Release-and-follow: edit on for a fixed time window, then off; follows both trajectories at 16 and 64 steps |
 
 ```bash
