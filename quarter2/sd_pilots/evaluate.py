@@ -7,6 +7,9 @@ For every image in RUN/baseline.jsonl and RUN/branches.jsonl:
   that overlap little (IoU < 0.5), so one box cannot count as both objects.
 - Colors: CLIP ViT-L/14 picks among 11 colors for each object's crop ("a photo of a <color> <object>").
 - Relation: the horizontal centers of the two boxes.
+Prompts with "task": "two_object" skip the colors. Prompts with "task": "counting" (fields object_1, count)
+record the scores of up to 10 non-overlapping boxes for object_1 (count_scores); analyze.py counts those above
+its threshold.
 Writes RUN/scores.csv (one row per image; already-scored images are skipped). Manual audit labels go in a
 separate file, so the automated scores here can be checked against them.
 """
@@ -22,7 +25,7 @@ DETECTOR = "google/owlv2-base-patch16-ensemble"
 CLIP = "openai/clip-vit-large-patch14"
 COLORS = ["red", "orange", "yellow", "green", "blue", "purple", "pink", "brown", "black", "white", "gray"]
 FIELDS = ["key", "det_1", "det_2", "box_1", "box_2", "cx_1", "cx_2", "color_pred_1", "color_pred_2",
-          "color_prob_1", "color_prob_2"]
+          "color_prob_1", "color_prob_2", "count_scores"]
 
 
 def iou(a, b):
@@ -75,13 +78,36 @@ class Scorer:
                                 return_tensors="pt", padding=True).to(self.device)
         return self.clip(**inputs).logits_per_image.softmax(-1)[0].cpu()
 
+    @torch.no_grad()
+    def count_scores(self, img, obj, keep=10):
+        """Scores of up to `keep` boxes for obj, greedily skipping boxes that overlap a kept one (IoU >= 0.5)."""
+        inputs = self.det_proc(text=[[f"a photo of a {obj}"]], images=img, return_tensors="pt").to(self.device)
+        side = max(img.size)
+        res = self.det_proc.post_process_object_detection(self.det(**inputs), threshold=0.0,
+                                                          target_sizes=torch.tensor([[side, side]]))[0]
+        kept = []
+        for i in res["scores"].argsort(descending=True)[:100]:
+            b = [float(v) for v in res["boxes"][i]]
+            if all(iou(b, k) < 0.5 for _, k in kept):
+                kept.append((float(res["scores"][i]), b))
+            if len(kept) == keep:
+                break
+        return kept
+
     def score(self, img, p):
+        task = p.get("task", "relation")
+        if task == "counting":
+            kept = self.count_scores(img, p["object_1"])
+            return {"det_1": round(kept[0][0], 4) if kept else 0.0,
+                    "count_scores": " ".join(f"{sc:.4f}" for sc, _ in kept)}
         (d1, b1), (d2, b2) = self.boxes(img, [p["object_1"], p["object_2"]])
-        c1, c2 = self.colors(img, b1, p["object_1"]), self.colors(img, b2, p["object_2"])
-        return {"det_1": round(d1, 4), "det_2": round(d2, 4),
+        base = {"det_1": round(d1, 4), "det_2": round(d2, 4),
                 "box_1": " ".join(f"{v:.0f}" for v in b1), "box_2": " ".join(f"{v:.0f}" for v in b2),
-                "cx_1": round((b1[0] + b1[2]) / 2, 1), "cx_2": round((b2[0] + b2[2]) / 2, 1),
-                "color_pred_1": COLORS[int(c1.argmax())], "color_pred_2": COLORS[int(c2.argmax())],
+                "cx_1": round((b1[0] + b1[2]) / 2, 1), "cx_2": round((b2[0] + b2[2]) / 2, 1)}
+        if task == "two_object":
+            return base
+        c1, c2 = self.colors(img, b1, p["object_1"]), self.colors(img, b2, p["object_2"])
+        return {**base, "color_pred_1": COLORS[int(c1.argmax())], "color_pred_2": COLORS[int(c2.argmax())],
                 "color_prob_1": round(float(c1[COLORS.index(p["color_1"])]), 4),
                 "color_prob_2": round(float(c2[COLORS.index(p["color_2"])]), 4)}
 

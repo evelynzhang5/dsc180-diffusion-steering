@@ -5,11 +5,13 @@
 
 baseline: 30-step deterministic DDIM with CFG 7.5. Saves the final image and the latents after steps 6, 15
           and 24 (step k = after k of the 30 updates).
-branch:   resumes from each saved latent, applies one 3-step pulse, and finishes the trajectory.
-          none:0       continue unchanged (measures numerical noise in resuming)
-          global:W     CFG weight W instead of 7.5 for 3 steps
-          targeted:L   add L * (eps(prompt) - eps(counterfactual prompt)) for 3 steps; the counterfactual
-                       swaps "left" and "right"
+branch:   resumes from each saved latent, applies one pulse, and finishes the trajectory.
+          none:0         continue unchanged (measures numerical noise in resuming)
+          global:W[:N]   CFG weight W instead of 7.5 for N steps (default 3)
+          targeted:L[:N] add L * (eps(prompt) - mean eps(counterfactuals)) for N steps. Counterfactuals come
+                         from the prompt's "counterfactuals" list; without one, "left" and "right" are swapped.
+          placebo:M[:N]  add a random Gaussian direction scaled to M times the size of the normal noise
+                         prediction, for N steps: a same-size push with no meaning (control for re-rolling).
 Every branch starts from the baseline's saved latent, never from another branch. Records are appended to
 RUN/baseline.jsonl and RUN/branches.jsonl, so an interrupted run resumes where it stopped.
 """
@@ -32,9 +34,24 @@ def parse_seeds(s):
     return list(range(int(a), int(b or a) + 1))
 
 
-def counterfactual(prompt):
+def counterfactuals(p):
+    if "counterfactuals" in p:
+        return p["counterfactuals"]
     swap = {"left": "right", "right": "left"}
-    return " ".join(swap.get(w, w) for w in prompt.split(" "))
+    return [" ".join(swap.get(w, w) for w in p["prompt"].split(" "))]
+
+
+def parse_actions(s):
+    """'global:14,targeted:40:8' -> [('global', 14.0, 3), ('targeted', 40.0, 8)]"""
+    out = []
+    for a in s.split(","):
+        kind, strength, *length = a.split(":")
+        out.append((kind, float(strength), int(length[0]) if length else PULSE))
+    return out
+
+
+def action_name(kind, strength, length):
+    return f"{kind}{strength:g}" + (f"x{length}" if length != PULSE else "")
 
 
 def load_pipe(device):
@@ -55,25 +72,34 @@ def embed(pipe, texts):
 
 
 @torch.no_grad()
-def denoise(pipe, z, start, cond, uncond, cf=None, action=("none", 0.0)):
+def denoise(pipe, z, start, cond, uncond, cf=None, action=("none", 0.0, PULSE), seeds=None):
     """Run updates start+1 .. STEPS on latents z (n, 4, 64, 64 for 512x512 images).
 
     Returns final latents, latents saved at CHECKPOINTS, the pulse's size relative to the normal CFG noise
     prediction (mean over pulse steps, per image), and U-Net evaluations per image."""
-    kind, strength = action
+    kind, strength, length = action
     n, saved, rel, evals = len(z), {}, [], 0
     for i in range(start, STEPS):
         t = pipe.scheduler.timesteps[i]
-        pulse = kind != "none" and i < start + PULSE
-        embs = [uncond, cond] + ([cf] if pulse and kind == "targeted" else [])
-        out = pipe.unet(torch.cat([z] * len(embs)), t,
-                        encoder_hidden_states=torch.cat(embs).repeat_interleave(n, 0)).sample.chunk(len(embs))
+        pulse = kind != "none" and i < start + length
+        out = pipe.unet(torch.cat([z] * 2), t,
+                        encoder_hidden_states=torch.cat([uncond, cond]).repeat_interleave(n, 0)).sample.chunk(2)
+        evals += 2
         eps = out[0] + CFG * (out[1] - out[0])
         if pulse:
-            extra = (strength - CFG) * (out[1] - out[0]) if kind == "global" else strength * (out[1] - out[2])
+            if kind == "global":
+                extra = (strength - CFG) * (out[1] - out[0])
+            elif kind == "placebo":  # fixed random direction per (seed, start, step), scaled to M * |eps|
+                d = torch.stack([torch.randn(z.shape[1:], generator=torch.Generator().manual_seed(
+                    s * 10000 + start * 100 + i)) for s in seeds]).to(z.device)
+                extra = strength * d * (eps.flatten(1).norm(dim=1) / d.flatten(1).norm(dim=1)).view(-1, 1, 1, 1)
+            else:  # counterfactuals in a separate call, so non-pulse steps match the baseline exactly
+                k = len(cf)
+                o = pipe.unet(torch.cat([z] * k), t, encoder_hidden_states=cf.repeat_interleave(n, 0)).sample
+                extra = strength * (out[1] - o.view(k, n, *o.shape[1:]).mean(0))
+                evals += k
             rel.append(extra.flatten(1).norm(dim=1) / eps.flatten(1).norm(dim=1))
             eps = eps + extra
-        evals += len(embs)
         z = pipe.scheduler.step(eps, t, z).prev_sample
         if i + 1 in CHECKPOINTS:
             saved[i + 1] = z.clone()
@@ -142,7 +168,7 @@ def cmd_baseline(args):
 def cmd_branch(args):
     run = Path(args.run)
     (run / "branches").mkdir(exist_ok=True)
-    actions = [(k, float(v)) for k, v in (a.split(":") for a in args.actions.split(","))]
+    actions = parse_actions(args.actions)
     checkpoints = [int(c) for c in args.checkpoints.split(",")]
     base = [json.loads(l) for l in open(run / "baseline.jsonl")]
     pipe = load_pipe(args.device)
@@ -153,22 +179,23 @@ def cmd_branch(args):
             seeds = sorted(r["seed"] for r in base if r["prompt_id"] == p["id"])
             if not seeds:
                 continue
-            cond, cf = embed(pipe, [p["prompt"]]), embed(pipe, [counterfactual(p["prompt"])])
+            cond, cf = embed(pipe, [p["prompt"]]), embed(pipe, counterfactuals(p))
             latents = {s: torch.load(run / "latents" / f"{p['id']}_s{s}.pt") for s in seeds}
             for k in checkpoints:
-                for kind, strength in actions:
-                    name = f"{kind}{strength:g}"
+                for kind, strength, length in actions:
+                    name = action_name(kind, strength, length)
                     todo = [s for s in seeds if f"{p['id']}_s{s}_k{k}_{name}" not in done]
                     for group in chunks(todo, args.chunk):
                         z = torch.stack([latents[s][k] for s in group]).to(args.device)
                         t0 = time.time()
-                        zf, _, rel, evals = denoise(pipe, z, k, cond, uncond, cf, (kind, strength))
+                        zf, _, rel, evals = denoise(pipe, z, k, cond, uncond, cf, (kind, strength, length), group)
                         for j, s in enumerate(group):
                             key = f"{p['id']}_s{s}_k{k}_{name}"
                             save_image(pipe, zf[j], run / "branches" / f"{key}.jpg")
                             log.write(json.dumps({"key": key, "base_key": f"{p['id']}_s{s}", "prompt_id": p["id"],
                                                   "seed": s, "checkpoint": k, "action": kind,
-                                                  "strength": strength, "rel_size": round(rel[j], 4),
+                                                  "strength": strength, "pulse_steps": length,
+                                                  "rel_size": round(rel[j], 4),
                                                   "unet_evals": evals, "image": f"branches/{key}.jpg",
                                                   "seconds": round((time.time() - t0) / len(group), 2)}) + "\n")
                         log.flush()

@@ -1,6 +1,6 @@
 #!/bin/bash
 # Quarter 2 smoke test in one DSMLP GPU pod. Run from the repository root:
-#     bash quarter2/dsmlp_smoke.sh
+#     bash quarter2/sd_pilots/dsmlp_smoke.sh
 # 1. 192 baselines (24 prompts x 8 seeds), scored; the success mix is printed (warning only).
 # 2. Dev sweep: 4 separate prompts x 4 seeds, every pulse strength in DEV_ACTIONS (plus none:0, which measures
 #    numerical noise in resuming) at steps 6, 15, 24.
@@ -15,8 +15,8 @@ OUT=$PWD/outputs/q2_smoke
 DEV_ACTIONS=${DEV_ACTIONS:-none:0,global:10,global:14,global:20,targeted:5,targeted:15,targeted:40}
 
 nvidia-smi -L
-python -m pip install --user -q -r quarter2/requirements.txt || exit 1
-cd quarter2 || exit 1
+python -m pip install --user -q -r quarter2/sd_pilots/requirements.txt || exit 1
+cd quarter2/sd_pilots || exit 1
 
 stamp "baselines"
 python sd_branch.py baseline --prompts prompts.json --seeds 0-7 --out "$OUT/main" || exit 1

@@ -23,7 +23,7 @@ holds the Quarter 1 checkpoint work:
 | `figures/` | Every figure used in the report |
 | `results/` | Small result files: CFG sweep, training stats, FID values, job logs |
 | `notes.md` | Quarter 1 findings, part by part, and run log |
-| `quarter2/` | Quarter 2 project: proposal and prompt set (see its README) |
+| `quarter2/` | Quarter 2 project: `mnist/` (current steering diagnostics) and `sd_pilots/` (archived text-to-image pilots); results in its README |
 | `requirements.txt` | Packages added on top of the DSMLP scipy-ml image |
 
 Downloaded data, model weights and run outputs (`downloads/`, `outputs/`, `*.pt`,
