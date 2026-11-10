@@ -1,0 +1,2116 @@
+time="2026-11-08T19:49:57-08:00" level=warning msg="skipping device /dev/char/10:200 for systemd: stat /sys/dev/char/10:200: no such file or directory"
+log outputs/cifar10_replication/pod_log-20261108-194957.txt
+GPU 0: NVIDIA GeForce GTX 1080 Ti (UUID: GPU-035a4397-07de-0375-6bfc-72921356e262)
+== [2026-11-08 19:50:02] smoke test
+== [2026-11-08 19:50:02] stage setup (smoke)
+$ git checkout -q 8e9619bc6735b03d73056bfdc13dd3659b96e127
+
+[0 s]
+$ git checkout -q f8d17f3ec2f0e7377dedf7b7bc62fad15f36cb77
+
+[0 s]
+== [2026-11-08 19:50:03] setup OK
+== [2026-11-08 19:50:03] stage offline (smoke)
+$ /opt/conda/bin/python pca/build_filters.py --image-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/cifar10/train_by_class --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --image-size 32 --components 1000 --backend cpu --full-dataset --num-images 0
+Using PCA backend: cpu
+
+[203 s]
+$ /opt/conda/bin/python pca/build_filters.py --image-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/cifar10/train_by_class --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --image-size 32 --components 1000 --backend cpu --classes 1 3 --num-images 5000
+Using PCA backend: cpu
+
+
+[36 s]
+block-9 features: (10000, 16384)
+RFM automobile vs rest: held-out AUC 0.9672 (32 s)
+RFM cat vs rest: held-out AUC 0.8579 (95 s)
+== [2026-11-08 19:56:33] offline OK; AUCs {'automobile': 0.9672261261784463, 'cat': 0.8579049217385348}
+== [2026-11-08 19:56:33] stage generate (smoke)
+== [2026-11-08 19:56:33] generate unguided
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 1 --num-samples 8 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/unguided --gaussian-strength 0 --rfm-strength 0 --rfm-sigma-lo 1e8 --rfm-sigma-hi 1e9
+2026-11-08 19:56:41.913013: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 19:56:41.913036: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 19:56:41.914643: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 19:56:41.923157: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 1 (automobile)
+automobile: 1/8 = 12.5%
+
+Average accuracy: 12.5%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/unguided
+[15 s]
+   unguided automobile: accuracy 12.5% [15 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 3 --num-samples 8 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/unguided --gaussian-strength 0 --rfm-strength 0 --rfm-sigma-lo 1e8 --rfm-sigma-hi 1e9
+2026-11-08 19:56:56.729670: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 19:56:56.729715: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 19:56:56.731419: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 19:56:56.739448: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 3 (cat)
+cat: 0/8 = 0.0%
+
+Average accuracy: 0.0%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/unguided
+[12 s]
+   unguided cat: accuracy 0.0% [12 s]
+== [2026-11-08 19:57:00] generate na_l3
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 1 --mode diff --strength 3.0 --num-seeds 8 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/_raw/na_l3
+seeds=8, strength=3.0, components=1000
+============================================================
+  Sampling seeds 0-7...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/_raw/na_l3/automobile_mode=diff_str=3.0_seeds=8_start=0_end=50.png
+
+>>> automobile (diff): 62.5% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  automobile_diff: 62.5%
+
+  Average: 62.5%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/_raw/na_l3
+[12 s]
+   na_l3 automobile: accuracy 62.5% [12 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 3 --mode diff --strength 3.0 --num-seeds 8 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/_raw/na_l3
+seeds=8, strength=3.0, components=1000
+============================================================
+  Sampling seeds 0-7...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/_raw/na_l3/cat_mode=diff_str=3.0_seeds=8_start=0_end=50.png
+
+>>> cat (diff): 62.5% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  cat_diff: 62.5%
+
+  Average: 62.5%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/_raw/na_l3
+[12 s]
+   na_l3 cat: accuracy 62.5% [12 s]
+== [2026-11-08 19:57:24] generate na_l8
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 1 --mode diff --strength 8.0 --num-seeds 8 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/_raw/na_l8
+seeds=8, strength=8.0, components=1000
+============================================================
+  Sampling seeds 0-7...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/_raw/na_l8/automobile_mode=diff_str=8.0_seeds=8_start=0_end=50.png
+
+>>> automobile (diff): 62.5% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  automobile_diff: 62.5%
+
+  Average: 62.5%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/_raw/na_l8
+[12 s]
+   na_l8 automobile: accuracy 62.5% [12 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 3 --mode diff --strength 8.0 --num-seeds 8 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/_raw/na_l8
+seeds=8, strength=8.0, components=1000
+============================================================
+  Sampling seeds 0-7...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/_raw/na_l8/cat_mode=diff_str=8.0_seeds=8_start=0_end=50.png
+
+>>> cat (diff): 100.0% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  cat_diff: 100.0%
+
+  Average: 100.0%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/_raw/na_l8
+[12 s]
+   na_l8 cat: accuracy 100.0% [12 s]
+== [2026-11-08 19:57:48] generate rfm_only
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 1 --num-samples 8 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/rfm_only --gaussian-strength 0 --rfm-sigma-lo 0 --rfm-sigma-hi 1e4
+2026-11-08 19:57:59.798331: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 19:57:59.798376: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 19:57:59.799961: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 19:57:59.808259: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 1 (automobile)
+automobile: 8/8 = 100.0%
+
+Average accuracy: 100.0%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/rfm_only
+[15 s]
+   rfm_only automobile: accuracy 100.0% [15 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 3 --num-samples 8 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/rfm_only --gaussian-strength 0 --rfm-sigma-lo 0 --rfm-sigma-hi 1e4
+2026-11-08 19:58:14.867308: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 19:58:14.867331: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 19:58:14.868766: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 19:58:14.877474: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 3 (cat)
+cat: 8/8 = 100.0%
+
+Average accuracy: 100.0%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/rfm_only
+[15 s]
+   rfm_only cat: accuracy 100.0% [15 s]
+== [2026-11-08 19:58:18] generate na_rfm
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 1 --num-samples 8 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/na_rfm 
+2026-11-08 19:58:29.079033: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 19:58:29.079057: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 19:58:29.080609: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 19:58:29.088636: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 1 (automobile)
+automobile: 8/8 = 100.0%
+
+Average accuracy: 100.0%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/na_rfm
+[14 s]
+   na_rfm automobile: accuracy 100.0% [14 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 3 --num-samples 8 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/na_rfm 
+2026-11-08 19:58:43.162185: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 19:58:43.162215: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 19:58:43.163838: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 19:58:43.172158: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 3 (cat)
+cat: 8/8 = 100.0%
+
+Average accuracy: 100.0%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/na_rfm
+[14 s]
+   na_rfm cat: accuracy 100.0% [14 s]
+== [2026-11-08 19:58:46] stage measure (smoke)
+== [2026-11-08 19:58:46] measure unguided
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/unguided --targets 1,3 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/unguided/quality.json --batch-size 64 --num-ref 500
+
+Filter:   0%|          | 0/50000 [00:00<?, ? examples/s]
+Filter: 100%|██████████| 50000/50000 [00:00<00:00, 483076.72 examples/s]
+Filter: 100%|██████████| 50000/50000 [00:00<00:00, 468184.30 examples/s]
+
+Filter:   0%|          | 0/10000 [00:00<?, ? examples/s]
+Filter: 100%|██████████| 10000/10000 [00:00<00:00, 569066.41 examples/s]
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+Warning: batch size is bigger than the data size. Setting batch size to data size
+
+Calculating FID value.
+cat: FID=367.878, IS=3.570
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/unguided/quality.json
+[30 s]
+   unguided: accuracy 6.2%, FID 360.7
+== [2026-11-08 19:59:16] measure na_l3
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/na_l3 --targets 1,3 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/na_l3/quality.json --batch-size 64 --num-ref 500
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+Warning: batch size is bigger than the data size. Setting batch size to data size
+
+Calculating FID value.
+automobile: FID=205.404, IS=2.027
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+Warning: batch size is bigger than the data size. Setting batch size to data size
+
+Calculating FID value.
+cat: FID=325.968, IS=2.104
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/na_l3/quality.json
+[24 s]
+   na_l3: accuracy 62.5%, FID 265.7
+== [2026-11-08 19:59:40] measure na_l8
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/na_l8 --targets 1,3 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/na_l8/quality.json --batch-size 64 --num-ref 500
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+Warning: batch size is bigger than the data size. Setting batch size to data size
+
+Calculating FID value.
+automobile: FID=233.142, IS=2.621
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+Warning: batch size is bigger than the data size. Setting batch size to data size
+
+Calculating FID value.
+cat: FID=331.457, IS=2.625
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/na_l8/quality.json
+[23 s]
+   na_l8: accuracy 81.2%, FID 282.3
+== [2026-11-08 20:00:04] measure rfm_only
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/rfm_only --targets 1,3 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/rfm_only/quality.json --batch-size 64 --num-ref 500
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+Warning: batch size is bigger than the data size. Setting batch size to data size
+
+Calculating FID value.
+automobile: FID=208.230, IS=2.600
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+Warning: batch size is bigger than the data size. Setting batch size to data size
+
+Calculating FID value.
+cat: FID=272.802, IS=2.414
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/rfm_only/quality.json
+[23 s]
+   rfm_only: accuracy 100.0%, FID 240.5
+== [2026-11-08 20:00:27] measure na_rfm
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/na_rfm --targets 1,3 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/na_rfm/quality.json --batch-size 64 --num-ref 500
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+Warning: batch size is bigger than the data size. Setting batch size to data size
+
+Calculating FID value.
+automobile: FID=188.698, IS=2.626
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+Warning: batch size is bigger than the data size. Setting batch size to data size
+
+Calculating FID value.
+cat: FID=274.067, IS=1.962
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_smoke/na_rfm/quality.json
+[29 s]
+   na_rfm: accuracy 100.0%, FID 231.4
+== [2026-11-08 20:00:56] stage time (smoke)
+   unguided: 0.199 s per image at batch 64; 4.5 s per batch of 16
+   na_l3: 0.201 s per image at batch 64; 4.5 s per batch of 16
+   na_l8: 0.200 s per image at batch 64; 4.4 s per batch of 16
+   rfm_only: 0.399 s per image at batch 64; 8.6 s per batch of 16
+   na_rfm: 0.341 s per image at batch 64; 7.6 s per batch of 16
+== [2026-11-08 20:04:48] time OK
+== [2026-11-08 20:04:48] stage report (smoke)
+# CIFAR-10 replication of Table 2 (8 images per class, seeds 0-7, 100 DDIM steps)
+
+**SMOKE TEST: too few images for any number here to mean anything.**
+
+Classes: automobile, cat. GPU: NVIDIA GeForce GTX 1080 Ti.
+FID: each class against its 500 CIFAR-10 images (train + test), averaged over classes. The paper's FID used 2,048 images per class, so its FIDs are lower than ours for that reason alone; compare our rows with each other.
+
+| Setting | Accuracy, ours | Accuracy, paper | FID, ours | FID, paper | s / image, batch 64 (ours) | s / 16 images (ours) | s / 16 images, paper (A100) |
+|---|---|---|---|---|---|---|---|
+| Unguided (not in Table 2) | 6.2% | – | 360.7 | – | 0.199 | 4.5 | – |
+| Noise alignment only (λ = 3) | 62.5% | 62.0% | 265.7 | 99.0 | 0.201 | 4.5 | 5.8 |
+| Noise alignment only (λ = 8) | 81.2% | 80.0% | 282.3 | 120.0 | 0.200 | 4.4 | 5.8 |
+| RFM only (all steps) | 100.0% | 94.8% (94.3% at 256/class) | 240.5 | 40.3 | 0.399 | 8.6 | 6.8 |
+| NA-RFM | 100.0% | 96.6% (97.9% at 256/class) | 231.4 | 41.4 | 0.341 | 7.6 | 6.2 |
+
+## Per class
+
+Accuracy (%) / FID
+
+| Class | RFM AUC | Unguided (not in Table 2) | Noise alignment only (λ = 3) | Noise alignment only (λ = 8) | RFM only (all steps) | NA-RFM |
+== [2026-11-08 20:04:51] report written to /home/yuz271/dsc180-diffusion-steering/outputs/cifar10_replication_smoke/report.md
+== [2026-11-08 20:04:51] done
+== [2026-11-08 20:04:51] full run
+== [2026-11-08 20:04:51] stage setup
+$ git checkout -q 8e9619bc6735b03d73056bfdc13dd3659b96e127
+
+[0 s]
+$ git checkout -q f8d17f3ec2f0e7377dedf7b7bc62fad15f36cb77
+
+[0 s]
+== [2026-11-08 20:04:52] setup OK
+== [2026-11-08 20:04:52] stage offline
+$ /opt/conda/bin/python pca/build_filters.py --image-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/cifar10/train_by_class --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --image-size 32 --components 1000 --backend cpu --classes 0 2 4 5 6 7 8 9 --num-images 5000
+Using PCA backend: cpu
+
+
+
+
+
+
+
+
+[140 s]
+block-9 features: (10000, 16384)
+RFM airplane vs rest: held-out AUC 0.9307 (82 s)
+RFM bird vs rest: held-out AUC 0.8890 (93 s)
+RFM deer vs rest: held-out AUC 0.8854 (86 s)
+RFM dog vs rest: held-out AUC 0.8587 (92 s)
+RFM frog vs rest: held-out AUC 0.9554 (77 s)
+RFM horse vs rest: held-out AUC 0.8986 (32 s)
+RFM ship vs rest: held-out AUC 0.9431 (69 s)
+RFM truck vs rest: held-out AUC 0.9430 (83 s)
+== [2026-11-08 20:17:52] offline OK; AUCs {'airplane': 0.9307316159869602, 'automobile': 0.9672261261784463, 'bird': 0.8889790899847884, 'cat': 0.8579049217385348, 'deer': 0.8854048931967896, 'dog': 0.8587076230607164, 'frog': 0.9554351435132352, 'horse': 0.8985719138528433, 'ship': 0.9431231563421829, 'truck': 0.9430456942368377}
+== [2026-11-08 20:17:52] stage generate
+== [2026-11-08 20:17:52] generate unguided
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 0 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided --gaussian-strength 0 --rfm-strength 0 --rfm-sigma-lo 1e8 --rfm-sigma-hi 1e9
+2026-11-08 20:18:48.480696: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 20:18:48.480719: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 20:18:48.482008: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 20:18:48.489533: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 0 (airplane)
+airplane: 29/256 = 11.3%
+
+Average accuracy: 11.3%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided
+[61 s]
+   unguided airplane: accuracy 11.3% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 1 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided --gaussian-strength 0 --rfm-strength 0 --rfm-sigma-lo 1e8 --rfm-sigma-hi 1e9
+2026-11-08 20:19:49.401428: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 20:19:49.401454: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 20:19:49.402933: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 20:19:49.410151: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 1 (automobile)
+automobile: 16/256 = 6.2%
+
+Average accuracy: 6.2%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided
+[61 s]
+   unguided automobile: accuracy 6.2% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 2 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided --gaussian-strength 0 --rfm-strength 0 --rfm-sigma-lo 1e8 --rfm-sigma-hi 1e9
+2026-11-08 20:20:50.224622: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 20:20:50.224650: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 20:20:50.225898: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 20:20:50.233624: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 2 (bird)
+bird: 17/256 = 6.6%
+
+Average accuracy: 6.6%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided
+[61 s]
+   unguided bird: accuracy 6.6% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 3 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided --gaussian-strength 0 --rfm-strength 0 --rfm-sigma-lo 1e8 --rfm-sigma-hi 1e9
+2026-11-08 20:21:51.127660: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 20:21:51.127689: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 20:21:51.128963: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 20:21:51.136366: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 3 (cat)
+cat: 45/256 = 17.6%
+
+Average accuracy: 17.6%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided
+[61 s]
+   unguided cat: accuracy 17.6% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 4 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided --gaussian-strength 0 --rfm-strength 0 --rfm-sigma-lo 1e8 --rfm-sigma-hi 1e9
+2026-11-08 20:22:52.085515: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 20:22:52.085541: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 20:22:52.086937: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 20:22:52.094189: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 4 (deer)
+deer: 24/256 = 9.4%
+
+Average accuracy: 9.4%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided
+[61 s]
+   unguided deer: accuracy 9.4% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 5 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided --gaussian-strength 0 --rfm-strength 0 --rfm-sigma-lo 1e8 --rfm-sigma-hi 1e9
+2026-11-08 20:23:52.810904: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 20:23:52.810929: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 20:23:52.812249: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 20:23:52.819824: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 5 (dog)
+dog: 30/256 = 11.7%
+
+Average accuracy: 11.7%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided
+[61 s]
+   unguided dog: accuracy 11.7% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 6 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided --gaussian-strength 0 --rfm-strength 0 --rfm-sigma-lo 1e8 --rfm-sigma-hi 1e9
+2026-11-08 20:24:53.682979: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 20:24:53.683004: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 20:24:53.684295: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 20:24:53.692488: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 6 (frog)
+frog: 32/256 = 12.5%
+
+Average accuracy: 12.5%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided
+[61 s]
+   unguided frog: accuracy 12.5% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 7 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided --gaussian-strength 0 --rfm-strength 0 --rfm-sigma-lo 1e8 --rfm-sigma-hi 1e9
+2026-11-08 20:25:54.568464: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 20:25:54.568492: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 20:25:54.569844: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 20:25:54.577069: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 7 (horse)
+horse: 17/256 = 6.6%
+
+Average accuracy: 6.6%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided
+[61 s]
+   unguided horse: accuracy 6.6% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 8 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided --gaussian-strength 0 --rfm-strength 0 --rfm-sigma-lo 1e8 --rfm-sigma-hi 1e9
+2026-11-08 20:26:55.384570: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 20:26:55.384595: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 20:26:55.385909: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 20:26:55.394036: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 8 (ship)
+ship: 27/256 = 10.5%
+
+Average accuracy: 10.5%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided
+[61 s]
+   unguided ship: accuracy 10.5% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 9 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided --gaussian-strength 0 --rfm-strength 0 --rfm-sigma-lo 1e8 --rfm-sigma-hi 1e9
+2026-11-08 20:27:56.119554: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 20:27:56.119581: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 20:27:56.120986: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 20:27:56.129039: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 9 (truck)
+truck: 19/256 = 7.4%
+
+Average accuracy: 7.4%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided
+[61 s]
+   unguided truck: accuracy 7.4% [61 s]
+== [2026-11-08 20:28:01] generate na_l3
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 0 --mode diff --strength 3.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3/airplane_mode=diff_str=3.0_seeds=256_start=0_end=50.png
+
+>>> airplane (diff): 76.6% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  airplane_diff: 76.6%
+
+  Average: 76.6%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3
+[61 s]
+   na_l3 airplane: accuracy 76.6% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 1 --mode diff --strength 3.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3/automobile_mode=diff_str=3.0_seeds=256_start=0_end=50.png
+
+>>> automobile (diff): 60.2% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  automobile_diff: 60.2%
+
+  Average: 60.2%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3
+[61 s]
+   na_l3 automobile: accuracy 60.2% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 2 --mode diff --strength 3.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3/bird_mode=diff_str=3.0_seeds=256_start=0_end=50.png
+
+>>> bird (diff): 40.6% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  bird_diff: 40.6%
+
+  Average: 40.6%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3
+[61 s]
+   na_l3 bird: accuracy 40.6% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 3 --mode diff --strength 3.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3/cat_mode=diff_str=3.0_seeds=256_start=0_end=50.png
+
+>>> cat (diff): 50.0% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  cat_diff: 50.0%
+
+  Average: 50.0%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3
+[61 s]
+   na_l3 cat: accuracy 50.0% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 4 --mode diff --strength 3.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3/deer_mode=diff_str=3.0_seeds=256_start=0_end=50.png
+
+>>> deer (diff): 60.9% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  deer_diff: 60.9%
+
+  Average: 60.9%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3
+[61 s]
+   na_l3 deer: accuracy 60.9% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 5 --mode diff --strength 3.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3/dog_mode=diff_str=3.0_seeds=256_start=0_end=50.png
+
+>>> dog (diff): 60.2% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  dog_diff: 60.2%
+
+  Average: 60.2%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3
+[61 s]
+   na_l3 dog: accuracy 60.2% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 6 --mode diff --strength 3.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3/frog_mode=diff_str=3.0_seeds=256_start=0_end=50.png
+
+>>> frog (diff): 72.3% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  frog_diff: 72.3%
+
+  Average: 72.3%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3
+[61 s]
+   na_l3 frog: accuracy 72.3% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 7 --mode diff --strength 3.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3/horse_mode=diff_str=3.0_seeds=256_start=0_end=50.png
+
+>>> horse (diff): 63.7% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  horse_diff: 63.7%
+
+  Average: 63.7%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3
+[61 s]
+   na_l3 horse: accuracy 63.7% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 8 --mode diff --strength 3.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3/ship_mode=diff_str=3.0_seeds=256_start=0_end=50.png
+
+>>> ship (diff): 77.3% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  ship_diff: 77.3%
+
+  Average: 77.3%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3
+[62 s]
+   na_l3 ship: accuracy 77.3% [62 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 9 --mode diff --strength 3.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3/truck_mode=diff_str=3.0_seeds=256_start=0_end=50.png
+
+>>> truck (diff): 58.2% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  truck_diff: 58.2%
+
+  Average: 58.2%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l3
+[61 s]
+   na_l3 truck: accuracy 58.2% [61 s]
+== [2026-11-08 20:38:15] generate na_l8
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 0 --mode diff --strength 8.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8/airplane_mode=diff_str=8.0_seeds=256_start=0_end=50.png
+
+>>> airplane (diff): 96.5% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  airplane_diff: 96.5%
+
+  Average: 96.5%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8
+[61 s]
+   na_l8 airplane: accuracy 96.5% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 1 --mode diff --strength 8.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8/automobile_mode=diff_str=8.0_seeds=256_start=0_end=50.png
+
+>>> automobile (diff): 70.3% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  automobile_diff: 70.3%
+
+  Average: 70.3%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8
+[61 s]
+   na_l8 automobile: accuracy 70.3% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 2 --mode diff --strength 8.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8/bird_mode=diff_str=8.0_seeds=256_start=0_end=50.png
+
+>>> bird (diff): 60.9% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  bird_diff: 60.9%
+
+  Average: 60.9%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8
+[61 s]
+   na_l8 bird: accuracy 60.9% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 3 --mode diff --strength 8.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8/cat_mode=diff_str=8.0_seeds=256_start=0_end=50.png
+
+>>> cat (diff): 66.8% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  cat_diff: 66.8%
+
+  Average: 66.8%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8
+[61 s]
+   na_l8 cat: accuracy 66.8% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 4 --mode diff --strength 8.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8/deer_mode=diff_str=8.0_seeds=256_start=0_end=50.png
+
+>>> deer (diff): 84.0% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  deer_diff: 84.0%
+
+  Average: 84.0%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8
+[61 s]
+   na_l8 deer: accuracy 84.0% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 5 --mode diff --strength 8.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8/dog_mode=diff_str=8.0_seeds=256_start=0_end=50.png
+
+>>> dog (diff): 77.3% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  dog_diff: 77.3%
+
+  Average: 77.3%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8
+[61 s]
+   na_l8 dog: accuracy 77.3% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 6 --mode diff --strength 8.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8/frog_mode=diff_str=8.0_seeds=256_start=0_end=50.png
+
+>>> frog (diff): 93.8% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  frog_diff: 93.8%
+
+  Average: 93.8%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8
+[61 s]
+   na_l8 frog: accuracy 93.8% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 7 --mode diff --strength 8.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8/horse_mode=diff_str=8.0_seeds=256_start=0_end=50.png
+
+>>> horse (diff): 91.4% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  horse_diff: 91.4%
+
+  Average: 91.4%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8
+[61 s]
+   na_l8 horse: accuracy 91.4% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 8 --mode diff --strength 8.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8/ship_mode=diff_str=8.0_seeds=256_start=0_end=50.png
+
+>>> ship (diff): 88.3% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  ship_diff: 88.3%
+
+  Average: 88.3%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8
+[61 s]
+   na_l8 ship: accuracy 88.3% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 9 --mode diff --strength 8.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8/truck_mode=diff_str=8.0_seeds=256_start=0_end=50.png
+
+>>> truck (diff): 68.8% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  truck_diff: 68.8%
+
+  Average: 68.8%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l8
+[61 s]
+   na_l8 truck: accuracy 68.8% [61 s]
+== [2026-11-08 20:48:27] generate rfm_only
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 0 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/rfm_only --gaussian-strength 0 --rfm-sigma-lo 0 --rfm-sigma-hi 1e4
+2026-11-08 20:50:13.813684: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 20:50:13.813724: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 20:50:13.815077: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 20:50:13.822798: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 0 (airplane)
+airplane: 249/256 = 97.3%
+
+Average accuracy: 97.3%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/rfm_only
+[112 s]
+   rfm_only airplane: accuracy 97.3% [112 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 1 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/rfm_only --gaussian-strength 0 --rfm-sigma-lo 0 --rfm-sigma-hi 1e4
+2026-11-08 20:52:05.518672: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 20:52:05.518718: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 20:52:05.520019: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 20:52:05.527920: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 1 (automobile)
+automobile: 255/256 = 99.6%
+
+Average accuracy: 99.6%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/rfm_only
+[112 s]
+   rfm_only automobile: accuracy 99.6% [112 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 2 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/rfm_only --gaussian-strength 0 --rfm-sigma-lo 0 --rfm-sigma-hi 1e4
+2026-11-08 20:53:57.681264: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 20:53:57.681289: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 20:53:57.682560: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 20:53:57.689945: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 2 (bird)
+bird: 237/256 = 92.6%
+
+Average accuracy: 92.6%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/rfm_only
+[112 s]
+   rfm_only bird: accuracy 92.6% [112 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 3 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/rfm_only --gaussian-strength 0 --rfm-sigma-lo 0 --rfm-sigma-hi 1e4
+2026-11-08 20:55:49.716922: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 20:55:49.716945: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 20:55:49.718240: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 20:55:49.726663: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 3 (cat)
+cat: 255/256 = 99.6%
+
+Average accuracy: 99.6%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/rfm_only
+[112 s]
+   rfm_only cat: accuracy 99.6% [112 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 4 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/rfm_only --gaussian-strength 0 --rfm-sigma-lo 0 --rfm-sigma-hi 1e4
+2026-11-08 20:57:41.923253: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 20:57:41.923275: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 20:57:41.924557: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 20:57:41.932103: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 4 (deer)
+deer: 245/256 = 95.7%
+
+Average accuracy: 95.7%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/rfm_only
+[112 s]
+   rfm_only deer: accuracy 95.7% [112 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 5 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/rfm_only --gaussian-strength 0 --rfm-sigma-lo 0 --rfm-sigma-hi 1e4
+2026-11-08 20:59:33.534456: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 20:59:33.534496: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 20:59:33.535881: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 20:59:33.543983: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 5 (dog)
+dog: 251/256 = 98.0%
+
+Average accuracy: 98.0%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/rfm_only
+[112 s]
+   rfm_only dog: accuracy 98.0% [112 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 6 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/rfm_only --gaussian-strength 0 --rfm-sigma-lo 0 --rfm-sigma-hi 1e4
+2026-11-08 21:01:25.588363: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 21:01:25.588390: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 21:01:25.589691: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 21:01:25.596916: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 6 (frog)
+frog: 249/256 = 97.3%
+
+Average accuracy: 97.3%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/rfm_only
+[112 s]
+   rfm_only frog: accuracy 97.3% [112 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 7 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/rfm_only --gaussian-strength 0 --rfm-sigma-lo 0 --rfm-sigma-hi 1e4
+2026-11-08 21:03:17.573005: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 21:03:17.573033: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 21:03:17.574304: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 21:03:17.581418: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 7 (horse)
+horse: 254/256 = 99.2%
+
+Average accuracy: 99.2%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/rfm_only
+[112 s]
+   rfm_only horse: accuracy 99.2% [112 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 8 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/rfm_only --gaussian-strength 0 --rfm-sigma-lo 0 --rfm-sigma-hi 1e4
+2026-11-08 21:05:09.531388: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 21:05:09.531433: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 21:05:09.532884: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 21:05:09.540676: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 8 (ship)
+ship: 239/256 = 93.4%
+
+Average accuracy: 93.4%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/rfm_only
+[112 s]
+   rfm_only ship: accuracy 93.4% [112 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 9 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/rfm_only --gaussian-strength 0 --rfm-sigma-lo 0 --rfm-sigma-hi 1e4
+2026-11-08 21:07:01.719474: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 21:07:01.719503: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 21:07:01.720776: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 21:07:01.728094: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 9 (truck)
+truck: 231/256 = 90.2%
+
+Average accuracy: 90.2%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/rfm_only
+[112 s]
+   rfm_only truck: accuracy 90.2% [112 s]
+== [2026-11-08 21:07:07] generate na_rfm
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 0 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_rfm 
+2026-11-08 21:08:38.848298: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 21:08:38.848323: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 21:08:38.849760: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 21:08:38.857693: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 0 (airplane)
+airplane: 254/256 = 99.2%
+
+Average accuracy: 99.2%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_rfm
+[97 s]
+   na_rfm airplane: accuracy 99.2% [97 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 1 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_rfm 
+2026-11-08 21:10:15.379987: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 21:10:15.380031: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 21:10:15.381338: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 21:10:15.389421: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 1 (automobile)
+automobile: 256/256 = 100.0%
+
+Average accuracy: 100.0%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_rfm
+[97 s]
+   na_rfm automobile: accuracy 100.0% [97 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 2 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_rfm 
+2026-11-08 21:11:52.309577: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 21:11:52.309602: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 21:11:52.311010: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 21:11:52.318811: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 2 (bird)
+bird: 245/256 = 95.7%
+
+Average accuracy: 95.7%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_rfm
+[97 s]
+   na_rfm bird: accuracy 95.7% [97 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 3 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_rfm 
+2026-11-08 21:13:29.134232: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 21:13:29.134260: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 21:13:29.135678: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 21:13:29.143173: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 3 (cat)
+cat: 256/256 = 100.0%
+
+Average accuracy: 100.0%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_rfm
+[97 s]
+   na_rfm cat: accuracy 100.0% [97 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 4 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_rfm 
+2026-11-08 21:15:06.101119: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 21:15:06.101144: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 21:15:06.102539: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 21:15:06.110426: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 4 (deer)
+deer: 256/256 = 100.0%
+
+Average accuracy: 100.0%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_rfm
+[97 s]
+   na_rfm deer: accuracy 100.0% [97 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 5 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_rfm 
+2026-11-08 21:16:43.197669: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 21:16:43.197696: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 21:16:43.199217: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 21:16:43.206983: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 5 (dog)
+dog: 247/256 = 96.5%
+
+Average accuracy: 96.5%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_rfm
+[97 s]
+   na_rfm dog: accuracy 96.5% [97 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 6 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_rfm 
+2026-11-08 21:18:20.422472: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 21:18:20.422520: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 21:18:20.423827: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 21:18:20.431119: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 6 (frog)
+frog: 255/256 = 99.6%
+
+Average accuracy: 99.6%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_rfm
+[97 s]
+   na_rfm frog: accuracy 99.6% [97 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 7 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_rfm 
+2026-11-08 21:19:57.451407: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 21:19:57.451432: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 21:19:57.452709: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 21:19:57.461035: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 7 (horse)
+horse: 252/256 = 98.4%
+
+Average accuracy: 98.4%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_rfm
+[97 s]
+   na_rfm horse: accuracy 98.4% [97 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 8 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_rfm 
+2026-11-08 21:21:34.619942: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 21:21:34.619985: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 21:21:34.621332: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 21:21:34.628548: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 8 (ship)
+ship: 215/256 = 84.0%
+
+Average accuracy: 84.0%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_rfm
+[98 s]
+   na_rfm ship: accuracy 84.0% [98 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 9 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_rfm 
+2026-11-08 21:23:12.247556: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 21:23:12.247589: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 21:23:12.249186: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 21:23:12.257325: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 9 (truck)
+truck: 213/256 = 83.2%
+
+Average accuracy: 83.2%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_rfm
+[97 s]
+   na_rfm truck: accuracy 83.2% [97 s]
+== [2026-11-08 21:23:17] stage measure
+== [2026-11-08 21:23:17] measure unguided
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided --targets 0,1,2,3,4,5,6,7,8,9 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided/quality.json --batch-size 64 --num-ref -1
+ship: FID=171.718, IS=6.741
+
+Filter:   0%|          | 0/50000 [00:00<?, ? examples/s]
+Filter:  86%|████████▌ | 43000/50000 [00:00<00:00, 416122.71 examples/s]
+Filter: 100%|██████████| 50000/50000 [00:00<00:00, 412869.08 examples/s]
+
+Filter:   0%|          | 0/10000 [00:00<?, ? examples/s]
+Filter: 100%|██████████| 10000/10000 [00:00<00:00, 428852.28 examples/s]
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+truck: FID=168.730, IS=6.741
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided/quality.json
+[234 s]
+   unguided: accuracy 10.0%, FID 157.8
+== [2026-11-08 21:27:11] measure na_l3
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_l3 --targets 0,1,2,3,4,5,6,7,8,9 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_l3/quality.json --batch-size 64 --num-ref -1
+Calculating FID value.
+horse: FID=80.289, IS=4.736
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+ship: FID=64.833, IS=3.826
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+truck: FID=73.333, IS=3.354
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_l3/quality.json
+[232 s]
+   na_l3: accuracy 62.0%, FID 91.0
+== [2026-11-08 21:31:03] measure na_l8
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_l8 --targets 0,1,2,3,4,5,6,7,8,9 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_l8/quality.json --batch-size 64 --num-ref -1
+Calculating FID value.
+horse: FID=89.828, IS=3.141
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+ship: FID=75.875, IS=3.267
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+truck: FID=76.931, IS=3.006
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_l8/quality.json
+[233 s]
+   na_l8: accuracy 79.8%, FID 111.0
+== [2026-11-08 21:34:56] measure rfm_only
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/rfm_only --targets 0,1,2,3,4,5,6,7,8,9 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/rfm_only/quality.json --batch-size 64 --num-ref -1
+Calculating FID value.
+horse: FID=84.461, IS=4.110
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+ship: FID=81.896, IS=3.557
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+truck: FID=69.973, IS=2.737
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/rfm_only/quality.json
+[232 s]
+   rfm_only: accuracy 96.3%, FID 94.9
+== [2026-11-08 21:38:48] measure na_rfm
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_rfm --targets 0,1,2,3,4,5,6,7,8,9 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_rfm/quality.json --batch-size 64 --num-ref -1
+Calculating FID value.
+horse: FID=83.331, IS=3.667
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+ship: FID=74.421, IS=3.163
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+truck: FID=82.917, IS=3.011
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_rfm/quality.json
+[231 s]
+   na_rfm: accuracy 95.7%, FID 94.1
+== [2026-11-08 21:42:39] stage time
+   unguided: 0.199 s per image at batch 64; 4.1 s per batch of 16
+   na_l3: 0.200 s per image at batch 64; 4.2 s per batch of 16
+   na_l8: 0.200 s per image at batch 64; 4.2 s per batch of 16
+   rfm_only: 0.398 s per image at batch 64; 8.3 s per batch of 16
+   na_rfm: 0.340 s per image at batch 64; 7.1 s per batch of 16
+== [2026-11-08 21:48:21] time OK
+== [2026-11-08 21:48:21] stage report
+# CIFAR-10 replication of Table 2 (256 images per class, seeds 0-255, 100 DDIM steps)
+
+Classes: airplane, automobile, bird, cat, deer, dog, frog, horse, ship, truck. GPU: NVIDIA GeForce GTX 1080 Ti.
+FID: each class against its 6,000 CIFAR-10 images (train + test), averaged over classes. The paper's FID used 2,048 images per class, so its FIDs are lower than ours for that reason alone; compare our rows with each other.
+
+| Setting | Accuracy, ours | Accuracy, paper | FID, ours | FID, paper | s / image, batch 64 (ours) | s / 16 images (ours) | s / 16 images, paper (A100) |
+|---|---|---|---|---|---|---|---|
+| Unguided (not in Table 2) | 10.0% | – | 157.8 | – | 0.199 | 4.1 | – |
+| Noise alignment only (λ = 3) | 62.0% | 62.0% | 91.0 | 99.0 | 0.200 | 4.2 | 5.8 |
+| Noise alignment only (λ = 8) | 79.8% | 80.0% | 111.0 | 120.0 | 0.200 | 4.2 | 5.8 |
+| RFM only (all steps) | 96.3% | 94.8% (94.3% at 256/class) | 94.9 | 40.3 | 0.398 | 8.3 | 6.8 |
+| NA-RFM | 95.7% | 96.6% (97.9% at 256/class) | 94.1 | 41.4 | 0.340 | 7.1 | 6.2 |
+
+## Per class
+
+Accuracy (%) / FID
+
+| Class | RFM AUC | Unguided (not in Table 2) | Noise alignment only (λ = 3) | Noise alignment only (λ = 8) | RFM only (all steps) | NA-RFM |
+|---|---|---|---|---|---|---|
+| airplane | 0.931 | 11 / 159 | 77 / 99 | 96 / 131 | 97 / 106 | 99 / 98 |
+== [2026-11-08 21:48:25] report written to /home/yuz271/dsc180-diffusion-steering/outputs/cifar10_replication/report.md
+== [2026-11-08 21:48:25] done
+== [2026-11-08 21:48:25] sweep
+== [2026-11-08 21:48:25] stage sweep
+== [2026-11-08 21:48:25] sweep lambda 1
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 0 --mode diff --strength 1.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1/airplane_mode=diff_str=1.0_seeds=256_start=0_end=50.png
+
+>>> airplane (diff): 36.3% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  airplane_diff: 36.3%
+
+  Average: 36.3%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1
+[61 s]
+   na_l1 airplane: accuracy 36.3% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 1 --mode diff --strength 1.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1/automobile_mode=diff_str=1.0_seeds=256_start=0_end=50.png
+
+>>> automobile (diff): 22.3% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  automobile_diff: 22.3%
+
+  Average: 22.3%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1
+[61 s]
+   na_l1 automobile: accuracy 22.3% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 2 --mode diff --strength 1.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1/bird_mode=diff_str=1.0_seeds=256_start=0_end=50.png
+
+>>> bird (diff): 17.2% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  bird_diff: 17.2%
+
+  Average: 17.2%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1
+[62 s]
+   na_l1 bird: accuracy 17.2% [62 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 3 --mode diff --strength 1.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1/cat_mode=diff_str=1.0_seeds=256_start=0_end=50.png
+
+>>> cat (diff): 27.3% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  cat_diff: 27.3%
+
+  Average: 27.3%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1
+[61 s]
+   na_l1 cat: accuracy 27.3% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 4 --mode diff --strength 1.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1/deer_mode=diff_str=1.0_seeds=256_start=0_end=50.png
+
+>>> deer (diff): 27.7% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  deer_diff: 27.7%
+
+  Average: 27.7%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1
+[61 s]
+   na_l1 deer: accuracy 27.7% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 5 --mode diff --strength 1.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1/dog_mode=diff_str=1.0_seeds=256_start=0_end=50.png
+
+>>> dog (diff): 25.8% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  dog_diff: 25.8%
+
+  Average: 25.8%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1
+[62 s]
+   na_l1 dog: accuracy 25.8% [62 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 6 --mode diff --strength 1.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1/frog_mode=diff_str=1.0_seeds=256_start=0_end=50.png
+
+>>> frog (diff): 28.5% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  frog_diff: 28.5%
+
+  Average: 28.5%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1
+[61 s]
+   na_l1 frog: accuracy 28.5% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 7 --mode diff --strength 1.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1/horse_mode=diff_str=1.0_seeds=256_start=0_end=50.png
+
+>>> horse (diff): 19.9% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  horse_diff: 19.9%
+
+  Average: 19.9%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1
+[61 s]
+   na_l1 horse: accuracy 19.9% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 8 --mode diff --strength 1.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1/ship_mode=diff_str=1.0_seeds=256_start=0_end=50.png
+
+>>> ship (diff): 35.9% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  ship_diff: 35.9%
+
+  Average: 35.9%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1
+[61 s]
+   na_l1 ship: accuracy 35.9% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 9 --mode diff --strength 1.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1/truck_mode=diff_str=1.0_seeds=256_start=0_end=50.png
+
+>>> truck (diff): 28.1% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  truck_diff: 28.1%
+
+  Average: 28.1%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l1
+[62 s]
+   na_l1 truck: accuracy 28.1% [62 s]
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_l1 --targets 0,1,2,3,4,5,6,7,8,9 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_l1/quality.json --batch-size 64 --num-ref -1
+Calculating FID value.
+horse: FID=127.744, IS=6.583
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+ship: FID=104.579, IS=5.970
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+truck: FID=115.695, IS=5.608
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_l1/quality.json
+[234 s]
+   na_l1: accuracy 26.9%, FID 121.1
+== [2026-11-08 22:02:35] sweep lambda 2
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 0 --mode diff --strength 2.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2/airplane_mode=diff_str=2.0_seeds=256_start=0_end=50.png
+
+>>> airplane (diff): 61.7% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  airplane_diff: 61.7%
+
+  Average: 61.7%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2
+[61 s]
+   na_l2 airplane: accuracy 61.7% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 1 --mode diff --strength 2.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2/automobile_mode=diff_str=2.0_seeds=256_start=0_end=50.png
+
+>>> automobile (diff): 45.3% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  automobile_diff: 45.3%
+
+  Average: 45.3%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2
+[61 s]
+   na_l2 automobile: accuracy 45.3% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 2 --mode diff --strength 2.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2/bird_mode=diff_str=2.0_seeds=256_start=0_end=50.png
+
+>>> bird (diff): 28.9% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  bird_diff: 28.9%
+
+  Average: 28.9%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2
+[62 s]
+   na_l2 bird: accuracy 28.9% [62 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 3 --mode diff --strength 2.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2/cat_mode=diff_str=2.0_seeds=256_start=0_end=50.png
+
+>>> cat (diff): 35.5% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  cat_diff: 35.5%
+
+  Average: 35.5%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2
+[61 s]
+   na_l2 cat: accuracy 35.5% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 4 --mode diff --strength 2.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2/deer_mode=diff_str=2.0_seeds=256_start=0_end=50.png
+
+>>> deer (diff): 41.8% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  deer_diff: 41.8%
+
+  Average: 41.8%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2
+[61 s]
+   na_l2 deer: accuracy 41.8% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 5 --mode diff --strength 2.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2/dog_mode=diff_str=2.0_seeds=256_start=0_end=50.png
+
+>>> dog (diff): 45.3% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  dog_diff: 45.3%
+
+  Average: 45.3%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2
+[61 s]
+   na_l2 dog: accuracy 45.3% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 6 --mode diff --strength 2.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2/frog_mode=diff_str=2.0_seeds=256_start=0_end=50.png
+
+>>> frog (diff): 50.8% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  frog_diff: 50.8%
+
+  Average: 50.8%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2
+[61 s]
+   na_l2 frog: accuracy 50.8% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 7 --mode diff --strength 2.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2/horse_mode=diff_str=2.0_seeds=256_start=0_end=50.png
+
+>>> horse (diff): 42.2% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  horse_diff: 42.2%
+
+  Average: 42.2%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2
+[61 s]
+   na_l2 horse: accuracy 42.2% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 8 --mode diff --strength 2.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2/ship_mode=diff_str=2.0_seeds=256_start=0_end=50.png
+
+>>> ship (diff): 65.6% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  ship_diff: 65.6%
+
+  Average: 65.6%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2
+[61 s]
+   na_l2 ship: accuracy 65.6% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 9 --mode diff --strength 2.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2/truck_mode=diff_str=2.0_seeds=256_start=0_end=50.png
+
+>>> truck (diff): 47.7% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  truck_diff: 47.7%
+
+  Average: 47.7%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l2
+[62 s]
+   na_l2 truck: accuracy 47.7% [62 s]
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_l2 --targets 0,1,2,3,4,5,6,7,8,9 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_l2/quality.json --batch-size 64 --num-ref -1
+Calculating FID value.
+horse: FID=98.410, IS=5.673
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+ship: FID=71.481, IS=4.318
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+truck: FID=82.048, IS=4.162
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_l2/quality.json
+[232 s]
+   na_l2: accuracy 46.5%, FID 97.9
+== [2026-11-08 22:16:40] sweep lambda 3
+== [2026-11-08 22:16:40] sweep lambda 5
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 0 --mode diff --strength 5.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5/airplane_mode=diff_str=5.0_seeds=256_start=0_end=50.png
+
+>>> airplane (diff): 88.3% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  airplane_diff: 88.3%
+
+  Average: 88.3%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5
+[61 s]
+   na_l5 airplane: accuracy 88.3% [62 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 1 --mode diff --strength 5.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5/automobile_mode=diff_str=5.0_seeds=256_start=0_end=50.png
+
+>>> automobile (diff): 72.3% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  automobile_diff: 72.3%
+
+  Average: 72.3%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5
+[62 s]
+   na_l5 automobile: accuracy 72.3% [62 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 2 --mode diff --strength 5.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5/bird_mode=diff_str=5.0_seeds=256_start=0_end=50.png
+
+>>> bird (diff): 52.3% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  bird_diff: 52.3%
+
+  Average: 52.3%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5
+[61 s]
+   na_l5 bird: accuracy 52.3% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 3 --mode diff --strength 5.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5/cat_mode=diff_str=5.0_seeds=256_start=0_end=50.png
+
+>>> cat (diff): 63.7% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  cat_diff: 63.7%
+
+  Average: 63.7%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5
+[61 s]
+   na_l5 cat: accuracy 63.7% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 4 --mode diff --strength 5.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5/deer_mode=diff_str=5.0_seeds=256_start=0_end=50.png
+
+>>> deer (diff): 79.3% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  deer_diff: 79.3%
+
+  Average: 79.3%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5
+[61 s]
+   na_l5 deer: accuracy 79.3% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 5 --mode diff --strength 5.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5/dog_mode=diff_str=5.0_seeds=256_start=0_end=50.png
+
+>>> dog (diff): 73.8% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  dog_diff: 73.8%
+
+  Average: 73.8%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5
+[61 s]
+   na_l5 dog: accuracy 73.8% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 6 --mode diff --strength 5.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5/frog_mode=diff_str=5.0_seeds=256_start=0_end=50.png
+
+>>> frog (diff): 85.2% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  frog_diff: 85.2%
+
+  Average: 85.2%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5
+[66 s]
+   na_l5 frog: accuracy 85.2% [66 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 7 --mode diff --strength 5.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5/horse_mode=diff_str=5.0_seeds=256_start=0_end=50.png
+
+>>> horse (diff): 83.2% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  horse_diff: 83.2%
+
+  Average: 83.2%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5
+[61 s]
+   na_l5 horse: accuracy 83.2% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 8 --mode diff --strength 5.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5/ship_mode=diff_str=5.0_seeds=256_start=0_end=50.png
+
+>>> ship (diff): 86.7% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  ship_diff: 86.7%
+
+  Average: 86.7%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5
+[61 s]
+   na_l5 ship: accuracy 86.7% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 9 --mode diff --strength 5.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5/truck_mode=diff_str=5.0_seeds=256_start=0_end=50.png
+
+>>> truck (diff): 64.8% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  truck_diff: 64.8%
+
+  Average: 64.8%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l5
+[61 s]
+   na_l5 truck: accuracy 64.8% [61 s]
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_l5 --targets 0,1,2,3,4,5,6,7,8,9 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_l5/quality.json --batch-size 64 --num-ref -1
+Calculating FID value.
+horse: FID=79.142, IS=3.632
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+ship: FID=69.388, IS=3.387
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+truck: FID=73.036, IS=3.009
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_l5/quality.json
+[233 s]
+   na_l5: accuracy 75.0%, FID 96.4
+== [2026-11-08 22:30:51] sweep lambda 8
+== [2026-11-08 22:30:51] sweep lambda 12
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 0 --mode diff --strength 12.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12/airplane_mode=diff_str=12.0_seeds=256_start=0_end=50.png
+
+>>> airplane (diff): 98.0% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  airplane_diff: 98.0%
+
+  Average: 98.0%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12
+[61 s]
+   na_l12 airplane: accuracy 98.0% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 1 --mode diff --strength 12.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12/automobile_mode=diff_str=12.0_seeds=256_start=0_end=50.png
+
+>>> automobile (diff): 73.4% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  automobile_diff: 73.4%
+
+  Average: 73.4%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12
+[61 s]
+   na_l12 automobile: accuracy 73.4% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 2 --mode diff --strength 12.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12/bird_mode=diff_str=12.0_seeds=256_start=0_end=50.png
+
+>>> bird (diff): 71.9% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  bird_diff: 71.9%
+
+  Average: 71.9%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12
+[61 s]
+   na_l12 bird: accuracy 71.9% [62 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 3 --mode diff --strength 12.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12/cat_mode=diff_str=12.0_seeds=256_start=0_end=50.png
+
+>>> cat (diff): 72.7% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  cat_diff: 72.7%
+
+  Average: 72.7%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12
+[61 s]
+   na_l12 cat: accuracy 72.7% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 4 --mode diff --strength 12.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12/deer_mode=diff_str=12.0_seeds=256_start=0_end=50.png
+
+>>> deer (diff): 73.0% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  deer_diff: 73.0%
+
+  Average: 73.0%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12
+[62 s]
+   na_l12 deer: accuracy 73.0% [62 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 5 --mode diff --strength 12.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12/dog_mode=diff_str=12.0_seeds=256_start=0_end=50.png
+
+>>> dog (diff): 82.8% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  dog_diff: 82.8%
+
+  Average: 82.8%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12
+[61 s]
+   na_l12 dog: accuracy 82.8% [62 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 6 --mode diff --strength 12.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12/frog_mode=diff_str=12.0_seeds=256_start=0_end=50.png
+
+>>> frog (diff): 96.1% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  frog_diff: 96.1%
+
+  Average: 96.1%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12
+[61 s]
+   na_l12 frog: accuracy 96.1% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 7 --mode diff --strength 12.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12/horse_mode=diff_str=12.0_seeds=256_start=0_end=50.png
+
+>>> horse (diff): 93.0% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  horse_diff: 93.0%
+
+  Average: 93.0%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12
+[61 s]
+   na_l12 horse: accuracy 93.0% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 8 --mode diff --strength 12.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12/ship_mode=diff_str=12.0_seeds=256_start=0_end=50.png
+
+>>> ship (diff): 88.3% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  ship_diff: 88.3%
+
+  Average: 88.3%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12
+[61 s]
+   na_l12 ship: accuracy 88.3% [61 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_only.py --class-idx 9 --mode diff --strength 12.0 --num-seeds 256 --inference-steps 100 --num-components 1000 --start-step 0 --end-step 50 --batch-size 64 --eval-mode hf_convnext --filters-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_filters --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12
+  Sampling seeds 64-127...
+  Sampling seeds 128-191...
+  Sampling seeds 192-255...
+Saved: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12/truck_mode=diff_str=12.0_seeds=256_start=0_end=50.png
+
+>>> truck (diff): 70.3% accuracy
+
+============================================================
+SUMMARY
+============================================================
+  truck_diff: 70.3%
+
+  Average: 70.3%
+
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/_raw/na_l12
+[62 s]
+   na_l12 truck: accuracy 70.3% [62 s]
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_l12 --targets 0,1,2,3,4,5,6,7,8,9 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_l12/quality.json --batch-size 64 --num-ref -1
+Calculating FID value.
+horse: FID=104.050, IS=2.949
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+ship: FID=79.011, IS=3.327
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+truck: FID=80.835, IS=3.067
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/na_l12/quality.json
+[232 s]
+   na_l12: accuracy 82.0%, FID 125.3
+# CIFAR-10 replication of Table 2 (256 images per class, seeds 0-255, 100 DDIM steps)
+
+Classes: airplane, automobile, bird, cat, deer, dog, frog, horse, ship, truck. GPU: NVIDIA GeForce GTX 1080 Ti.
+FID: each class against its 6,000 CIFAR-10 images (train + test), averaged over classes. The paper's FID used 2,048 images per class, so its FIDs are lower than ours for that reason alone; compare our rows with each other.
+
+| Setting | Accuracy, ours | Accuracy, paper | FID, ours | FID, paper | s / image, batch 64 (ours) | s / 16 images (ours) | s / 16 images, paper (A100) |
+|---|---|---|---|---|---|---|---|
+| Unguided (not in Table 2) | 10.0% | – | 157.8 | – | 0.199 | 4.1 | – |
+| Noise alignment only (λ = 3) | 62.0% | 62.0% | 91.0 | 99.0 | 0.200 | 4.2 | 5.8 |
+| Noise alignment only (λ = 8) | 79.8% | 80.0% | 111.0 | 120.0 | 0.200 | 4.2 | 5.8 |
+| RFM only (all steps) | 96.3% | 94.8% (94.3% at 256/class) | 94.9 | 40.3 | 0.398 | 8.3 | 6.8 |
+| NA-RFM | 95.7% | 96.6% (97.9% at 256/class) | 94.1 | 41.4 | 0.340 | 7.1 | 6.2 |
+
+## Per class
+
+Accuracy (%) / FID
+
+| Class | RFM AUC | Unguided (not in Table 2) | Noise alignment only (λ = 3) | Noise alignment only (λ = 8) | RFM only (all steps) | NA-RFM |
+|---|---|---|---|---|---|---|
+| airplane | 0.931 | 11 / 159 | 77 / 99 | 96 / 131 | 97 / 106 | 99 / 98 |
+== [2026-11-08 22:45:01] report written to /home/yuz271/dsc180-diffusion-steering/outputs/cifar10_replication/report.md
+== [2026-11-08 22:45:01] done
+== [2026-11-08 22:45:01] done

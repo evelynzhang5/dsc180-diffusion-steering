@@ -23,6 +23,7 @@ holds the Quarter 1 checkpoint work:
 | `figures/` | Every figure used in the report |
 | `results/` | Small result files: CFG sweep, training stats, FID values, job logs |
 | `notes.md` | Quarter 1 findings, part by part, and run log |
+| `cifar10_replication/` | Replication of Table 2 of the NA-RFM paper (Wang, Belkin and Wang, 2026) on CIFAR-10: code, README with commands, and all results (`results/report.md`) |
 | `quarter2/` | Quarter 2 project: `mnist/` (current steering diagnostics) and `sd_pilots/` (archived text-to-image pilots); results in its README |
 | `requirements.txt` | Packages added on top of the DSMLP scipy-ml image |
 

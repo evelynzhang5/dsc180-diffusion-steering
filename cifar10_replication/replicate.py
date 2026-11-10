@@ -9,11 +9,13 @@ Stages (each skips work already on disk, so a rerun resumes):
   time     seconds per image at batch size 64 (and per batch of 16, Table 2's setting)
   report   table next to the paper's Table 2, per-class tables, sample grids, PCA and AUC figures
   sweep    (encouraged) noise alignment only over a range of lambda: accuracy against FID
+  big      (encouraged) NA-RFM and NA-only (lambda 3) at 2,048 images per class; FID also at 256, 512, 1,024
 
 Usage, from the repo root, on a GPU:
   python cifar10_replication/replicate.py all            # setup offline generate measure time report
   python cifar10_replication/replicate.py all --smoke    # 2 classes, 8 images each, to a separate folder
-  python cifar10_replication/replicate.py sweep
+  python cifar10_replication/replicate.py sweep big
+Results (table, figures, JSON) go to cifar10_replication/results/; samples to downloads/narfm/ (not committed).
 """
 from __future__ import annotations
 
@@ -314,8 +316,8 @@ def grid_figure(cfg, row, path, n=16):
         for side in ax.spines.values():
             side.set_visible(False)
     fig.suptitle(f"{LABELS[row]}: the first 16 images (seeds 0-15) of each class", fontsize=9)
-    fig.tight_layout(pad=0.3)
-    fig.savefig(path, dpi=150)
+    fig.tight_layout(pad=0.3, rect=(0, 0, 1, 0.97))
+    fig.savefig(path, dpi=150, bbox_inches="tight")
     plt.close(fig)
 
 
@@ -344,7 +346,7 @@ def pca_figure(cfg, path, pick=(1, 3)):
     fig.suptitle("Gaussian denoisers: mean image and first PCA directions (grey = 0; % = share of the top-1,000 "
                  "variance)", fontsize=9)
     fig.tight_layout()
-    fig.savefig(path, dpi=150)
+    fig.savefig(path, dpi=150, bbox_inches="tight")
     plt.close(fig)
 
 
@@ -402,6 +404,9 @@ def report(cfg):
     sw = cfg.out / "sweep.json"
     if sw.exists():
         L += sweep_section(cfg, json.loads(sw.read_text()))
+    bj = cfg.out / "big.json"
+    if bj.exists():
+        L += big_section(cfg, json.loads(bj.read_text()))
     (cfg.out / "report.md").write_text("\n".join(L) + "\n")
     print("\n".join(L[:20]))
     log(f"report written to {cfg.out / 'report.md'}")
@@ -452,24 +457,103 @@ def sweep_section(cfg, res):
     return L + ["", "![sweep](figures/sweep_acc_fid.png)", ""]
 
 
+# ---------------------------------------------------------------- 2,048 images per class (encouraged)
+BIG_ROWS = ["na_rfm", "na_l3"]
+
+
+def big(cfg):
+    """NA-RFM and noise alignment only (lambda 3) at the paper's 2,048 images per class, seeds 0-2047. FID is also
+    measured on the first 256, 512 and 1,024 images of each class (the same images, nested), which shows how FID
+    depends on the number of images."""
+    env_paths()
+    import torch
+    sizes = [8, 16] if cfg.smoke else [256, 512, 1024, 2048]
+    sub = argparse.Namespace(**vars(cfg))
+    sub.samples = WORK / ("samples_big_smoke" if cfg.smoke else "samples_big")
+    sub.n = sizes[-1]
+    res = {}
+    for row in BIG_ROWS:
+        full = f"{row}_n{sizes[-1]}"
+        log(f"big: {row} at {sizes[-1]} images per class")
+        generate_row(sub, full, *ROWS[row])
+        for m in sizes[:-1]:
+            for k in cfg.classes:
+                src, dst = sub.samples / full / CLASSES[k], sub.samples / f"{row}_n{m}" / CLASSES[k]
+                if (dst / "metrics.json").exists():
+                    continue
+                dst.mkdir(parents=True, exist_ok=True)
+                torch.save(torch.load(src / "samples.pt", weights_only=False)[:m].clone(), dst / "samples.pt")
+                meta = json.loads((src / "metrics.json").read_text())
+                preds = meta["predictions"][:m]
+                meta.pop("target_confidence", None)   # an average over all images; not valid for the subset
+                meta.update(num_samples=m, predictions=preds, total=m, correct=sum(int(p) == k for p in preds))
+                meta["accuracy"] = 100.0 * meta["correct"] / m
+                (dst / "metrics.json").write_text(json.dumps(meta, indent=2))
+        res[row] = {}
+        for m in sizes:
+            log(f"measure {row}, first {m} images per class")
+            measure_row(sub, f"{row}_n{m}")
+            d = json.loads((sub.samples / f"{row}_n{m}" / "quality.json").read_text())
+            res[row][str(m)] = {"accuracy": d.get("average_accuracy"), "fid": d["average_fid"],
+                                "class_fid": {c["name"]: c["fid"] for c in d["classes"]},
+                                "class_accuracy": {c["name"]: c.get("accuracy") for c in d["classes"]}}
+        (cfg.out / "big.json").write_text(json.dumps(res, indent=2))
+    report(cfg)
+
+
+def big_section(cfg, res):
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    fig, ax = plt.subplots(figsize=(5, 3.4))
+    colors = {"na_rfm": "#2b6cb0", "na_l3": "#c05621"}
+    for row, r in res.items():
+        ns = sorted(r, key=int)
+        ax.plot([int(n) for n in ns], [r[n]["fid"] for n in ns], "o-", color=colors.get(row), label=f"{LABELS[row]}, ours")
+        if not cfg.smoke:
+            ax.plot([2048], [PAPER[row][1]], "D", mfc="none", color=colors.get(row), label=f"{LABELS[row]}, paper")
+    ns = sorted(next(iter(res.values())), key=int)
+    ax.set_xscale("log", base=2)
+    ax.set_xticks([int(n) for n in ns], ns)
+    ax.set_xlabel("images per class (the first n of the same samples)")
+    ax.set_ylabel("mean FID over classes")
+    ax.legend(fontsize=7)
+    fig.tight_layout()
+    fig.savefig(cfg.out / "figures" / "fid_vs_images.png", dpi=150, bbox_inches="tight")
+    plt.close(fig)
+    L = [f"## At up to {ns[-1]} images per class (seeds 0-{int(ns[-1]) - 1})", "",
+         "The same images throughout: each row uses the first n images of each class. The paper's FIDs are at 2,048.",
+         "", "| Setting | Images per class | Accuracy | FID, ours | FID, paper |", "|---|---|---|---|---|"]
+    for row, r in res.items():
+        for n in sorted(r, key=int):
+            paper = fmt(PAPER[row][1]) if n == "2048" else "–"
+            L.append(f"| {LABELS[row]} | {n} | {fmt(r[n]['accuracy'], 1, True)} | {fmt(r[n]['fid'])} | {paper} |")
+    for row, r in res.items():
+        top = ns[-1]
+        L += ["", f"{LABELS[row]}, per class at {top} images (accuracy / FID): " + ", ".join(
+            f"{c} {fmt(r[top]['class_accuracy'][c], 0, True)} / {fmt(r[top]['class_fid'][c], 0)}"
+            for c in r[top]["class_fid"]) + "."]
+    return L + ["", "![FID against images per class](figures/fid_vs_images.png)", ""]
+
+
 # ---------------------------------------------------------------- main
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("stages", nargs="+",
-                    choices=["setup", "offline", "generate", "measure", "time", "report", "sweep", "all"])
+                    choices=["setup", "offline", "generate", "measure", "time", "report", "sweep", "big", "all"])
     ap.add_argument("--smoke", action="store_true", help="2 classes, 8 images each, 500 FID references")
     ap.add_argument("--out", type=Path, default=None)
     cfg = ap.parse_args()
     cfg.classes = [1, 3] if cfg.smoke else list(range(10))
     cfg.n = 8 if cfg.smoke else 256
     cfg.num_ref = 500 if cfg.smoke else -1
-    cfg.out = (cfg.out or ROOT / "outputs" / ("cifar10_replication_smoke" if cfg.smoke else "cifar10_replication"))
+    cfg.out = cfg.out or (ROOT / "outputs" / "cifar10_replication_smoke" if cfg.smoke else HERE / "results")
     cfg.out = cfg.out.resolve()
     cfg.samples = WORK / ("samples_smoke" if cfg.smoke else "samples")
     cfg.out.mkdir(parents=True, exist_ok=True)
     stages = ["setup", "offline", "generate", "measure", "time", "report"] if "all" in cfg.stages else cfg.stages
     funcs = {"setup": setup, "offline": offline, "generate": generate, "measure": measure, "time": time_rows,
-             "report": report, "sweep": sweep}
+             "report": report, "sweep": sweep, "big": big}
     for s in stages:
         log(f"stage {s}{' (smoke)' if cfg.smoke else ''}")
         funcs[s](cfg)

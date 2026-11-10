@@ -1,0 +1,129 @@
+{
+  "dataset": "cifar10",
+  "average_fid": 157.76039576169643,
+  "average_inception_score": 6.740665912628174,
+  "classes": [
+    {
+      "fid": 158.557366461105,
+      "inception_score": 6.740665912628174,
+      "accuracy": 11.328125,
+      "correct": 29,
+      "total": 256,
+      "target": 0,
+      "name": "airplane",
+      "num_samples": 256,
+      "num_ref": 6000,
+      "samples": "/home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided/airplane/samples.pt"
+    },
+    {
+      "fid": 172.00484961515028,
+      "inception_score": 6.740665912628174,
+      "accuracy": 6.25,
+      "correct": 16,
+      "total": 256,
+      "target": 1,
+      "name": "automobile",
+      "num_samples": 256,
+      "num_ref": 6000,
+      "samples": "/home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided/automobile/samples.pt"
+    },
+    {
+      "fid": 144.14207392831702,
+      "inception_score": 6.740665912628174,
+      "accuracy": 6.640625,
+      "correct": 17,
+      "total": 256,
+      "target": 2,
+      "name": "bird",
+      "num_samples": 256,
+      "num_ref": 6000,
+      "samples": "/home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided/bird/samples.pt"
+    },
+    {
+      "fid": 143.65655158112128,
+      "inception_score": 6.740665912628174,
+      "accuracy": 17.578125,
+      "correct": 45,
+      "total": 256,
+      "target": 3,
+      "name": "cat",
+      "num_samples": 256,
+      "num_ref": 6000,
+      "samples": "/home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided/cat/samples.pt"
+    },
+    {
+      "fid": 138.62792036057198,
+      "inception_score": 6.740665912628174,
+      "accuracy": 9.375,
+      "correct": 24,
+      "total": 256,
+      "target": 4,
+      "name": "deer",
+      "num_samples": 256,
+      "num_ref": 6000,
+      "samples": "/home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided/deer/samples.pt"
+    },
+    {
+      "fid": 153.09886260715484,
+      "inception_score": 6.740665912628174,
+      "accuracy": 11.71875,
+      "correct": 30,
+      "total": 256,
+      "target": 5,
+      "name": "dog",
+      "num_samples": 256,
+      "num_ref": 6000,
+      "samples": "/home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided/dog/samples.pt"
+    },
+    {
+      "fid": 169.43258442730445,
+      "inception_score": 6.740665912628174,
+      "accuracy": 12.5,
+      "correct": 32,
+      "total": 256,
+      "target": 6,
+      "name": "frog",
+      "num_samples": 256,
+      "num_ref": 6000,
+      "samples": "/home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided/frog/samples.pt"
+    },
+    {
+      "fid": 157.63521719602392,
+      "inception_score": 6.740665912628174,
+      "accuracy": 6.640625,
+      "correct": 17,
+      "total": 256,
+      "target": 7,
+      "name": "horse",
+      "num_samples": 256,
+      "num_ref": 6000,
+      "samples": "/home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided/horse/samples.pt"
+    },
+    {
+      "fid": 171.7182383936178,
+      "inception_score": 6.740665912628174,
+      "accuracy": 10.546875,
+      "correct": 27,
+      "total": 256,
+      "target": 8,
+      "name": "ship",
+      "num_samples": 256,
+      "num_ref": 6000,
+      "samples": "/home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided/ship/samples.pt"
+    },
+    {
+      "fid": 168.73029304659784,
+      "inception_score": 6.740665912628174,
+      "accuracy": 7.421875,
+      "correct": 19,
+      "total": 256,
+      "target": 9,
+      "name": "truck",
+      "num_samples": 256,
+      "num_ref": 6000,
+      "samples": "/home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples/unguided/truck/samples.pt"
+    }
+  ],
+  "average_accuracy": 10.0,
+  "_targets": "0,1,2,3,4,5,6,7,8,9"
+}
