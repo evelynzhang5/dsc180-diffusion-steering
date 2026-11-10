@@ -1,0 +1,16 @@
+{"key": "d00_s100", "prompt_id": "d00", "seed": 100, "image": "images/d00_s100.jpg", "unet_evals": 60, "seconds": 8.42}
+{"key": "d00_s101", "prompt_id": "d00", "seed": 101, "image": "images/d00_s101.jpg", "unet_evals": 60, "seconds": 8.48}
+{"key": "d00_s102", "prompt_id": "d00", "seed": 102, "image": "images/d00_s102.jpg", "unet_evals": 60, "seconds": 8.54}
+{"key": "d00_s103", "prompt_id": "d00", "seed": 103, "image": "images/d00_s103.jpg", "unet_evals": 60, "seconds": 8.6}
+{"key": "d01_s100", "prompt_id": "d01", "seed": 100, "image": "images/d01_s100.jpg", "unet_evals": 60, "seconds": 8.4}
+{"key": "d01_s101", "prompt_id": "d01", "seed": 101, "image": "images/d01_s101.jpg", "unet_evals": 60, "seconds": 8.46}
+{"key": "d01_s102", "prompt_id": "d01", "seed": 102, "image": "images/d01_s102.jpg", "unet_evals": 60, "seconds": 8.52}
+{"key": "d01_s103", "prompt_id": "d01", "seed": 103, "image": "images/d01_s103.jpg", "unet_evals": 60, "seconds": 8.58}
+{"key": "d02_s100", "prompt_id": "d02", "seed": 100, "image": "images/d02_s100.jpg", "unet_evals": 60, "seconds": 8.4}
+{"key": "d02_s101", "prompt_id": "d02", "seed": 101, "image": "images/d02_s101.jpg", "unet_evals": 60, "seconds": 8.46}
+{"key": "d02_s102", "prompt_id": "d02", "seed": 102, "image": "images/d02_s102.jpg", "unet_evals": 60, "seconds": 8.52}
+{"key": "d02_s103", "prompt_id": "d02", "seed": 103, "image": "images/d02_s103.jpg", "unet_evals": 60, "seconds": 8.59}
+{"key": "d03_s100", "prompt_id": "d03", "seed": 100, "image": "images/d03_s100.jpg", "unet_evals": 60, "seconds": 8.4}
+{"key": "d03_s101", "prompt_id": "d03", "seed": 101, "image": "images/d03_s101.jpg", "unet_evals": 60, "seconds": 8.46}
+{"key": "d03_s102", "prompt_id": "d03", "seed": 102, "image": "images/d03_s102.jpg", "unet_evals": 60, "seconds": 8.52}
+{"key": "d03_s103", "prompt_id": "d03", "seed": 103, "image": "images/d03_s103.jpg", "unet_evals": 60, "seconds": 8.58}

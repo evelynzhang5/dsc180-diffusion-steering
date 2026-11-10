@@ -1,0 +1,7 @@
+global:10  n=48  success 6.2%  mean U +0.000  repairs 0  harms 0  pulse size 0.029
+global:14  n=48  success 8.3%  mean U +0.021  repairs 1  harms 0  pulse size 0.074
+global:20  n=48  success 8.3%  mean U +0.021  repairs 1  harms 0  pulse size 0.141
+none:0  n=48  success 6.2%  mean U +0.000  repairs 0  harms 0  pulse size 0.000
+targeted:5  n=48  success 6.2%  mean U +0.000  repairs 0  harms 0  pulse size 0.008
+targeted:15  n=48  success 6.2%  mean U +0.000  repairs 0  harms 0  pulse size 0.023
+targeted:40  n=48  success 8.3%  mean U +0.021  repairs 1  harms 0  pulse size 0.059

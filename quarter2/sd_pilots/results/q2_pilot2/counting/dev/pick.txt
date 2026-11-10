@@ -1,0 +1,10 @@
+global:10  n=72  success 37.5%  mean U -0.042  repairs 0  harms 3  pulse size 0.031
+global:14  n=72  success 41.7%  mean U +0.000  repairs 2  harms 2  pulse size 0.079
+global:14:8  n=72  success 40.3%  mean U -0.014  repairs 2  harms 3  pulse size 0.082
+global:20  n=72  success 43.1%  mean U +0.014  repairs 3  harms 2  pulse size 0.149
+global:20:8  n=72  success 41.7%  mean U +0.000  repairs 3  harms 3  pulse size 0.154
+none:0  n=72  success 41.7%  mean U +0.000  repairs 0  harms 0  pulse size 0.000
+targeted:15  n=72  success 41.7%  mean U +0.000  repairs 4  harms 4  pulse size 0.045
+targeted:40  n=72  success 37.5%  mean U -0.042  repairs 2  harms 5  pulse size 0.115
+targeted:40:8  n=72  success 41.7%  mean U +0.000  repairs 4  harms 4  pulse size 0.110
+targeted:80  n=72  success 41.7%  mean U +0.000  repairs 4  harms 4  pulse size 0.224

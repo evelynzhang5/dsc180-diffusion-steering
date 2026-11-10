@@ -1,0 +1,26 @@
+{
+  "model": "stable-diffusion-v1-5/stable-diffusion-v1-5",
+  "steps": 30,
+  "cfg": 7.5,
+  "pulse_steps": 3,
+  "checkpoints": [
+    6,
+    15,
+    24
+  ],
+  "scheduler": "DDIM, eta 0",
+  "dtype": "float32",
+  "args": {
+    "cmd": "branch",
+    "prompts": "prompts.json",
+    "run": "/home/yuz271/dsc180-diffusion-steering/outputs/q2_smoke/main",
+    "actions": "global:14,targeted:40",
+    "checkpoints": "6,15,24",
+    "device": "cuda",
+    "chunk": 4
+  },
+  "gpu": "NVIDIA GeForce GTX 1080 Ti",
+  "torch": "2.2.1+cu121",
+  "diffusers": "0.30.3",
+  "model_revision": "451f4fe16113bff5a5d2269ed5ad43b0592e9a14"
+}

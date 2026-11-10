@@ -1,0 +1,458 @@
+time="2026-11-06T21:25:12-08:00" level=warning msg="skipping device /dev/char/10:200 for systemd: stat /sys/dev/char/10:200: no such file or directory"
+log /home/yuz271/runs/q2-pilot2-20261106-212512.txt
+GPU 0: NVIDIA GeForce GTX 1080 Ti (UUID: GPU-035a4397-07de-0375-6bfc-72921356e262)
+== [2026-11-06 21:25:17] two_object baselines
+2026-11-06 21:25:20.313485: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-06 21:25:20.313530: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-06 21:25:20.315103: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-06 21:25:20.322498: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading pipeline components...:   0%|          | 0/6 [00:00<?, ?it/s]Loading pipeline components...:  17%|█▋        | 1/6 [00:00<00:02,  2.27it/s]Loading pipeline components...:  33%|███▎      | 2/6 [00:00<00:01,  3.25it/s]Loading pipeline components...:  83%|████████▎ | 5/6 [00:01<00:00,  4.62it/s]/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+Loading pipeline components...: 100%|██████████| 6/6 [00:01<00:00,  4.71it/s]
+baseline t00 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline t00 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline t01 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline t01 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline t02 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline t02 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline t03 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline t03 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline t04 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline t04 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline t05 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline t05 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline t06 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline t06 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline t07 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline t07 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline t08 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline t08 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline t09 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline t09 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline t10 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline t10 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline t11 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline t11 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline t12 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline t12 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline t13 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline t13 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline t14 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline t14 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline t15 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline t15 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline t16 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline t16 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline t17 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline t17 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline t18 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline t18 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline t19 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline t19 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline t20 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline t20 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline t21 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline t21 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline t22 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline t22 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline t23 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline t23 seeds [4, 5, 6, 7]: 8.7 s/image
+scoring 192 images (0 already scored)
+2026-11-06 21:53:28.524188: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-06 21:53:28.524220: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-06 21:53:28.525848: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-06 21:53:28.535470: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+  100/192
+== [2026-11-06 21:55:27] counting baselines
+2026-11-06 21:55:30.704645: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-06 21:55:30.704680: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-06 21:55:30.706074: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-06 21:55:30.714472: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading pipeline components...:   0%|          | 0/6 [00:00<?, ?it/s]Loading pipeline components...:  17%|█▋        | 1/6 [00:00<00:01,  2.94it/s]/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+Loading pipeline components...:  83%|████████▎ | 5/6 [00:00<00:00,  8.19it/s]Loading pipeline components...: 100%|██████████| 6/6 [00:00<00:00,  7.96it/s]
+baseline c00 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline c00 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline c01 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline c01 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline c02 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline c02 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline c03 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline c03 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline c04 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline c04 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline c05 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline c05 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline c06 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline c06 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline c07 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline c07 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline c08 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline c08 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline c09 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline c09 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline c10 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline c10 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline c11 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline c11 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline c12 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline c12 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline c13 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline c13 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline c14 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline c14 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline c15 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline c15 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline c16 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline c16 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline c17 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline c17 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline c18 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline c18 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline c19 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline c19 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline c20 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline c20 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline c21 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline c21 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline c22 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline c22 seeds [4, 5, 6, 7]: 8.7 s/image
+baseline c23 seeds [0, 1, 2, 3]: 8.7 s/image
+baseline c23 seeds [4, 5, 6, 7]: 8.7 s/image
+scoring 192 images (0 already scored)
+2026-11-06 22:23:34.139223: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-06 22:23:34.139294: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-06 22:23:34.140729: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-06 22:23:34.148625: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+  100/192
+192 baseline images
+
+| check | pass rate |
+| --- | --- |
+| obj_1 | 87.0% |
+| obj_2 | 87.5% |
+| all | 74.5% |
+== [2026-11-06 22:25:26] two_object dev sweep: none:0,global:10,global:14,global:20,global:14:8,global:20:8,targeted:15,targeted:40,targeted:80,targeted:40:8
+2026-11-06 22:25:30.053958: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-06 22:25:30.054001: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-06 22:25:30.055395: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-06 22:25:30.062796: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading pipeline components...:   0%|          | 0/6 [00:00<?, ?it/s]Loading pipeline components...:  17%|█▋        | 1/6 [00:00<00:01,  3.20it/s]/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+Loading pipeline components...:  67%|██████▋   | 4/6 [00:00<00:00,  9.95it/s]Loading pipeline components...: 100%|██████████| 6/6 [00:00<00:00,  7.54it/s]Loading pipeline components...: 100%|██████████| 6/6 [00:00<00:00,  7.37it/s]
+baseline u00 seeds [100, 101, 102, 103]: 8.7 s/image
+baseline u01 seeds [100, 101, 102, 103]: 8.7 s/image
+baseline u02 seeds [100, 101, 102, 103]: 8.7 s/image
+baseline u03 seeds [100, 101, 102, 103]: 8.7 s/image
+baseline u04 seeds [100, 101, 102, 103]: 8.7 s/image
+baseline u05 seeds [100, 101, 102, 103]: 8.7 s/image
+2026-11-06 22:29:08.608334: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-06 22:29:08.608380: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-06 22:29:08.609816: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-06 22:29:08.617737: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading pipeline components...:   0%|          | 0/6 [00:00<?, ?it/s]Loading pipeline components...:  17%|█▋        | 1/6 [00:00<00:00,  8.72it/s]/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+Loading pipeline components...:  67%|██████▋   | 4/6 [00:00<00:00,  7.21it/s]Loading pipeline components...:  83%|████████▎ | 5/6 [00:00<00:00,  4.90it/s]Loading pipeline components...: 100%|██████████| 6/6 [00:00<00:00,  6.44it/s]
+branch u00 done
+branch u01 done
+branch u02 done
+branch u03 done
+branch u04 done
+branch u05 done
+scoring 744 images (0 already scored)
+2026-11-06 23:28:36.847853: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-06 23:28:36.847902: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-06 23:28:36.849361: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-06 23:28:36.856938: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+  100/744
+  200/744
+  300/744
+  400/744
+  500/744
+  600/744
+  700/744
+global:10  n=72  success 69.4%  mean U +0.028  repairs 2  harms 0  pulse size 0.041
+global:14  n=72  success 70.8%  mean U +0.042  repairs 3  harms 0  pulse size 0.106
+global:14:8  n=72  success 69.4%  mean U +0.028  repairs 2  harms 0  pulse size 0.108
+global:20  n=72  success 70.8%  mean U +0.042  repairs 3  harms 0  pulse size 0.202
+global:20:8  n=72  success 69.4%  mean U +0.028  repairs 2  harms 0  pulse size 0.204
+none:0  n=72  success 66.7%  mean U +0.000  repairs 0  harms 0  pulse size 0.000
+targeted:15  n=72  success 68.1%  mean U +0.014  repairs 2  harms 1  pulse size 0.145
+targeted:40  n=72  success 68.1%  mean U +0.014  repairs 2  harms 1  pulse size 0.378
+targeted:40:8  n=72  success 66.7%  mean U +0.000  repairs 2  harms 2  pulse size 0.354
+targeted:80  n=72  success 66.7%  mean U +0.000  repairs 3  harms 3  pulse size 0.771
+== [2026-11-06 23:36:02] two_object picked global:14,targeted:15
+== [2026-11-06 23:36:02] two_object main branches
+2026-11-06 23:36:06.339507: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-06 23:36:06.339556: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-06 23:36:06.340983: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-06 23:36:06.349746: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading pipeline components...:   0%|          | 0/6 [00:00<?, ?it/s]Loading pipeline components...:  17%|█▋        | 1/6 [00:00<00:01,  3.07it/s]/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+Loading pipeline components...:  50%|█████     | 3/6 [00:00<00:00,  3.95it/s]Loading pipeline components...: 100%|██████████| 6/6 [00:00<00:00,  7.01it/s]
+branch t00 done
+branch t01 done
+branch t02 done
+branch t03 done
+branch t04 done
+branch t05 done
+branch t06 done
+branch t07 done
+branch t08 done
+branch t09 done
+branch t10 done
+branch t11 done
+branch t12 done
+branch t13 done
+branch t14 done
+branch t15 done
+branch t16 done
+branch t17 done
+branch t18 done
+branch t19 done
+branch t20 done
+branch t21 done
+branch t22 done
+branch t23 done
+scoring 1152 images (192 already scored)
+2026-11-07 01:10:23.964453: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-07 01:10:23.964484: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-07 01:10:23.965783: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-07 01:10:23.973003: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+  100/1152
+  200/1152
+  300/1152
+  400/1152
+  500/1152
+  600/1152
+  700/1152
+  800/1152
+  900/1152
+  1000/1152
+  1100/1152
+# Smoke test report
+
+Detection threshold 0.2. 192 baseline trajectories, 1152 branches.
+
+## Baseline checks
+
+| check | pass rate |
+| --- | --- |
+| obj_1 | 87.0% |
+| obj_2 | 87.5% |
+| all | 74.5% |
+
+## Each action at each checkpoint (vs. no action)
+
+Rates are over all trajectories; 'repair'/'harm' change the all-requirements outcome; 'collateral' fixes one check but loses another, leaving the outcome unchanged.
+
+| checkpoint | action | success | repair | harm | collateral | no change | pulse size | U-Net evals |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| – | none (baseline) | 74.5% | | | | | | 60 |
+| 6 | global:14 | 74.5% | 3.1% | 3.1% | 0.0% | 93.8% | 0.096 | 48 |
+| 6 | targeted:15 | 75.0% | 5.7% | 5.2% | 0.0% | 89.1% | 0.149 | 54 |
+| 15 | global:14 | 75.0% | 1.0% | 0.5% | 0.0% | 98.4% | 0.124 | 30 |
+| 15 | targeted:15 | 75.0% | 2.1% | 1.6% | 0.0% | 96.4% | 0.168 | 36 |
+| 24 | global:14 | 76.0% | 1.6% | 0.0% | 0.0% | 98.4% | 0.136 | 12 |
+| 24 | targeted:15 | 76.0% | 2.1% | 0.5% | 0.0% | 97.4% | 0.173 | 18 |
+
+## Oracle headroom
+
+| policy | success |
+| --- | --- |
+| no intervention | 74.5% |
+| best fixed policy, chosen on these same trajectories (optimistic) | 76.0% ((24, 'global:14')) |
+| best fixed policy chosen on dev prompts | 75.0% ((15, 'global:14')) |
+| per-sample hindsight oracle | 81.8% |
+
+**Oracle minus best fixed policy: 5.7 points** (95% interval over prompts 2.1 to 7.8).
+
+## Where the oracle gain comes from
+
+| per-sample choice | success |
+| --- | --- |
+| whether to apply the best fixed action | 76.0% |
+| when (one action, choose checkpoint) | 81.2% |
+| which action (one checkpoint, choose action) | 81.2% |
+| everything (oracle) | 81.8% |
+192 baseline images
+
+| check | pass rate |
+| --- | --- |
+| obj_1 | 100.0% |
+| count | 41.1% |
+| under | 14.1% |
+| over | 44.8% |
+| all | 41.1% |
+== [2026-11-07 01:20:53] counting dev sweep: none:0,global:10,global:14,global:20,global:14:8,global:20:8,targeted:15,targeted:40,targeted:80,targeted:40:8
+2026-11-07 01:20:56.967046: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-07 01:20:56.967084: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-07 01:20:56.968712: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-07 01:20:56.976466: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading pipeline components...:   0%|          | 0/6 [00:00<?, ?it/s]Loading pipeline components...:  33%|███▎      | 2/6 [00:00<00:00, 13.05it/s]Loading pipeline components...:  67%|██████▋   | 4/6 [00:00<00:00,  8.07it/s]Loading pipeline components...:  83%|████████▎ | 5/6 [00:00<00:00,  5.03it/s]/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+Loading pipeline components...: 100%|██████████| 6/6 [00:00<00:00,  6.60it/s]
+baseline e00 seeds [100, 101, 102, 103]: 8.7 s/image
+baseline e01 seeds [100, 101, 102, 103]: 8.7 s/image
+baseline e02 seeds [100, 101, 102, 103]: 8.7 s/image
+baseline e03 seeds [100, 101, 102, 103]: 8.7 s/image
+baseline e04 seeds [100, 101, 102, 103]: 8.7 s/image
+baseline e05 seeds [100, 101, 102, 103]: 8.7 s/image
+2026-11-07 01:24:35.452779: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-07 01:24:35.452809: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-07 01:24:35.454150: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-07 01:24:35.461809: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading pipeline components...:   0%|          | 0/6 [00:00<?, ?it/s]Loading pipeline components...:  17%|█▋        | 1/6 [00:00<00:01,  2.82it/s]Loading pipeline components...:  33%|███▎      | 2/6 [00:00<00:01,  3.39it/s]/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+Loading pipeline components...:  83%|████████▎ | 5/6 [00:00<00:00,  8.58it/s]Loading pipeline components...: 100%|██████████| 6/6 [00:00<00:00,  7.90it/s]
+branch e00 done
+branch e01 done
+branch e02 done
+branch e03 done
+branch e04 done
+branch e05 done
+scoring 744 images (0 already scored)
+2026-11-07 02:23:58.543007: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-07 02:23:58.543033: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-07 02:23:58.544369: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-07 02:23:58.551872: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+  100/744
+  200/744
+  300/744
+  400/744
+  500/744
+  600/744
+  700/744
+global:10  n=72  success 37.5%  mean U -0.042  repairs 0  harms 3  pulse size 0.031
+global:14  n=72  success 41.7%  mean U +0.000  repairs 2  harms 2  pulse size 0.079
+global:14:8  n=72  success 40.3%  mean U -0.014  repairs 2  harms 3  pulse size 0.082
+global:20  n=72  success 43.1%  mean U +0.014  repairs 3  harms 2  pulse size 0.149
+global:20:8  n=72  success 41.7%  mean U +0.000  repairs 3  harms 3  pulse size 0.154
+none:0  n=72  success 41.7%  mean U +0.000  repairs 0  harms 0  pulse size 0.000
+targeted:15  n=72  success 41.7%  mean U +0.000  repairs 4  harms 4  pulse size 0.045
+targeted:40  n=72  success 37.5%  mean U -0.042  repairs 2  harms 5  pulse size 0.115
+targeted:40:8  n=72  success 41.7%  mean U +0.000  repairs 4  harms 4  pulse size 0.110
+targeted:80  n=72  success 41.7%  mean U +0.000  repairs 4  harms 4  pulse size 0.224
+== [2026-11-07 02:30:43] counting picked global:20,targeted:15
+== [2026-11-07 02:30:43] counting main branches
+2026-11-07 02:30:46.182803: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-07 02:30:46.182835: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-07 02:30:46.184424: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-07 02:30:46.192259: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading pipeline components...:   0%|          | 0/6 [00:00<?, ?it/s]Loading pipeline components...:  17%|█▋        | 1/6 [00:00<00:01,  3.32it/s]/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+Loading pipeline components...:  83%|████████▎ | 5/6 [00:00<00:00, 13.29it/s]Loading pipeline components...: 100%|██████████| 6/6 [00:00<00:00,  8.57it/s]
+branch c00 done
+branch c01 done
+branch c02 done
+branch c03 done
+branch c04 done
+branch c05 done
+branch c06 done
+branch c07 done
+branch c08 done
+branch c09 done
+branch c10 done
+branch c11 done
+branch c12 done
+branch c13 done
+branch c14 done
+branch c15 done
+branch c16 done
+branch c17 done
+branch c18 done
+branch c19 done
+branch c20 done
+branch c21 done
+branch c22 done
+branch c23 done
+scoring 1152 images (192 already scored)
+2026-11-07 04:04:50.578944: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-07 04:04:50.578976: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-07 04:04:50.580276: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-07 04:04:50.587563: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+  100/1152
+  200/1152
+  300/1152
+  400/1152
+  500/1152
+  600/1152
+  700/1152
+  800/1152
+  900/1152
+  1000/1152
+  1100/1152
+# Smoke test report
+
+Detection threshold 0.2. 192 baseline trajectories, 1152 branches.
+
+## Baseline checks
+
+| check | pass rate |
+| --- | --- |
+| obj_1 | 100.0% |
+| count | 41.1% |
+| under | 14.1% |
+| over | 44.8% |
+| all | 41.1% |
+
+## Each action at each checkpoint (vs. no action)
+
+Rates are over all trajectories; 'repair'/'harm' change the all-requirements outcome; 'collateral' fixes one check but loses another, leaving the outcome unchanged.
+
+| checkpoint | action | success | repair | harm | collateral | no change | pulse size | U-Net evals |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| – | none (baseline) | 41.1% | | | | | | 60 |
+| 6 | global:20 | 42.2% | 5.2% | 4.2% | 0.0% | 90.6% | 0.156 | 48 |
+| 6 | targeted:15 | 43.2% | 5.7% | 3.6% | 0.0% | 90.6% | 0.048 | 54 |
+| 15 | global:20 | 42.7% | 4.2% | 2.6% | 0.0% | 93.2% | 0.196 | 30 |
+| 15 | targeted:15 | 41.7% | 1.6% | 1.0% | 0.0% | 97.4% | 0.052 | 36 |
+| 24 | global:20 | 40.6% | 1.6% | 2.1% | 0.0% | 96.4% | 0.227 | 12 |
+| 24 | targeted:15 | 40.1% | 0.0% | 1.0% | 0.0% | 99.0% | 0.057 | 18 |
+
+## Oracle headroom
+
+| policy | success |
+| --- | --- |
+| no intervention | 41.1% |
+| best fixed policy, chosen on these same trajectories (optimistic) | 43.2% ((6, 'targeted:15')) |
+| best fixed policy chosen on dev prompts | 43.2% ((6, 'targeted:15')) |
+| per-sample hindsight oracle | 51.6% |
+
+**Oracle minus best fixed policy: 8.3 points** (95% interval over prompts 3.6 to 10.9).
+
+## Where the oracle gain comes from
+
+| per-sample choice | success |
+| --- | --- |
+| whether to apply the best fixed action | 46.9% |
+| when (one action, choose checkpoint) | 48.4% |
+| which action (one checkpoint, choose action) | 49.5% |
+| everything (oracle) | 51.6% |
+== [2026-11-07 04:15:21] done

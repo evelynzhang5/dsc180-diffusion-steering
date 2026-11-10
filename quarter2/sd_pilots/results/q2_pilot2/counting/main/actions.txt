@@ -1,0 +1,1 @@
+global:20,targeted:15
