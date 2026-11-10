@@ -1,0 +1,15 @@
+GPU 0: NVIDIA GeForce GTX 1080 Ti (UUID: GPU-06ccafba-7d1f-9f9c-18c4-636a0f006c53)
+numpy 1.26.4
+== [2026-11-10 10:11:13] smoke test
+== [2026-11-10 10:11:15] stage label (smoke)
+Traceback (most recent call last):
+  File "/home/yuz271/dsc180-diffusion-steering/quarter2/sd_dof/ref_bias.py", line 119, in <module>
+    main()
+  File "/home/yuz271/dsc180-diffusion-steering/quarter2/sd_dof/ref_bias.py", line 114, in main
+    label(out, cfg.smoke)
+  File "/home/yuz271/dsc180-diffusion-steering/quarter2/sd_dof/ref_bias.py", line 40, in label
+    a = torch.load(SRC / "acts.pt", map_location="cpu", mmap=True) if (SRC / "acts.pt").exists() else None
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/serialization.py", line 1014, in load
+    raise ValueError("f must be a string filename in order to use mmap argument")
+ValueError: f must be a string filename in order to use mmap argument

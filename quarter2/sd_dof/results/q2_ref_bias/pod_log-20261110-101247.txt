@@ -1,0 +1,64 @@
+GPU 0: NVIDIA GeForce GTX 1080 Ti (UUID: GPU-24d2c2c2-8e3c-7beb-e211-c04e6b42f09e)
+numpy 1.26.4
+== [2026-11-10 10:12:50] smoke test
+== [2026-11-10 10:12:51] stage label (smoke)
+2026-11-10 10:12:56.818529: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-10 10:12:56.818561: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-10 10:12:56.819894: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-10 10:12:56.830605: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+# Reference groups: portrait composition x depth of field
+
+60 photos from svnfs/depth-of-field (label 0 = shallow). Portrait = CLIP ViT-L/14 zero-shot probability on 7 portrait prompts against 12 others >= threshold.
+
+| threshold | shallow, portrait | shallow, not | deep, portrait | deep, not |
+|---|---|---|---|---|
+| 0.3 | 6 | 24 | 2 | 28 |
+| 0.5 | 3 | 27 | 0 | 30 |
+| 0.7 | 1 | 29 | 0 | 30 |
+
+Portrait probability, counts per 0.1 bin: 46, 2, 4, 3, 2, 1, 1, 0, 0, 1
+
+Mean log Laplacian variance per cell (threshold 0.5):
+
+- shallow, portrait: n 3, mean 4.32, 10/50/90% 4.09 / 4.47 / 4.48
+- shallow, not: n 27, mean 4.33, 10/50/90% 3.13 / 4.37 / 5.52
+- deep, not: n 30, mean 4.87, 10/50/90% 3.43 / 4.95 / 6.17
+
+`audit_blind.png`: 24 photos (6 random per cell), numbered; `audit_key.json` holds their labels.
+
+== [2026-11-10 10:13:06] done
+== [2026-11-10 10:13:07] full
+== [2026-11-10 10:13:09] stage label
+2026-11-10 10:13:23.754117: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-10 10:13:23.754147: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-10 10:13:23.755529: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-10 10:13:23.763125: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+# Reference groups: portrait composition x depth of field
+
+1200 photos from svnfs/depth-of-field (label 0 = shallow). Portrait = CLIP ViT-L/14 zero-shot probability on 7 portrait prompts against 12 others >= threshold.
+
+| threshold | shallow, portrait | shallow, not | deep, portrait | deep, not |
+|---|---|---|---|---|
+| 0.3 | 79 | 521 | 39 | 561 |
+| 0.5 | 36 | 564 | 17 | 583 |
+| 0.7 | 18 | 582 | 13 | 587 |
+
+Portrait probability, counts per 0.1 bin: 933, 98, 51, 45, 20, 15, 7, 8, 9, 14
+
+Mean log Laplacian variance per cell (threshold 0.5):
+
+- shallow, portrait: n 36, mean 4.57, 10/50/90% 3.63 / 4.55 / 5.67
+- shallow, not: n 564, mean 4.35, 10/50/90% 3.18 / 4.37 / 5.46
+- deep, portrait: n 17, mean 5.20, 10/50/90% 4.39 / 5.02 / 6.25
+- deep, not: n 583, mean 5.19, 10/50/90% 3.82 / 5.32 / 6.33
+
+`audit_blind.png`: 24 photos (6 random per cell), numbered; `audit_key.json` holds their labels.
+
+== [2026-11-10 10:14:22] done
+== [2026-11-10 10:14:23] finished

@@ -1,0 +1,65 @@
+GPU 0: NVIDIA GeForce GTX 1080 Ti (UUID: GPU-c27641c7-4a15-14fc-0afb-ab07a7deb10f)
+numpy 1.26.4
+== [2026-11-10 10:16:00] smoke test
+== [2026-11-10 10:16:01] stage label (smoke)
+2026-11-10 10:16:06.756347: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-10 10:16:06.756375: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-10 10:16:06.757641: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-10 10:16:06.765175: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+# Reference groups: closeup composition x depth of field
+
+60 photos from svnfs/depth-of-field (label 0 = shallow). closeup = CLIP ViT-L/14 zero-shot probability on 7 closeup prompts against 10 others >= threshold.
+
+| threshold | shallow, closeup | shallow, not | deep, closeup | deep, not |
+|---|---|---|---|---|
+| 0.3 | 20 | 10 | 3 | 27 |
+| 0.5 | 17 | 13 | 2 | 28 |
+| 0.7 | 14 | 16 | 2 | 28 |
+
+closeup probability, counts per 0.1 bin: 30, 3, 4, 4, 0, 0, 3, 4, 1, 11
+
+Mean log Laplacian variance per cell (threshold 0.5):
+
+- shallow, closeup: n 17, mean 4.10, 10/50/90% 3.02 / 4.07 / 5.40
+- shallow, not: n 13, mean 4.63, 10/50/90% 4.01 / 4.48 / 5.53
+- deep, closeup: n 2, mean 5.52, 10/50/90% 5.04 / 5.52 / 6.01
+- deep, not: n 28, mean 4.82, 10/50/90% 3.38 / 4.91 / 6.07
+
+`audit_closeup_blind.png`: 24 photos (6 random per cell), numbered; `audit_closeup_key.json` holds their labels.
+
+== [2026-11-10 10:16:17] done
+== [2026-11-10 10:16:18] full
+== [2026-11-10 10:16:19] stage label
+2026-11-10 10:16:34.140660: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-10 10:16:34.140689: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-10 10:16:34.142061: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-10 10:16:34.149552: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+# Reference groups: closeup composition x depth of field
+
+1200 photos from svnfs/depth-of-field (label 0 = shallow). closeup = CLIP ViT-L/14 zero-shot probability on 7 closeup prompts against 10 others >= threshold.
+
+| threshold | shallow, closeup | shallow, not | deep, closeup | deep, not |
+|---|---|---|---|---|
+| 0.3 | 503 | 97 | 146 | 454 |
+| 0.5 | 445 | 155 | 104 | 496 |
+| 0.7 | 370 | 230 | 75 | 525 |
+
+closeup probability, counts per 0.1 bin: 446, 65, 40, 53, 47, 55, 49, 76, 98, 271
+
+Mean log Laplacian variance per cell (threshold 0.5):
+
+- shallow, closeup: n 445, mean 4.30, 10/50/90% 3.16 / 4.33 / 5.41
+- shallow, not: n 155, mean 4.54, 10/50/90% 3.55 / 4.62 / 5.57
+- deep, closeup: n 104, mean 5.25, 10/50/90% 3.86 / 5.32 / 6.33
+- deep, not: n 496, mean 5.18, 10/50/90% 3.85 / 5.31 / 6.32
+
+`audit_closeup_blind.png`: 24 photos (6 random per cell), numbered; `audit_closeup_key.json` holds their labels.
+
+== [2026-11-10 10:17:34] done
+== [2026-11-10 10:17:35] finished

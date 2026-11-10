@@ -1,0 +1,35 @@
+  WARNING: The scripts f2py and numpy-config are installed in '/home/yuz271/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+tensorflow 2.15.0 requires numpy<2.0.0,>=1.23.5, but you have numpy 2.4.6 which is incompatible.
+numba 0.60.0 requires numpy<2.1,>=1.22, but you have numpy 2.4.6 which is incompatible.
+scipy 1.13.0 requires numpy<2.3,>=1.22.4, but you have numpy 2.4.6 which is incompatible.
+pyarrow 15.0.2 requires numpy<2,>=1.16.6, but you have numpy 2.4.6 which is incompatible.
+== [2026-11-10 09:52:00] smoke test
+/home/yuz271/dsc180-diffusion-steering/quarter2/sd_dof/zoom_control.py:25: UserWarning: A NumPy version >=1.22.4 and <2.3.0 is required for this version of SciPy (detected version 2.4.6)
+  from scipy.ndimage import laplace
+
+A module that was compiled using NumPy 1.x cannot be run in
+NumPy 2.4.6 as it may crash. To support both 1.x and 2.x
+versions of NumPy, modules must be compiled with NumPy 2.0.
+Some module may need to rebuild instead e.g. with 'pybind11>=2.12'.
+
+If you are a user of the module, the easiest solution will be to
+downgrade to 'numpy<2' or try to upgrade the affected module.
+We expect that some modules will need time to support NumPy 2.
+
+Traceback (most recent call last):  File "/home/yuz271/dsc180-diffusion-steering/quarter2/sd_dof/zoom_control.py", line 25, in <module>
+    from scipy.ndimage import laplace
+  File "/opt/conda/lib/python3.11/site-packages/scipy/ndimage/__init__.py", line 152, in <module>
+    from ._filters import *
+  File "/opt/conda/lib/python3.11/site-packages/scipy/ndimage/_filters.py", line 39, in <module>
+    from . import _nd_image
+AttributeError: _ARRAY_API not found
+Traceback (most recent call last):
+  File "/home/yuz271/dsc180-diffusion-steering/quarter2/sd_dof/zoom_control.py", line 25, in <module>
+    from scipy.ndimage import laplace
+  File "/opt/conda/lib/python3.11/site-packages/scipy/ndimage/__init__.py", line 152, in <module>
+    from ._filters import *
+  File "/opt/conda/lib/python3.11/site-packages/scipy/ndimage/_filters.py", line 39, in <module>
+    from . import _nd_image
+ImportError: numpy.core.multiarray failed to import

@@ -1,0 +1,313 @@
+log outputs/q2_sd_dof/pod_log-20261109-210858.txt
+GPU 0: NVIDIA GeForce GTX 1080 Ti (UUID: GPU-05d942cb-5960-c69f-39bc-31ff9f1d0087)
+== [2026-11-09 21:09:03] smoke test
+Generating train split:   0%|          | 0/82783 [00:00<?, ? examples/s]Generating train split:  48%|████▊     | 40000/82783 [00:00<00:00, 294110.61 examples/s]Generating train split:  97%|█████████▋| 80000/82783 [00:00<00:00, 289059.09 examples/s]Generating train split: 100%|██████████| 82783/82783 [00:00<00:00, 226350.45 examples/s]
+Generating validation split:   0%|          | 0/5000 [00:00<?, ? examples/s]Generating validation split: 100%|██████████| 5000/5000 [00:00<00:00, 193814.65 examples/s]
+Generating test split:   0%|          | 0/5000 [00:00<?, ? examples/s]Generating test split: 100%|██████████| 5000/5000 [00:00<00:00, 216332.82 examples/s]
+Generating restval split:   0%|          | 0/30504 [00:00<?, ? examples/s]Generating restval split: 100%|██████████| 30504/30504 [00:00<00:00, 224209.75 examples/s]
+== [2026-11-09 21:09:10] stage collect (smoke)
+2026-11-09 21:09:11.792509: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-09 21:09:11.792554: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-09 21:09:11.794017: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-09 21:09:11.801959: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading pipeline components...:   0%|          | 0/6 [00:00<?, ?it/s]Loading pipeline components...:  17%|█▋        | 1/6 [00:00<00:01,  2.59it/s]/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+Loading pipeline components...:  50%|█████     | 3/6 [00:00<00:00,  7.10it/s]Loading pipeline components...:  83%|████████▎ | 5/6 [00:00<00:00,  5.59it/s]Loading pipeline components...: 100%|██████████| 6/6 [00:01<00:00,  3.22it/s]Loading pipeline components...: 100%|██████████| 6/6 [00:01<00:00,  3.76it/s]
+== [2026-11-09 21:09:26] sigma per DDIM step: first [13.12, 11.676, 10.425] ... last [0.202, 0.141, 0.041]; window = steps 1-49 (49 of 50)
+Downloading data:   0%|          | 0/1200 [00:00<?, ?files/s]Downloading data:   0%|          | 1/1200 [00:00<14:37,  1.37files/s]Downloading data:   0%|          | 2/1200 [00:00<08:52,  2.25files/s]Downloading data:   1%|▏         | 17/1200 [00:01<00:50, 23.54files/s]Downloading data:   2%|▏         | 22/1200 [00:01<00:48, 24.42files/s]Downloading data:   2%|▏         | 27/1200 [00:01<00:40, 28.66files/s]Downloading data:   3%|▎         | 33/1200 [00:01<00:37, 30.78files/s]Downloading data:   3%|▎         | 37/1200 [00:01<00:46, 24.79files/s]Downloading data:   4%|▎         | 42/1200 [00:01<00:39, 29.29files/s]Downloading data:   4%|▍         | 51/1200 [00:02<00:29, 38.38files/s]Downloading data:   5%|▍         | 56/1200 [00:02<00:41, 27.50files/s]Downloading data:   6%|▌         | 69/1200 [00:02<00:26, 43.34files/s]Downloading data:   6%|▋         | 75/1200 [00:02<00:26, 42.04files/s]Downloading data:   7%|▋         | 81/1200 [00:02<00:26, 41.50files/s]Downloading data:   7%|▋         | 86/1200 [00:03<00:30, 36.48files/s]Downloading data:   8%|▊         | 92/1200 [00:03<00:27, 40.23files/s]Downloading data:   8%|▊         | 97/1200 [00:03<00:29, 37.30files/s]Downloading data:   8%|▊         | 102/1200 [00:03<00:29, 37.75files/s]Downloading data:   9%|▉         | 108/1200 [00:03<00:25, 42.52files/s]Downloading data:   9%|▉         | 113/1200 [00:03<00:27, 38.84files/s]Downloading data:  10%|▉         | 118/1200 [00:03<00:27, 39.07files/s]Downloading data:  10%|█         | 123/1200 [00:03<00:26, 40.90files/s]Downloading data:  11%|█         | 129/1200 [00:04<00:29, 36.12files/s]Downloading data:  11%|█         | 133/1200 [00:04<00:30, 34.66files/s]Downloading data:  12%|█▏        | 142/1200 [00:04<00:24, 42.40files/s]Downloading data:  12%|█▏        | 147/1200 [00:04<00:24, 42.51files/s]Downloading data:  13%|█▎        | 152/1200 [00:04<00:25, 41.37files/s]Downloading data:  13%|█▎        | 158/1200 [00:04<00:24, 43.00files/s]Downloading data:  14%|█▎        | 163/1200 [00:04<00:27, 37.89files/s]Downloading data:  14%|█▍        | 169/1200 [00:05<00:27, 38.00files/s]Downloading data:  14%|█▍        | 174/1200 [00:05<00:28, 36.05files/s]Downloading data:  15%|█▍        | 179/1200 [00:05<00:50, 20.27files/s]Downloading data:  17%|█▋        | 199/1200 [00:05<00:22, 44.17files/s]Downloading data:  17%|█▋        | 206/1200 [00:06<00:28, 34.90files/s]Downloading data:  18%|█▊        | 216/1200 [00:06<00:22, 43.65files/s]Downloading data:  19%|█▊        | 223/1200 [00:06<00:20, 47.03files/s]Downloading data:  19%|█▉        | 230/1200 [00:06<00:33, 29.37files/s]Downloading data:  20%|██        | 245/1200 [00:07<00:20, 45.52files/s]Downloading data:  21%|██        | 253/1200 [00:07<00:22, 42.82files/s]Downloading data:  22%|██▏       | 260/1200 [00:07<00:26, 35.06files/s]Downloading data:  22%|██▏       | 269/1200 [00:07<00:22, 40.55files/s]Downloading data:  23%|██▎       | 275/1200 [00:07<00:22, 41.79files/s]Downloading data:  23%|██▎       | 281/1200 [00:08<00:21, 43.08files/s]Downloading data:  24%|██▍       | 287/1200 [00:08<00:21, 42.50files/s]Downloading data:  24%|██▍       | 292/1200 [00:08<00:23, 38.92files/s]Downloading data:  25%|██▍       | 298/1200 [00:08<00:21, 41.36files/s]Downloading data:  25%|██▌       | 303/1200 [00:08<00:21, 42.01files/s]Downloading data:  26%|██▌       | 308/1200 [00:08<00:21, 40.77files/s]Downloading data:  26%|██▌       | 313/1200 [00:08<00:22, 40.17files/s]Downloading data:  27%|██▋       | 319/1200 [00:08<00:19, 44.89files/s]Downloading data:  27%|██▋       | 324/1200 [00:09<00:21, 40.86files/s]Downloading data:  27%|██▋       | 329/1200 [00:09<00:21, 40.55files/s]Downloading data:  28%|██▊       | 334/1200 [00:09<00:20, 41.54files/s]Downloading data:  28%|██▊       | 339/1200 [00:09<00:21, 39.55files/s]Downloading data:  29%|██▊       | 344/1200 [00:09<00:21, 39.30files/s]Downloading data:  29%|██▉       | 350/1200 [00:09<00:20, 42.00files/s]Downloading data:  30%|██▉       | 355/1200 [00:09<00:20, 40.51files/s]Downloading data:  30%|███       | 360/1200 [00:09<00:20, 40.01files/s]Downloading data:  30%|███       | 365/1200 [00:10<00:20, 40.57files/s]Downloading data:  31%|███       | 370/1200 [00:10<00:19, 41.69files/s]Downloading data:  31%|███▏      | 376/1200 [00:10<00:20, 40.14files/s]Downloading data:  32%|███▏      | 381/1200 [00:10<00:21, 38.42files/s]Downloading data:  32%|███▏      | 386/1200 [00:10<00:20, 40.42files/s]Downloading data:  33%|███▎      | 391/1200 [00:10<00:20, 38.69files/s]Downloading data:  33%|███▎      | 397/1200 [00:10<00:19, 41.67files/s]Downloading data:  34%|███▎      | 402/1200 [00:11<00:19, 40.31files/s]Downloading data:  34%|███▍      | 407/1200 [00:11<00:19, 40.16files/s]Downloading data:  34%|███▍      | 412/1200 [00:11<00:18, 41.98files/s]Downloading data:  35%|███▍      | 418/1200 [00:11<00:18, 42.18files/s]Downloading data:  35%|███▌      | 423/1200 [00:11<00:20, 38.34files/s]Downloading data:  36%|███▌      | 430/1200 [00:11<00:17, 44.76files/s]Downloading data:  36%|███▋      | 435/1200 [00:11<00:18, 40.60files/s]Downloading data:  37%|███▋      | 440/1200 [00:11<00:18, 41.18files/s]Downloading data:  37%|███▋      | 445/1200 [00:12<00:18, 39.96files/s]Downloading data:  38%|███▊      | 450/1200 [00:12<00:18, 40.92files/s]Downloading data:  38%|███▊      | 455/1200 [00:12<00:18, 40.67files/s]Downloading data:  38%|███▊      | 460/1200 [00:12<00:18, 40.28files/s]Downloading data:  39%|███▉      | 466/1200 [00:12<00:17, 43.08files/s]Downloading data:  39%|███▉      | 471/1200 [00:12<00:20, 35.94files/s]Downloading data:  40%|███▉      | 479/1200 [00:12<00:16, 44.45files/s]Downloading data:  40%|████      | 484/1200 [00:13<00:17, 40.61files/s]Downloading data:  41%|████      | 489/1200 [00:13<00:20, 34.20files/s]Downloading data:  42%|████▏     | 498/1200 [00:13<00:15, 45.85files/s]Downloading data:  42%|████▏     | 504/1200 [00:13<00:16, 41.19files/s]Downloading data:  42%|████▏     | 509/1200 [00:13<00:17, 40.30files/s]Downloading data:  43%|████▎     | 515/1200 [00:13<00:16, 41.03files/s]Downloading data:  43%|████▎     | 520/1200 [00:13<00:17, 39.82files/s]Downloading data:  44%|████▍     | 526/1200 [00:14<00:15, 42.27files/s]Downloading data:  44%|████▍     | 531/1200 [00:14<00:19, 33.58files/s]Downloading data:  45%|████▌     | 540/1200 [00:14<00:15, 43.70files/s]Downloading data:  45%|████▌     | 545/1200 [00:14<00:14, 43.98files/s]Downloading data:  46%|████▌     | 550/1200 [00:14<00:16, 38.96files/s]Downloading data:  46%|████▋     | 556/1200 [00:14<00:14, 43.44files/s]Downloading data:  47%|████▋     | 562/1200 [00:14<00:14, 42.54files/s]Downloading data:  47%|████▋     | 567/1200 [00:15<00:15, 40.28files/s]Downloading data:  48%|████▊     | 573/1200 [00:15<00:15, 39.46files/s]Downloading data:  48%|████▊     | 578/1200 [00:15<00:14, 41.59files/s]Downloading data:  49%|████▊     | 583/1200 [00:15<00:15, 40.64files/s]Downloading data:  49%|████▉     | 589/1200 [00:15<00:14, 42.44files/s]Downloading data:  50%|████▉     | 594/1200 [00:15<00:19, 31.55files/s]Downloading data:  50%|█████     | 605/1200 [00:15<00:13, 45.02files/s]Downloading data:  51%|█████     | 611/1200 [00:16<00:13, 42.88files/s]Downloading data:  51%|█████▏    | 616/1200 [00:16<00:13, 42.00files/s]Downloading data:  52%|█████▏    | 621/1200 [00:16<00:13, 43.17files/s]Downloading data:  52%|█████▏    | 626/1200 [00:16<00:14, 39.41files/s]Downloading data:  53%|█████▎    | 631/1200 [00:16<00:14, 38.66files/s]Downloading data:  53%|█████▎    | 638/1200 [00:16<00:12, 43.47files/s]Downloading data:  54%|█████▎    | 643/1200 [00:16<00:13, 41.37files/s]Downloading data:  54%|█████▍    | 648/1200 [00:17<00:13, 39.98files/s]Downloading data:  55%|█████▍    | 654/1200 [00:17<00:13, 41.53files/s]Downloading data:  55%|█████▍    | 659/1200 [00:17<00:13, 40.24files/s]Downloading data:  55%|█████▌    | 664/1200 [00:17<00:13, 38.95files/s]Downloading data:  56%|█████▌    | 670/1200 [00:17<00:12, 42.59files/s]Downloading data:  56%|█████▋    | 675/1200 [00:17<00:14, 37.15files/s]Downloading data:  57%|█████▋    | 679/1200 [00:17<00:16, 32.43files/s]Downloading data:  57%|█████▋    | 684/1200 [00:18<00:14, 35.78files/s]Downloading data:  57%|█████▊    | 690/1200 [00:18<00:12, 39.23files/s]Downloading data:  58%|█████▊    | 697/1200 [00:18<00:11, 42.76files/s]Downloading data:  59%|█████▊    | 703/1200 [00:18<00:10, 46.59files/s]Downloading data:  59%|█████▉    | 708/1200 [00:18<00:11, 41.33files/s]Downloading data:  59%|█████▉    | 713/1200 [00:18<00:12, 40.54files/s]Downloading data:  60%|█████▉    | 719/1200 [00:18<00:10, 44.82files/s]Downloading data:  60%|██████    | 724/1200 [00:18<00:11, 41.91files/s]Downloading data:  61%|██████    | 729/1200 [00:19<00:12, 38.95files/s]Downloading data:  61%|██████▏   | 736/1200 [00:19<00:10, 46.21files/s]Downloading data:  62%|██████▏   | 741/1200 [00:19<00:11, 38.61files/s]Downloading data:  62%|██████▏   | 746/1200 [00:19<00:11, 39.22files/s]Downloading data:  63%|██████▎   | 754/1200 [00:19<00:09, 47.57files/s]Downloading data:  63%|██████▎   | 760/1200 [00:19<00:12, 34.36files/s]Downloading data:  64%|██████▍   | 770/1200 [00:20<00:09, 43.94files/s]Downloading data:  65%|██████▍   | 776/1200 [00:20<00:10, 40.01files/s]Downloading data:  65%|██████▌   | 783/1200 [00:20<00:09, 45.26files/s]Downloading data:  66%|██████▌   | 789/1200 [00:20<00:10, 39.18files/s]Downloading data:  66%|██████▌   | 794/1200 [00:20<00:10, 37.57files/s]Downloading data:  67%|██████▋   | 803/1200 [00:20<00:08, 47.56files/s]Downloading data:  67%|██████▋   | 809/1200 [00:21<00:11, 33.47files/s]Downloading data:  68%|██████▊   | 820/1200 [00:21<00:08, 46.12files/s]Downloading data:  69%|██████▉   | 827/1200 [00:21<00:09, 40.17files/s]Downloading data:  70%|██████▉   | 834/1200 [00:21<00:08, 44.39files/s]Downloading data:  70%|███████   | 840/1200 [00:21<00:08, 42.45files/s]Downloading data:  70%|███████   | 845/1200 [00:21<00:08, 42.09files/s]Downloading data:  71%|███████   | 850/1200 [00:21<00:08, 43.01files/s]Downloading data:  71%|███████▏  | 855/1200 [00:22<00:08, 41.23files/s]Downloading data:  72%|███████▏  | 860/1200 [00:22<00:09, 35.73files/s]Downloading data:  72%|███████▏  | 869/1200 [00:22<00:07, 43.95files/s]Downloading data:  73%|███████▎  | 874/1200 [00:22<00:09, 36.07files/s]Downloading data:  74%|███████▎  | 882/1200 [00:22<00:07, 44.35files/s]Downloading data:  74%|███████▍  | 888/1200 [00:22<00:07, 42.00files/s]Downloading data:  74%|███████▍  | 893/1200 [00:24<00:24, 12.68files/s]Downloading data:  78%|███████▊  | 939/1200 [00:24<00:05, 49.53files/s]Downloading data:  80%|███████▉  | 955/1200 [00:24<00:05, 43.00files/s]Downloading data:  81%|████████  | 967/1200 [00:24<00:05, 46.10files/s]Downloading data:  82%|████████▏ | 978/1200 [00:25<00:05, 42.41files/s]Downloading data:  82%|████████▏ | 987/1200 [00:25<00:04, 43.05files/s]Downloading data:  83%|████████▎ | 995/1200 [00:25<00:04, 45.07files/s]Downloading data:  84%|████████▎ | 1002/1200 [00:25<00:04, 41.72files/s]Downloading data:  84%|████████▍ | 1010/1200 [00:26<00:04, 41.82files/s]Downloading data:  85%|████████▍ | 1016/1200 [00:26<00:04, 41.32files/s]Downloading data:  85%|████████▌ | 1021/1200 [00:26<00:04, 42.11files/s]Downloading data:  86%|████████▌ | 1026/1200 [00:26<00:04, 39.06files/s]Downloading data:  86%|████████▌ | 1031/1200 [00:26<00:04, 39.64files/s]Downloading data:  86%|████████▋ | 1036/1200 [00:26<00:04, 40.58files/s]Downloading data:  87%|████████▋ | 1042/1200 [00:26<00:03, 42.55files/s]Downloading data:  87%|████████▋ | 1047/1200 [00:26<00:03, 40.33files/s]Downloading data:  88%|████████▊ | 1052/1200 [00:27<00:03, 37.61files/s]Downloading data:  88%|████████▊ | 1059/1200 [00:27<00:03, 42.93files/s]Downloading data:  89%|████████▊ | 1064/1200 [00:27<00:03, 42.69files/s]Downloading data:  89%|████████▉ | 1069/1200 [00:27<00:03, 40.71files/s]Downloading data:  90%|████████▉ | 1074/1200 [00:27<00:02, 42.13files/s]Downloading data:  90%|████████▉ | 1079/1200 [00:27<00:02, 40.81files/s]Downloading data:  90%|█████████ | 1084/1200 [00:27<00:02, 38.97files/s]Downloading data:  91%|█████████ | 1088/1200 [00:27<00:03, 36.97files/s]Downloading data:  91%|█████████▏| 1095/1200 [00:28<00:02, 44.55files/s]Downloading data:  92%|█████████▏| 1100/1200 [00:28<00:02, 40.47files/s]Downloading data:  92%|█████████▏| 1106/1200 [00:28<00:02, 44.85files/s]Downloading data:  93%|█████████▎| 1111/1200 [00:28<00:02, 44.12files/s]Downloading data:  93%|█████████▎| 1116/1200 [00:28<00:02, 40.14files/s]Downloading data:  94%|█████████▎| 1122/1200 [00:28<00:01, 42.00files/s]Downloading data:  94%|█████████▍| 1127/1200 [00:28<00:01, 41.01files/s]Downloading data:  94%|█████████▍| 1132/1200 [00:28<00:01, 41.07files/s]Downloading data:  95%|█████████▍| 1137/1200 [00:29<00:01, 42.63files/s]Downloading data:  95%|█████████▌| 1142/1200 [00:29<00:01, 36.95files/s]Downloading data:  96%|█████████▌| 1146/1200 [00:29<00:01, 36.63files/s]Downloading data:  96%|█████████▌| 1152/1200 [00:29<00:01, 41.45files/s]Downloading data:  96%|█████████▋| 1157/1200 [00:29<00:01, 41.08files/s]Downloading data:  97%|█████████▋| 1162/1200 [00:29<00:01, 36.39files/s]Downloading data:  97%|█████████▋| 1168/1200 [00:29<00:00, 41.66files/s]Downloading data:  98%|█████████▊| 1174/1200 [00:30<00:00, 36.93files/s]Downloading data:  98%|█████████▊| 1180/1200 [00:30<00:00, 41.77files/s]Downloading data:  99%|█████████▉| 1187/1200 [00:30<00:00, 47.29files/s]Downloading data:  99%|█████████▉| 1193/1200 [00:30<00:00, 38.14files/s]Downloading data: 100%|██████████| 1200/1200 [00:30<00:00, 43.48files/s]Downloading data: 100%|██████████| 1200/1200 [00:30<00:00, 39.14files/s]
+Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 1200 examples [00:00, 12035.33 examples/s]
+== [2026-11-09 21:10:01] 60 photos; label names ['0', '1']; counts [30, 30]
+== [2026-11-09 21:10:01] mean log Laplacian variance by label {0: 4.326604918937106, 1: 4.870856131500558}: shallow (blurrier) = label 0
+== [2026-11-09 21:10:01] collecting at t = 100, sigma = 0.3439
+/home/yuz271/dsc180-diffusion-steering/quarter2/sd_dof/sd_dof.py:111: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at ../torch/csrc/utils/tensor_numpy.cpp:206.)
+  x = torch.stack([torch.from_numpy(np.asarray(im)).permute(2, 0, 1) for im in images[i:i + bs]])
+== [2026-11-09 21:10:17] activations (60, 327680) saved
+== [2026-11-09 21:10:17] done
+== [2026-11-09 21:10:23] stage train (smoke)
+Using device: cuda
+DualRFM: N=48, D=327680
+  kernel=l2_high_dim, normalize=True, center_data=True, center_grads=False
+  Memory: 0.0MB (dual) vs 429.5GB (primal)
+
+  Iteration 1/5
+  Val AUC: 0.8611
+  New best at iter 1!
+
+  Iteration 2/5
+  Val AUC: 0.8611
+
+  Iteration 3/5
+  Val AUC: 0.8611
+
+  Iteration 4/5
+  Val AUC: 0.8611
+
+  Iteration 5/5
+  Val AUC: 0.8611
+
+  Direction sign: 1 (Pearson corr: 0.6013)
+  Best F1: 0.8571 (P=0.7500, R=1.0000)
+  Average Precision: 0.8774
+  Score dist - Target: 28.5713±15.6405, Other: -5.5886±28.0281
+== [2026-11-09 21:10:24] RFM: held-out AUC 0.861, best iteration 1 [1 s]
+== [2026-11-09 21:10:24] mean difference: held-out AUC 0.971; cosine with RFM direction 0.882
+== [2026-11-09 21:10:24] done
+== [2026-11-09 21:10:28] stage reproduce (smoke)
+2026-11-09 21:10:30.275249: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-09 21:10:30.275280: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-09 21:10:30.276788: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-09 21:10:30.284926: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading pipeline components...:   0%|          | 0/6 [00:00<?, ?it/s]Loading pipeline components...:  17%|█▋        | 1/6 [00:00<00:03,  1.57it/s]Loading pipeline components...:  50%|█████     | 3/6 [00:00<00:00,  3.64it/s]/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+Loading pipeline components...:  83%|████████▎ | 5/6 [00:01<00:00,  4.17it/s]Loading pipeline components...: 100%|██████████| 6/6 [00:01<00:00,  4.45it/s]
+== [2026-11-09 21:10:35] sigma per DDIM step: first [13.12, 11.676, 10.425] ... last [0.202, 0.141, 0.041]; window = steps 1-49 (49 of 50)
+== [2026-11-09 21:11:11] none: 2 images, 13.8 s per image
+== [2026-11-09 21:11:49] rfm: 2 images, 19.1 s per image
+# SD 1.5 depth-of-field steering: the paper's setup reproduced, then compared
+
+**SMOKE TEST: too few images for any number here to mean anything.**
+
+Direction data: 60 photos, label names ['0', '1'], shallow = label 0 (mean log Laplacian variance by label {"0": 4.33, "1": 4.87}).
+RFM held-out AUC 0.861; mean-difference held-out AUC 0.971; cosine between the two directions +0.882.
+Steering window: DDIM steps 1-49 of 50.
+Test: 2 captions x seeds [42].
+
+## 1. Paper's numbers vs ours
+
+| | background sharpness (mean Laplacian variance) | change | FG / BG ratio (mean of images) |
+|---|---|---|---|
+| paper, unsteered -> steered | 1085.03 -> 785.89 | -27.6% | 2.247 -> 2.585 |
+| ours, rfm | 893.3 -> 815.8 | -8.7% | 0.724 -> 1.164 |
+
+## 2. Paired changes vs. unedited (same caption and seed)
+
+Intervals: bootstrap over captions, then seeds within caption. Effect: background blur. Selectivity: the foreground and the caption should not change. Pixel change is mean |edited - unedited| / 255 inside the unedited image's foreground and background.
+
+| condition | s | log BG sharpness | log FG sharpness | log FG/BG ratio | CLIP blur score | CLIP caption score | pixel change, FG | pixel change, BG |
+|---|---|---|---|---|---|---|---|---|
+| rfm | 4 | -0.126 (-0.716, +0.465) | +0.353 (-0.284, +0.990) | +0.479 (+0.432, +0.525) | +0.860 (+0.214, +1.506) | -3.184 (-5.970, -0.398) | 0.095 | 0.116 |
+
+`examples.png`: columns none, rfm; rows test captions 0-1, seed 42.
+
+Captions: 0: A child holding a flowered umbrella and petting a yak; 1: A narrow kitchen filled with appliances and cooking utensils
+
+== [2026-11-09 21:11:50] stage compare (smoke)
+== [2026-11-09 21:12:04] dev_none: 1 images, 14.7 s per image
+== [2026-11-09 21:12:25] dev_rfm: 1 images, 21.1 s per image
+== [2026-11-09 21:12:25] dev target: change in log background sharpness +0.002 (RFM, s = 4.0)
+== [2026-11-09 21:12:47] dev_meandiff_s1: 1 images, 21.1 s per image
+== [2026-11-09 21:12:47] dev meandiff s = 1: -0.457
+== [2026-11-09 21:13:08] dev_meandiff_s2: 1 images, 21.1 s per image
+== [2026-11-09 21:13:08] dev meandiff s = 2: -0.113
+== [2026-11-09 21:13:08] picked meandiff: s = 2 (dev -0.113 vs target +0.002)
+== [2026-11-09 21:13:29] dev_prompt_s0.5: 1 images, 21.1 s per image
+== [2026-11-09 21:13:29] dev prompt s = 0.5: +0.161
+== [2026-11-09 21:13:50] dev_prompt_s1: 1 images, 21.1 s per image
+== [2026-11-09 21:13:50] dev prompt s = 1: -0.085
+== [2026-11-09 21:13:50] picked prompt: s = 1 (dev -0.085 vs target +0.002)
+== [2026-11-09 21:14:28] meandiff: 2 images, 19.2 s per image
+== [2026-11-09 21:15:07] prompt: 2 images, 19.2 s per image
+# SD 1.5 depth-of-field steering: the paper's setup reproduced, then compared
+
+**SMOKE TEST: too few images for any number here to mean anything.**
+
+Direction data: 60 photos, label names ['0', '1'], shallow = label 0 (mean log Laplacian variance by label {"0": 4.33, "1": 4.87}).
+RFM held-out AUC 0.861; mean-difference held-out AUC 0.971; cosine between the two directions +0.882.
+Steering window: DDIM steps 1-49 of 50.
+Test: 2 captions x seeds [42].
+
+## 1. Paper's numbers vs ours
+
+| | background sharpness (mean Laplacian variance) | change | FG / BG ratio (mean of images) |
+|---|---|---|---|
+| paper, unsteered -> steered | 1085.03 -> 785.89 | -27.6% | 2.247 -> 2.585 |
+| ours, rfm | 893.3 -> 815.8 | -8.7% | 0.724 -> 1.164 |
+| ours, meandiff | 893.3 -> 830.8 | -7.0% | 0.724 -> 0.735 |
+| ours, prompt | 893.3 -> 822.0 | -8.0% | 0.724 -> 0.845 |
+
+## 2. Paired changes vs. unedited (same caption and seed)
+
+Intervals: bootstrap over captions, then seeds within caption. Effect: background blur. Selectivity: the foreground and the caption should not change. Pixel change is mean |edited - unedited| / 255 inside the unedited image's foreground and background.
+
+| condition | s | log BG sharpness | log FG sharpness | log FG/BG ratio | CLIP blur score | CLIP caption score | pixel change, FG | pixel change, BG |
+|---|---|---|---|---|---|---|---|---|
+| rfm | 4 | -0.126 (-0.716, +0.465) | +0.353 (-0.284, +0.990) | +0.479 (+0.432, +0.525) | +0.860 (+0.214, +1.506) | -3.184 (-5.970, -0.398) | 0.095 | 0.116 |
+| meandiff | 2 | -0.078 (-0.568, +0.413) | -0.124 (-0.368, +0.120) | -0.046 (-0.293, +0.200) | +0.844 (+0.370, +1.317) | -3.152 (-6.847, +0.544) | 0.084 | 0.103 |
+| prompt | 1 | -0.085 (-0.094, -0.076) | +0.076 (-0.047, +0.200) | +0.162 (+0.029, +0.294) | +0.119 (-0.076, +0.314) | +0.321 (+0.245, +0.397) | 0.024 | 0.026 |
+
+Dev target (RFM's change in log background sharpness on dev captions): +0.002; picked s: meandiff 2, prompt 1.
+
+`examples.png`: columns none, rfm, meandiff, prompt; rows test captions 0-1, seed 42.
+
+Captions: 0: A child holding a flowered umbrella and petting a yak; 1: A narrow kitchen filled with appliances and cooking utensils
+
+== [2026-11-09 21:15:07] done
+== [2026-11-09 21:15:08] reproduce
+== [2026-11-09 21:15:12] stage collect
+2026-11-09 21:15:14.061225: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-09 21:15:14.061264: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-09 21:15:14.062759: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-09 21:15:14.071315: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading pipeline components...:   0%|          | 0/6 [00:00<?, ?it/s]Loading pipeline components...:  33%|███▎      | 2/6 [00:00<00:00,  6.71it/s]Loading pipeline components...:  67%|██████▋   | 4/6 [00:00<00:00,  6.18it/s]Loading pipeline components...:  83%|████████▎ | 5/6 [00:00<00:00,  5.19it/s]/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+Loading pipeline components...: 100%|██████████| 6/6 [00:00<00:00,  6.16it/s]
+== [2026-11-09 21:15:18] sigma per DDIM step: first [13.12, 11.676, 10.425] ... last [0.202, 0.141, 0.041]; window = steps 1-49 (49 of 50)
+== [2026-11-09 21:15:31] 1200 photos; label names ['0', '1']; counts [600, 600]
+== [2026-11-09 21:15:37] mean log Laplacian variance by label {0: 4.362593800354579, 1: 5.1903391580678395}: shallow (blurrier) = label 0
+== [2026-11-09 21:15:37] collecting at t = 100, sigma = 0.3439
+/home/yuz271/dsc180-diffusion-steering/quarter2/sd_dof/sd_dof.py:111: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at ../torch/csrc/utils/tensor_numpy.cpp:206.)
+  x = torch.stack([torch.from_numpy(np.asarray(im)).permute(2, 0, 1) for im in images[i:i + bs]])
+== [2026-11-09 21:20:59] activations (1200, 327680) saved
+== [2026-11-09 21:20:59] done
+== [2026-11-09 21:21:04] stage train
+Using device: cuda
+DualRFM: N=960, D=327680
+  kernel=l2_high_dim, normalize=True, center_data=True, center_grads=False
+  Memory: 3.7MB (dual) vs 429.5GB (primal)
+
+  Iteration 1/5
+  Val AUC: 0.9642
+  New best at iter 1!
+
+  Iteration 2/5
+== [2026-11-09 21:21:08] RFM out of GPU memory; retrying on CPU
+Using device: cpu
+DualRFM: N=960, D=327680
+  kernel=l2_high_dim, normalize=True, center_data=True, center_grads=False
+  Memory: 3.7MB (dual) vs 429.5GB (primal)
+
+  Iteration 1/5
+  Val AUC: 0.9642
+  New best at iter 1!
+
+  Iteration 2/5
+  Val AUC: 0.8869
+
+  Iteration 3/5
+  Val AUC: 0.8927
+
+  Iteration 4/5
+  Val AUC: 0.9021
+
+  Iteration 5/5
+  Val AUC: 0.9190
+
+  Direction sign: -1 (Pearson corr: -0.8259)
+  Best F1: 0.9250 (P=0.9174, R=0.9328)
+  Average Precision: 0.9647
+  Score dist - Target: 28.8641±18.7147, Other: -26.0104±18.7426
+== [2026-11-09 21:22:05] RFM: held-out AUC 0.964, best iteration 1 [60 s]
+== [2026-11-09 21:22:06] mean difference: held-out AUC 0.948; cosine with RFM direction 0.727
+== [2026-11-09 21:22:06] done
+== [2026-11-09 21:22:11] stage reproduce
+2026-11-09 21:22:12.685360: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-09 21:22:12.685410: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-09 21:22:12.686927: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-09 21:22:12.695445: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading pipeline components...:   0%|          | 0/6 [00:00<?, ?it/s]Loading pipeline components...:  17%|█▋        | 1/6 [00:00<00:01,  3.08it/s]/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+Loading pipeline components...:  50%|█████     | 3/6 [00:00<00:00,  4.56it/s]Loading pipeline components...:  67%|██████▋   | 4/6 [00:00<00:00,  4.04it/s]Loading pipeline components...: 100%|██████████| 6/6 [00:01<00:00,  5.98it/s]
+== [2026-11-09 21:22:17] sigma per DDIM step: first [13.12, 11.676, 10.425] ... last [0.202, 0.141, 0.041]; window = steps 0-49 (50 of 50)
+== [2026-11-09 21:46:21] none: 100 images, 14.4 s per image
+== [2026-11-09 22:20:08] rfm: 100 images, 20.3 s per image
+# SD 1.5 depth-of-field steering: the paper's setup reproduced, then compared
+
+Direction data: 1200 photos, label names ['0', '1'], shallow = label 0 (mean log Laplacian variance by label {"0": 4.36, "1": 5.19}).
+RFM held-out AUC 0.964; mean-difference held-out AUC 0.948; cosine between the two directions +0.727.
+Steering window: DDIM steps 0-49 of 50.
+Test: 25 captions x seeds [42, 123, 256, 789].
+
+## 1. Paper's numbers vs ours
+
+| | background sharpness (mean Laplacian variance) | change | FG / BG ratio (mean of images) |
+|---|---|---|---|
+| paper, unsteered -> steered | 1085.03 -> 785.89 | -27.6% | 2.247 -> 2.585 |
+| ours, rfm | 1069.4 -> 688.5 | -35.6% | 2.565 -> 2.669 |
+
+## 2. Paired changes vs. unedited (same caption and seed)
+
+Intervals: bootstrap over captions, then seeds within caption. Effect: background blur. Selectivity: the foreground and the caption should not change. Pixel change is mean |edited - unedited| / 255 inside the unedited image's foreground and background.
+
+| condition | s | log BG sharpness | log FG sharpness | log FG/BG ratio | CLIP blur score | CLIP caption score | pixel change, FG | pixel change, BG |
+|---|---|---|---|---|---|---|---|---|
+| rfm | 4 | -0.390 (-0.612, -0.149) | -0.370 (-0.545, -0.206) | +0.020 (-0.223, +0.240) | +0.746 (+0.458, +1.055) | +0.165 (-0.694, +1.111) | 0.127 | 0.122 |
+
+`examples.png`: columns none, rfm; rows test captions 0-5, seed 42.
+
+Captions: 0: A child holding a flowered umbrella and petting a yak; 1: A narrow kitchen filled with appliances and cooking utensils; 2: A little girl holding a kitten next to a blue fence; 3: A toilet sitting in a bathroom next to a sink; 4: There are two sinks next to two mirrors; 5: A woman rides a bicycle on a road next to the median
+
+== [2026-11-09 22:20:10] done
+== [2026-11-09 22:20:11] compare
+== [2026-11-09 22:20:15] stage compare
+2026-11-09 22:20:16.900392: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-09 22:20:16.900435: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-09 22:20:16.901818: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-09 22:20:16.909221: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading pipeline components...:   0%|          | 0/6 [00:00<?, ?it/s]Loading pipeline components...:  17%|█▋        | 1/6 [00:00<00:02,  2.11it/s]Loading pipeline components...:  83%|████████▎ | 5/6 [00:00<00:00,  6.47it/s]/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+Loading pipeline components...: 100%|██████████| 6/6 [00:00<00:00,  6.40it/s]
+== [2026-11-09 22:20:21] sigma per DDIM step: first [13.12, 11.676, 10.425] ... last [0.202, 0.141, 0.041]; window = steps 0-49 (50 of 50)
+== [2026-11-09 22:24:13] dev_none: 16 images, 14.4 s per image
+== [2026-11-09 22:29:36] dev_rfm: 16 images, 20.2 s per image
+== [2026-11-09 22:29:36] dev target: change in log background sharpness -0.503 (RFM, s = 4.0)
+== [2026-11-09 22:34:59] dev_meandiff_s1: 16 images, 20.2 s per image
+== [2026-11-09 22:34:59] dev meandiff s = 1: -0.125
+== [2026-11-09 22:40:22] dev_meandiff_s2: 16 images, 20.2 s per image
+== [2026-11-09 22:40:22] dev meandiff s = 2: -0.350
+== [2026-11-09 22:45:45] dev_meandiff_s4: 16 images, 20.2 s per image
+== [2026-11-09 22:45:45] dev meandiff s = 4: -0.708
+== [2026-11-09 22:51:08] dev_meandiff_s8: 16 images, 20.2 s per image
+== [2026-11-09 22:51:08] dev meandiff s = 8: -1.482
+== [2026-11-09 22:56:31] dev_meandiff_s16: 16 images, 20.2 s per image
+== [2026-11-09 22:56:31] dev meandiff s = 16: -1.457
+== [2026-11-09 22:56:31] picked meandiff: s = 2 (dev -0.350 vs target -0.503)
+== [2026-11-09 23:01:54] dev_prompt_s0.5: 16 images, 20.2 s per image
+== [2026-11-09 23:01:54] dev prompt s = 0.5: -0.066
+== [2026-11-09 23:07:18] dev_prompt_s1: 16 images, 20.2 s per image
+== [2026-11-09 23:07:18] dev prompt s = 1: -0.121
+== [2026-11-09 23:12:42] dev_prompt_s2: 16 images, 20.2 s per image
+== [2026-11-09 23:12:42] dev prompt s = 2: -0.255
+== [2026-11-09 23:18:06] dev_prompt_s4: 16 images, 20.2 s per image
+== [2026-11-09 23:18:06] dev prompt s = 4: -0.669
+== [2026-11-09 23:18:06] picked prompt: s = 4 (dev -0.669 vs target -0.503)
+== [2026-11-09 23:51:50] meandiff: 100 images, 20.2 s per image
+== [2026-11-10 00:25:35] prompt: 100 images, 20.2 s per image
+# SD 1.5 depth-of-field steering: the paper's setup reproduced, then compared
+
+Direction data: 1200 photos, label names ['0', '1'], shallow = label 0 (mean log Laplacian variance by label {"0": 4.36, "1": 5.19}).
+RFM held-out AUC 0.964; mean-difference held-out AUC 0.948; cosine between the two directions +0.727.
+Steering window: DDIM steps 0-49 of 50.
+Test: 25 captions x seeds [42, 123, 256, 789].
+
+## 1. Paper's numbers vs ours
+
+| | background sharpness (mean Laplacian variance) | change | FG / BG ratio (mean of images) |
+|---|---|---|---|
+| paper, unsteered -> steered | 1085.03 -> 785.89 | -27.6% | 2.247 -> 2.585 |
+| ours, rfm | 1069.4 -> 688.5 | -35.6% | 2.565 -> 2.669 |
+| ours, meandiff | 1069.4 -> 690.5 | -35.4% | 2.565 -> 1.951 |
+| ours, prompt | 1069.4 -> 894.8 | -16.3% | 2.565 -> 4.461 |
+
+## 2. Paired changes vs. unedited (same caption and seed)
+
+Intervals: bootstrap over captions, then seeds within caption. Effect: background blur. Selectivity: the foreground and the caption should not change. Pixel change is mean |edited - unedited| / 255 inside the unedited image's foreground and background.
+
+| condition | s | log BG sharpness | log FG sharpness | log FG/BG ratio | CLIP blur score | CLIP caption score | pixel change, FG | pixel change, BG |
+|---|---|---|---|---|---|---|---|---|
+| rfm | 4 | -0.390 (-0.612, -0.149) | -0.370 (-0.545, -0.206) | +0.020 (-0.223, +0.240) | +0.746 (+0.458, +1.055) | +0.165 (-0.694, +1.111) | 0.127 | 0.122 |
+| meandiff | 2 | -0.368 (-0.594, -0.148) | -0.503 (-0.669, -0.334) | -0.136 (-0.406, +0.170) | +0.717 (+0.415, +1.019) | +0.031 (-0.750, +0.812) | 0.109 | 0.105 |
+| prompt | 4 | -0.219 (-0.457, +0.047) | -0.096 (-0.257, +0.051) | +0.123 (-0.157, +0.380) | +0.505 (+0.262, +0.777) | -0.593 (-1.273, +0.100) | 0.112 | 0.109 |
+
+Dev target (RFM's change in log background sharpness on dev captions): -0.503; picked s: meandiff 2, prompt 4.
+
+`examples.png`: columns none, rfm, meandiff, prompt; rows test captions 0-5, seed 42.
+
+Captions: 0: A child holding a flowered umbrella and petting a yak; 1: A narrow kitchen filled with appliances and cooking utensils; 2: A little girl holding a kitten next to a blue fence; 3: A toilet sitting in a bathroom next to a sink; 4: There are two sinks next to two mirrors; 5: A woman rides a bicycle on a road next to the median
+
+== [2026-11-10 00:25:41] done
+== [2026-11-10 00:25:42] done
