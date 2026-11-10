@@ -1,6 +1,0 @@
-# Quarter 2 smoke test, on top of the DSMLP scipy-ml image (PyTorch 2.2.1, CUDA 12.1).
-diffusers==0.30.3
-transformers==4.44.2
-accelerate==0.34.2
-huggingface_hub==0.24.7
-safetensors
