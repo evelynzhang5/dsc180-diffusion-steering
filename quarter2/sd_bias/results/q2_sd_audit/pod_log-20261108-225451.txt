@@ -1,0 +1,20 @@
+log outputs/q2_sd_audit/pod_log-20261108-225451.txt
+GPU 0: NVIDIA GeForce GTX 1080 Ti (UUID: GPU-05d942cb-5960-c69f-39bc-31ff9f1d0087)
+== [2026-11-08 22:54:55] smoke test
+2026-11-08 22:54:58.805384: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 22:54:58.805411: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 22:54:58.806884: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 22:54:58.814602: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+A: re-metering saved images
+Traceback (most recent call last):
+  File "/home/yuz271/dsc180-diffusion-steering/quarter2/sd_bias/sd_audit.py", line 282, in <module>
+    main()
+  File "/home/yuz271/dsc180-diffusion-steering/quarter2/sd_bias/sd_audit.py", line 270, in main
+    part_a(a.run, a.out, meter, subjects, eval_seeds, L)
+  File "/home/yuz271/dsc180-diffusion-steering/quarter2/sd_bias/sd_audit.py", line 82, in part_a
+    r = dict(cond=c, subject=s, seed=x, **meter(img, s))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: dict() got multiple values for keyword argument 'subject'

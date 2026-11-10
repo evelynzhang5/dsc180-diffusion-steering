@@ -1,0 +1,86 @@
+[
+ {
+  "pair": 1,
+  "prompt": "a young man",
+  "seed": 3,
+  "A": "balanced",
+  "B": "biased"
+ },
+ {
+  "pair": 2,
+  "prompt": "an elderly woman",
+  "seed": 2,
+  "A": "biased",
+  "B": "balanced"
+ },
+ {
+  "pair": 3,
+  "prompt": "a chef",
+  "seed": 3,
+  "A": "balanced",
+  "B": "biased"
+ },
+ {
+  "pair": 4,
+  "prompt": "a firefighter",
+  "seed": 2,
+  "A": "biased",
+  "B": "balanced"
+ },
+ {
+  "pair": 5,
+  "prompt": "a firefighter",
+  "seed": 3,
+  "A": "balanced",
+  "B": "biased"
+ },
+ {
+  "pair": 6,
+  "prompt": "a young man",
+  "seed": 2,
+  "A": "balanced",
+  "B": "biased"
+ },
+ {
+  "pair": 7,
+  "prompt": "an elderly woman",
+  "seed": 4,
+  "A": "biased",
+  "B": "balanced"
+ },
+ {
+  "pair": 8,
+  "prompt": "an elderly woman",
+  "seed": 3,
+  "A": "balanced",
+  "B": "biased"
+ },
+ {
+  "pair": 9,
+  "prompt": "a firefighter",
+  "seed": 4,
+  "A": "balanced",
+  "B": "biased"
+ },
+ {
+  "pair": 10,
+  "prompt": "a young man",
+  "seed": 4,
+  "A": "balanced",
+  "B": "biased"
+ },
+ {
+  "pair": 11,
+  "prompt": "a chef",
+  "seed": 2,
+  "A": "biased",
+  "B": "balanced"
+ },
+ {
+  "pair": 12,
+  "prompt": "a chef",
+  "seed": 4,
+  "A": "balanced",
+  "B": "biased"
+ }
+]

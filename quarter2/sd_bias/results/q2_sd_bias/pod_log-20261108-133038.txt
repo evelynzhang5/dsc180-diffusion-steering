@@ -1,0 +1,87 @@
+log outputs/q2_sd_bias/pod_log-20261108-133038.txt
+GPU 0: NVIDIA GeForce GTX 1080 Ti (UUID: GPU-a704a69d-63e8-d673-f20d-4eb0469e9b93)
+== [2026-11-08 13:30:41] smoke test
+2026-11-08 13:30:45.227466: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 13:30:45.227514: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 13:30:45.228948: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 13:30:45.236783: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading pipeline components...:   0%|          | 0/6 [00:00<?, ?it/s]/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+Loading pipeline components...:  50%|█████     | 3/6 [00:00<00:00, 20.76it/s]Loading pipeline components...: 100%|██████████| 6/6 [00:01<00:00,  4.69it/s]Loading pipeline components...: 100%|██████████| 6/6 [00:01<00:00,  5.31it/s]
+refs blur people: bg_sharp 1.44, person 0.50, framing 0.69
+refs blur objects: bg_sharp 2.37, person 0.00, framing 0.58
+refs sharp people: bg_sharp 1.46, person 0.25, framing 0.86
+refs sharp objects: bg_sharp 2.06, person 0.00, framing 0.69
+blur meter separation: {'bg_sharp': -0.040233768436582204, 'clip_blur': 0.835550918747866}; target meter clip_blur
+sweep balanced a=0.5: blur -0.290, subject +0.020
+sweep balanced a=1.0: blur -0.001, subject +0.059
+target blur change -0.290 on clip_blur (balanced a = 0.5)
+calibrated biased: a = 0.500, dev blur -0.284
+calibrated opposed: a = 0.500, dev blur -0.212
+eval balanced: blur +0.098, person(obj) +0.000
+eval biased: blur -0.252, person(obj) +0.000
+eval opposed: blur +0.234, person(obj) +0.000
+eval random: blur +0.004, person(obj) +0.000
+# SD 1.5 reference-bias check: blur direction vs. people and framing
+
+Mid-block edit a x |h| x d during DDIM steps 2-11 of 30. Evaluation: seeds 2-2, 2 object prompts and 1 person prompts. Changes are paired against the unedited image. Mean (95% interval over images).
+
+## Reference sets (meters on the reference images)
+
+| set | group | n | background sharpness | CLIP blur score | person present | framing | warmth |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| biased | blur | 4 | 1.44 | +1.54 | 0.50 | 0.69 | +0.149 |
+| biased | sharp | 4 | 2.06 | +1.22 | 0.00 | 0.69 | +0.142 |
+| opposed | blur | 4 | 2.37 | +1.48 | 0.00 | 0.58 | +0.134 |
+| opposed | sharp | 4 | 1.46 | +1.04 | 0.25 | 0.86 | +0.168 |
+| balanced | blur | 4 | 2.76 | +1.69 | 0.25 | 0.61 | +0.121 |
+| balanced | sharp | 4 | 1.28 | +1.03 | 0.00 | 0.69 | +0.157 |
+
+## Direction cosines (mean over steps)
+
+| | biased | opposed | balanced | random |
+| --- | --- | --- | --- | --- |
+| biased | +1.00 | -0.58 | +0.16 | -0.00 |
+| opposed | -0.58 | +1.00 | +0.35 | +0.00 |
+| balanced | +0.16 | +0.35 | +1.00 | +0.00 |
+| random | -0.00 | +0.00 | +0.00 | +1.00 |
+
+Blur meter separation of blur vs. sharp references (standardized): bg_sharp -0.04, clip_blur 0.84. Target meter: **clip_blur**.
+
+## Strength sweep, balanced direction (dev seeds)
+
+| a | blur change (target meter, + = blurrier) | subject score change | person on object prompts |
+| --- | --- | --- | --- |
+| 0.5 | -0.290 | +0.020 | +0.000 |
+| 1.0 | -0.001 | +0.059 | +0.000 |
+
+Target: -0.290 (balanced a = 0.5). Calibrated: biased a = 0.500 (dev -0.284, 1 tries), opposed a = 0.500 (dev -0.212, 1 tries); random at a = 0.5.
+
+## Object prompts: change vs. unedited (unedited person rate 0.00)
+
+| direction | a | background sharpness | CLIP blur score | whole-image sharpness | person present | person score | person box area | framing | subject score | warmth |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| balanced | 0.500 | +0.357 (+0.200, +0.513) | +0.184 (+0.004, +0.364) | +0.251 (-0.044, +0.546) | +0.000 (+0.000, +0.000) | +0.001 (-0.000, +0.002) | +0.000 (+0.000, +0.000) | -0.049 (-0.098, +0.000) | -0.025 (-0.061, +0.011) | +0.003 (-0.004, +0.010) |
+| biased | 0.500 | +2.660 (+2.660, +2.660) | +0.274 (-0.076, +0.624) | +0.211 (-0.117, +0.539) | +0.000 (+0.000, +0.000) | -0.001 (-0.004, +0.002) | +0.000 (+0.000, +0.000) | +0.113 (+0.100, +0.126) | -0.002 (-0.040, +0.037) | -0.005 (-0.006, -0.004) |
+| opposed | 0.500 | +0.350 (+0.127, +0.572) | +0.182 (-0.014, +0.378) | +0.198 (+0.056, +0.341) | +0.000 (+0.000, +0.000) | -0.001 (-0.001, -0.000) | +0.000 (+0.000, +0.000) | -0.038 (-0.077, +0.000) | -0.039 (-0.063, -0.015) | +0.002 (-0.004, +0.008) |
+| random | 0.500 | +0.314 (+0.044, +0.585) | +0.055 (-0.122, +0.231) | +0.092 (+0.008, +0.175) | +0.000 (+0.000, +0.000) | -0.000 (-0.000, +0.000) | +0.000 (+0.000, +0.000) | -0.017 (-0.035, -0.000) | -0.025 (-0.047, -0.003) | +0.001 (-0.001, +0.003) |
+
+## Person prompts: change vs. unedited
+
+| direction | background sharpness | CLIP blur score | framing | subject score | warmth |
+| --- | --- | --- | --- | --- | --- |
+| balanced | -0.181 (-0.181, -0.181) | -0.073 (-0.073, -0.073) | +0.004 (+0.004, +0.004) | +0.005 (+0.005, +0.005) | -0.003 (-0.003, -0.003) |
+| biased | -2.649 (-2.649, -2.649) | -1.303 (-1.303, -1.303) | +0.535 (+0.535, +0.535) | +0.092 (+0.092, +0.092) | +0.024 (+0.024, +0.024) |
+| opposed | +0.751 (+0.751, +0.751) | +0.339 (+0.339, +0.339) | -0.350 (-0.350, -0.350) | +0.032 (+0.032, +0.032) | -0.004 (-0.004, -0.004) |
+| random | +0.107 (+0.107, +0.107) | -0.097 (-0.097, -0.097) | -0.001 (-0.001, -0.001) | -0.032 (-0.032, -0.032) | +0.001 (+0.001, +0.001) |
+
+== [2026-11-08 13:38:36] full run
+2026-11-08 13:38:39.510252: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-08 13:38:39.510288: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-08 13:38:39.511551: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-08 13:38:39.519191: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading pipeline components...:   0%|          | 0/6 [00:00<?, ?it/s]/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+Loading pipeline components...:  17%|█▋        | 1/6 [00:00<00:00,  8.61it/s]Loading pipeline components...:  83%|████████▎ | 5/6 [00:00<00:00, 14.63it/s]Loading pipeline components...: 100%|██████████| 6/6 [00:00<00:00,  8.98it/s]
