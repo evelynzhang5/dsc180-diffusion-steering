@@ -10,7 +10,8 @@ code at 256 images per class, and NA-RFM and noise alignment (λ = 3) also at th
 |---|---|
 | `replicate.py` | Every step: setup, the offline parts, sampling, accuracy and FID, timing, table and figures |
 | `dsmlp_replicate.sh` | Runs `replicate.py` on a DSMLP GPU pod: a smoke test first, then the requested stages |
-| `starter_notebook.ipynb` | The course's starter notebook, kept for reference; `replicate.py` does the same steps as a script |
+| `results_notebook.ipynb` | Displays the saved results (tables, sample grids, plots) from `results/`; runs in seconds, no GPU |
+| `starter_notebook.ipynb` | The course's starter notebook, kept for reference and not run (no outputs); `replicate.py` does the same steps as a script |
 | `results/report.md` | The table next to the paper's Table 2, per-class results, all figures |
 | `results/figures/` | Sample grids, PCA figure, λ sweep, FID against the number of images |
 | `results/*.json` | Raw numbers: `quality_<setting>.json` (accuracy, FID per class), `timing.json`, `rfm_auc.json`, `sweep.json`, `big.json` |
