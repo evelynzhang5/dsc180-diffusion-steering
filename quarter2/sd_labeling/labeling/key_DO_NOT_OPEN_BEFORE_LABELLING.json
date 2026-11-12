@@ -1,0 +1,110 @@
+[
+ {
+  "pair": 1,
+  "prompt": 0,
+  "seed": 789,
+  "caption": "A child holding a flowered umbrella and petting a yak",
+  "subject": "child and yak",
+  "A": "unsteered",
+  "B": "steered"
+ },
+ {
+  "pair": 2,
+  "prompt": 1,
+  "seed": 256,
+  "caption": "A narrow kitchen filled with appliances and cooking utensils",
+  "subject": "kitchen",
+  "A": "steered",
+  "B": "unsteered"
+ },
+ {
+  "pair": 3,
+  "prompt": 2,
+  "seed": 789,
+  "caption": "A little girl holding a kitten next to a blue fence",
+  "subject": "girl and kitten",
+  "A": "unsteered",
+  "B": "steered"
+ },
+ {
+  "pair": 4,
+  "prompt": 6,
+  "seed": 256,
+  "caption": "A bath tub sitting next to a sink in a bathroom",
+  "subject": "bath tub",
+  "A": "steered",
+  "B": "unsteered"
+ },
+ {
+  "pair": 5,
+  "prompt": 7,
+  "seed": 789,
+  "caption": "A row of parked cars sitting next to parking meters",
+  "subject": "parked cars",
+  "A": "steered",
+  "B": "unsteered"
+ },
+ {
+  "pair": 6,
+  "prompt": 8,
+  "seed": 123,
+  "caption": "An elegant bathroom features a tub, sink, mirror, and decorations",
+  "subject": "bathroom with a tub",
+  "A": "unsteered",
+  "B": "steered"
+ },
+ {
+  "pair": 7,
+  "prompt": 10,
+  "seed": 123,
+  "caption": "A car with some surfboards in a field",
+  "subject": "car with surfboards",
+  "A": "unsteered",
+  "B": "steered"
+ },
+ {
+  "pair": 8,
+  "prompt": 11,
+  "seed": 123,
+  "caption": "A cat on the lid of a toilet looking perturbed",
+  "subject": "cat on a toilet",
+  "A": "unsteered",
+  "B": "steered"
+ },
+ {
+  "pair": 9,
+  "prompt": 14,
+  "seed": 42,
+  "caption": "a person sitting at a desk with a keyboard and monitor",
+  "subject": "person at a desk",
+  "A": "steered",
+  "B": "unsteered"
+ },
+ {
+  "pair": 10,
+  "prompt": 19,
+  "seed": 256,
+  "caption": "A traffic signal sitting next to a street at night",
+  "subject": "traffic signal",
+  "A": "unsteered",
+  "B": "steered"
+ },
+ {
+  "pair": 11,
+  "prompt": 22,
+  "seed": 123,
+  "caption": "A political candidate advertisement on the side of a coach bus",
+  "subject": "bus with an advertisement",
+  "A": "unsteered",
+  "B": "steered"
+ },
+ {
+  "pair": 12,
+  "prompt": 24,
+  "seed": 256,
+  "caption": "A giraffe lying on the ground in a zoo pin",
+  "subject": "giraffe",
+  "A": "steered",
+  "B": "unsteered"
+ }
+]

@@ -1,0 +1,13 @@
+pair,subject_A,subject_B,larger,softer
+1,yes,yes,B,B
+2,yes,yes,B,A
+3,yes,yes,B,B
+4,yes,yes,A,same
+5,yes,yes,B,A
+6,yes,unclear,A,B
+7,yes,yes,B,B
+8,yes,yes,same,B
+9,yes,yes,same,B
+10,yes,yes,B,unclear
+11,yes,yes,same,B
+12,yes,yes,A,same
