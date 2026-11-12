@@ -1,0 +1,198 @@
+{
+ "deer": {
+  "1": {
+   "seed": 101,
+   "source": "unsteered"
+  },
+  "2": {
+   "seed": 198,
+   "source": "steered"
+  },
+  "3": {
+   "seed": 198,
+   "source": "unsteered"
+  },
+  "4": {
+   "seed": 43,
+   "source": "unsteered"
+  },
+  "5": {
+   "seed": 77,
+   "source": "unsteered"
+  },
+  "6": {
+   "seed": 232,
+   "source": "steered"
+  },
+  "7": {
+   "seed": 7,
+   "source": "unsteered"
+  },
+  "8": {
+   "seed": 91,
+   "source": "unsteered"
+  },
+  "9": {
+   "seed": 77,
+   "source": "steered"
+  },
+  "10": {
+   "seed": 103,
+   "source": "unsteered"
+  },
+  "11": {
+   "seed": 125,
+   "source": "steered"
+  },
+  "12": {
+   "seed": 101,
+   "source": "steered"
+  },
+  "13": {
+   "seed": 214,
+   "source": "unsteered"
+  },
+  "14": {
+   "seed": 90,
+   "source": "unsteered"
+  },
+  "15": {
+   "seed": 91,
+   "source": "steered"
+  },
+  "16": {
+   "seed": 103,
+   "source": "steered"
+  },
+  "17": {
+   "seed": 214,
+   "source": "steered"
+  },
+  "18": {
+   "seed": 25,
+   "source": "unsteered"
+  },
+  "19": {
+   "seed": 43,
+   "source": "steered"
+  },
+  "20": {
+   "seed": 90,
+   "source": "steered"
+  },
+  "21": {
+   "seed": 25,
+   "source": "steered"
+  },
+  "22": {
+   "seed": 7,
+   "source": "steered"
+  },
+  "23": {
+   "seed": 232,
+   "source": "unsteered"
+  },
+  "24": {
+   "seed": 125,
+   "source": "unsteered"
+  }
+ },
+ "ship": {
+  "1": {
+   "seed": 242,
+   "source": "unsteered"
+  },
+  "2": {
+   "seed": 213,
+   "source": "unsteered"
+  },
+  "3": {
+   "seed": 105,
+   "source": "unsteered"
+  },
+  "4": {
+   "seed": 113,
+   "source": "unsteered"
+  },
+  "5": {
+   "seed": 96,
+   "source": "unsteered"
+  },
+  "6": {
+   "seed": 105,
+   "source": "steered"
+  },
+  "7": {
+   "seed": 192,
+   "source": "unsteered"
+  },
+  "8": {
+   "seed": 93,
+   "source": "steered"
+  },
+  "9": {
+   "seed": 133,
+   "source": "unsteered"
+  },
+  "10": {
+   "seed": 222,
+   "source": "unsteered"
+  },
+  "11": {
+   "seed": 213,
+   "source": "steered"
+  },
+  "12": {
+   "seed": 222,
+   "source": "steered"
+  },
+  "13": {
+   "seed": 184,
+   "source": "unsteered"
+  },
+  "14": {
+   "seed": 96,
+   "source": "steered"
+  },
+  "15": {
+   "seed": 93,
+   "source": "unsteered"
+  },
+  "16": {
+   "seed": 113,
+   "source": "steered"
+  },
+  "17": {
+   "seed": 247,
+   "source": "unsteered"
+  },
+  "18": {
+   "seed": 184,
+   "source": "steered"
+  },
+  "19": {
+   "seed": 242,
+   "source": "steered"
+  },
+  "20": {
+   "seed": 133,
+   "source": "steered"
+  },
+  "21": {
+   "seed": 192,
+   "source": "steered"
+  },
+  "22": {
+   "seed": 66,
+   "source": "unsteered"
+  },
+  "23": {
+   "seed": 66,
+   "source": "steered"
+  },
+  "24": {
+   "seed": 247,
+   "source": "steered"
+  }
+ }
+}

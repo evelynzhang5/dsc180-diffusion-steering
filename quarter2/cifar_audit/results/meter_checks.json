@@ -1,0 +1,108 @@
+{
+  "brighter (+0.1)": {
+    "brightness": 0.7876882101095185,
+    "contrast": -0.07043389524636662,
+    "saturation": -0.43986265500782246,
+    "colorfulness": -0.018122921105801788,
+    "blueness": -0.004158022942226216,
+    "greenness": 0.010937269297248222,
+    "redness": -0.0005205806726554603,
+    "border_clutter": -0.06574170191240869,
+    "figure_ground": -0.04265054609834846,
+    "sharpness": -0.02847296998269
+  },
+  "desaturate (halfway to grey)": {
+    "brightness": 2.5919238931060404e-08,
+    "contrast": 1.6995873809125766e-08,
+    "saturation": -0.8682393094747995,
+    "colorfulness": -0.9456473315151817,
+    "blueness": 0.20258383371447414,
+    "greenness": -0.16014095564814165,
+    "redness": -0.14408120879056527,
+    "border_clutter": 1.468520208791672e-08,
+    "figure_ground": -0.06409081527562216,
+    "sharpness": 1.1944456005432088e-08
+  },
+  "bluer (+0.08 blue)": {
+    "brightness": 0.07189937899915264,
+    "contrast": -0.006113846750443309,
+    "saturation": -0.00591730243982469,
+    "colorfulness": 0.012148746008374144,
+    "blueness": 0.7783337647335138,
+    "greenness": -0.9164858683259447,
+    "redness": -0.4166315410601828,
+    "border_clutter": -0.006261932978992149,
+    "figure_ground": -0.010548941833275687,
+    "sharpness": -0.0022669428101411686
+  },
+  "greener (+0.08 green)": {
+    "brightness": 0.372030431104896,
+    "contrast": -0.028403367612854863,
+    "saturation": 0.49879375749039523,
+    "colorfulness": 0.20665208582958924,
+    "blueness": -0.3910713057452695,
+    "greenness": 1.8419415498235636,
+    "redness": -0.4186703652329781,
+    "border_clutter": -0.027447514672601037,
+    "figure_ground": -0.009464038147739183,
+    "sharpness": -0.010293497010141196
+  },
+  "lower contrast (x0.6 around the mean)": {
+    "brightness": -0.024660466166053326,
+    "contrast": -1.2447805234944957,
+    "saturation": -0.8112992463732772,
+    "colorfulness": -0.7565178153546459,
+    "blueness": 0.16206705558295934,
+    "greenness": -0.1281127539906497,
+    "redness": -0.11526495962603672,
+    "border_clutter": -0.9891228819784559,
+    "figure_ground": -0.5320940518016035,
+    "sharpness": -1.1653575699376602
+  },
+  "blur (Gaussian, 1 px)": {
+    "brightness": -6.882491712669158e-11,
+    "contrast": -0.38099442630017727,
+    "saturation": -0.1089708616727792,
+    "colorfulness": -0.15631220287427225,
+    "blueness": 2.0867867677300062e-11,
+    "greenness": -7.469878931713388e-10,
+    "redness": 3.172377294433735e-10,
+    "border_clutter": -0.2607847031427359,
+    "figure_ground": -0.03028745638337216,
+    "sharpness": -2.0302817518662684
+  },
+  "flat background (border ring set to its mean)": {
+    "brightness": -3.3769258949331926e-07,
+    "contrast": -0.6499609580945036,
+    "saturation": -0.18458342581851617,
+    "colorfulness": -0.304331795952809,
+    "blueness": -7.811426201015453e-07,
+    "greenness": 5.168675805749168e-07,
+    "redness": 6.013038196581066e-07,
+    "border_clutter": -2.472807372705579,
+    "figure_ground": 6.644834373239697e-07,
+    "sharpness": -0.20179683158381145
+  },
+  "set_checks": {
+    "airplane": {
+      "feature_diversity": 0.15989129672856467,
+      "background_diversity": 1.1767550767148995,
+      "pixel_diversity": 1.0109036498103112
+    },
+    "cat": {
+      "feature_diversity": 0.20823812204082445,
+      "background_diversity": 1.061020673845798,
+      "pixel_diversity": 1.0593573586984695
+    },
+    "deer": {
+      "feature_diversity": 0.1762506601431818,
+      "background_diversity": 0.8896315093307545,
+      "pixel_diversity": 0.8512004079906014
+    },
+    "ship": {
+      "feature_diversity": 0.16904422705475644,
+      "background_diversity": 0.9413976956397343,
+      "pixel_diversity": 0.9170844942251826
+    }
+  }
+}
