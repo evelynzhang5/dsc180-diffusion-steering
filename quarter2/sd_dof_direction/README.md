@@ -14,7 +14,7 @@ from the same reference data raise the FG/BG sharpness ratio more than the paper
 is the Stable Diffusion counterpart of round 8's "choose the direction before learning combinations": if no single
 candidate is more selective, there is no case for learning a combination of them.
 
-## Design (draft; frozen with a sha256 before any image of this round is generated)
+## Design (frozen on Nov 13, 2026 with `design.sha256`, before any image of this round was generated)
 
 **Fixed, as in round 4** (`sd_dof.py`):
 - SD 1.5, 50 DDIM steps, text CFG 7.5. A third branch `eps_s` (the conditional prediction with the edit
@@ -125,7 +125,23 @@ seeds). Round 7 showed that strengths interact (NA x RFM), so a challenger's adv
 - Captions are COCO only.
 - The CLIP caption score is a weak measure of scene preservation; DINOv2 and pixel change carry that role.
 
+**Implementation choices the draft left open** (fixed with the design):
+- Caption groups: the keyword lists `PEOPLE` and `ANIMALS` in `sd_dof_direction.py` (whole words, after removing
+  "teddy bear" and "hot dog"); captions are each validation image's first caption, in dataset order from image 33.
+- `rfm_eig1` and `meandiff` are round 4's saved vectors exactly (so the baseline is round 4's direction); the refit
+  supplies `rfm_eig2` and `rfm_eig3`; `meandiff_std` divides round 4's `meandiff` by the per-feature standard deviation
+  over the 1,200 photos. `random`: standard Gaussian, torch seed 0.
+- Duplicates: signed cosine above 0.95 with an earlier kept candidate, in the order of the candidate table.
+- `oracle`: Gaussian blur of each colour channel (sigma from {0.5, 1, 1.5, 2, 3, 4, 6, 8} px, picked on dev),
+  composited through the unsteered depth foreground mask feathered with a Gaussian of sigma 8 px.
+- `random` and `prompt` get their test strength by the same closest-background rule as the candidates.
+- DINOv2: `facebook/dinov2-base`, CLS token, cosine. Images are saved as PNG (round 4 used JPEG).
+- Framing: log of the scale from round 4's `zoom_control.align`.
+- Smoke runs (`--smoke`) skip the refit check and use 2 dev captions, 1 seed and s 4 only.
+
 ## Status
 
-- Nov 13, 2026: design drafted. Next: code (`sd_dof_direction.py`, reusing `sd_dof.py`'s sampler and meters,
-  `dsmlp_sd_dof_direction.sh`), then freeze the design and run `build`.
+- Nov 13, 2026: design drafted.
+- Nov 13, 2026: code written (`sd_dof_direction.py`, `dsmlp_sd_dof_direction.sh`; round 4's `sd_dof.py`,
+  `zoom_control.py` and `requirements.txt` copied unchanged from `q2-sd-dof` into `quarter2/sd_dof/`); design frozen;
+  first pod: smoke test, then build, tune and select.
