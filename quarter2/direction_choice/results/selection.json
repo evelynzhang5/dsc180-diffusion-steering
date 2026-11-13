@@ -1,0 +1,37 @@
+{
+ "rule": "per direction: min mean FID over ['ship', 'truck', 'deer'] with mean accuracy >= 97.70 (baseline at w 0.5 minus 1.0); challenger: lowest-FID non-baseline pick",
+ "baseline": {
+  "cand": "rfm_top3",
+  "w": 0.5
+ },
+ "challenger": null,
+ "picks": {
+  "rfm_top3": {
+   "w": 0.5,
+   "mean_acc": 98.69791666666667,
+   "mean_fid": 69.71164191208689
+  },
+  "rfm_eig2": null,
+  "meandiff": null,
+  "meandiff_std": null
+ },
+ "at_w1": {
+  "rfm_top3": {
+   "mean_acc": 89.0625,
+   "mean_fid": 85.6744525603027
+  },
+  "rfm_eig2": {
+   "mean_acc": 66.27604166666667,
+   "mean_fid": 101.70930368453917
+  },
+  "meandiff": {
+   "mean_acc": 85.41666666666667,
+   "mean_fid": 95.65586575772271
+  },
+  "meandiff_std": {
+   "mean_acc": 89.32291666666667,
+   "mean_fid": 89.77996972880369
+  }
+ },
+ "time": "2026-11-13 14:08:13"
+}

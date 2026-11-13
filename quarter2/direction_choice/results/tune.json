@@ -1,0 +1,482 @@
+{
+ "rfm_top3_w0.25": {
+  "cand": "rfm_top3",
+  "w": 0.25,
+  "classes": {
+   "ship": {
+    "accuracy": 98.046875,
+    "fid": 62.71115335071664,
+    "correct": 251,
+    "total": 256
+   },
+   "truck": {
+    "accuracy": 99.21875,
+    "fid": 52.75433579626153,
+    "correct": 254,
+    "total": 256
+   },
+   "deer": {
+    "accuracy": 94.53125,
+    "fid": 90.46333291996854,
+    "correct": 242,
+    "total": 256
+   }
+  }
+ },
+ "rfm_top3_w0.5": {
+  "cand": "rfm_top3",
+  "w": 0.5,
+  "classes": {
+   "ship": {
+    "accuracy": 98.828125,
+    "fid": 64.69949749039225,
+    "correct": 253,
+    "total": 256
+   },
+   "truck": {
+    "accuracy": 98.046875,
+    "fid": 54.15960547885376,
+    "correct": 251,
+    "total": 256
+   },
+   "deer": {
+    "accuracy": 99.21875,
+    "fid": 90.27582276701466,
+    "correct": 254,
+    "total": 256
+   }
+  }
+ },
+ "rfm_top3_w0.75": {
+  "cand": "rfm_top3",
+  "w": 0.75,
+  "classes": {
+   "ship": {
+    "accuracy": 95.3125,
+    "fid": 68.29366230380853,
+    "correct": 244,
+    "total": 256
+   },
+   "truck": {
+    "accuracy": 95.3125,
+    "fid": 62.24187617390169,
+    "correct": 244,
+    "total": 256
+   },
+   "deer": {
+    "accuracy": 99.21875,
+    "fid": 92.88131028326262,
+    "correct": 254,
+    "total": 256
+   }
+  }
+ },
+ "rfm_top3_w1": {
+  "cand": "rfm_top3",
+  "w": 1.0,
+  "classes": {
+   "ship": {
+    "accuracy": 83.984375,
+    "fid": 74.42083130540135,
+    "correct": 215,
+    "total": 256
+   },
+   "truck": {
+    "accuracy": 83.203125,
+    "fid": 82.91697080038398,
+    "correct": 213,
+    "total": 256
+   },
+   "deer": {
+    "accuracy": 100.0,
+    "fid": 99.68555557512275,
+    "correct": 256,
+    "total": 256
+   }
+  }
+ },
+ "rfm_top3_w1.5": {
+  "cand": "rfm_top3",
+  "w": 1.5,
+  "classes": {
+   "ship": {
+    "accuracy": 47.65625,
+    "fid": 97.91083697175185,
+    "correct": 122,
+    "total": 256
+   },
+   "truck": {
+    "accuracy": 41.015625,
+    "fid": 126.7490751704845,
+    "correct": 105,
+    "total": 256
+   },
+   "deer": {
+    "accuracy": 99.609375,
+    "fid": 109.78396119745145,
+    "correct": 255,
+    "total": 256
+   }
+  }
+ },
+ "rfm_eig2_w0.25": {
+  "cand": "rfm_eig2",
+  "w": 0.25,
+  "classes": {
+   "ship": {
+    "accuracy": 94.53125,
+    "fid": 61.09601950662113,
+    "correct": 242,
+    "total": 256
+   },
+   "truck": {
+    "accuracy": 89.84375,
+    "fid": 56.97449655251185,
+    "correct": 230,
+    "total": 256
+   },
+   "deer": {
+    "accuracy": 75.78125,
+    "fid": 93.02358374746291,
+    "correct": 194,
+    "total": 256
+   }
+  }
+ },
+ "rfm_eig2_w0.5": {
+  "cand": "rfm_eig2",
+  "w": 0.5,
+  "classes": {
+   "ship": {
+    "accuracy": 95.703125,
+    "fid": 61.25210477458194,
+    "correct": 245,
+    "total": 256
+   },
+   "truck": {
+    "accuracy": 93.75,
+    "fid": 57.512818089184066,
+    "correct": 240,
+    "total": 256
+   },
+   "deer": {
+    "accuracy": 80.078125,
+    "fid": 93.93994920528371,
+    "correct": 205,
+    "total": 256
+   }
+  }
+ },
+ "rfm_eig2_w0.75": {
+  "cand": "rfm_eig2",
+  "w": 0.75,
+  "classes": {
+   "ship": {
+    "accuracy": 89.0625,
+    "fid": 67.94957038482534,
+    "correct": 228,
+    "total": 256
+   },
+   "truck": {
+    "accuracy": 80.859375,
+    "fid": 70.97958940630224,
+    "correct": 207,
+    "total": 256
+   },
+   "deer": {
+    "accuracy": 78.125,
+    "fid": 101.31648353520484,
+    "correct": 200,
+    "total": 256
+   }
+  }
+ },
+ "rfm_eig2_w1": {
+  "cand": "rfm_eig2",
+  "w": 1.0,
+  "classes": {
+   "ship": {
+    "accuracy": 74.21875,
+    "fid": 90.82300338021517,
+    "correct": 190,
+    "total": 256
+   },
+   "truck": {
+    "accuracy": 56.25,
+    "fid": 96.53607657961967,
+    "correct": 144,
+    "total": 256
+   },
+   "deer": {
+    "accuracy": 68.359375,
+    "fid": 117.76883109378264,
+    "correct": 175,
+    "total": 256
+   }
+  }
+ },
+ "rfm_eig2_w1.5": {
+  "cand": "rfm_eig2",
+  "w": 1.5,
+  "classes": {
+   "ship": {
+    "accuracy": 21.09375,
+    "fid": 164.33173334993378,
+    "correct": 54,
+    "total": 256
+   },
+   "truck": {
+    "accuracy": 14.0625,
+    "fid": 158.06648608990963,
+    "correct": 36,
+    "total": 256
+   },
+   "deer": {
+    "accuracy": 43.75,
+    "fid": 147.23146477497966,
+    "correct": 112,
+    "total": 256
+   }
+  }
+ },
+ "meandiff_w0.25": {
+  "cand": "meandiff",
+  "w": 0.25,
+  "classes": {
+   "ship": {
+    "accuracy": 97.65625,
+    "fid": 62.82279488488976,
+    "correct": 250,
+    "total": 256
+   },
+   "truck": {
+    "accuracy": 90.625,
+    "fid": 55.13503037067392,
+    "correct": 232,
+    "total": 256
+   },
+   "deer": {
+    "accuracy": 92.1875,
+    "fid": 96.80919341484642,
+    "correct": 236,
+    "total": 256
+   }
+  }
+ },
+ "meandiff_w0.5": {
+  "cand": "meandiff",
+  "w": 0.5,
+  "classes": {
+   "ship": {
+    "accuracy": 97.265625,
+    "fid": 63.50670200942898,
+    "correct": 249,
+    "total": 256
+   },
+   "truck": {
+    "accuracy": 95.3125,
+    "fid": 57.374108472458204,
+    "correct": 244,
+    "total": 256
+   },
+   "deer": {
+    "accuracy": 97.65625,
+    "fid": 103.94784977734179,
+    "correct": 250,
+    "total": 256
+   }
+  }
+ },
+ "meandiff_w0.75": {
+  "cand": "meandiff",
+  "w": 0.75,
+  "classes": {
+   "ship": {
+    "accuracy": 95.703125,
+    "fid": 64.04990675208137,
+    "correct": 245,
+    "total": 256
+   },
+   "truck": {
+    "accuracy": 87.5,
+    "fid": 72.60697041202212,
+    "correct": 224,
+    "total": 256
+   },
+   "deer": {
+    "accuracy": 98.046875,
+    "fid": 110.02894243910347,
+    "correct": 251,
+    "total": 256
+   }
+  }
+ },
+ "meandiff_w1": {
+  "cand": "meandiff",
+  "w": 1.0,
+  "classes": {
+   "ship": {
+    "accuracy": 88.671875,
+    "fid": 66.86075343540875,
+    "correct": 227,
+    "total": 256
+   },
+   "truck": {
+    "accuracy": 70.703125,
+    "fid": 100.9540812084407,
+    "correct": 181,
+    "total": 256
+   },
+   "deer": {
+    "accuracy": 96.875,
+    "fid": 119.15276262931866,
+    "correct": 248,
+    "total": 256
+   }
+  }
+ },
+ "meandiff_w1.5": {
+  "cand": "meandiff",
+  "w": 1.5,
+  "classes": {
+   "ship": {
+    "accuracy": 57.03125,
+    "fid": 93.40682538935846,
+    "correct": 146,
+    "total": 256
+   },
+   "truck": {
+    "accuracy": 26.953125,
+    "fid": 163.28894099566662,
+    "correct": 69,
+    "total": 256
+   },
+   "deer": {
+    "accuracy": 82.421875,
+    "fid": 142.529978361073,
+    "correct": 211,
+    "total": 256
+   }
+  }
+ },
+ "meandiff_std_w0.25": {
+  "cand": "meandiff_std",
+  "w": 0.25,
+  "classes": {
+   "ship": {
+    "accuracy": 96.875,
+    "fid": 62.65536201397893,
+    "correct": 248,
+    "total": 256
+   },
+   "truck": {
+    "accuracy": 91.015625,
+    "fid": 54.84185442062713,
+    "correct": 233,
+    "total": 256
+   },
+   "deer": {
+    "accuracy": 92.578125,
+    "fid": 96.06362918934207,
+    "correct": 237,
+    "total": 256
+   }
+  }
+ },
+ "meandiff_std_w0.5": {
+  "cand": "meandiff_std",
+  "w": 0.5,
+  "classes": {
+   "ship": {
+    "accuracy": 97.65625,
+    "fid": 63.65899279525004,
+    "correct": 250,
+    "total": 256
+   },
+   "truck": {
+    "accuracy": 95.703125,
+    "fid": 56.24700540261074,
+    "correct": 245,
+    "total": 256
+   },
+   "deer": {
+    "accuracy": 98.046875,
+    "fid": 101.58657586244485,
+    "correct": 251,
+    "total": 256
+   }
+  }
+ },
+ "meandiff_std_w0.75": {
+  "cand": "meandiff_std",
+  "w": 0.75,
+  "classes": {
+   "ship": {
+    "accuracy": 96.484375,
+    "fid": 63.856158055911095,
+    "correct": 247,
+    "total": 256
+   },
+   "truck": {
+    "accuracy": 91.796875,
+    "fid": 68.49352136683143,
+    "correct": 235,
+    "total": 256
+   },
+   "deer": {
+    "accuracy": 98.4375,
+    "fid": 106.10773673506813,
+    "correct": 252,
+    "total": 256
+   }
+  }
+ },
+ "meandiff_std_w1": {
+  "cand": "meandiff_std",
+  "w": 1.0,
+  "classes": {
+   "ship": {
+    "accuracy": 91.796875,
+    "fid": 65.67615461765135,
+    "correct": 235,
+    "total": 256
+   },
+   "truck": {
+    "accuracy": 78.125,
+    "fid": 89.57638493625768,
+    "correct": 200,
+    "total": 256
+   },
+   "deer": {
+    "accuracy": 98.046875,
+    "fid": 114.08736963250203,
+    "correct": 251,
+    "total": 256
+   }
+  }
+ },
+ "meandiff_std_w1.5": {
+  "cand": "meandiff_std",
+  "w": 1.5,
+  "classes": {
+   "ship": {
+    "accuracy": 66.796875,
+    "fid": 87.92646212732177,
+    "correct": 171,
+    "total": 256
+   },
+   "truck": {
+    "accuracy": 31.25,
+    "fid": 153.4420495199758,
+    "correct": 80,
+    "total": 256
+   },
+   "deer": {
+    "accuracy": 89.453125,
+    "fid": 134.8678302163388,
+    "correct": 229,
+    "total": 256
+   }
+  }
+ }
+}

@@ -88,7 +88,42 @@ one model, one evaluator; three development classes (the confirmation adds the o
 - Nov 13, 2026, amendment before any dev image: the build found that the paper's direction is the top eigenvector
   (cos(`rfm_top3`, `rfm_eig1`) between 0.9995 and 1.0000 in all ten classes; the top eigenvalue dominates the
   weights), so `rfm_eig1` is dropped from tuning as a duplicate of the baseline. Mean differences are far from it
-  (cosine 0.33-0.57). Build table: `results/build.md` (once pulled).
+  (cosine 0.33-0.57). Build table: `results/build.md`.
+
+- Nov 13, 2026: build, tune and select done. **Closed: no candidate direction improves on the tuned paper
+  direction.** No challenger met the accuracy floor, so by the rule there is no confirmation run.
+
+## Result (dev: ship, truck, deer, seeds 0-255, 256 images per class)
+
+Mean over the three classes, accuracy % / FID (FID at 256 images; compare rows with each other). Accuracy floor for
+selection: 97.7 (the paper direction at w 0.5 minus 1 point). Full grid: `results/tune.md`.
+
+| direction | w 0.25 | w 0.5 | w 0.75 | w 1 | w 1.5 | best at or above the floor |
+|---|---|---|---|---|---|---|
+| paper (`rfm_top3`) | 97.3 / 68.6 | **98.7 / 69.7** | 96.6 / 74.5 | 89.1 / 85.7 | 62.8 / 111.5 | w 0.5 |
+| 2nd RFM eigenvector | 86.7 / 70.4 | 89.8 / 70.9 | 82.7 / 80.1 | 66.3 / 101.7 | 26.3 / 156.5 | none (deer at most 80%) |
+| mean difference | 93.5 / 71.6 | 96.7 / 74.9 | 93.8 / 82.2 | 85.4 / 95.7 | 55.5 / 133.1 | none |
+| standardized mean difference | 93.5 / 71.2 | 97.1 / 73.8 | 95.6 / 79.5 | 89.3 / 89.8 | 62.5 / 125.4 | none (0.6 short) |
+
+**Decision (rule fixed in advance): no candidate reliably improves the tuned baseline; this direction stops here.**
+The conclusion does not hinge on the accuracy floor: at every strength, every other direction has higher mean FID
+than the paper direction at w 0.5 (69.7) except where its accuracy is 9 or more points lower (2nd eigenvector at
+w 0.25: 70.4 at 86.7%). The closest, the standardized mean difference at w 0.5, is 1.6 points less accurate and 4.1
+FID worse. Per class, the mean differences match the paper direction on ship (FID 63-64 vs. 65) and truck, but are
+clearly worse on deer (FID 96-114 vs. 90).
+
+- **Before strength tuning (all at w = 1)** no candidate wins either: the standardized mean difference matches the
+  paper direction's accuracy (89.3 vs. 89.1) at higher FID (89.8 vs. 85.7). So there was no gap that tuning removed;
+  the paper direction is simply the best of these at every strength.
+- **Consistent with the paper's Appendix E.6** (RFM over the mean difference on one ImageNet class, untuned), now on
+  CIFAR-10 with NA and with each direction's strength tuned.
+- **Probe AUC and generation agree in ranking here** (RFM 0.95-0.99 > mean differences 0.84-0.94 > 2nd eigenvector
+  0.54-0.89), though this round did not use it to choose.
+- **The paper's top-3 direction is the top eigenvector** (cosine at least 0.9995 in all ten classes), so its k = 3
+  setting is effectively k = 1 on CIFAR-10.
+
+Caveats: three development classes and 256 images per class (no confirmation was needed, so the other seven classes
+were not run); four candidates, none learned from generations; NA and the window fixed at round 7's values.
 
 ## Files
 
@@ -96,6 +131,7 @@ one model, one evaluator; three development classes (the confirmation adds the o
 |---|---|
 | `directions.py` | Stages `build`, `tune`, `select`, `confirm`; `--smoke` for 2 classes, 16 images, 2 candidates x 2 strengths |
 | `dsmlp_directions.sh` | On a DSMLP GPU pod: `dev` (smoke test, then build tune select) or `test` (confirm) |
+| `results/` | Candidate AUCs and cosines (`build.*`), the tuning grid (`tune.*`), the frozen selection (`selection.*`) |
 
 Needs the replication's setup on the pod (`python cifar10_replication/replicate.py setup offline`) and round 7's
 samples in `downloads/narfm/samples_interplay/` (if missing, they are regenerated). Outputs go to
