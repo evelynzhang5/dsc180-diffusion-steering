@@ -19,9 +19,10 @@ git switch q2-sd-dof        # or any branch below; the round's README is quarter
 | 6 | Can people label what SD steering changed? (feasibility on round 4's pairs) | `q2-sd-labeling` | `sd_labeling/` | Nov 12 | No question met the agreement bar (people: framing kappa 0.31, subject visible 0.12); all raters saw steered subjects as softer (the target) and more often larger in frame | Closed |
 | 7 | When do noise alignment and RFM help or interfere? (CIFAR-10, NA-RFM) | `q2-na-rfm-interplay` | `na_rfm_interplay/` | Nov 12 | NA-RFM's ship and truck losses come from NA, not the late RFM window, and joint strength tuning removes them: with RFM at w 0.5 instead of 1, NA-RFM beats RFM alone on ship (98.0% vs. 94.5%) and truck (97.9% vs. 91.6%) on fresh seeds, mean FID 43.7 → 38.5 (1,024 per class). No new direction learned on NA trajectories was needed | Closed |
 | 8 | With strength tuned, is there a better direction to push? (CIFAR-10, tuned NA-RFM baseline) | `q2-direction-choice` | `direction_choice/` | Nov 13- | | In progress |
+| 9 | At matched background blur, does another direction blur the foreground less? (SD 1.5 depth of field) | `q2-sd-dof-direction` | `sd_dof_direction/` | Nov 13- | | Design draft |
 
 Where things stand (Nov 13, 2026): after rounds 5-6 the project returned to improving steering itself. Round 7
 fixed how hard to push (NA-RFM needs a lower RFM strength); round 8 asks whether a different direction improves the
-accuracy-FID trade-off against that tuned baseline, choosing among a few candidates before any learned combination. Earlier (Nov 10): reference-set bias does carry over into unintended changes (rounds 2 and 3), but
+accuracy-FID trade-off against that tuned baseline, choosing among a few candidates before any learned combination. Round 9 (design only) asks the same question on SD 1.5 depth of field, where round 4 found the paper's direction softens the whole image: at matched background blur, is any direction more selective? Earlier (Nov 10): reference-set bias does carry over into unintended changes (rounds 2 and 3), but
 on Stable Diffusion we have not found a steering target that works cleanly enough for a matched-target comparison
 (rounds 3 and 4).
