@@ -8,6 +8,26 @@ That tuned NA-RFM is now the baseline. This round asks whether a different block
 accuracy-FID trade-off once strength is tuned fairly for every direction. Ship and truck are already near 98%
 accuracy, so the main target is **lower FID at comparable accuracy**.
 
+**Relation to the paper.** This round is not a reproduction. The paper's closest experiment is Appendix E.6, which
+compares a mean-difference direction with RFM on one ImageNet class (unconditional ADM, class 222 kuvasz): RFM 30.5%
+top-1 accuracy (label confidence 0.24) vs. mean difference 6.2% (0.08), which motivated using RFM. E.6 reports no
+steering strength and does not state whether noise alignment was on. Round 7 showed that strength alone can reverse
+a comparison, so this round checks whether E.6's conclusion holds on CIFAR-10 when every direction's strength is
+tuned, and whether any direction beats the tuned baseline on FID. The w = 1 rows of the dev table give the
+untuned comparison in E.6's style; the tuned picks give the fair one.
+
+| | Paper, Appendix E.6 | This round |
+|---|---|---|
+| model, target | ImageNet (ADM), one class (kuvasz) | CIFAR-10, ship, truck and deer for tuning, all ten for confirmation |
+| directions | mean difference vs. RFM | RFM (the paper's), 2nd RFM eigenvector, mean difference, standardized mean difference |
+| noise alignment | not stated | on (lambda 3), as in tuned NA-RFM |
+| strength | one value, not reported | each direction tuned over w 0.25-1.5 |
+| metrics | top-1 accuracy, label confidence | accuracy and per-class FID |
+
+The paper also never compares a single eigenvector with the top-k mix; Section 3.3 only sets k in {1, 3, 5}. The
+build's finding that the top-3 mix is effectively the top eigenvector is reported with the per-class eigenvalue
+ratio lambda1 / lambda2 (from the replication's RFM files), which explains the collapse.
+
 **Question.** After tuning strength (with NA and the RFM window fixed), does choosing a different activation direction
 beat the tuned paper direction? Candidate selection comes before learning combinations: if a short search already
 handles it, or nothing beats the baseline, there is no case for a new method.
