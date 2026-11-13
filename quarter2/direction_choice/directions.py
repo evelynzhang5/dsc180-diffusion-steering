@@ -39,6 +39,9 @@ TUNE_CLASSES = [8, 9, 4]                         # ship, truck, deer (as in roun
 DEV, TEST = (0, 256), (1000, 1024)
 CANDS = ["rfm_top3", "rfm_eig1", "rfm_eig2", "meandiff", "meandiff_std"]
 BASELINE = "rfm_top3"                            # the paper's direction (top-3 RFM eigenvectors, eigenvalue-weighted)
+# rfm_eig1 is built and reported but not tuned: the build found cos(rfm_top3, rfm_eig1) >= 0.9994 in every class
+# (the top eigenvalue dominates the weights), so it would only repeat the baseline. Amended before any dev image.
+TUNED = [c for c in CANDS if c != "rfm_eig1"]
 WS = (0.25, 0.5, 0.75, 1.0, 1.5)
 ROUND7_W = 0.5                                   # round 7's tuned strength; its dev accuracy sets the accuracy floor
 ACC_TOL = 1.0                                    # selection: mean accuracy at least baseline(w 0.5) - this
@@ -304,7 +307,7 @@ def main():
     cfg.tune_classes = [8, 4] if cfg.smoke else TUNE_CLASSES
     cfg.seeds = {"dev": (0, 16), "test": (1000, 16)} if cfg.smoke else {"dev": DEV, "test": TEST}
     cfg.num_ref = 500 if cfg.smoke else -1
-    cfg.cands = [BASELINE, "meandiff_std"] if cfg.smoke else CANDS
+    cfg.cands = [BASELINE, "meandiff_std"] if cfg.smoke else TUNED
     cfg.ws = (0.5, 1.0) if cfg.smoke else WS
     tag = "_smoke" if cfg.smoke else ""
     cfg.out = ROOT / "outputs" / f"q2_direction_choice{tag}"

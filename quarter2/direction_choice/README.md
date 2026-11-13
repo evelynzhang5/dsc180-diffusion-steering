@@ -25,7 +25,7 @@ ones the paper's RFM was fit on):
 | name | direction |
 |---|---|
 | `rfm_top3` | the paper's: top-3 RFM eigenvectors weighted by eigenvalue (baseline; the replication's files) |
-| `rfm_eig1` | the top RFM eigenvector alone |
+| `rfm_eig1` | the top RFM eigenvector alone (built and reported, **not tuned**: see the amendment below) |
 | `rfm_eig2` | the second RFM eigenvector alone |
 | `meandiff` | class mean minus the mean of the other nine classes (raw features) |
 | `meandiff_std` | the same difference divided by each feature's standard deviation (the RFM fits on standardized features) |
@@ -37,7 +37,7 @@ generated images.
 | stage | what | classes | seeds |
 |---|---|---|---|
 | `build` | the candidate directions, their probe AUCs and cosines | all ten | training images |
-| `tune` | 5 candidates x w {0.25, 0.5, 0.75, 1, 1.5} = 25 settings | ship, truck, deer | 0-255 |
+| `tune` | 4 candidates x w {0.25, 0.5, 0.75, 1, 1.5} = 20 settings | ship, truck, deer | 0-255 |
 | `select` | one w per candidate and one challenger by the rule below; frozen with a sha256 | | |
 | `confirm` | tuned baseline vs. challenger, 1,024 images per class | **all ten** | 1000-2023 (new) |
 
@@ -65,6 +65,10 @@ one model, one evaluator; three development classes (the confirmation adds the o
 ## Status
 
 - Nov 13, 2026: design and code written; first pod: smoke test, then build, tune and select.
+- Nov 13, 2026, amendment before any dev image: the build found that the paper's direction is the top eigenvector
+  (cos(`rfm_top3`, `rfm_eig1`) between 0.9995 and 1.0000 in all ten classes; the top eigenvalue dominates the
+  weights), so `rfm_eig1` is dropped from tuning as a duplicate of the baseline. Mean differences are far from it
+  (cosine 0.33-0.57). Build table: `results/build.md` (once pulled).
 
 ## Files
 
