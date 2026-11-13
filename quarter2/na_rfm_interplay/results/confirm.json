@@ -1,0 +1,91 @@
+{
+ "cells": {
+  "paper RFM only": "lam0_all_w1",
+  "paper NA-RFM": "lam3_late_w1",
+  "tuned combined": "lam3_late_w0.5",
+  "tuned rfm_only": "lam0_all_w1"
+ },
+ "results": {
+  "lam0_all_w1": {
+   "setting": {
+    "lam": 0.0,
+    "window": "all",
+    "w": 1.0
+   },
+   "classes": {
+    "ship": {
+     "accuracy": 94.53125,
+     "fid": 46.00168140210229,
+     "correct": 968,
+     "total": 1024
+    },
+    "truck": {
+     "accuracy": 91.6015625,
+     "fid": 36.31314973959962,
+     "correct": 938,
+     "total": 1024
+    },
+    "deer": {
+     "accuracy": 97.8515625,
+     "fid": 48.70571145724591,
+     "correct": 1002,
+     "total": 1024
+    }
+   }
+  },
+  "lam3_late_w1": {
+   "setting": {
+    "lam": 3.0,
+    "window": "late",
+    "w": 1.0
+   },
+   "classes": {
+    "ship": {
+     "accuracy": 84.765625,
+     "fid": 47.14604442102669,
+     "correct": 868,
+     "total": 1024
+    },
+    "truck": {
+     "accuracy": 85.7421875,
+     "fid": 47.356508525609456,
+     "correct": 878,
+     "total": 1024
+    },
+    "deer": {
+     "accuracy": 99.70703125,
+     "fid": 55.003660471522494,
+     "correct": 1021,
+     "total": 1024
+    }
+   }
+  },
+  "lam3_late_w0.5": {
+   "setting": {
+    "lam": 3.0,
+    "window": "late",
+    "w": 0.5
+   },
+   "classes": {
+    "ship": {
+     "accuracy": 98.046875,
+     "fid": 40.34676627318933,
+     "correct": 1004,
+     "total": 1024
+    },
+    "truck": {
+     "accuracy": 97.8515625,
+     "fid": 27.646988790674726,
+     "correct": 1002,
+     "total": 1024
+    },
+    "deer": {
+     "accuracy": 99.0234375,
+     "fid": 47.67009252907087,
+     "correct": 1014,
+     "total": 1024
+    }
+   }
+  }
+ }
+}

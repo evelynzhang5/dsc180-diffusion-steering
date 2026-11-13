@@ -1,0 +1,26 @@
+{
+ "rule": "max mean accuracy over ['ship', 'truck', 'deer'] with mean FID <= paper RFM-only 83.07 + 5.0",
+ "selected": {
+  "combined": {
+   "lam": 3.0,
+   "window": "late",
+   "w": 0.5
+  },
+  "rfm_only": {
+   "lam": 0.0,
+   "window": "all",
+   "w": 1.0
+  }
+ },
+ "dev": {
+  "combined": {
+   "mean_acc": 98.69791666666667,
+   "mean_fid": 69.71164191208689
+  },
+  "rfm_only": {
+   "mean_acc": 93.09895833333333,
+   "mean_fid": 83.07313535447643
+  }
+ },
+ "time": "2026-11-12 12:28:33"
+}

@@ -5,12 +5,17 @@ report: https://drive.google.com/file/d/1g770Y5qUykiv7fV8qXJDeAzsil7pHX60/view?u
  We study classifier-free guidance (CFG) in diffusion models,
 which steers a sample toward a class with a guidance weight w, and ask whether w
 should change across noise levels instead of staying constant. This repository
-holds the Quarter 1 checkpoint work:
+holds:
 
-- **CIFAR-10 with NVIDIA's pretrained EDM models** (course lab parts 1–6): sampling,
-  class conditioning, CFG sweeps, and small-data training.
-- **Full-data EDM training** on CIFAR-10: about 14 GPU hours, FID 412 → 50.2.
-- **MNIST CFG network** trained from scratch, sampled with w = 0, 1, 2, 4.
+- **Replication of the NA-RFM paper's CIFAR-10 experiment** (Wang, Belkin and Wang,
+  ICML 2026, Table 2) with its public code: the ten classes' Gaussian denoisers and
+  RFM directions, five sampling settings, accuracy, FID and time. See
+  [Replicating the NA-RFM paper](#replicating-the-na-rfm-paper-cifar-10-table-2) below.
+- **Quarter 1 checkpoint work:**
+  - **CIFAR-10 with NVIDIA's pretrained EDM models** (course lab parts 1–6): sampling,
+    class conditioning, CFG sweeps, and small-data training.
+  - **Full-data EDM training** on CIFAR-10: about 14 GPU hours, FID 412 → 50.2.
+  - **MNIST CFG network** trained from scratch, sampled with w = 0, 1, 2, 4.
 
 ## Repository layout
 
@@ -93,6 +98,100 @@ Never commit the Jupyter token.
 
 Exact URLs and checksums are in the notebooks' download cell.
 </details>
+
+## Replicating the NA-RFM paper (CIFAR-10, Table 2)
+
+Wang, Belkin and Wang, "General and Efficient Steering of Diffusion Models", ICML 2026
+([arXiv 2602.11395](https://arxiv.org/abs/2602.11395); code
+[isotrivial/na-rfm](https://github.com/isotrivial/na-rfm)). All code, results and
+logs are in [`cifar10_replication/`](cifar10_replication/); its
+[README](cifar10_replication/README.md) has the full details. Someone with this
+repository and a GPU can rerun every step with the commands below.
+
+### Data, model checkpoint and software
+
+Install the packages, then let `setup` fetch the code, checkpoint and data (about 700 MB)
+at fixed versions and apply the two code fixes:
+
+```bash
+python -m pip install --user datasets scikit-learn scipy transformers gdown
+python cifar10_replication/replicate.py setup
+```
+
+| Item | Version / source |
+| --- | --- |
+| Paper code, [na-rfm](https://github.com/isotrivial/na-rfm) | commit `8e9619bc6735b03d73056bfdc13dd3659b96e127` |
+| [Training-Free-Guidance](https://github.com/YWolfeee/Training-Free-Guidance) (TFG: U-Net and FID code) | commit `f8d17f3ec2f0e7377dedf7b7bc62fad15f36cb77`, cloned into `na-rfm/baselines/tfg` |
+| Diffusion model checkpoint `openai_cifar10.pt` (improved-DDPM U-Net, 210 MB) | TFG's Google Drive, file id `1eInndCjx389Tl45kfmntVo23f_-82bHl`, md5 `2754c3e3c778ef6e0ab98e8aacaefaf9` (checked) |
+| CIFAR-10 | Hugging Face `uoft-cs/cifar10` (downloaded automatically) |
+| Accuracy evaluator (the paper's) | Hugging Face `ahsanjavid/convnext-tiny-finetuned-cifar10` |
+| Python packages | DSMLP `scipy-ml` image (PyTorch, torchvision, matplotlib) plus `pip install datasets scikit-learn scipy transformers gdown` |
+
+If `gdown` fails, download `openai_cifar10.pt` by hand from
+[TFG's folder](https://drive.google.com/drive/folders/1fS7dKpO4O-FjaLwuRXuHBxEOlkqMMTGh)
+into `downloads/narfm/na-rfm/data/checkpoints/`. Everything downloaded or generated goes
+to `downloads/narfm/` (about 2 GB with the 2,048-image runs) and is not in Git.
+
+**The two code fixes** (`setup` applies both):
+
+1. na-rfm's `repro/evaluate_saved_samples.py` calls `load_dataset("cifar10")`, a name current
+   `datasets` rejects; it becomes `load_dataset("uoft-cs/cifar10")`.
+2. TFG's `evaluations/utils/torch_sqrtm.py` imports `scipy.linalg._matfuncs_sqrtm_triu`,
+   which fails in SciPy 1.16 unless `scipy.linalg._matfuncs_sqrtm` is imported first; the
+   fix adds that import.
+
+### Run it
+
+On DSMLP, start a pod with 1 GPU, 8 CPUs and 32 GB
+(`launch-scipy-ml.sh -W DSC180A_FA26_001 -g 1 -c 8 -m 32`), clone the repository, and
+from its root run:
+
+```bash
+bash cifar10_replication/dsmlp_replicate.sh    # smoke test, then every stage below
+```
+
+It sets `OMP_NUM_THREADS=8`; without it a pod sees all of the node's cores and the PCA step
+takes hours instead of minutes. Every stage skips work already on disk, so an interrupted
+run resumes. On a GTX 1080 Ti: offline parts about 10 minutes, the five settings with FID
+about 1.5 hours, the λ sweep about 1 hour, the 2,048-image runs about 3.5 hours.
+
+### Command for each table and figure in the report
+
+All outputs are in `cifar10_replication/results/`.
+
+| Table or figure | Command | Output |
+| --- | --- | --- |
+| Everything below | `python cifar10_replication/replicate.py all sweep big` | all of `results/` |
+| Gaussian denoisers (PCA, 1,000 directions per class) and RFM directions (block 9, σ = 0.21) for all ten classes; RFM AUC per class | `python cifar10_replication/replicate.py setup offline` | `rfm_auc.json` |
+| Mean image and first PCA directions of two classes | `python cifar10_replication/replicate.py report` | `figures/pca_mean_directions.png` |
+| Samples, five settings, 256 per class (seeds 0–255, 100 DDIM steps) | `python cifar10_replication/replicate.py generate` | `downloads/narfm/samples/` |
+| Accuracy (ConvNeXt-Tiny) and per-class FID | `python cifar10_replication/replicate.py measure` | `quality_<setting>.json` |
+| Sampling time at batch 64 (and 16) | `python cifar10_replication/replicate.py time` | `timing.json` |
+| Table 2 comparison, per-class table, first 16 images of every class per setting | `python cifar10_replication/replicate.py report` | `report.md`, `figures/grid_<setting>.png` |
+| Noise alignment only over λ = 1–12: accuracy against FID (paper's Figure 4) | `python cifar10_replication/replicate.py sweep` | `sweep.json`, `figures/sweep_acc_fid.png` |
+| NA-RFM and noise alignment (λ = 3) at 2,048 per class; FID at 256 to 2,048 | `python cifar10_replication/replicate.py big` | `big.json`, `figures/fid_vs_images.png` |
+| Quick end-to-end check (2 classes, 8 images) | `python cifar10_replication/replicate.py all --smoke` | `outputs/cifar10_replication_smoke/` |
+
+To view the saved tables and figures without a GPU, open
+[`cifar10_replication/results_notebook.ipynb`](cifar10_replication/results_notebook.ipynb).
+
+### Results
+
+256 images per class, GTX 1080 Ti. FID is per class against that class's 6,000 CIFAR-10
+images, averaged over the ten classes. The paper's FIDs use 2,048 images per class, so they
+are lower than ours for that reason alone; compare our rows with each other.
+
+| Setting | Accuracy, ours | Accuracy, paper | FID, ours (256) | FID, paper (2,048) | s per image, batch 64 |
+| --- | --- | --- | --- | --- | --- |
+| Unguided (not in Table 2) | 10.0% | – | 157.8 | – | 0.199 |
+| Noise alignment only, λ = 3 | 62.0% | 62.0% | 91.0 | 99.0 | 0.200 |
+| Noise alignment only, λ = 8 | 79.8% | 80.0% | 111.0 | 120.0 | 0.200 |
+| RFM only | 96.3% | 94.8% (94.3% at 256) | 94.9 | 40.3 | 0.398 |
+| NA-RFM | 95.7% | 96.6% (97.9% at 256) | 94.1 | 41.4 | 0.340 |
+
+At the paper's 2,048 images per class, our NA-RFM has accuracy 95.8% and FID 45.6 (paper
+41.4). Noise alignment (λ = 3) has accuracy 62.4% and FID 37.1, against the paper's 99.0.
+`results/report.md` has the per-class numbers, all figures and the comparison.
 
 ## Reproduce the results
 
@@ -219,6 +318,7 @@ generator instead, add `--checkpoint generator.pt --out outputs/mnist_course`.
 ## References
 
 - [Course DSMLP lesson](https://dsc-capstone.org/2026-27/lessons/01/) and [Q1 project requirements](https://dsc-capstone.org/2026-27/assignments/projects/q1/)
+- [NA-RFM paper](https://arxiv.org/abs/2602.11395) and [code](https://github.com/isotrivial/na-rfm); [Training-Free-Guidance](https://github.com/YWolfeee/Training-Free-Guidance)
 - [EDM paper](https://arxiv.org/abs/2206.00364) and [source](https://github.com/NVlabs/edm)
 - [CIFAR-10 data](https://huggingface.co/datasets/uoft-cs/cifar10) and [classifiers](https://github.com/chenyaofo/pytorch-cifar-models)
 - [UCSD container launch guide](https://support.ucsd.edu/services?id=kb_article_view&sysparm_article=KB0032269)

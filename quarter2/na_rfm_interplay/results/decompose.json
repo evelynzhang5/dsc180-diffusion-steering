@@ -1,0 +1,278 @@
+{
+ "lam0_all_w1": {
+  "setting": {
+   "lam": 0.0,
+   "window": "all",
+   "w": 1.0
+  },
+  "classes": {
+   "airplane": {
+    "accuracy": 97.265625,
+    "fid": 106.255870091308,
+    "correct": 249,
+    "total": 256
+   },
+   "automobile": {
+    "accuracy": 99.609375,
+    "fid": 63.39140672441164,
+    "correct": 255,
+    "total": 256
+   },
+   "bird": {
+    "accuracy": 92.578125,
+    "fid": 116.07152216467586,
+    "correct": 237,
+    "total": 256
+   },
+   "cat": {
+    "accuracy": 99.609375,
+    "fid": 117.66327701295904,
+    "correct": 255,
+    "total": 256
+   },
+   "deer": {
+    "accuracy": 95.703125,
+    "fid": 97.35055668330824,
+    "correct": 245,
+    "total": 256
+   },
+   "dog": {
+    "accuracy": 98.046875,
+    "fid": 101.18193957858637,
+    "correct": 251,
+    "total": 256
+   },
+   "frog": {
+    "accuracy": 97.265625,
+    "fid": 111.23389231917423,
+    "correct": 249,
+    "total": 256
+   },
+   "horse": {
+    "accuracy": 99.21875,
+    "fid": 84.4606962963104,
+    "correct": 254,
+    "total": 256
+   },
+   "ship": {
+    "accuracy": 93.359375,
+    "fid": 81.89555912377631,
+    "correct": 239,
+    "total": 256
+   },
+   "truck": {
+    "accuracy": 90.234375,
+    "fid": 69.97329025634477,
+    "correct": 231,
+    "total": 256
+   }
+  }
+ },
+ "lam0_late_w1": {
+  "setting": {
+   "lam": 0.0,
+   "window": "late",
+   "w": 1.0
+  },
+  "classes": {
+   "airplane": {
+    "accuracy": 96.09375,
+    "fid": 107.94469781017324,
+    "correct": 246,
+    "total": 256
+   },
+   "automobile": {
+    "accuracy": 100.0,
+    "fid": 65.41029039979568,
+    "correct": 256,
+    "total": 256
+   },
+   "bird": {
+    "accuracy": 91.796875,
+    "fid": 115.81931963015012,
+    "correct": 235,
+    "total": 256
+   },
+   "cat": {
+    "accuracy": 99.21875,
+    "fid": 117.50411070975537,
+    "correct": 254,
+    "total": 256
+   },
+   "deer": {
+    "accuracy": 95.703125,
+    "fid": 96.60179913167411,
+    "correct": 245,
+    "total": 256
+   },
+   "dog": {
+    "accuracy": 97.65625,
+    "fid": 100.22521125129879,
+    "correct": 250,
+    "total": 256
+   },
+   "frog": {
+    "accuracy": 97.265625,
+    "fid": 110.36788943969026,
+    "correct": 249,
+    "total": 256
+   },
+   "horse": {
+    "accuracy": 98.828125,
+    "fid": 86.62913856733252,
+    "correct": 253,
+    "total": 256
+   },
+   "ship": {
+    "accuracy": 92.96875,
+    "fid": 84.7547924645965,
+    "correct": 238,
+    "total": 256
+   },
+   "truck": {
+    "accuracy": 89.84375,
+    "fid": 70.67325833759816,
+    "correct": 230,
+    "total": 256
+   }
+  }
+ },
+ "lam3_all_w1": {
+  "setting": {
+   "lam": 3.0,
+   "window": "all",
+   "w": 1.0
+  },
+  "classes": {
+   "airplane": {
+    "accuracy": 99.21875,
+    "fid": 99.16858897734073,
+    "correct": 254,
+    "total": 256
+   },
+   "automobile": {
+    "accuracy": 99.609375,
+    "fid": 66.74843270987071,
+    "correct": 255,
+    "total": 256
+   },
+   "bird": {
+    "accuracy": 95.3125,
+    "fid": 120.20465898116129,
+    "correct": 244,
+    "total": 256
+   },
+   "cat": {
+    "accuracy": 100.0,
+    "fid": 109.93835226571076,
+    "correct": 256,
+    "total": 256
+   },
+   "deer": {
+    "accuracy": 100.0,
+    "fid": 98.38177839019335,
+    "correct": 256,
+    "total": 256
+   },
+   "dog": {
+    "accuracy": 97.65625,
+    "fid": 109.11893688793941,
+    "correct": 250,
+    "total": 256
+   },
+   "frog": {
+    "accuracy": 99.609375,
+    "fid": 103.01228015105795,
+    "correct": 255,
+    "total": 256
+   },
+   "horse": {
+    "accuracy": 98.828125,
+    "fid": 84.59220027265874,
+    "correct": 253,
+    "total": 256
+   },
+   "ship": {
+    "accuracy": 84.375,
+    "fid": 74.3189390013763,
+    "correct": 216,
+    "total": 256
+   },
+   "truck": {
+    "accuracy": 84.765625,
+    "fid": 81.06029512407474,
+    "correct": 217,
+    "total": 256
+   }
+  }
+ },
+ "lam3_late_w1": {
+  "setting": {
+   "lam": 3.0,
+   "window": "late",
+   "w": 1.0
+  },
+  "classes": {
+   "airplane": {
+    "accuracy": 99.21875,
+    "fid": 97.68889233491478,
+    "correct": 254,
+    "total": 256
+   },
+   "automobile": {
+    "accuracy": 100.0,
+    "fid": 66.29444066531511,
+    "correct": 256,
+    "total": 256
+   },
+   "bird": {
+    "accuracy": 95.703125,
+    "fid": 118.93236378537176,
+    "correct": 245,
+    "total": 256
+   },
+   "cat": {
+    "accuracy": 100.0,
+    "fid": 108.92253700494916,
+    "correct": 256,
+    "total": 256
+   },
+   "deer": {
+    "accuracy": 100.0,
+    "fid": 99.68555557512275,
+    "correct": 256,
+    "total": 256
+   },
+   "dog": {
+    "accuracy": 96.484375,
+    "fid": 106.71350986646533,
+    "correct": 247,
+    "total": 256
+   },
+   "frog": {
+    "accuracy": 99.609375,
+    "fid": 101.73408776284646,
+    "correct": 255,
+    "total": 256
+   },
+   "horse": {
+    "accuracy": 98.4375,
+    "fid": 83.33073883834578,
+    "correct": 252,
+    "total": 256
+   },
+   "ship": {
+    "accuracy": 83.984375,
+    "fid": 74.42083130540135,
+    "correct": 215,
+    "total": 256
+   },
+   "truck": {
+    "accuracy": 83.203125,
+    "fid": 82.91697080038398,
+    "correct": 213,
+    "total": 256
+   }
+  }
+ }
+}
