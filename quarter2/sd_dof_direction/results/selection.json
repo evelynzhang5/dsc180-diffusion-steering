@@ -1,0 +1,37 @@
+{
+ "target_dev_bg": -0.009877648187597454,
+ "picks": {
+  "meandiff": 1.0,
+  "prompt": 2.0,
+  "random": 1.0,
+  "rfm_eig1": 4.0,
+  "rfm_eig2": 1.0,
+  "rfm_eig3": 1.0
+ },
+ "reaches_target": {
+  "meandiff": false,
+  "prompt": false,
+  "random": false,
+  "rfm_eig1": true,
+  "rfm_eig2": false,
+  "rfm_eig3": false
+ },
+ "challenger": null,
+ "challenger_s": null,
+ "baseline_s": 4.0,
+ "random_s": 1.0,
+ "prompt_s": 2.0,
+ "oracle_radius": 0.5,
+ "oracle_dev_bg": {
+  "0.5": -0.7021954391782937,
+  "1.0": -2.0765252277486725,
+  "1.5": -2.6664767534272067,
+  "2.0": -2.940034546837691,
+  "3.0": -3.1400767787276656,
+  "4.0": -3.2000410246994155,
+  "6.0": -3.233515346778934,
+  "8.0": -3.2406991009605792
+ },
+ "rule": "closest dev background change to the paper direction at s 4; eligible within 25%; challenger: highest dev log FG/BG ratio change (ties: DINOv2)",
+ "time": "2026-11-13 20:51:21"
+}

@@ -1,0 +1,42 @@
+{
+ "refit_auc": 0.9641641780679214,
+ "eigenvalues": [
+  10398.8583984375,
+  0.5551984906196594,
+  0.3185984492301941,
+  0.21909907460212708,
+  0.18726715445518494
+ ],
+ "lambda1_over_lambda2": 18729.982421875,
+ "refit_cos": 1.000003457069397,
+ "probe_auc": {
+  "rfm_eig1": 1.0,
+  "rfm_eig2": 0.6688902786463762,
+  "rfm_eig3": 0.7000903342366757,
+  "meandiff": 0.9476756306024599,
+  "meandiff_std": 0.9488569244666806
+ },
+ "cosine": {
+  "rfm_eig1|rfm_eig2": 7.201335392892361e-06,
+  "rfm_eig1|rfm_eig3": 1.2441305443644524e-05,
+  "rfm_eig1|meandiff": 0.7268977165222168,
+  "rfm_eig1|meandiff_std": 0.7568556666374207,
+  "rfm_eig2|rfm_eig3": 1.1169235222041607e-05,
+  "rfm_eig2|meandiff": 0.27769285440444946,
+  "rfm_eig2|meandiff_std": 0.289294958114624,
+  "rfm_eig3|meandiff": 0.30369120836257935,
+  "rfm_eig3|meandiff_std": 0.3122901916503906,
+  "meandiff|meandiff_std": 0.968039870262146
+ },
+ "kept": [
+  "rfm_eig1",
+  "rfm_eig2",
+  "rfm_eig3",
+  "meandiff"
+ ],
+ "dropped_as_duplicate_of": {
+  "meandiff_std": "meandiff"
+ },
+ "round4_rfm_auc": 0.9641641780679214,
+ "round4_meandiff_auc": 0.9476756306024599
+}

@@ -145,3 +145,34 @@ seeds). Round 7 showed that strengths interact (NA x RFM), so a challenger's adv
 - Nov 13, 2026: code written (`sd_dof_direction.py`, `dsmlp_sd_dof_direction.sh`; round 4's `sd_dof.py`,
   `zoom_control.py` and `requirements.txt` copied unchanged from `q2-sd-dof` into `quarter2/sd_dof/`); design frozen;
   first pod: smoke test, then build, tune and select.
+
+- Nov 13, 2026: build, tune and select done (dev, 32 images per condition); test pod launched (`confirm`).
+
+## Dev results (16 person/animal captions x seeds 1, 2)
+
+**Build.** The refit reproduces round 4's direction exactly (|cos| = 1.0000). The RFM spectrum is one direction:
+lambda1 / lambda2 = 18,730. `meandiff_std` was dropped as a duplicate of `meandiff` (cosine 0.968). Kept: `rfm_eig1`
+(baseline), `rfm_eig2`, `rfm_eig3`, `meandiff`. Full tables: `results/build.md`, `results/tune.md`.
+
+**The paper direction does not blur the background under the unsteered mask.** At s = 4, paired with the unsteered
+image, inside its depth mask:
+
+| measure | change (95% CI) |
+|---|---|
+| log background sharpness | -0.010 (-0.243, +0.231) |
+| log foreground sharpness | -0.170 (-0.344, -0.016) |
+| log FG/BG ratio | -0.160 (-0.485, +0.114) |
+| log FG/BG ratio, each image's own mask (the paper's measure) | +0.373 |
+| DINOv2 cosine with the unsteered image | 0.666 |
+
+With the paper's per-image mask the ratio rises, as in the paper; with the mask fixed to the unsteered layout there is
+no background blur. A reading to test on the test set: the rise comes from the steered image's changed layout moving
+its own mask, not from blur.
+
+**Selection.** The target background change is -0.010, so "within 25% of the target" means within 0.0025: no other
+candidate or control can meet it, and there is no challenger. The design did not anticipate a target near zero; the
+rule was applied as frozen, not changed. The challenger branch of the decision fails. The other candidates: `rfm_eig2`
+and `rfm_eig3` *sharpen* the background (up to +0.96 and +0.19) and soften the foreground; `meandiff` softens the
+foreground (to -0.97 at s 16) with no background blur. None is selective in the intended sense. The oracle's smallest
+radius (0.5 px) gives -0.70, far beyond the target, so the oracle comparison on test is not at matched blur.
+
