@@ -1,0 +1,116 @@
+GPU 0: NVIDIA GeForce GTX 1080 Ti (UUID: GPU-035a4397-07de-0375-6bfc-72921356e262)
+== [2026-11-15 08:06:35] stage: operator
+/home/yuz271/dsc180-diffusion-steering/quarter2/optical_operator/optical.py:196: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at ../torch/csrc/utils/tensor_numpy.cpp:206.)
+  x = torch.stack([torch.from_numpy(np.asarray(im.resize((256, 256), Image.BICUBIC))).permute(2, 0, 1)
+== [2026-11-15 08:06:49] photos: 480 train, 120 test
+== [2026-11-15 08:06:50] image step 0: L1 0.0579
+== [2026-11-15 08:07:05] image step 250: L1 0.0121
+== [2026-11-15 08:07:19] image step 500: L1 0.0094
+== [2026-11-15 08:07:33] image step 750: L1 0.0080
+== [2026-11-15 08:07:48] image step 1000: L1 0.0061
+== [2026-11-15 08:08:02] image step 1250: L1 0.0057
+== [2026-11-15 08:08:17] image step 1500: L1 0.0052
+== [2026-11-15 08:08:32] image step 1750: L1 0.0065
+== [2026-11-15 08:08:46] image step 2000: L1 0.0036
+== [2026-11-15 08:09:00] image step 2250: L1 0.0044
+== [2026-11-15 08:09:14] image step 2500: L1 0.0039
+== [2026-11-15 08:09:28] image step 2750: L1 0.0035
+== [2026-11-15 08:09:42] image step 3000: L1 0.0029
+== [2026-11-15 08:09:57] image step 3250: L1 0.0034
+== [2026-11-15 08:10:12] image step 3500: L1 0.0029
+== [2026-11-15 08:10:26] image step 3750: L1 0.0035
+== [2026-11-15 08:10:41] image step 3999: L1 0.0028
+== [2026-11-15 08:10:41] operator step 0: L1 0.0495
+== [2026-11-15 08:11:07] operator step 250: L1 0.0059
+== [2026-11-15 08:11:34] operator step 500: L1 0.0056
+== [2026-11-15 08:11:59] operator step 750: L1 0.0051
+== [2026-11-15 08:12:25] operator step 1000: L1 0.0037
+== [2026-11-15 08:12:51] operator step 1250: L1 0.0035
+== [2026-11-15 08:13:17] operator step 1500: L1 0.0033
+== [2026-11-15 08:13:43] operator step 1750: L1 0.0048
+== [2026-11-15 08:14:09] operator step 2000: L1 0.0031
+== [2026-11-15 08:14:35] operator step 2250: L1 0.0036
+== [2026-11-15 08:15:00] operator step 2500: L1 0.0031
+== [2026-11-15 08:15:26] operator step 2750: L1 0.0032
+== [2026-11-15 08:15:52] operator step 3000: L1 0.0028
+== [2026-11-15 08:16:18] operator step 3250: L1 0.0031
+== [2026-11-15 08:16:44] operator step 3500: L1 0.0025
+== [2026-11-15 08:17:10] operator step 3750: L1 0.0038
+== [2026-11-15 08:17:35] operator step 3999: L1 0.0024
+# Round 14 hypothesis 1: predicting a blur operator on the source pixels (synthetic layered scenes; decisive first test)
+
+| check | result | detail |
+|---|---|---|
+| identity on the protected region: every method has the same protected error | PASS | 0.143, 0.215, 0.297 |
+| classical renderers leave a matched blur (|blur gap| of normconv < 0.5 at every level) | PASS | +0.00, +0.00, -0.00 |
+| training loss fell for both models | PASS | image 0.0579 -> 0.0028, operator 0.0495 -> 0.0024 |
+| parameter counts within 5% | PASS | image 472,195, operator 481,633 |
+| contact sheet <= 25 images | PASS | 24 |
+
+Train 480 / test 120 photos; 4000 steps x batch 16; test 128 scenes per level. Mean absolute error x 255 against the independently rendered target, by region of the true geometry. Blur gap: background log Laplacian variance minus the target's (0 = matched blur, > 0 = not blurred enough). Parameters: image 472,195, operator 481,633. Inference at 512 x 512 (ms): gather 3.2, normconv 4.4, image 9.5, operator 29.3. `operator_examples.png` columns: input, target, gather, normconv, image, operator.
+
+| level (px) | method | protected | thin strands | boundary band | background | all | blur gap |
+|---|---|---|---|---|---|---|---|
+| 2 | gather | 0.14 | 8.76 | 4.66 | 0.00 | 0.75 | +0.000 |
+| 2 | normconv | 0.14 | 11.88 | 3.39 | 0.00 | 0.64 | +0.000 |
+| 2 | image | 0.14 | 2.89 | 1.25 | 0.37 | 0.46 | +0.005 |
+| 2 | operator | 0.14 | 3.01 | 1.62 | 0.07 | 0.32 | -0.001 |
+| 4 | gather | 0.22 | 9.63 | 6.83 | 0.00 | 1.50 | +0.000 |
+| 4 | normconv | 0.22 | 15.37 | 3.49 | 0.00 | 0.97 | +0.000 |
+| 4 | image | 0.22 | 3.65 | 1.47 | 0.43 | 0.63 | +0.009 |
+| 4 | operator | 0.22 | 4.31 | 1.89 | 0.07 | 0.52 | -0.001 |
+| 8 | gather | 0.30 | 13.09 | 7.76 | 0.00 | 2.60 | -0.000 |
+| 8 | normconv | 0.30 | 20.10 | 3.08 | 0.00 | 1.31 | -0.000 |
+| 8 | image | 0.30 | 4.76 | 1.78 | 0.67 | 0.98 | +0.012 |
+| 8 | operator | 0.30 | 6.87 | 2.76 | 0.10 | 1.05 | -0.000 |
+
+## Decision (frozen in README)
+
+- Operator boundary error <= 0.9 x the best other method: 0/3 levels.
+- Thin strands no worse than the best other (within 5%): 1/3; background within 10%: 0/3.
+- **Do not continue as framed: no boundary advantage over the classical renderers and the image model.**
+
+Total time 662 s.
+
+== [2026-11-15 08:17:39] stage: stereotype
+2026-11-15 08:17:42.995090: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-15 08:17:42.995124: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-15 08:17:42.996524: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-15 08:17:43.004605: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading pipeline components...:   0%|          | 0/6 [00:00<?, ?it/s]Loading pipeline components...:  33%|███▎      | 2/6 [00:00<00:01,  3.91it/s]/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+Loading pipeline components...:  67%|██████▋   | 4/6 [00:00<00:00,  7.36it/s]Loading pipeline components...: 100%|██████████| 6/6 [00:01<00:00,  5.23it/s]Loading pipeline components...: 100%|██████████| 6/6 [00:01<00:00,  5.31it/s]
+== [2026-11-15 08:21:58] landscape done
+/opt/conda/lib/python3.11/site-packages/transformers/image_processing_utils.py:41: UserWarning: The following named arguments are not valid for `ViTImageProcessor.preprocess` and were ignored: 'padding'
+  return self.preprocess(images, **kwargs)
+== [2026-11-15 08:25:52] small_bird done
+== [2026-11-15 08:29:46] sharp_wildlife done
+== [2026-11-15 08:33:39] empty_street done
+# Round 14 hypothesis 2: does a blur request change the kind of scene? (SD 1.5, 4 scenes x 4 seeds; existence check)
+
+| check | result | detail |
+|---|---|---|
+| all generations measured | PASS | 48 |
+| contact sheet <= 25 images | PASS | 12 |
+
+Changes vs the unsteered image of the same seed. area = CLIPSeg area of the named subject (person for the empty street: should stay 0). fg pref = CLIP logit 'close-up object in the foreground' minus 'nothing in the foreground'. `stereotype_examples.png`: rows = scenes, columns = none, prompt, rfm (seed 42).
+
+| scene | condition | bg sharpness change | CLIP blur score | fg pref | subject area (x1000) | DINOv2 |
+|---|---|---|---|---|---|---|
+| landscape | none | +0.000 | -2.10 | -4.00 | nan | 1.000 |
+| landscape | prompt | +0.184 | -1.63 | -4.09 | nan | 0.821 |
+| landscape | rfm | -0.168 | -1.18 | -3.11 | nan | 0.521 |
+| small_bird | none | +0.000 | -0.45 | -0.80 | 17.3 | 1.000 |
+| small_bird | prompt | -1.066 | +0.37 | -1.38 | 17.5 | 0.745 |
+| small_bird | rfm | -0.989 | -0.05 | -0.96 | 17.2 | 0.535 |
+| sharp_wildlife | none | +0.000 | -1.49 | +0.16 | 124.1 | 1.000 |
+| sharp_wildlife | prompt | -0.345 | -1.61 | +0.13 | 126.1 | 0.866 |
+| sharp_wildlife | rfm | -0.146 | -1.52 | -0.99 | 132.2 | 0.807 |
+| empty_street | none | +0.000 | -0.45 | -3.23 | 0.0 | 1.000 |
+| empty_street | prompt | -0.124 | -0.19 | -2.43 | 0.0 | 0.860 |
+| empty_street | rfm | -0.218 | -0.11 | -2.41 | 0.0 | 0.569 |
+
+Total time 959 s.
+
+== [2026-11-15 08:33:41] done (status 0)

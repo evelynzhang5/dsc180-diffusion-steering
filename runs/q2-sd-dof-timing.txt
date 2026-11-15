@@ -1,0 +1,101 @@
+GPU 0: NVIDIA GeForce GTX 1080 Ti (UUID: GPU-05d942cb-5960-c69f-39bc-31ff9f1d0087)
+== [2026-11-15 06:50:25] round 13: timing
+2026-11-15 06:50:28.404163: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-15 06:50:28.404203: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-15 06:50:28.405563: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-15 06:50:28.413229: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading pipeline components...:   0%|          | 0/6 [00:00<?, ?it/s]Loading pipeline components...:  17%|█▋        | 1/6 [00:00<00:02,  2.14it/s]Loading pipeline components...:  50%|█████     | 3/6 [00:00<00:00,  3.46it/s]/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+Loading pipeline components...: 100%|██████████| 6/6 [00:01<00:00,  6.50it/s]Loading pipeline components...: 100%|██████████| 6/6 [00:01<00:00,  5.33it/s]
+== [2026-11-15 06:50:49] windows: {'full': {'steps': [0, 49], 'n': 50, 'sigma': [13.120415588346862, 0.04131447785534563]}, 'early': {'steps': [0, 15], 'n': 16, 'sigma': [13.120415588346862, 3.0930100083699137]}, 'middle': {'steps': [17, 32], 'n': 16, 'sigma': [2.6545449727052737, 0.957810032653422]}, 'late': {'steps': [34, 49], 'n': 16, 'sigma': [0.8356532795969402, 0.04131447785534563]}}
+== [2026-11-15 06:52:08] determinism: {'unsteered_twice': 0.0, 'vs_sd_generate': 0.0, 'zero_edit_third_branch': 1.0, 'zero_edit_mean': 0.0005900065104166666, 'steered_twice': 0.0}
+/opt/conda/lib/python3.11/site-packages/transformers/image_processing_utils.py:41: UserWarning: The following named arguments are not valid for `ViTImageProcessor.preprocess` and were ignored: 'padding'
+  return self.preprocess(images, **kwargs)
+== [2026-11-15 06:59:06] scene 0: full|-0.5 bg -0.54 rms 0.196 iou 0.66; early|-0.5 bg -0.56 rms 0.262 iou 0.24; middle|-0.5 bg -0.49 rms 0.182 iou 0.73; late|-0.5 bg -0.17 rms 0.123 iou 0.90; posthoc|-0.5 bg -0.29 rms 0.000 iou 1.00; full|-2.0 bg -1.09 rms 0.245 iou 0.23; early|-2.0 bg -0.59 rms 0.264 iou 0.24; middle|-2.0 bg -0.58 rms 0.165 iou 0.88; late|-2.0 bg -0.02 rms 0.126 iou 0.91; posthoc|-2.0 bg -2.00 rms 0.000 iou 1.00
+== [2026-11-15 07:05:41] scene 1: full|-0.5 bg -0.47 rms 0.148 iou 0.00; early|-0.5 bg -0.51 rms 0.130 iou 0.89; middle|-0.5 bg -0.55 rms 0.101 iou 0.00; late|-0.5 bg -0.27 rms 0.054 iou 0.95; posthoc|-0.5 bg -0.50 rms 0.000 iou 1.00; full|-2.0 bg -0.71 rms 0.195 iou 0.00; early|-2.0 bg -0.03 rms 0.166 iou 0.88; middle|-2.0 bg -0.78 rms 0.110 iou 0.93; late|-2.0 bg +0.01 rms 0.055 iou 0.00; posthoc|-2.0 bg -1.88 rms 0.000 iou 1.00
+== [2026-11-15 07:12:46] scene 3: full|-0.5 bg -0.46 rms 0.057 iou 0.98; early|-0.5 bg -0.50 rms 0.067 iou 0.98; middle|-0.5 bg -0.46 rms 0.109 iou 0.94; late|-0.5 bg -0.16 rms 0.030 iou 0.98; posthoc|-0.5 bg -0.35 rms 0.000 iou 1.00; full|-2.0 bg -2.01 rms 0.192 iou 0.00; early|-2.0 bg -1.96 rms 0.195 iou 0.69; middle|-2.0 bg -0.37 rms 0.077 iou 0.97; late|-2.0 bg -0.13 rms 0.047 iou 0.97; posthoc|-2.0 bg -1.56 rms 0.000 iou 1.00
+== [2026-11-15 07:20:25] scene 4: full|-0.5 bg -0.54 rms 0.099 iou 0.18; early|-0.5 bg -0.55 rms 0.107 iou 0.17; middle|-0.5 bg -0.07 rms 0.170 iou 0.00; late|-0.5 bg -0.26 rms 0.149 iou 0.00; posthoc|-0.5 bg -0.72 rms 0.001 iou 1.00; full|-2.0 bg -0.80 rms 0.127 iou 0.00; early|-2.0 bg -0.79 rms 0.133 iou 0.00; middle|-2.0 bg +0.03 rms 0.142 iou 0.00; late|-2.0 bg -0.15 rms 0.089 iou 0.00; posthoc|-2.0 bg -1.82 rms 0.002 iou 1.00
+== [2026-11-15 07:27:20] scene 5: full|-0.5 bg -0.49 rms 0.282 iou 0.53; early|-0.5 bg -0.52 rms 0.252 iou 0.34; middle|-0.5 bg -0.22 rms 0.143 iou 0.83; late|-0.5 bg -0.18 rms 0.122 iou 0.91; posthoc|-0.5 bg -0.34 rms 0.000 iou 1.00; full|-2.0 bg -1.48 rms 0.244 iou 0.32; early|-2.0 bg -1.00 rms 0.323 iou 0.00; middle|-2.0 bg -0.25 rms 0.115 iou 0.93; late|-2.0 bg -0.14 rms 0.134 iou 0.87; posthoc|-2.0 bg -2.38 rms 0.000 iou 1.00
+== [2026-11-15 07:34:55] scene 6: full|-0.5 bg -0.45 rms 0.238 iou 0.53; early|-0.5 bg -0.05 rms 0.230 iou 0.33; middle|-0.5 bg -0.51 rms 0.153 iou 0.46; late|-0.5 bg -0.38 rms 0.087 iou 0.81; posthoc|-0.5 bg -0.60 rms 0.000 iou 1.00; full|-2.0 bg -0.79 rms 0.234 iou 0.00; early|-2.0 bg -0.11 rms 0.301 iou 0.46; middle|-2.0 bg -1.91 rms 0.162 iou 0.52; late|-2.0 bg -0.88 rms 0.116 iou 0.84; posthoc|-2.0 bg -1.96 rms 0.000 iou 1.00
+== [2026-11-15 07:42:16] scene 7: full|-0.5 bg -0.48 rms 0.274 iou 0.48; early|-0.5 bg -0.51 rms 0.269 iou 0.47; middle|-0.5 bg -0.50 rms 0.177 iou 0.75; late|-0.5 bg -0.09 rms 0.051 iou 0.98; posthoc|-0.5 bg -0.37 rms 0.000 iou 1.00; full|-2.0 bg -2.10 rms 0.223 iou 0.09; early|-2.0 bg -1.43 rms 0.190 iou 0.86; middle|-2.0 bg -0.63 rms 0.164 iou 0.86; late|-2.0 bg -0.09 rms 0.080 iou 0.97; posthoc|-2.0 bg -1.71 rms 0.000 iou 1.00
+# Round 13: does delaying the edit preserve the scene at the same background blur? (7 scenes x seed 42; diagnostic with a stopping rule)
+
+| check | result | detail |
+|---|---|---|
+| determinism: unsteered sampler twice gives identical images | PASS | 0 |
+| determinism: steered sampler twice gives identical images | PASS | 0 |
+| cached sampler reproduces SD.generate (mode none) | PASS | 0 |
+| zero edit with the third branch matches unsteered (numerics only) | PASS | max 1, mean 0.00059 |
+| windows: early, middle, late have equal length | PASS | full 50, early 16, middle 16, late 16 |
+| every scene has a subject mask (bird included) | PASS | 0: dog; 1: woman; 3: child; 4: small bird; 5: deer; 6: cat; 7: man riding a bicycle |
+| all measures finite | PASS |  |
+| contact sheets <= 25 images | PASS | 25, 7 |
+
+
+Windows (DDIM step indices of 50, sigma at first and last step):
+
+| window | steps | n | sigma range |
+|---|---|---|---|
+| full | 0-49 | 50 | 13.120 - 0.041 |
+| early | 0-15 | 16 | 13.120 - 3.093 |
+| middle | 17-32 | 16 | 2.655 - 0.958 |
+| late | 34-49 | 16 | 0.836 - 0.041 |
+
+Determinism (max absolute pixel difference, 0-255): unsteered_twice 0, vs_sd_generate 0, zero_edit_third_branch 1, zero_edit_mean 0.00059, steered_twice 0
+
+## Target background change -0.5
+
+| method | reached | strength c (median) | subject RMS | interior RMS | subject SSIM | subject DINOv2 | boundary err | subject-mask IoU | centre shift (px) |
+|---|---|---|---|---|---|---|---|---|---|
+| full | 7/7 | 0.54 | 0.1847 | 0.1823 | 0.470 | 0.552 | 0.1447 | 0.48 | 20.9 |
+| early | 6/7 | 1.55 | 0.1814 | 0.1801 | 0.451 | 0.532 | 0.1416 | 0.51 | 37.3 |
+| middle | 5/7 | 4.00 | 0.1443 | 0.1395 | 0.566 | 0.501 | 0.1005 | 0.58 | 81.5 |
+| late | 1/7 | 9.39 | 0.0874 | 0.0805 | 0.643 | 0.345 | 0.0806 | 0.81 | 8.0 |
+| posthoc | 3/7 | 0.40 | 0.0001 | 0.0000 | 1.000 | 0.997 | 0.0030 | 1.00 | 0.0 |
+
+Per scene (subject RMS / IoU; * = target not reached):
+
+| scene | full | early | middle | late | posthoc |
+|---|---|---|---|---|---|
+| 0 dog | 0.196 / 0.66 | 0.262 / 0.24 | 0.182 / 0.73 | 0.123 / 0.90* | 0.000 / 1.00* |
+| 1 woman | 0.148 / 0.00 | 0.130 / 0.89 | 0.101 / 0.00 | 0.054 / 0.95* | 0.000 / 1.00 |
+| 3 child | 0.057 / 0.98 | 0.067 / 0.98 | 0.109 / 0.94 | 0.030 / 0.98* | 0.000 / 1.00* |
+| 4 small bird | 0.099 / 0.18 | 0.107 / 0.17 | 0.170 / 0.00* | 0.149 / 0.00* | 0.001 / 1.00* |
+| 5 deer | 0.282 / 0.53 | 0.252 / 0.34 | 0.143 / 0.83* | 0.122 / 0.91* | 0.000 / 1.00* |
+| 6 cat | 0.238 / 0.53 | 0.230 / 0.33* | 0.153 / 0.46 | 0.087 / 0.81 | 0.000 / 1.00 |
+| 7 man riding a bicycle | 0.274 / 0.48 | 0.269 / 0.47 | 0.177 / 0.75 | 0.051 / 0.98* | 0.000 / 1.00 |
+
+## Target background change -2.0
+
+| method | reached | strength c (median) | subject RMS | interior RMS | subject SSIM | subject DINOv2 | boundary err | subject-mask IoU | centre shift (px) |
+|---|---|---|---|---|---|---|---|---|---|
+| full | 2/7 | 4.85 | 0.2072 | 0.2091 | 0.350 | 0.256 | 0.1736 | 0.04 | 33.3 |
+| early | 1/7 | 5.19 | 0.1954 | 0.1937 | 0.443 | 0.663 | 0.1771 | 0.69 | 5.9 |
+| middle | 1/7 | 8.00 | 0.1622 | 0.1632 | 0.521 | 0.486 | 0.1161 | 0.52 | 46.0 |
+| late | 0/7 | 8.00 | nan | nan | nan | nan | nan | nan | nan |
+| posthoc | 3/7 | 0.80 | 0.0003 | 0.0000 | 1.000 | 0.981 | 0.0150 | 1.00 | 0.0 |
+
+Per scene (subject RMS / IoU; * = target not reached):
+
+| scene | full | early | middle | late | posthoc |
+|---|---|---|---|---|---|
+| 0 dog | 0.245 / 0.23* | 0.264 / 0.24* | 0.165 / 0.88* | 0.126 / 0.91* | 0.000 / 1.00 |
+| 1 woman | 0.195 / 0.00* | 0.166 / 0.88* | 0.110 / 0.93* | 0.055 / 0.00* | 0.000 / 1.00 |
+| 3 child | 0.192 / 0.00 | 0.195 / 0.69 | 0.077 / 0.97* | 0.047 / 0.97* | 0.000 / 1.00* |
+| 4 small bird | 0.127 / 0.00* | 0.133 / 0.00* | 0.142 / 0.00* | 0.089 / 0.00* | 0.002 / 1.00* |
+| 5 deer | 0.244 / 0.32* | 0.323 / 0.00* | 0.115 / 0.93* | 0.134 / 0.87* | 0.000 / 1.00* |
+| 6 cat | 0.234 / 0.00* | 0.301 / 0.46* | 0.162 / 0.52 | 0.116 / 0.84* | 0.000 / 1.00 |
+| 7 man riding a bicycle | 0.223 / 0.09 | 0.190 / 0.86* | 0.164 / 0.86* | 0.080 / 0.97* | 0.000 / 1.00* |
+
+## Decision
+
+- Target -0.5: best later window `middle`; reached 5/7; subject RMS <= 0.8 x full window and both on target in 3/7; preserved (ignoring the target) in 4/7. **Row 3: later editing reaches the target but still changes pose/layout; stop this direction-and-layer approach.** Post-hoc blur better on subject and boundary than every window that reached the target: yes.
+- Target -2.0: best later window `middle`; reached 1/7; subject RMS <= 0.8 x full window and both on target in 0/7; preserved (ignoring the target) in 6/7. **Row 2: later editing preserves the subject but cannot reach the target; no demonstrated improvement.** Post-hoc blur better on subject and boundary than every window that reached the target: yes.
+- **Row 4: post-processing remains better at both blur levels: the task does not justify a generative steering method.**
+
+Six (seven) scenes decide only whether to continue; any promising setting must then hold on untouched scenes and seeds. `timing_examples.png` columns (target -2.0): subject mask, full, early, late, post-hoc. `timing_masks.png`: every subject mask used.
+
+Total time 3111 s.
+
+== [2026-11-15 07:42:18] done

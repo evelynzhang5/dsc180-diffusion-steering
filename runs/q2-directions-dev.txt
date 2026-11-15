@@ -1,0 +1,1645 @@
+GPU 0: NVIDIA GeForce GTX 1080 Ti (UUID: GPU-06ccafba-7d1f-9f9c-18c4-636a0f006c53)
+== [2026-11-13 12:11:38] smoke test, all stages
+== [2026-11-13 12:11:39] stage build
+block-9 features: (10000, 16384)
+airplane: probe AUC rfm_top3 0.984, rfm_eig1 0.983, rfm_eig2 0.696, meandiff 0.907, meandiff_std 0.906; cos(top3, meandiff_std) 0.35
+automobile: probe AUC rfm_top3 0.990, rfm_eig1 0.990, rfm_eig2 0.894, meandiff 0.942, meandiff_std 0.943; cos(top3, meandiff_std) 0.55
+bird: probe AUC rfm_top3 0.979, rfm_eig1 0.978, rfm_eig2 0.817, meandiff 0.843, meandiff_std 0.842; cos(top3, meandiff_std) 0.33
+cat: probe AUC rfm_top3 0.945, rfm_eig1 0.945, rfm_eig2 0.754, meandiff 0.842, meandiff_std 0.841; cos(top3, meandiff_std) 0.45
+deer: probe AUC rfm_top3 0.980, rfm_eig1 0.980, rfm_eig2 0.542, meandiff 0.873, meandiff_std 0.870; cos(top3, meandiff_std) 0.35
+dog: probe AUC rfm_top3 0.964, rfm_eig1 0.964, rfm_eig2 0.842, meandiff 0.868, meandiff_std 0.864; cos(top3, meandiff_std) 0.47
+frog: probe AUC rfm_top3 0.992, rfm_eig1 0.992, rfm_eig2 0.553, meandiff 0.939, meandiff_std 0.936; cos(top3, meandiff_std) 0.55
+horse: probe AUC rfm_top3 0.979, rfm_eig1 0.979, rfm_eig2 0.855, meandiff 0.910, meandiff_std 0.910; cos(top3, meandiff_std) 0.57
+ship: probe AUC rfm_top3 0.996, rfm_eig1 0.996, rfm_eig2 0.610, meandiff 0.935, meandiff_std 0.933; cos(top3, meandiff_std) 0.34
+truck: probe AUC rfm_top3 0.983, rfm_eig1 0.983, rfm_eig2 0.860, meandiff 0.922, meandiff_std 0.920; cos(top3, meandiff_std) 0.49
+# Candidate directions (block 9, 10,000 training images at sigma 0.21)
+
+Probe AUC: held-out (20%) AUC of the raw-feature projection onto each direction, class vs. the other nine. Reported for comparison only; selection uses generated images.
+
+| class | rfm_top3 | rfm_eig1 | rfm_eig2 | meandiff | meandiff_std | cos(top3, eig1) | cos(top3, meandiff) | cos(top3, meandiff_std) |
+|---|---|---|---|---|---|---|---|---|
+| airplane | 0.984 | 0.983 | 0.696 | 0.907 | 0.906 | 1.00 | 0.36 | 0.35 |
+| automobile | 0.990 | 0.990 | 0.894 | 0.942 | 0.943 | 1.00 | 0.54 | 0.55 |
+| bird | 0.979 | 0.978 | 0.817 | 0.843 | 0.842 | 1.00 | 0.33 | 0.33 |
+| cat | 0.945 | 0.945 | 0.754 | 0.842 | 0.841 | 1.00 | 0.44 | 0.45 |
+| deer | 0.980 | 0.980 | 0.542 | 0.873 | 0.870 | 1.00 | 0.35 | 0.35 |
+| dog | 0.964 | 0.964 | 0.842 | 0.868 | 0.864 | 1.00 | 0.47 | 0.47 |
+| frog | 0.992 | 0.992 | 0.553 | 0.939 | 0.936 | 1.00 | 0.56 | 0.55 |
+| horse | 0.979 | 0.979 | 0.855 | 0.910 | 0.910 | 1.00 | 0.57 | 0.57 |
+| ship | 0.996 | 0.996 | 0.610 | 0.935 | 0.933 | 1.00 | 0.35 | 0.34 |
+| truck | 0.983 | 0.983 | 0.860 | 0.922 | 0.920 | 1.00 | 0.49 | 0.49 |
+== [2026-11-13 12:12:03] stage build done [25 s]
+== [2026-11-13 12:12:03] stage tune
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 8 --num-samples 16 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/dev/rfm_top3_w0.5 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.5 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_concepts
+2026-11-13 12:12:15.916084: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:12:15.916108: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:12:15.917660: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:12:15.925945: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 8 (ship)
+ship: 15/16 = 93.8%
+
+Average accuracy: 93.8%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/dev/rfm_top3_w0.5
+[16 s]
+   dev rfm_top3_w0.5 ship: accuracy 93.8% [16 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 4 --num-samples 16 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/dev/rfm_top3_w0.5 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.5 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_concepts
+2026-11-13 12:12:32.236780: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:12:32.236819: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:12:32.238490: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:12:32.246417: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 4 (deer)
+deer: 15/16 = 93.8%
+
+Average accuracy: 93.8%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/dev/rfm_top3_w0.5
+[16 s]
+   dev rfm_top3_w0.5 deer: accuracy 93.8% [16 s]
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/dev/rfm_top3_w0.5 --targets 8,4 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/dev/rfm_top3_w0.5/quality_8-4.json --batch-size 64 --num-ref 500
+ 40%|███▉      | 41.4M/104M [00:00<00:00, 147MB/s]
+ 54%|█████▍    | 56.0M/104M [00:00<00:00, 149MB/s]
+ 68%|██████▊   | 70.3M/104M [00:00<00:00, 149MB/s]
+ 81%|████████▏ | 84.5M/104M [00:00<00:00, 145MB/s]
+ 95%|█████████▍| 98.4M/104M [00:00<00:00, 145MB/s]
+100%|██████████| 104M/104M [00:00<00:00, 145MB/s] 
+ship: FID=153.365, IS=2.374
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+Warning: batch size is bigger than the data size. Setting batch size to data size
+
+Calculating FID value.
+deer: FID=236.386, IS=3.011
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/dev/rfm_top3_w0.5/quality_8-4.json
+[28 s]
+   rfm_top3_w0.5: ship 93.8% / FID 153.4, deer 93.8% / FID 236.4
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 8 --num-samples 16 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/dev/rfm_top3_w1 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 1 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_concepts
+2026-11-13 12:13:16.440796: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:13:16.440834: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:13:16.442419: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:13:16.450796: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 8 (ship)
+ship: 14/16 = 87.5%
+
+Average accuracy: 87.5%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/dev/rfm_top3_w1
+[16 s]
+   dev rfm_top3_w1 ship: accuracy 87.5% [16 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 4 --num-samples 16 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/dev/rfm_top3_w1 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 1 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_concepts
+2026-11-13 12:13:32.712045: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:13:32.712083: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:13:32.713550: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:13:32.721370: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 4 (deer)
+deer: 16/16 = 100.0%
+
+Average accuracy: 100.0%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/dev/rfm_top3_w1
+[16 s]
+   dev rfm_top3_w1 deer: accuracy 100.0% [16 s]
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/dev/rfm_top3_w1 --targets 8,4 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/dev/rfm_top3_w1/quality_8-4.json --batch-size 64 --num-ref 500
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+Warning: batch size is bigger than the data size. Setting batch size to data size
+
+Calculating FID value.
+ship: FID=164.678, IS=3.203
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+Warning: batch size is bigger than the data size. Setting batch size to data size
+
+Calculating FID value.
+deer: FID=241.915, IS=2.691
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/dev/rfm_top3_w1/quality_8-4.json
+[23 s]
+   rfm_top3_w1: ship 87.5% / FID 164.7, deer 100.0% / FID 241.9
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 8 --num-samples 16 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/dev/meandiff_std_w0.5 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.5 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff_std
+2026-11-13 12:14:11.869970: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:14:11.870006: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:14:11.871566: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:14:11.879620: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 8 (ship)
+ship: 15/16 = 93.8%
+
+Average accuracy: 93.8%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/dev/meandiff_std_w0.5
+[16 s]
+   dev meandiff_std_w0.5 ship: accuracy 93.8% [16 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 4 --num-samples 16 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/dev/meandiff_std_w0.5 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.5 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff_std
+2026-11-13 12:14:27.722499: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:14:27.722536: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:14:27.724048: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:14:27.732274: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 4 (deer)
+deer: 16/16 = 100.0%
+
+Average accuracy: 100.0%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/dev/meandiff_std_w0.5
+[16 s]
+   dev meandiff_std_w0.5 deer: accuracy 100.0% [16 s]
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/dev/meandiff_std_w0.5 --targets 8,4 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/dev/meandiff_std_w0.5/quality_8-4.json --batch-size 64 --num-ref 500
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+Warning: batch size is bigger than the data size. Setting batch size to data size
+
+Calculating FID value.
+ship: FID=149.754, IS=2.263
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+Warning: batch size is bigger than the data size. Setting batch size to data size
+
+Calculating FID value.
+deer: FID=232.061, IS=2.001
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/dev/meandiff_std_w0.5/quality_8-4.json
+[24 s]
+   meandiff_std_w0.5: ship 93.8% / FID 149.8, deer 100.0% / FID 232.1
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 8 --num-samples 16 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/dev/meandiff_std_w1 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 1 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff_std
+2026-11-13 12:15:07.216566: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:15:07.216605: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:15:07.218168: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:15:07.226429: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 8 (ship)
+ship: 16/16 = 100.0%
+
+Average accuracy: 100.0%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/dev/meandiff_std_w1
+[16 s]
+   dev meandiff_std_w1 ship: accuracy 100.0% [16 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 4 --num-samples 16 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/dev/meandiff_std_w1 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 1 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff_std
+2026-11-13 12:15:23.197099: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:15:23.197136: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:15:23.198669: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:15:23.207068: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 4 (deer)
+deer: 16/16 = 100.0%
+
+Average accuracy: 100.0%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/dev/meandiff_std_w1
+[16 s]
+   dev meandiff_std_w1 deer: accuracy 100.0% [16 s]
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/dev/meandiff_std_w1 --targets 8,4 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/dev/meandiff_std_w1/quality_8-4.json --batch-size 64 --num-ref 500
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+Warning: batch size is bigger than the data size. Setting batch size to data size
+
+Calculating FID value.
+ship: FID=159.570, IS=2.657
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+Warning: batch size is bigger than the data size. Setting batch size to data size
+
+Calculating FID value.
+deer: FID=241.442, IS=2.616
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/dev/meandiff_std_w1/quality_8-4.json
+[23 s]
+   meandiff_std_w1: ship 100.0% / FID 159.6, deer 100.0% / FID 241.4
+# Tuning grid (NA lambda 3 + direction late, seeds 0-15)
+
+Accuracy % / FID per class (FID at this image count only; compare rows with each other).
+
+| direction | w | ship | deer | mean acc | mean FID |
+|---|---|---|---|---|---|
+| rfm_top3 | 0.5 | 94 / 153 | 94 / 236 | 93.8 | 194.9 |
+| rfm_top3 | 1 | 88 / 165 | 100 / 242 | 93.8 | 203.3 |
+| meandiff_std | 0.5 | 94 / 150 | 100 / 232 | 96.9 | 190.9 |
+| meandiff_std | 1 | 100 / 160 | 100 / 241 | 100.0 | 200.5 |
+== [2026-11-13 12:15:50] stage tune done [227 s]
+== [2026-11-13 12:15:50] stage select
+{
+ "rule": "per direction: min mean FID over ['ship', 'deer'] with mean accuracy >= 92.75 (baseline at w 0.5 minus 1.0); challenger: lowest-FID non-baseline pick",
+ "baseline": {
+  "cand": "rfm_top3",
+  "w": 0.5
+ },
+ "challenger": {
+  "cand": "meandiff_std",
+  "w": 0.5
+ },
+ "picks": {
+  "rfm_top3": {
+   "w": 0.5,
+   "mean_acc": 93.75,
+   "mean_fid": 194.87537694101502
+  },
+  "meandiff_std": {
+   "w": 0.5,
+   "mean_acc": 96.875,
+   "mean_fid": 190.9075988998443
+  }
+ },
+ "at_w1": {
+  "rfm_top3": {
+   "mean_acc": 93.75,
+   "mean_fid": 203.29671967131395
+  },
+  "meandiff_std": {
+   "mean_acc": 100.0,
+   "mean_fid": 200.50559108615346
+  }
+ },
+ "time": "2026-11-13 12:15:50"
+}
+== [2026-11-13 12:15:50] stage select done [0 s]
+== [2026-11-13 12:15:50] stage confirm
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 8 --num-samples 16 --seed-start 1000 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/test/rfm_top3_w0.5 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.5 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_concepts
+2026-11-13 12:16:02.358846: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:16:02.358883: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:16:02.360438: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:16:02.369176: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 8 (ship)
+ship: 16/16 = 100.0%
+
+Average accuracy: 100.0%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/test/rfm_top3_w0.5
+[16 s]
+   test rfm_top3_w0.5 ship: accuracy 100.0% [16 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 4 --num-samples 16 --seed-start 1000 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/test/rfm_top3_w0.5 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.5 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_concepts
+2026-11-13 12:16:18.323604: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:16:18.323628: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:16:18.325213: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:16:18.333502: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 4 (deer)
+deer: 16/16 = 100.0%
+
+Average accuracy: 100.0%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/test/rfm_top3_w0.5
+[16 s]
+   test rfm_top3_w0.5 deer: accuracy 100.0% [16 s]
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/test/rfm_top3_w0.5 --targets 8,4 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/test/rfm_top3_w0.5/quality_8-4.json --batch-size 64 --num-ref 500
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+Warning: batch size is bigger than the data size. Setting batch size to data size
+
+Calculating FID value.
+ship: FID=154.058, IS=2.109
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+Warning: batch size is bigger than the data size. Setting batch size to data size
+
+Calculating FID value.
+deer: FID=205.820, IS=2.485
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/test/rfm_top3_w0.5/quality_8-4.json
+[24 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 8 --num-samples 16 --seed-start 1000 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/test/meandiff_std_w0.5 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.5 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff_std
+2026-11-13 12:16:57.670067: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:16:57.670109: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:16:57.671684: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:16:57.679436: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 8 (ship)
+ship: 16/16 = 100.0%
+
+Average accuracy: 100.0%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/test/meandiff_std_w0.5
+[16 s]
+   test meandiff_std_w0.5 ship: accuracy 100.0% [16 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 4 --num-samples 16 --seed-start 1000 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/test/meandiff_std_w0.5 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.5 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff_std
+2026-11-13 12:17:13.811934: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:17:13.811972: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:17:13.813467: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:17:13.821472: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 4 (deer)
+deer: 16/16 = 100.0%
+
+Average accuracy: 100.0%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/test/meandiff_std_w0.5
+[16 s]
+   test meandiff_std_w0.5 deer: accuracy 100.0% [16 s]
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/test/meandiff_std_w0.5 --targets 8,4 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/test/meandiff_std_w0.5/quality_8-4.json --batch-size 64 --num-ref 500
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+Warning: batch size is bigger than the data size. Setting batch size to data size
+
+Calculating FID value.
+ship: FID=152.020, IS=2.178
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+Warning: batch size is bigger than the data size. Setting batch size to data size
+
+Calculating FID value.
+deer: FID=229.189, IS=2.435
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction_smoke/test/meandiff_std_w0.5/quality_8-4.json
+[24 s]
+# Confirmation on seeds 1000-1015 (16 per class)
+
+| class | tuned baseline: rfm_top3_w0.5 acc (95% CI) / FID | challenger: meandiff_std_w0.5 acc (95% CI) / FID |
+|---|---|---|
+| ship | 100.0 (±0.0) / 154.1 | 100.0 (±0.0) / 152.0 |
+| deer | 100.0 (±0.0) / 205.8 | 100.0 (±0.0) / 229.2 |
+| **mean** | 100.0 / 179.9 | 100.0 / 190.6 |
+
+Challenger - baseline: mean FID +10.7, mean accuracy +0.0 points, lower FID in 1 of 2 classes.
+Decision rule (README): no reliable improvement over the tuned baseline.
+== [2026-11-13 12:17:41] stage confirm done [111 s]
+== [2026-11-13 12:17:42] dev: build tune select
+== [2026-11-13 12:17:42] stage build
+block-9 features: (10000, 16384)
+airplane: probe AUC rfm_top3 0.984, rfm_eig1 0.983, rfm_eig2 0.696, meandiff 0.907, meandiff_std 0.906; cos(top3, meandiff_std) 0.35
+automobile: probe AUC rfm_top3 0.990, rfm_eig1 0.990, rfm_eig2 0.894, meandiff 0.942, meandiff_std 0.943; cos(top3, meandiff_std) 0.55
+bird: probe AUC rfm_top3 0.979, rfm_eig1 0.978, rfm_eig2 0.817, meandiff 0.843, meandiff_std 0.842; cos(top3, meandiff_std) 0.33
+cat: probe AUC rfm_top3 0.945, rfm_eig1 0.945, rfm_eig2 0.754, meandiff 0.842, meandiff_std 0.841; cos(top3, meandiff_std) 0.45
+deer: probe AUC rfm_top3 0.980, rfm_eig1 0.980, rfm_eig2 0.542, meandiff 0.873, meandiff_std 0.870; cos(top3, meandiff_std) 0.35
+dog: probe AUC rfm_top3 0.964, rfm_eig1 0.964, rfm_eig2 0.842, meandiff 0.868, meandiff_std 0.864; cos(top3, meandiff_std) 0.47
+frog: probe AUC rfm_top3 0.992, rfm_eig1 0.992, rfm_eig2 0.553, meandiff 0.939, meandiff_std 0.936; cos(top3, meandiff_std) 0.55
+horse: probe AUC rfm_top3 0.979, rfm_eig1 0.979, rfm_eig2 0.855, meandiff 0.910, meandiff_std 0.910; cos(top3, meandiff_std) 0.57
+ship: probe AUC rfm_top3 0.996, rfm_eig1 0.996, rfm_eig2 0.610, meandiff 0.935, meandiff_std 0.933; cos(top3, meandiff_std) 0.34
+truck: probe AUC rfm_top3 0.983, rfm_eig1 0.983, rfm_eig2 0.860, meandiff 0.922, meandiff_std 0.920; cos(top3, meandiff_std) 0.49
+# Candidate directions (block 9, 10,000 training images at sigma 0.21)
+
+Probe AUC: held-out (20%) AUC of the raw-feature projection onto each direction, class vs. the other nine. Reported for comparison only; selection uses generated images.
+
+| class | rfm_top3 | rfm_eig1 | rfm_eig2 | meandiff | meandiff_std | cos(top3, eig1) | cos(top3, meandiff) | cos(top3, meandiff_std) |
+|---|---|---|---|---|---|---|---|---|
+| airplane | 0.984 | 0.983 | 0.696 | 0.907 | 0.906 | 1.00 | 0.36 | 0.35 |
+| automobile | 0.990 | 0.990 | 0.894 | 0.942 | 0.943 | 1.00 | 0.54 | 0.55 |
+| bird | 0.979 | 0.978 | 0.817 | 0.843 | 0.842 | 1.00 | 0.33 | 0.33 |
+| cat | 0.945 | 0.945 | 0.754 | 0.842 | 0.841 | 1.00 | 0.44 | 0.45 |
+| deer | 0.980 | 0.980 | 0.542 | 0.873 | 0.870 | 1.00 | 0.35 | 0.35 |
+| dog | 0.964 | 0.964 | 0.842 | 0.868 | 0.864 | 1.00 | 0.47 | 0.47 |
+| frog | 0.992 | 0.992 | 0.553 | 0.939 | 0.936 | 1.00 | 0.56 | 0.55 |
+| horse | 0.979 | 0.979 | 0.855 | 0.910 | 0.910 | 1.00 | 0.57 | 0.57 |
+| ship | 0.996 | 0.996 | 0.610 | 0.935 | 0.933 | 1.00 | 0.35 | 0.34 |
+| truck | 0.983 | 0.983 | 0.860 | 0.922 | 0.920 | 1.00 | 0.49 | 0.49 |
+== [2026-11-13 12:18:05] stage build done [23 s]
+== [2026-11-13 12:18:05] stage tune
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 8 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w0.25 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.25 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_concepts
+2026-11-13 12:19:34.304665: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:19:34.304685: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:19:34.306362: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:19:34.314888: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 8 (ship)
+ship: 251/256 = 98.0%
+
+Average accuracy: 98.0%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w0.25
+[95 s]
+   dev rfm_top3_w0.25 ship: accuracy 98.0% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 9 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w0.25 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.25 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_concepts
+2026-11-13 12:21:09.217537: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:21:09.217575: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:21:09.219291: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:21:09.227339: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 9 (truck)
+truck: 254/256 = 99.2%
+
+Average accuracy: 99.2%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w0.25
+[95 s]
+   dev rfm_top3_w0.25 truck: accuracy 99.2% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 4 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w0.25 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.25 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_concepts
+2026-11-13 12:22:44.232797: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:22:44.232837: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:22:44.234387: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:22:44.242779: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 4 (deer)
+deer: 242/256 = 94.5%
+
+Average accuracy: 94.5%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w0.25
+[95 s]
+   dev rfm_top3_w0.25 deer: accuracy 94.5% [95 s]
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w0.25 --targets 8,9,4 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w0.25/quality_8-9-4.json --batch-size 64 --num-ref -1
+Calculating FID value.
+ship: FID=62.711, IS=2.998
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+truck: FID=52.754, IS=2.086
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+deer: FID=90.463, IS=3.885
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w0.25/quality_8-9-4.json
+[73 s]
+   rfm_top3_w0.25: ship 98.0% / FID 62.7, truck 99.2% / FID 52.8, deer 94.5% / FID 90.5
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w0.5 --targets 8,9,4 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w0.5/quality_8-9-4.json --batch-size 64 --num-ref -1
+Calculating FID value.
+ship: FID=64.699, IS=2.811
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+truck: FID=54.160, IS=2.239
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+deer: FID=90.276, IS=3.443
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w0.5/quality_8-9-4.json
+[73 s]
+   rfm_top3_w0.5: ship 98.8% / FID 64.7, truck 98.0% / FID 54.2, deer 99.2% / FID 90.3
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 8 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w0.75 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.75 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_concepts
+2026-11-13 12:26:45.576520: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:26:45.576542: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:26:45.578315: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:26:45.587484: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 8 (ship)
+ship: 244/256 = 95.3%
+
+Average accuracy: 95.3%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w0.75
+[95 s]
+   dev rfm_top3_w0.75 ship: accuracy 95.3% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 9 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w0.75 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.75 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_concepts
+2026-11-13 12:28:20.442199: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:28:20.442242: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:28:20.443784: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:28:20.451870: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 9 (truck)
+truck: 244/256 = 95.3%
+
+Average accuracy: 95.3%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w0.75
+[95 s]
+   dev rfm_top3_w0.75 truck: accuracy 95.3% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 4 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w0.75 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.75 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_concepts
+2026-11-13 12:29:55.260569: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:29:55.260592: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:29:55.262111: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:29:55.270197: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 4 (deer)
+deer: 254/256 = 99.2%
+
+Average accuracy: 99.2%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w0.75
+[95 s]
+   dev rfm_top3_w0.75 deer: accuracy 99.2% [95 s]
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w0.75 --targets 8,9,4 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w0.75/quality_8-9-4.json --batch-size 64 --num-ref -1
+Calculating FID value.
+ship: FID=68.294, IS=2.948
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+truck: FID=62.242, IS=2.535
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+deer: FID=92.881, IS=3.442
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w0.75/quality_8-9-4.json
+[74 s]
+   rfm_top3_w0.75: ship 95.3% / FID 68.3, truck 95.3% / FID 62.2, deer 99.2% / FID 92.9
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w1 --targets 8,9,4 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w1/quality_8-9-4.json --batch-size 64 --num-ref -1
+Calculating FID value.
+ship: FID=74.421, IS=3.163
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+truck: FID=82.917, IS=3.011
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+deer: FID=99.686, IS=3.494
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w1/quality_8-9-4.json
+[73 s]
+   rfm_top3_w1: ship 84.0% / FID 74.4, truck 83.2% / FID 82.9, deer 100.0% / FID 99.7
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 8 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w1.5 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 1.5 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_concepts
+2026-11-13 12:33:57.185935: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:33:57.185975: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:33:57.187662: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:33:57.195700: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 8 (ship)
+ship: 122/256 = 47.7%
+
+Average accuracy: 47.7%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w1.5
+[95 s]
+   dev rfm_top3_w1.5 ship: accuracy 47.7% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 9 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w1.5 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 1.5 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_concepts
+2026-11-13 12:35:31.958669: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:35:31.958708: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:35:31.960329: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:35:31.969161: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 9 (truck)
+truck: 105/256 = 41.0%
+
+Average accuracy: 41.0%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w1.5
+[95 s]
+   dev rfm_top3_w1.5 truck: accuracy 41.0% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 4 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w1.5 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 1.5 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/na-rfm/repro/assets/cifar10_concepts
+2026-11-13 12:37:06.923051: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:37:06.923075: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:37:06.924813: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:37:06.934426: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 4 (deer)
+deer: 255/256 = 99.6%
+
+Average accuracy: 99.6%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w1.5
+[95 s]
+   dev rfm_top3_w1.5 deer: accuracy 99.6% [95 s]
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w1.5 --targets 8,9,4 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w1.5/quality_8-9-4.json --batch-size 64 --num-ref -1
+Calculating FID value.
+ship: FID=97.911, IS=3.308
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+truck: FID=126.749, IS=3.272
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+deer: FID=109.784, IS=3.468
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_top3_w1.5/quality_8-9-4.json
+[73 s]
+   rfm_top3_w1.5: ship 47.7% / FID 97.9, truck 41.0% / FID 126.7, deer 99.6% / FID 109.8
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 8 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w0.25 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.25 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/rfm_eig2
+2026-11-13 12:39:55.089396: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:39:55.089417: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:39:55.090986: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:39:55.099136: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 8 (ship)
+ship: 242/256 = 94.5%
+
+Average accuracy: 94.5%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w0.25
+[95 s]
+   dev rfm_eig2_w0.25 ship: accuracy 94.5% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 9 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w0.25 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.25 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/rfm_eig2
+2026-11-13 12:41:30.078885: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:41:30.078931: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:41:30.080612: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:41:30.088889: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 9 (truck)
+truck: 230/256 = 89.8%
+
+Average accuracy: 89.8%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w0.25
+[95 s]
+   dev rfm_eig2_w0.25 truck: accuracy 89.8% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 4 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w0.25 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.25 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/rfm_eig2
+2026-11-13 12:43:04.859002: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:43:04.859039: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:43:04.860557: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:43:04.868964: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 4 (deer)
+deer: 194/256 = 75.8%
+
+Average accuracy: 75.8%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w0.25
+[95 s]
+   dev rfm_eig2_w0.25 deer: accuracy 75.8% [95 s]
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w0.25 --targets 8,9,4 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w0.25/quality_8-9-4.json --batch-size 64 --num-ref -1
+Calculating FID value.
+ship: FID=61.096, IS=3.194
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+truck: FID=56.974, IS=2.242
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+deer: FID=93.024, IS=4.496
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w0.25/quality_8-9-4.json
+[73 s]
+   rfm_eig2_w0.25: ship 94.5% / FID 61.1, truck 89.8% / FID 57.0, deer 75.8% / FID 93.0
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 8 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w0.5 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.5 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/rfm_eig2
+2026-11-13 12:45:53.341091: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:45:53.341128: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:45:53.342672: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:45:53.350710: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 8 (ship)
+ship: 245/256 = 95.7%
+
+Average accuracy: 95.7%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w0.5
+[95 s]
+   dev rfm_eig2_w0.5 ship: accuracy 95.7% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 9 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w0.5 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.5 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/rfm_eig2
+2026-11-13 12:47:28.095241: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:47:28.095264: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:47:28.096807: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:47:28.105256: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 9 (truck)
+truck: 240/256 = 93.8%
+
+Average accuracy: 93.8%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w0.5
+[95 s]
+   dev rfm_eig2_w0.5 truck: accuracy 93.8% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 4 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w0.5 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.5 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/rfm_eig2
+2026-11-13 12:49:03.006692: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:49:03.006730: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:49:03.008492: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:49:03.016711: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 4 (deer)
+deer: 205/256 = 80.1%
+
+Average accuracy: 80.1%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w0.5
+[95 s]
+   dev rfm_eig2_w0.5 deer: accuracy 80.1% [95 s]
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w0.5 --targets 8,9,4 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w0.5/quality_8-9-4.json --batch-size 64 --num-ref -1
+Calculating FID value.
+ship: FID=61.252, IS=3.073
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+truck: FID=57.513, IS=2.439
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+deer: FID=93.940, IS=4.546
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w0.5/quality_8-9-4.json
+[73 s]
+   rfm_eig2_w0.5: ship 95.7% / FID 61.3, truck 93.8% / FID 57.5, deer 80.1% / FID 93.9
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 8 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w0.75 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.75 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/rfm_eig2
+2026-11-13 12:51:50.848536: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:51:50.848578: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:51:50.850022: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:51:50.858127: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 8 (ship)
+ship: 228/256 = 89.1%
+
+Average accuracy: 89.1%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w0.75
+[94 s]
+   dev rfm_eig2_w0.75 ship: accuracy 89.1% [94 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 9 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w0.75 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.75 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/rfm_eig2
+2026-11-13 12:53:25.563231: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:53:25.563299: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:53:25.564951: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:53:25.574075: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 9 (truck)
+truck: 207/256 = 80.9%
+
+Average accuracy: 80.9%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w0.75
+[95 s]
+   dev rfm_eig2_w0.75 truck: accuracy 80.9% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 4 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w0.75 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.75 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/rfm_eig2
+2026-11-13 12:55:00.305846: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:55:00.305885: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:55:00.307467: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:55:00.315298: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 4 (deer)
+deer: 200/256 = 78.1%
+
+Average accuracy: 78.1%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w0.75
+[95 s]
+   dev rfm_eig2_w0.75 deer: accuracy 78.1% [95 s]
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w0.75 --targets 8,9,4 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w0.75/quality_8-9-4.json --batch-size 64 --num-ref -1
+Calculating FID value.
+ship: FID=67.950, IS=3.565
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+truck: FID=70.980, IS=2.858
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+deer: FID=101.316, IS=4.349
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w0.75/quality_8-9-4.json
+[74 s]
+   rfm_eig2_w0.75: ship 89.1% / FID 67.9, truck 80.9% / FID 71.0, deer 78.1% / FID 101.3
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 8 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w1 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 1 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/rfm_eig2
+2026-11-13 12:57:48.480338: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:57:48.480375: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:57:48.481855: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:57:48.489936: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 8 (ship)
+ship: 190/256 = 74.2%
+
+Average accuracy: 74.2%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w1
+[95 s]
+   dev rfm_eig2_w1 ship: accuracy 74.2% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 9 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w1 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 1 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/rfm_eig2
+2026-11-13 12:59:23.148742: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 12:59:23.148782: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 12:59:23.150296: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 12:59:23.158372: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 9 (truck)
+truck: 144/256 = 56.2%
+
+Average accuracy: 56.2%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w1
+[95 s]
+   dev rfm_eig2_w1 truck: accuracy 56.2% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 4 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w1 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 1 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/rfm_eig2
+2026-11-13 13:00:57.940735: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:00:57.940759: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:00:57.942363: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:00:57.950497: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 4 (deer)
+deer: 175/256 = 68.4%
+
+Average accuracy: 68.4%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w1
+[95 s]
+   dev rfm_eig2_w1 deer: accuracy 68.4% [95 s]
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w1 --targets 8,9,4 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w1/quality_8-9-4.json --batch-size 64 --num-ref -1
+Calculating FID value.
+ship: FID=90.823, IS=4.227
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+truck: FID=96.536, IS=3.316
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+deer: FID=117.769, IS=3.959
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w1/quality_8-9-4.json
+[73 s]
+   rfm_eig2_w1: ship 74.2% / FID 90.8, truck 56.2% / FID 96.5, deer 68.4% / FID 117.8
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 8 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w1.5 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 1.5 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/rfm_eig2
+2026-11-13 13:03:45.978962: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:03:45.978986: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:03:45.980572: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:03:45.989222: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 8 (ship)
+ship: 54/256 = 21.1%
+
+Average accuracy: 21.1%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w1.5
+[95 s]
+   dev rfm_eig2_w1.5 ship: accuracy 21.1% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 9 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w1.5 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 1.5 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/rfm_eig2
+2026-11-13 13:05:20.713242: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:05:20.713267: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:05:20.714802: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:05:20.723207: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 9 (truck)
+truck: 36/256 = 14.1%
+
+Average accuracy: 14.1%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w1.5
+[95 s]
+   dev rfm_eig2_w1.5 truck: accuracy 14.1% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 4 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w1.5 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 1.5 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/rfm_eig2
+2026-11-13 13:06:55.725948: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:06:55.725986: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:06:55.727666: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:06:55.735789: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 4 (deer)
+deer: 112/256 = 43.8%
+
+Average accuracy: 43.8%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w1.5
+[95 s]
+   dev rfm_eig2_w1.5 deer: accuracy 43.8% [95 s]
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w1.5 --targets 8,9,4 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w1.5/quality_8-9-4.json --batch-size 64 --num-ref -1
+Calculating FID value.
+ship: FID=164.332, IS=4.237
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+truck: FID=158.066, IS=4.173
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+deer: FID=147.231, IS=4.259
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/rfm_eig2_w1.5/quality_8-9-4.json
+[74 s]
+   rfm_eig2_w1.5: ship 21.1% / FID 164.3, truck 14.1% / FID 158.1, deer 43.8% / FID 147.2
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 8 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w0.25 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.25 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff
+2026-11-13 13:09:45.101882: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:09:45.101904: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:09:45.103476: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:09:45.112104: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 8 (ship)
+ship: 250/256 = 97.7%
+
+Average accuracy: 97.7%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w0.25
+[95 s]
+   dev meandiff_w0.25 ship: accuracy 97.7% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 9 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w0.25 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.25 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff
+2026-11-13 13:11:20.010818: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:11:20.010842: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:11:20.012415: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:11:20.020677: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 9 (truck)
+truck: 232/256 = 90.6%
+
+Average accuracy: 90.6%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w0.25
+[95 s]
+   dev meandiff_w0.25 truck: accuracy 90.6% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 4 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w0.25 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.25 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff
+2026-11-13 13:12:55.015307: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:12:55.015343: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:12:55.016937: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:12:55.026093: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 4 (deer)
+deer: 236/256 = 92.2%
+
+Average accuracy: 92.2%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w0.25
+[95 s]
+   dev meandiff_w0.25 deer: accuracy 92.2% [95 s]
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w0.25 --targets 8,9,4 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w0.25/quality_8-9-4.json --batch-size 64 --num-ref -1
+Calculating FID value.
+ship: FID=62.823, IS=3.020
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+truck: FID=55.135, IS=2.320
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+deer: FID=96.809, IS=3.818
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w0.25/quality_8-9-4.json
+[74 s]
+   meandiff_w0.25: ship 97.7% / FID 62.8, truck 90.6% / FID 55.1, deer 92.2% / FID 96.8
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 8 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w0.5 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.5 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff
+2026-11-13 13:15:44.361149: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:15:44.361186: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:15:44.362737: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:15:44.371476: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 8 (ship)
+ship: 249/256 = 97.3%
+
+Average accuracy: 97.3%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w0.5
+[95 s]
+   dev meandiff_w0.5 ship: accuracy 97.3% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 9 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w0.5 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.5 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff
+2026-11-13 13:17:19.765855: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:17:19.765882: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:17:19.767827: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:17:19.777895: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 9 (truck)
+truck: 244/256 = 95.3%
+
+Average accuracy: 95.3%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w0.5
+[96 s]
+   dev meandiff_w0.5 truck: accuracy 95.3% [96 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 4 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w0.5 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.5 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff
+2026-11-13 13:18:55.127397: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:18:55.127434: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:18:55.129033: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:18:55.137621: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 4 (deer)
+deer: 250/256 = 97.7%
+
+Average accuracy: 97.7%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w0.5
+[95 s]
+   dev meandiff_w0.5 deer: accuracy 97.7% [95 s]
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w0.5 --targets 8,9,4 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w0.5/quality_8-9-4.json --batch-size 64 --num-ref -1
+Calculating FID value.
+ship: FID=63.507, IS=2.745
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+truck: FID=57.374, IS=2.410
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+deer: FID=103.948, IS=3.632
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w0.5/quality_8-9-4.json
+[74 s]
+   meandiff_w0.5: ship 97.3% / FID 63.5, truck 95.3% / FID 57.4, deer 97.7% / FID 103.9
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 8 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w0.75 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.75 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff
+2026-11-13 13:21:45.026671: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:21:45.026694: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:21:45.028357: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:21:45.037204: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 8 (ship)
+ship: 245/256 = 95.7%
+
+Average accuracy: 95.7%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w0.75
+[96 s]
+   dev meandiff_w0.75 ship: accuracy 95.7% [96 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 9 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w0.75 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.75 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff
+2026-11-13 13:23:20.499081: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:23:20.499125: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:23:20.500696: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:23:20.509137: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 9 (truck)
+truck: 224/256 = 87.5%
+
+Average accuracy: 87.5%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w0.75
+[96 s]
+   dev meandiff_w0.75 truck: accuracy 87.5% [96 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 4 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w0.75 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.75 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff
+2026-11-13 13:24:55.941009: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:24:55.941031: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:24:55.942608: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:24:55.951182: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 4 (deer)
+deer: 251/256 = 98.0%
+
+Average accuracy: 98.0%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w0.75
+[95 s]
+   dev meandiff_w0.75 deer: accuracy 98.0% [95 s]
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w0.75 --targets 8,9,4 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w0.75/quality_8-9-4.json --batch-size 64 --num-ref -1
+Calculating FID value.
+ship: FID=64.050, IS=2.827
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+truck: FID=72.607, IS=2.593
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+deer: FID=110.029, IS=3.708
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w0.75/quality_8-9-4.json
+[74 s]
+   meandiff_w0.75: ship 95.7% / FID 64.0, truck 87.5% / FID 72.6, deer 98.0% / FID 110.0
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 8 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w1 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 1 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff
+2026-11-13 13:27:44.646157: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:27:44.646196: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:27:44.647869: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:27:44.657040: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 8 (ship)
+ship: 227/256 = 88.7%
+
+Average accuracy: 88.7%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w1
+[95 s]
+   dev meandiff_w1 ship: accuracy 88.7% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 9 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w1 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 1 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff
+2026-11-13 13:29:19.534248: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:29:19.534269: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:29:19.535920: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:29:19.544278: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 9 (truck)
+truck: 181/256 = 70.7%
+
+Average accuracy: 70.7%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w1
+[95 s]
+   dev meandiff_w1 truck: accuracy 70.7% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 4 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w1 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 1 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff
+2026-11-13 13:30:54.521281: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:30:54.521303: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:30:54.522855: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:30:54.531496: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 4 (deer)
+deer: 248/256 = 96.9%
+
+Average accuracy: 96.9%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w1
+[95 s]
+   dev meandiff_w1 deer: accuracy 96.9% [95 s]
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w1 --targets 8,9,4 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w1/quality_8-9-4.json --batch-size 64 --num-ref -1
+Calculating FID value.
+ship: FID=66.861, IS=3.016
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+truck: FID=100.954, IS=3.091
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+deer: FID=119.153, IS=3.812
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w1/quality_8-9-4.json
+[74 s]
+   meandiff_w1: ship 88.7% / FID 66.9, truck 70.7% / FID 101.0, deer 96.9% / FID 119.2
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 8 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w1.5 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 1.5 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff
+2026-11-13 13:33:43.615353: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:33:43.615390: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:33:43.617021: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:33:43.625312: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 8 (ship)
+ship: 146/256 = 57.0%
+
+Average accuracy: 57.0%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w1.5
+[95 s]
+   dev meandiff_w1.5 ship: accuracy 57.0% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 9 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w1.5 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 1.5 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff
+2026-11-13 13:35:18.625946: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:35:18.625986: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:35:18.627724: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:35:18.636172: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 9 (truck)
+truck: 69/256 = 27.0%
+
+Average accuracy: 27.0%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w1.5
+[95 s]
+   dev meandiff_w1.5 truck: accuracy 27.0% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 4 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w1.5 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 1.5 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff
+2026-11-13 13:36:53.706620: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:36:53.706643: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:36:53.708308: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:36:53.716463: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 4 (deer)
+deer: 211/256 = 82.4%
+
+Average accuracy: 82.4%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w1.5
+[95 s]
+   dev meandiff_w1.5 deer: accuracy 82.4% [95 s]
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w1.5 --targets 8,9,4 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w1.5/quality_8-9-4.json --batch-size 64 --num-ref -1
+Calculating FID value.
+ship: FID=93.407, IS=3.471
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+truck: FID=163.289, IS=3.880
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+deer: FID=142.530, IS=4.001
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_w1.5/quality_8-9-4.json
+[75 s]
+   meandiff_w1.5: ship 57.0% / FID 93.4, truck 27.0% / FID 163.3, deer 82.4% / FID 142.5
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 8 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w0.25 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.25 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff_std
+2026-11-13 13:39:43.727898: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:39:43.727938: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:39:43.729671: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:39:43.738650: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 8 (ship)
+ship: 248/256 = 96.9%
+
+Average accuracy: 96.9%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w0.25
+[96 s]
+   dev meandiff_std_w0.25 ship: accuracy 96.9% [96 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 9 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w0.25 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.25 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff_std
+2026-11-13 13:41:19.242366: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:41:19.242405: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:41:19.244026: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:41:19.252456: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 9 (truck)
+truck: 233/256 = 91.0%
+
+Average accuracy: 91.0%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w0.25
+[95 s]
+   dev meandiff_std_w0.25 truck: accuracy 91.0% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 4 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w0.25 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.25 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff_std
+2026-11-13 13:42:54.832585: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:42:54.832607: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:42:54.834238: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:42:54.843067: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 4 (deer)
+deer: 237/256 = 92.6%
+
+Average accuracy: 92.6%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w0.25
+[96 s]
+   dev meandiff_std_w0.25 deer: accuracy 92.6% [96 s]
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w0.25 --targets 8,9,4 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w0.25/quality_8-9-4.json --batch-size 64 --num-ref -1
+Calculating FID value.
+ship: FID=62.655, IS=3.024
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+truck: FID=54.842, IS=2.290
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+deer: FID=96.064, IS=3.970
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w0.25/quality_8-9-4.json
+[75 s]
+   meandiff_std_w0.25: ship 96.9% / FID 62.7, truck 91.0% / FID 54.8, deer 92.6% / FID 96.1
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 8 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w0.5 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.5 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff_std
+2026-11-13 13:45:44.594082: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:45:44.594122: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:45:44.595756: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:45:44.604139: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 8 (ship)
+ship: 250/256 = 97.7%
+
+Average accuracy: 97.7%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w0.5
+[95 s]
+   dev meandiff_std_w0.5 ship: accuracy 97.7% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 9 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w0.5 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.5 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff_std
+2026-11-13 13:47:20.021556: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:47:20.021579: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:47:20.023159: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:47:20.031595: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 9 (truck)
+truck: 245/256 = 95.7%
+
+Average accuracy: 95.7%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w0.5
+[95 s]
+   dev meandiff_std_w0.5 truck: accuracy 95.7% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 4 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w0.5 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.5 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff_std
+2026-11-13 13:48:55.291104: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:48:55.291151: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:48:55.292639: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:48:55.300930: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 4 (deer)
+deer: 251/256 = 98.0%
+
+Average accuracy: 98.0%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w0.5
+[95 s]
+   dev meandiff_std_w0.5 deer: accuracy 98.0% [95 s]
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w0.5 --targets 8,9,4 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w0.5/quality_8-9-4.json --batch-size 64 --num-ref -1
+Calculating FID value.
+ship: FID=63.659, IS=2.728
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+truck: FID=56.247, IS=2.293
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+deer: FID=101.587, IS=3.563
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w0.5/quality_8-9-4.json
+[74 s]
+   meandiff_std_w0.5: ship 97.7% / FID 63.7, truck 95.7% / FID 56.2, deer 98.0% / FID 101.6
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 8 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w0.75 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.75 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff_std
+2026-11-13 13:51:44.822691: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:51:44.822728: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:51:44.824299: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:51:44.832794: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 8 (ship)
+ship: 247/256 = 96.5%
+
+Average accuracy: 96.5%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w0.75
+[95 s]
+   dev meandiff_std_w0.75 ship: accuracy 96.5% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 9 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w0.75 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.75 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff_std
+2026-11-13 13:53:19.850943: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:53:19.850982: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:53:19.852619: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:53:19.861145: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 9 (truck)
+truck: 235/256 = 91.8%
+
+Average accuracy: 91.8%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w0.75
+[95 s]
+   dev meandiff_std_w0.75 truck: accuracy 91.8% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 4 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w0.75 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 0.75 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff_std
+2026-11-13 13:54:54.848736: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:54:54.848771: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:54:54.850291: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:54:54.859236: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 4 (deer)
+deer: 252/256 = 98.4%
+
+Average accuracy: 98.4%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w0.75
+[95 s]
+   dev meandiff_std_w0.75 deer: accuracy 98.4% [95 s]
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w0.75 --targets 8,9,4 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w0.75/quality_8-9-4.json --batch-size 64 --num-ref -1
+Calculating FID value.
+ship: FID=63.856, IS=2.770
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+truck: FID=68.494, IS=2.524
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+deer: FID=106.108, IS=3.682
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w0.75/quality_8-9-4.json
+[74 s]
+   meandiff_std_w0.75: ship 96.5% / FID 63.9, truck 91.8% / FID 68.5, deer 98.4% / FID 106.1
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 8 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w1 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 1 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff_std
+2026-11-13 13:57:43.626297: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:57:43.626334: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:57:43.628034: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:57:43.636388: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 8 (ship)
+ship: 235/256 = 91.8%
+
+Average accuracy: 91.8%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w1
+[95 s]
+   dev meandiff_std_w1 ship: accuracy 91.8% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 9 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w1 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 1 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff_std
+2026-11-13 13:59:18.673609: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 13:59:18.673631: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 13:59:18.675394: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 13:59:18.684326: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 9 (truck)
+truck: 200/256 = 78.1%
+
+Average accuracy: 78.1%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w1
+[95 s]
+   dev meandiff_std_w1 truck: accuracy 78.1% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 4 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w1 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 1 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff_std
+2026-11-13 14:00:54.260256: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 14:00:54.260277: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 14:00:54.261867: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 14:00:54.271551: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 4 (deer)
+deer: 251/256 = 98.0%
+
+Average accuracy: 98.0%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w1
+[95 s]
+   dev meandiff_std_w1 deer: accuracy 98.0% [95 s]
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w1 --targets 8,9,4 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w1/quality_8-9-4.json --batch-size 64 --num-ref -1
+Calculating FID value.
+ship: FID=65.676, IS=3.057
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+truck: FID=89.576, IS=2.936
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+deer: FID=114.087, IS=3.639
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w1/quality_8-9-4.json
+[74 s]
+   meandiff_std_w1: ship 91.8% / FID 65.7, truck 78.1% / FID 89.6, deer 98.0% / FID 114.1
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 8 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w1.5 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 1.5 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff_std
+2026-11-13 14:03:43.272109: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 14:03:43.272145: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 14:03:43.273678: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 14:03:43.282084: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 8 (ship)
+ship: 171/256 = 66.8%
+
+Average accuracy: 66.8%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w1.5
+[95 s]
+   dev meandiff_std_w1.5 ship: accuracy 66.8% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 9 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w1.5 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 1.5 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff_std
+2026-11-13 14:05:18.170376: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 14:05:18.170417: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 14:05:18.172094: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 14:05:18.180840: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 9 (truck)
+truck: 80/256 = 31.2%
+
+Average accuracy: 31.2%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w1.5
+[95 s]
+   dev meandiff_std_w1.5 truck: accuracy 31.2% [95 s]
+$ /opt/conda/bin/python repro/run_cifar10_na_rfm.py --classes 4 --num-samples 256 --seed-start 0 --batch-size 64 --inference-steps 100 --eval-mode hf_convnext --output-dir /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w1.5 --gaussian-strength 3 --gaussian-sigma-end 3.33 --rfm-sigma-lo 0.01 --rfm-sigma-hi 11.69 --cfg-scale 2 --rfm-strength 1.5 --concepts-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/directions/meandiff_std
+2026-11-13 14:06:53.213141: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 14:06:53.213166: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 14:06:53.214699: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 14:06:53.223148: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CIFAR-10 diffusion model: data/checkpoints/openai_cifar10.pt
+
+Sampling 4 (deer)
+deer: 229/256 = 89.5%
+
+Average accuracy: 89.5%
+Results saved to: /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w1.5
+[95 s]
+   dev meandiff_std_w1.5 deer: accuracy 89.5% [95 s]
+$ /opt/conda/bin/python repro/evaluate_saved_samples.py --dataset cifar10 --samples-root /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w1.5 --targets 8,9,4 --output /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w1.5/quality_8-9-4.json --batch-size 64 --num-ref -1
+Calculating FID value.
+ship: FID=87.926, IS=3.436
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+truck: FID=153.442, IS=3.915
+No cache path provided. Computing reference statistics.
+
+Computing test statistics.
+
+Calculating FID value.
+deer: FID=134.868, IS=4.033
+Saved quality summary to /home/yuz271/dsc180-diffusion-steering/downloads/narfm/samples_direction/dev/meandiff_std_w1.5/quality_8-9-4.json
+[74 s]
+   meandiff_std_w1.5: ship 66.8% / FID 87.9, truck 31.2% / FID 153.4, deer 89.5% / FID 134.9
+# Tuning grid (NA lambda 3 + direction late, seeds 0-255)
+
+Accuracy % / FID per class (FID at this image count only; compare rows with each other).
+
+| direction | w | ship | truck | deer | mean acc | mean FID |
+|---|---|---|---|---|---|---|
+| rfm_top3 | 0.25 | 98 / 63 | 99 / 53 | 95 / 90 | 97.3 | 68.6 |
+| rfm_top3 | 0.5 | 99 / 65 | 98 / 54 | 99 / 90 | 98.7 | 69.7 |
+| rfm_top3 | 0.75 | 95 / 68 | 95 / 62 | 99 / 93 | 96.6 | 74.5 |
+| rfm_top3 | 1 | 84 / 74 | 83 / 83 | 100 / 100 | 89.1 | 85.7 |
+| rfm_top3 | 1.5 | 48 / 98 | 41 / 127 | 100 / 110 | 62.8 | 111.5 |
+| rfm_eig2 | 0.25 | 95 / 61 | 90 / 57 | 76 / 93 | 86.7 | 70.4 |
+| rfm_eig2 | 0.5 | 96 / 61 | 94 / 58 | 80 / 94 | 89.8 | 70.9 |
+| rfm_eig2 | 0.75 | 89 / 68 | 81 / 71 | 78 / 101 | 82.7 | 80.1 |
+| rfm_eig2 | 1 | 74 / 91 | 56 / 97 | 68 / 118 | 66.3 | 101.7 |
+| rfm_eig2 | 1.5 | 21 / 164 | 14 / 158 | 44 / 147 | 26.3 | 156.5 |
+| meandiff | 0.25 | 98 / 63 | 91 / 55 | 92 / 97 | 93.5 | 71.6 |
+| meandiff | 0.5 | 97 / 64 | 95 / 57 | 98 / 104 | 96.7 | 74.9 |
+| meandiff | 0.75 | 96 / 64 | 88 / 73 | 98 / 110 | 93.8 | 82.2 |
+| meandiff | 1 | 89 / 67 | 71 / 101 | 97 / 119 | 85.4 | 95.7 |
+| meandiff | 1.5 | 57 / 93 | 27 / 163 | 82 / 143 | 55.5 | 133.1 |
+| meandiff_std | 0.25 | 97 / 63 | 91 / 55 | 93 / 96 | 93.5 | 71.2 |
+| meandiff_std | 0.5 | 98 / 64 | 96 / 56 | 98 / 102 | 97.1 | 73.8 |
+| meandiff_std | 0.75 | 96 / 64 | 92 / 68 | 98 / 106 | 95.6 | 79.5 |
+| meandiff_std | 1 | 92 / 66 | 78 / 90 | 98 / 114 | 89.3 | 89.8 |
+| meandiff_std | 1.5 | 67 / 88 | 31 / 153 | 89 / 135 | 62.5 | 125.4 |
+== [2026-11-13 14:08:13] stage tune done [6608 s]
+== [2026-11-13 14:08:13] stage select
+{
+ "rule": "per direction: min mean FID over ['ship', 'truck', 'deer'] with mean accuracy >= 97.70 (baseline at w 0.5 minus 1.0); challenger: lowest-FID non-baseline pick",
+ "baseline": {
+  "cand": "rfm_top3",
+  "w": 0.5
+ },
+ "challenger": null,
+ "picks": {
+  "rfm_top3": {
+   "w": 0.5,
+   "mean_acc": 98.69791666666667,
+   "mean_fid": 69.71164191208689
+  },
+  "rfm_eig2": null,
+  "meandiff": null,
+  "meandiff_std": null
+ },
+ "at_w1": {
+  "rfm_top3": {
+   "mean_acc": 89.0625,
+   "mean_fid": 85.6744525603027
+  },
+  "rfm_eig2": {
+   "mean_acc": 66.27604166666667,
+   "mean_fid": 101.70930368453917
+  },
+  "meandiff": {
+   "mean_acc": 85.41666666666667,
+   "mean_fid": 95.65586575772271
+  },
+  "meandiff_std": {
+   "mean_acc": 89.32291666666667,
+   "mean_fid": 89.77996972880369
+  }
+ },
+ "time": "2026-11-13 14:08:13"
+}
+== [2026-11-13 14:08:13] stage select done [0 s]
+== [2026-11-13 14:08:13] done

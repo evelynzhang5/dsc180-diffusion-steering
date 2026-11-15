@@ -1,0 +1,145 @@
+GPU 0: NVIDIA GeForce GTX 1080 Ti (UUID: GPU-05d942cb-5960-c69f-39bc-31ff9f1d0087)
+== [2026-11-14 22:00:03] pilot: response
+2026-11-14 22:00:07.761388: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-14 22:00:07.761435: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-14 22:00:07.763084: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-14 22:00:07.772292: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading pipeline components...:   0%|          | 0/6 [00:00<?, ?it/s]Loading pipeline components...:  50%|█████     | 3/6 [00:00<00:00, 21.44it/s]/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+Loading pipeline components...: 100%|██████████| 6/6 [00:01<00:00,  4.93it/s]Loading pipeline components...: 100%|██████████| 6/6 [00:01<00:00,  5.57it/s]
+== [2026-11-14 22:03:33] scene 0: base 0.1472 opt 0.0918
+== [2026-11-14 22:06:40] scene 1: base 0.1144 opt 0.0961
+== [2026-11-14 22:09:47] scene 3: base 0.0641 opt 0.1019
+== [2026-11-14 22:12:53] scene 5: base 0.1679 opt 0.1473
+# Pilot 1: response of the final image to edit components (4 scenes x seed 42, s 4; target background change -0.5)
+
+| check | result | detail |
+|---|---|---|
+| every run produced finite measures | PASS | 4 scenes |
+| masked RFM blurs the background at c = 1 (a < 0) in every scene | PASS | -1.085, -0.178, -1.582, -1.155 |
+| linearity in scale: bg at c = 2 vs 2 x bg at c = 1 | info | -0.83 vs -2.17; -0.07 vs -0.36; -1.29 vs -3.16; -1.13 vs -2.31 |
+| linearity in scale: subject pixel change, relative error | info | 0.74, 0.63, 0.93, 0.61 |
+| additivity: bg of RFM-bg + paired-bg vs sum of the two | info | -0.89 vs -1.39; -0.31 vs -0.10; -1.93 vs -3.11; -2.09 vs -2.79 |
+| additivity: subject pixel change, relative error | info | 0.67, 0.67, 0.80, 0.61 |
+| contact sheet <= 25 images | PASS | 16 |
+
+Linear model from single components; a relative error near 0 means the response is linear (the model is trustworthy), near 1 or above means it is not. `response_examples.png` columns: none, masked RFM matched, optimised combination, masked RFM at c = 1.
+
+| scene | method | c (rfm_bg, rfm_fg, paired_bg, eig2_bg) | bg (target -0.5) | predicted bg | fg sharpness | subject pixel RMS | predicted | pixel FG / BG | DINOv2 |
+|---|---|---|---|---|---|---|---|---|---|
+| 0 | masked RFM | +0.46, +0.00, +0.00, +0.00 | -0.851 | -0.500 | -0.236 | 0.1472 | 0.0788 | 0.102 / 0.082 | 0.764 |
+| 0 | optimised | +0.26, -0.32, -0.03, +0.01 | -0.244 | -0.500 | -0.091 | 0.0918 | 0.0441 | 0.057 / 0.055 | 0.733 |
+| 1 | masked RFM | +2.80, +0.00, +0.00, +0.00 | -0.121 | -0.500 | -0.216 | 0.1144 | 0.2806 | 0.069 / 0.116 | 0.399 |
+| 1 | optimised | +0.08, +0.39, -0.18, -0.29 | +2.072 | -0.500 | +0.101 | 0.0961 | 0.0422 | 0.049 / 0.115 | 0.679 |
+| 3 | masked RFM | +0.32, +0.00, +0.00, +0.00 | -0.502 | -0.500 | -0.352 | 0.0641 | 0.0447 | 0.043 / 0.059 | 0.969 |
+| 3 | optimised | +0.14, -0.09, +0.18, -0.11 | -0.572 | -0.500 | +0.143 | 0.1019 | 0.0293 | 0.070 / 0.126 | 0.868 |
+| 5 | masked RFM | +0.43, +0.00, +0.00, +0.00 | -0.331 | -0.500 | +0.011 | 0.1679 | 0.0819 | 0.108 / 0.085 | 0.794 |
+| 5 | optimised | +0.03, -0.12, +0.30, -0.11 | -0.509 | -0.500 | +0.197 | 0.1473 | 0.0339 | 0.094 / 0.105 | 0.794 |
+
+Means over the 4 scenes with a baseline: background masked -0.451 vs optimised +0.187; subject pixel RMS masked 0.1234 vs optimised 0.1093; DINOv2 masked 0.732 vs optimised 0.768.
+
+Total time 768 s.
+
+== [2026-11-14 22:12:55] pilot: geometry
+2026-11-14 22:12:59.141425: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-14 22:12:59.141470: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-14 22:12:59.142911: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-14 22:12:59.153181: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+# Pilot 2: subject protection under depth errors (8 images; ground truth = our renderer with the estimated depth; pipeline check)
+
+| check | result | detail |
+|---|---|---|
+| all errors finite | PASS | 36 cells |
+| no depth error gives zero error for the plain render (errors are real) | PASS |  |
+| contact sheet <= 25 images | PASS | 10 |
+
+Mean absolute error against the truth (fraction of 255) by region; boundary = within 2 x sigma of the true subject edge. bg blur gap: log Laplacian variance of the background interior minus the truth's (> 0: not blurred enough). `geometry_examples.png` columns: truth, plain, feather 4, feather L, ensemble (threshold error, sigma 8).
+
+Depth errors: noise = correlated noise of 0.15 depth SD; smoothed = depth blurred (sigma 6 px); threshold = subject cut at the nearest 30% instead of 40%. Ensemble: 8 renders with extra 0.05 SD noise and the cut drawn from the nearest 35-45%.
+
+| depth error | sigma | method | subject interior | boundary | background interior | bg blur gap |
+|---|---|---|---|---|---|---|
+| noise | 2 | plain | 0.0000 | 0.0027 | 0.0083 | +0.529 |
+| noise | 2 | feather4 | 0.0000 | 0.0037 | 0.0083 | +0.533 |
+| noise | 2 | feather_L | 0.0000 | 0.0033 | 0.0083 | +0.530 |
+| noise | 2 | ensemble8 | 0.0000 | 0.0029 | 0.0088 | +0.550 |
+| noise | 4 | plain | 0.0001 | 0.0046 | 0.0107 | +0.771 |
+| noise | 4 | feather4 | 0.0000 | 0.0058 | 0.0107 | +0.789 |
+| noise | 4 | feather_L | 0.0000 | 0.0058 | 0.0107 | +0.789 |
+| noise | 4 | ensemble8 | 0.0001 | 0.0049 | 0.0112 | +0.795 |
+| noise | 8 | plain | 0.0001 | 0.0068 | 0.0123 | +1.110 |
+| noise | 8 | feather4 | 0.0000 | 0.0077 | 0.0124 | +1.148 |
+| noise | 8 | feather_L | 0.0000 | 0.0083 | 0.0124 | +1.161 |
+| noise | 8 | ensemble8 | 0.0002 | 0.0071 | 0.0124 | +1.045 |
+| smoothed | 2 | plain | 0.0000 | 0.0059 | 0.0060 | -0.373 |
+| smoothed | 2 | feather4 | 0.0000 | 0.0060 | 0.0060 | -0.365 |
+| smoothed | 2 | feather_L | 0.0000 | 0.0059 | 0.0060 | -0.371 |
+| smoothed | 2 | ensemble8 | 0.0000 | 0.0062 | 0.0054 | -0.183 |
+| smoothed | 4 | plain | 0.0000 | 0.0073 | 0.0073 | -0.627 |
+| smoothed | 4 | feather4 | 0.0000 | 0.0076 | 0.0073 | -0.618 |
+| smoothed | 4 | feather_L | 0.0000 | 0.0076 | 0.0073 | -0.618 |
+| smoothed | 4 | ensemble8 | 0.0001 | 0.0083 | 0.0062 | -0.275 |
+| smoothed | 8 | plain | 0.0000 | 0.0076 | 0.0084 | -0.815 |
+| smoothed | 8 | feather4 | 0.0000 | 0.0079 | 0.0084 | -0.813 |
+| smoothed | 8 | feather_L | 0.0000 | 0.0084 | 0.0084 | -0.802 |
+| smoothed | 8 | ensemble8 | 0.0001 | 0.0090 | 0.0074 | -0.524 |
+| threshold | 2 | plain | 0.0006 | 0.0085 | 0.0086 | -1.229 |
+| threshold | 2 | feather4 | 0.0006 | 0.0079 | 0.0086 | -1.225 |
+| threshold | 2 | feather_L | 0.0006 | 0.0080 | 0.0086 | -1.229 |
+| threshold | 2 | ensemble8 | 0.0000 | 0.0009 | 0.0028 | +0.155 |
+| threshold | 4 | plain | 0.0015 | 0.0134 | 0.0109 | -1.733 |
+| threshold | 4 | feather4 | 0.0015 | 0.0129 | 0.0109 | -1.733 |
+| threshold | 4 | feather_L | 0.0015 | 0.0129 | 0.0109 | -1.733 |
+| threshold | 4 | ensemble8 | 0.0000 | 0.0020 | 0.0037 | +0.178 |
+| threshold | 8 | plain | 0.0017 | 0.0175 | 0.0129 | -1.636 |
+| threshold | 8 | feather4 | 0.0017 | 0.0172 | 0.0129 | -1.636 |
+| threshold | 8 | feather_L | 0.0016 | 0.0170 | 0.0129 | -1.634 |
+| threshold | 8 | ensemble8 | 0.0000 | 0.0039 | 0.0052 | +0.095 |
+
+Total time 254 s.
+
+== [2026-11-14 22:17:12] pilot: residual
+2026-11-14 22:17:16.721463: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-14 22:17:16.721506: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-14 22:17:16.723071: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-14 22:17:16.732230: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading pipeline components...:   0%|          | 0/6 [00:00<?, ?it/s]/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+Loading pipeline components...:  50%|█████     | 3/6 [00:00<00:00, 20.86it/s]Loading pipeline components...: 100%|██████████| 6/6 [00:01<00:00,  4.80it/s]Loading pipeline components...: 100%|██████████| 6/6 [00:01<00:00,  5.42it/s]
+# Pilot 3: carrying VAE-lost detail through the optical edit (8 images; pipeline check)
+
+| check | result | detail |
+|---|---|---|
+| all PSNRs finite | PASS |  |
+| VAE round trip loses detail (PSNR < 40 dB) but is sane (> 20 dB) | info | 30.3 dB |
+| direct residual restores the unedited subject (subject interior PSNR up vs vae alone) | PASS |  |
+| contact sheet <= 25 images | PASS | 12 |
+
+PSNR (dB) against the rendered truth. The truth keeps the subject exactly, so `subject_copy` (with the true mask) is perfect inside the subject by construction; the background and boundary columns are the test. VAE round trip of the originals: 30.3 dB. `residual_examples.png` columns: truth, vae, direct, carried, subject_copy, subject_copy+carried (sigma 8).
+
+| sigma | method | all | subject interior | boundary | background interior |
+|---|---|---|---|---|---|
+| 2 | vae | 32.31 | 33.96 | 31.58 | 31.98 |
+| 2 | direct | 32.61 | 42.62 | 36.22 | 30.61 |
+| 2 | carried | 36.01 | 42.62 | 36.84 | 34.49 |
+| 2 | subject_copy | 34.15 | 87.86 | 35.69 | 31.98 |
+| 2 | subject_copy+carried | 36.68 | 93.94 | 40.05 | 34.49 |
+| 4 | vae | 33.51 | 33.73 | 31.93 | 34.82 |
+| 4 | direct | 31.29 | 39.72 | 33.47 | 29.46 |
+| 4 | carried | 36.51 | 39.72 | 34.74 | 36.35 |
+| 4 | subject_copy | 36.60 | 144.69 | 35.82 | 34.82 |
+| 4 | subject_copy+carried | 38.22 | 145.87 | 37.88 | 36.35 |
+| 8 | vae | 34.09 | 33.52 | 32.51 | 37.41 |
+| 8 | direct | 30.76 | 38.14 | 32.07 | 29.12 |
+| 8 | carried | 36.84 | 38.14 | 34.22 | 39.03 |
+| 8 | subject_copy | 38.50 | 148.13 | 36.97 | 37.41 |
+| 8 | subject_copy+carried | 40.11 | 148.13 | 37.91 | 39.03 |
+
+Total time 42 s.
+
+== [2026-11-14 22:17:58] done (status 0)

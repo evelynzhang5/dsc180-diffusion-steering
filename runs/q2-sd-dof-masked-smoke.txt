@@ -1,0 +1,119 @@
+GPU 0: NVIDIA GeForce GTX 1080 Ti (UUID: GPU-0346a118-639d-f907-4842-d4b632eeecc8)
+0.30.3 4.44.2 0.12.0
+== [2026-11-14 19:50:10] smoke 1: masked steering
+2026-11-14 19:50:13.494019: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-14 19:50:13.494063: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-14 19:50:13.495404: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-14 19:50:13.503106: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading pipeline components...:   0%|          | 0/6 [00:00<?, ?it/s]Loading pipeline components...:  17%|█▋        | 1/6 [00:00<00:03,  1.31it/s]Loading pipeline components...:  33%|███▎      | 2/6 [00:00<00:01,  2.38it/s]/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+Loading pipeline components...:  67%|██████▋   | 4/6 [00:01<00:00,  5.04it/s]Loading pipeline components...:  83%|████████▎ | 5/6 [00:01<00:00,  3.45it/s]Loading pipeline components...: 100%|██████████| 6/6 [00:01<00:00,  3.81it/s]
+== [2026-11-14 19:52:05] none: 14.9 s per image, peak 6.76 GB
+== [2026-11-14 19:54:16] rfm_global_s2: 21.8 s per image, peak 6.76 GB
+== [2026-11-14 19:56:27] rfm_global_s4: 21.9 s per image, peak 6.76 GB
+== [2026-11-14 19:58:38] rfm_masked_s2: 21.9 s per image, peak 6.76 GB
+== [2026-11-14 20:00:49] rfm_masked_s4: 21.9 s per image, peak 6.76 GB
+# Round 10 smoke test (6 captions x seed 42; pipeline check, not a result)
+
+| check | pass | detail |
+|---|---|---|
+| identity: unsteered vs itself, every change 0 | PASS | max |change| 0.00e+00 |
+| masked hook: layer output unchanged where mask = 0 | PASS | max |change| 0.00e+00 |
+| masked hook: layer output changed where mask > 0 | PASS | max |change| 5.093 |
+| post-hoc blur: background sharper drop than foreground (|fg| < 0.25 |bg|, bg < 0) | PASS | bg -4.377, fg -0.103 |
+| measure separates selective from uniform blur (post-hoc ratio > uniform ratio + 0.3) | PASS | post-hoc +4.274, uniform +0.201 |
+| fixed-mask and own-mask ratios finite for every generated condition | PASS |  |
+| matching returns a strength or says out of range for each method | PASS | rfm_global: 3.24, rfm_masked: 1.54, posthoc: 0.11 |
+| all metrics finite | PASS | 384 values |
+| runtime and peak memory recorded | PASS |  |
+| contact sheet <= 24 images | PASS | 24 images |
+
+Means over the captions, paired with the unsteered image (log changes; fixed mask unless noted):
+
+| condition | background | foreground | FG/BG ratio | ratio, own mask | pixel change FG / BG | DINOv2 | s per image | peak GB |
+|---|---|---|---|---|---|---|---|---|
+| none | +0.000 | +0.000 | +0.000 | +0.000 | 0.000 / 0.000 | 1.000 | 14.9 | 6.76 |
+| rfm_global_s2 | -0.146 | -0.430 | -0.283 | -0.317 | 0.059 / 0.067 | 0.793 | 21.8 | 6.76 |
+| rfm_global_s4 | -0.362 | -0.605 | -0.243 | -0.342 | 0.082 / 0.089 | 0.646 | 21.9 | 6.76 |
+| rfm_masked_s2 | -0.364 | -0.143 | +0.221 | +0.251 | 0.052 / 0.059 | 0.865 | 21.9 | 6.76 |
+| rfm_masked_s4 | -0.933 | -0.158 | +0.775 | +0.790 | 0.079 / 0.090 | 0.690 | 21.9 | 6.76 |
+| posthoc_r1 | -2.439 | -0.085 | +2.354 | +2.359 | 0.001 / 0.031 | 0.968 | nan | nan |
+| posthoc_r3 | -4.377 | -0.103 | +4.274 | +4.287 | 0.003 / 0.063 | 0.860 | nan | nan |
+| uniform_r2 | -4.624 | -4.422 | +0.201 | +0.201 | 0.027 / 0.052 | 0.980 | nan | nan |
+
+Matched-blur strengths for target background change -0.28: rfm_global 3.24, rfm_masked 1.54, posthoc 0.11
+
+Per caption (ratio, fixed mask):
+
+| caption kind | rfm_global_s2 | rfm_global_s4 | rfm_masked_s2 | rfm_masked_s4 |
+|---|---|---|---|---|
+| ordinary | -0.564 | -0.643 | +0.272 | +0.887 |
+| ordinary | -0.689 | -1.025 | -0.188 | -0.103 |
+| no_subject | -0.591 | -0.588 | -0.002 | +0.059 |
+| two_depths | -0.400 | -0.428 | +0.184 | +0.710 |
+| small_subject | +0.482 | +1.271 | +0.531 | +1.912 |
+| sharp_bg | +0.061 | -0.044 | +0.526 | +1.187 |
+
+Total time 647 s.
+== [2026-11-14 20:01:00] smoke 2: paired data
+2026-11-14 20:01:02.964326: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-14 20:01:02.964372: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-14 20:01:02.965636: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-14 20:01:02.973144: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading pipeline components...:   0%|          | 0/6 [00:00<?, ?it/s]Loading pipeline components...:  33%|███▎      | 2/6 [00:00<00:00, 15.85it/s]/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+Loading pipeline components...:  67%|██████▋   | 4/6 [00:00<00:00,  6.69it/s]Loading pipeline components...:  83%|████████▎ | 5/6 [00:00<00:00,  5.09it/s]Loading pipeline components...: 100%|██████████| 6/6 [00:00<00:00,  7.01it/s]
+== [2026-11-14 20:03:15] rendered 8 x 3 pairs
+/home/yuz271/dsc180-diffusion-steering/quarter2/sd_dof_masked/smoke_paired.py:89: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at ../torch/csrc/utils/tensor_numpy.cpp:206.)
+  x = torch.from_numpy(np.asarray(img)).permute(2, 0, 1)[None].float() / 127.5 - 1
+# Smoke test 2: paired data (8 captions x seed 42, levels [2.0, 4.0, 8.0]; pipeline check)
+
+| check | result | detail |
+|---|---|---|
+| rendered pairs: foreground pixels unchanged (max mean change < 0.005) | PASS | max 0.0000 |
+| rendered pairs: background change > 0 and grows with level | PASS | 0.0269 / 0.0445 / 0.0620 |
+| paired activations: same shape for original and edit | PASS | 1280 x 16 x 16 |
+| paired activations: repeating the original with the same noise gives the same activations | PASS | max relative change 0.00e+00 |
+| activation change grows with level | PASS | 261.5 / 389.9 / 511.1 |
+| paired direction: cosine with round 9's directions | info | rfm_eig1 +0.128, meandiff +0.159 |
+| per-pair changes: mean cosine between pairs (1 = one shared direction) | info | +0.115 (min +0.038, max +0.220) |
+| per-pair changes: energy at background / foreground positions (median) | info | 7.13 over 8 images |
+| paired direction runs through the sampler; metrics finite | PASS | bg -1.280 fg -0.725; bg -0.546 fg +0.039; 19.5 s per image, peak 6.46 GB |
+| contact sheets <= 25 images each | PASS | 16 and 4 |
+
+Rendered pairs: columns original, sigma 2, 4, 8 (`pairs_examples.png`); paired direction at s 4 next to the original (`paired_direction_examples.png`). The paired direction is the mean of per-pair changes, i.e. the difference of the two group means: it only differs from a mean-difference direction through the data.
+
+Total time 184 s.
+
+== [2026-11-14 20:04:06] smoke 3: LoRA
+2026-11-14 20:04:09.090325: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-14 20:04:09.090369: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-14 20:04:09.091650: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-14 20:04:09.099368: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading pipeline components...:   0%|          | 0/6 [00:00<?, ?it/s]Loading pipeline components...:  33%|███▎      | 2/6 [00:00<00:00,  6.44it/s]Loading pipeline components...:  50%|█████     | 3/6 [00:00<00:00,  4.69it/s]/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+Loading pipeline components...: 100%|██████████| 6/6 [00:00<00:00,  9.53it/s]Loading pipeline components...: 100%|██████████| 6/6 [00:00<00:00,  8.13it/s]
+/home/yuz271/dsc180-diffusion-steering/quarter2/sd_dof_masked/smoke_paired.py:204: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at ../torch/csrc/utils/tensor_numpy.cpp:206.)
+  z0 = torch.cat([p.vae.encode((torch.from_numpy(np.asarray(Image.open(src / "images" / f"{i:02d}_L{Lmax:g}.png")))
+== [2026-11-14 20:05:57] LoRA: 50 steps in 66 s; eval loss 0.1463 -> 0.1419
+Loading pipeline components...:   0%|          | 0/6 [00:00<?, ?it/s]Loading pipeline components...:  33%|███▎      | 2/6 [00:00<00:00,  4.41it/s]Loading pipeline components...:  50%|█████     | 3/6 [00:00<00:00,  4.36it/s]Loading pipeline components...: 100%|██████████| 6/6 [00:00<00:00,  9.35it/s]Loading pipeline components...: 100%|██████████| 6/6 [00:00<00:00,  7.48it/s]
+# Smoke test 3: LoRA on the rendered pairs (8 images at sigma 8; pipeline check)
+
+| check | result | detail |
+|---|---|---|
+| training runs; loss finite | PASS | 50 steps, batch 2, 797,184 LoRA parameters, 66 s, peak 4.88 GB |
+| fixed evaluation loss goes down | PASS | 0.1463 -> 0.1419 |
+| adapter saved and reloaded into a fresh pipeline | PASS | pytorch_lora_weights.safetensors |
+| adapter weight 0 reproduces the plain model (mean pixel change < 0.004) | PASS | max 0.0000 |
+| adapter weight 1 changes the image (mean pixel change > 0.01) | PASS | min 0.1370 |
+| paired changes vs plain at weights 0.5 / 1 (bg, fg) | info | bg +0.035 fg -0.085 / bg -0.347 fg +0.061 |
+| contact sheet <= 25 images | PASS | 8 images |
+
+Columns in `lora_examples.png`: plain model, adapter weight 0, 0.5, 1 (same caption and seed). 50 steps on 8 images only checks the training, saving and loading path; it is not a trained baseline.
+
+Total time 194 s.
+
+== [2026-11-14 20:07:27] done (status 0)

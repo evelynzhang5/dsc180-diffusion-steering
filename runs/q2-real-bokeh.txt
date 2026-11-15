@@ -1,0 +1,239 @@
+GPU 0: NVIDIA GeForce GTX 1080 Ti (UUID: GPU-035a4397-07de-0375-6bfc-72921356e262)
+== [2026-11-15 09:09:20] stage: setup
+== [2026-11-15 09:09:21] downloading EBB! (3.8 GB)
+== [2026-11-15 09:14:37] EBB! zip 3.79 GB
+Using cookies from /home/yuz271/.cache/gdown/cookies.txt
+warning: `--folder` is no longer required for folder URLs and will be removed in a future release
+Retrieving folder contents
+Retrieving folder contents completed
+Building directory structure
+Building directory structure completed
+Downloading...
+From: https://drive.google.com/uc?id=1MMyTilAnpc5yO1zx6k0eBKyE8W6nnkfp
+To: /home/yuz271/dsc180-diffusion-steering/downloads/mpib/checkpoints/aupnet.pth
+Processing file 1MMyTilAnpc5yO1zx6k0eBKyE8W6nnkfp aupnet.pth
+Processing file 1C1m_Z6fHVxwB8wam0r7VAU7V4kTO6xZS inpnet.pth
+Processing file 1o6mo9OfiL1uDGsbxcuUBFWImHPZ3ps4Z mpinet.pth
+  0%|          | 0.00/183k [00:00<?, ?B/s]100%|██████████| 183k/183k [00:00<00:00, 3.28MB/s]
+Downloading...
+From (original): https://drive.google.com/uc?id=1C1m_Z6fHVxwB8wam0r7VAU7V4kTO6xZS
+From (redirected): https://drive.google.com/uc?id=1C1m_Z6fHVxwB8wam0r7VAU7V4kTO6xZS&confirm=t&uuid=c1b35c8f-2b4d-43e2-afab-85d890d6921b
+To: /home/yuz271/dsc180-diffusion-steering/downloads/mpib/checkpoints/inpnet.pth
+  0%|          | 0.00/136M [00:00<?, ?B/s]  1%|          | 1.05M/136M [00:00<00:15, 8.64MB/s]  3%|▎         | 4.72M/136M [00:00<00:05, 23.0MB/s]  5%|▌         | 7.34M/136M [00:00<00:05, 23.7MB/s]  8%|▊         | 11.0M/136M [00:00<00:06, 20.8MB/s] 12%|█▏        | 16.3M/136M [00:00<00:04, 29.2MB/s] 15%|█▍        | 19.9M/136M [00:00<00:04, 27.1MB/s] 19%|█▉        | 25.7M/136M [00:01<00:04, 26.0MB/s] 25%|██▍       | 34.1M/136M [00:01<00:03, 26.8MB/s] 31%|███       | 42.5M/136M [00:01<00:03, 27.3MB/s] 38%|███▊      | 52.4M/136M [00:01<00:02, 32.8MB/s] 45%|████▍     | 60.8M/136M [00:01<00:01, 38.9MB/s] 49%|████▉     | 66.6M/136M [00:02<00:01, 41.5MB/s] 52%|█████▏    | 71.3M/136M [00:02<00:01, 38.0MB/s] 55%|█████▌    | 75.5M/136M [00:02<00:01, 35.9MB/s] 58%|█████▊    | 79.7M/136M [00:02<00:01, 31.8MB/s] 63%|██████▎   | 86.5M/136M [00:02<00:01, 38.8MB/s] 69%|██████▉   | 94.4M/136M [00:02<00:00, 44.8MB/s] 73%|███████▎  | 99.6M/136M [00:03<00:01, 36.1MB/s] 79%|███████▉  | 108M/136M [00:03<00:00, 45.2MB/s]  83%|████████▎ | 113M/136M [00:03<00:00, 35.4MB/s] 88%|████████▊ | 120M/136M [00:03<00:00, 38.5MB/s] 95%|█████████▌| 130M/136M [00:03<00:00, 42.6MB/s]100%|██████████| 136M/136M [00:03<00:00, 36.1MB/s]
+Downloading...
+From (original): https://drive.google.com/uc?id=1o6mo9OfiL1uDGsbxcuUBFWImHPZ3ps4Z
+From (redirected): https://drive.google.com/uc?id=1o6mo9OfiL1uDGsbxcuUBFWImHPZ3ps4Z&confirm=t&uuid=945d4387-62e1-421b-b416-6f5f06b2c46f
+To: /home/yuz271/dsc180-diffusion-steering/downloads/mpib/checkpoints/mpinet.pth
+  0%|          | 0.00/59.9M [00:00<?, ?B/s]  1%|          | 524k/59.9M [00:00<00:13, 4.44MB/s]  8%|▊         | 4.72M/59.9M [00:00<00:03, 14.7MB/s] 18%|█▊        | 11.0M/59.9M [00:00<00:02, 22.9MB/s] 29%|██▉       | 17.3M/59.9M [00:00<00:01, 27.6MB/s] 34%|███▍      | 20.4M/59.9M [00:00<00:01, 23.3MB/s] 43%|████▎     | 25.7M/59.9M [00:01<00:01, 25.1MB/s] 53%|█████▎    | 32.0M/59.9M [00:01<00:01, 25.1MB/s] 66%|██████▋   | 39.8M/59.9M [00:01<00:00, 28.5MB/s] 73%|███████▎  | 44.0M/59.9M [00:01<00:00, 26.5MB/s] 87%|████████▋ | 52.4M/59.9M [00:01<00:00, 33.5MB/s] 94%|█████████▎| 56.1M/59.9M [00:02<00:00, 27.3MB/s]100%|██████████| 59.9M/59.9M [00:02<00:00, 27.5MB/s]
+Download completed
+== [2026-11-15 09:15:52] checkpoints: aupnet.pth 0 MB, inpnet.pth 136 MB, mpinet.pth 60 MB
+== [2026-11-15 09:15:52] zip: 9793 entries; folders: ['', 'train/bokeh', 'train/original', 'validation/bokeh', 'validation/original']
+== [2026-11-15 09:15:53] stage: select
+2026-11-15 09:15:56.155583: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-15 09:15:56.155620: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-15 09:15:56.156873: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-15 09:15:56.164105: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+== [2026-11-15 09:16:03] 4694 pairs; scanning 1500
+== [2026-11-15 09:17:47] selection: hair 8, branches 8, fence 8, foliage 8, glass 8, control 20
+== [2026-11-15 09:17:48] stage: subsetA
+/opt/conda/lib/python3.11/site-packages/torch/functional.py:507: UserWarning: torch.meshgrid: in an upcoming release, it will be required to pass the indexing argument. (Triggered internally at ../aten/src/ATen/native/TensorShape.cpp:3549.)
+  return _VF.meshgrid(tensors, **kwargs)  # type: ignore[attr-defined]
+2026-11-15 09:17:52.768410: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-15 09:17:52.768442: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-15 09:17:52.769715: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-15 09:17:52.776382: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/opt/conda/lib/python3.11/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/opt/conda/lib/python3.11/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=AlexNet_Weights.IMAGENET1K_V1`. You can also use `weights=AlexNet_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+Downloading: "https://download.pytorch.org/models/alexnet-owt-7be5be79.pth" to /tmp/xdg-cache/torch/hub/checkpoints/alexnet-owt-7be5be79.pth
+num_ch_enc= [ 64  64 128 256 512]
+upconv_4_0 528 256
+upconv_4_1 528 256
+upconv_3_0 256 128
+upconv_3_1 272 128
+upconv_2_0 128 64
+upconv_2_1 144 64
+upconv_1_0 64 32
+upconv_1_1 112 32
+upconv_0_0 32 16
+upconv_0_1 16 16
+  0%|          | 0.00/233M [00:00<?, ?B/s]  5%|▌         | 12.6M/233M [00:00<00:01, 132MB/s] 12%|█▏        | 27.9M/233M [00:00<00:01, 149MB/s] 19%|█▊        | 43.5M/233M [00:00<00:01, 155MB/s] 25%|██▌       | 59.0M/233M [00:00<00:01, 158MB/s] 32%|███▏      | 74.2M/233M [00:00<00:01, 159MB/s] 39%|███▊      | 89.8M/233M [00:00<00:00, 160MB/s] 45%|████▌     | 105M/233M [00:00<00:00, 161MB/s]  52%|█████▏    | 121M/233M [00:00<00:00, 161MB/s] 58%|█████▊    | 136M/233M [00:00<00:00, 161MB/s] 65%|██████▌   | 152M/233M [00:01<00:00, 161MB/s] 72%|███████▏  | 167M/233M [00:01<00:00, 162MB/s] 78%|███████▊  | 183M/233M [00:01<00:00, 161MB/s] 85%|████████▌ | 198M/233M [00:01<00:00, 162MB/s] 92%|█████████▏| 214M/233M [00:01<00:00, 163MB/s] 98%|█████████▊| 230M/233M [00:01<00:00, 162MB/s]100%|██████████| 233M/233M [00:01<00:00, 160MB/s]
+== [2026-11-15 09:18:02] hair 171: df 0.80 K 8 | outer MAE input 18.37, gather 15.18, hard 14.68, soft 15.38, mpib 15.03
+== [2026-11-15 09:18:05] hair 696: df 0.90 K 8 | outer MAE input 13.10, gather 17.92, hard 14.24, soft 17.91, mpib 13.22
+== [2026-11-15 09:18:11] hair 714: df 0.80 K 48 | outer MAE input 30.75, gather 27.48, hard 26.99, soft 28.03, mpib 25.92
+== [2026-11-15 09:18:14] hair 411: df 1.00 K 8 | outer MAE input 14.03, gather 9.49, hard 8.67, soft 9.71, mpib 8.73
+== [2026-11-15 09:18:17] hair 1325: df 0.90 K 8 | outer MAE input 9.62, gather 9.73, hard 8.81, soft 9.69, mpib 8.96
+== [2026-11-15 09:18:21] hair 412: df 0.90 K 8 | outer MAE input 19.90, gather 16.52, hard 15.88, soft 16.77, mpib 16.79
+== [2026-11-15 09:18:24] hair 320: df 0.70 K 16 | outer MAE input 12.82, gather 13.51, hard 11.82, soft 13.26, mpib 11.54
+== [2026-11-15 09:18:27] hair 1463: df 1.00 K 8 | outer MAE input 13.52, gather 14.73, hard 12.80, soft 15.08, mpib 13.99
+== [2026-11-15 09:18:31] branches 523: df 0.30 K 8 | outer MAE input 24.18, gather 21.49, hard 21.86, soft 22.35, mpib 24.68
+== [2026-11-15 09:18:36] branches 493: df 0.90 K 32 | outer MAE input 24.31, gather 19.20, hard 17.65, soft 18.73, mpib 17.18
+== [2026-11-15 09:18:42] branches 1288: df 1.00 K 32 | outer MAE input 19.59, gather 23.05, hard 11.93, soft 25.08, mpib 11.47
+== [2026-11-15 09:18:46] branches 1078: df 0.60 K 16 | outer MAE input 26.88, gather 27.01, hard 23.11, soft 28.37, mpib 22.04
+== [2026-11-15 09:18:49] branches 1136: df 0.70 K 8 | outer MAE input 11.77, gather 14.62, hard 12.91, soft 14.54, mpib 12.52
+== [2026-11-15 09:18:52] branches 519: df 0.70 K 8 | outer MAE input 20.22, gather 24.56, hard 21.35, soft 25.86, mpib 19.25
+== [2026-11-15 09:18:56] branches 872: df 0.80 K 16 | outer MAE input 14.70, gather 22.22, hard 14.88, soft 22.99, mpib 14.89
+== [2026-11-15 09:19:00] branches 1083: df 0.80 K 24 | outer MAE input 19.97, gather 19.61, hard 20.63, soft 19.11, mpib 20.23
+== [2026-11-15 09:19:03] fence 178: df 0.70 K 8 | outer MAE input 12.10, gather 12.30, hard 11.90, soft 12.34, mpib 11.85
+== [2026-11-15 09:19:06] fence 189: df 0.80 K 8 | outer MAE input 20.05, gather 25.78, hard 21.56, soft 25.59, mpib 19.96
+== [2026-11-15 09:19:10] fence 1448: df 0.90 K 24 | outer MAE input 6.18, gather 7.17, hard 7.31, soft 6.70, mpib 6.82
+== [2026-11-15 09:19:14] fence 921: df 0.50 K 8 | outer MAE input 18.55, gather 15.49, hard 16.17, soft 16.13, mpib 15.72
+== [2026-11-15 09:19:17] fence 1373: df 0.80 K 8 | outer MAE input 10.64, gather 9.33, hard 8.34, soft 9.44, mpib 10.82
+== [2026-11-15 09:19:20] fence 1447: df 0.70 K 16 | outer MAE input 18.25, gather 12.69, hard 12.68, soft 12.61, mpib 13.04
+== [2026-11-15 09:19:24] fence 1357: df 0.90 K 24 | outer MAE input 13.20, gather 24.88, hard 13.05, soft 26.19, mpib 11.77
+== [2026-11-15 09:19:28] fence 1429: df 0.90 K 16 | outer MAE input 7.97, gather 17.55, hard 8.86, soft 18.16, mpib 8.80
+== [2026-11-15 09:19:33] foliage 287: df 0.80 K 48 | outer MAE input 19.17, gather 15.73, hard 14.92, soft 15.55, mpib 16.17
+== [2026-11-15 09:19:38] foliage 789: df 0.90 K 32 | outer MAE input 19.98, gather 14.22, hard 12.66, soft 14.40, mpib 15.81
+== [2026-11-15 09:19:43] foliage 261: df 0.90 K 32 | outer MAE input 25.74, gather 16.97, hard 15.35, soft 16.82, mpib 18.12
+== [2026-11-15 09:19:48] foliage 1320: df 1.00 K 24 | outer MAE input 26.78, gather 23.15, hard 20.88, soft 23.01, mpib 29.73
+== [2026-11-15 09:19:52] foliage 1113: df 0.80 K 32 | outer MAE input 14.84, gather 13.95, hard 11.83, soft 13.66, mpib 15.49
+== [2026-11-15 09:19:57] foliage 267: df 1.00 K 24 | outer MAE input 13.43, gather 10.25, hard 8.53, soft 10.72, mpib 10.99
+== [2026-11-15 09:20:01] foliage 302: df 0.80 K 24 | outer MAE input 23.93, gather 23.89, hard 21.53, soft 24.55, mpib 21.26
+== [2026-11-15 09:20:07] foliage 851: df 1.00 K 32 | outer MAE input 18.82, gather 22.76, hard 9.55, soft 24.58, mpib 13.50
+== [2026-11-15 09:20:12] glass 1437: df 1.00 K 32 | outer MAE input 19.96, gather 17.98, hard 17.98, soft 17.67, mpib 18.28
+== [2026-11-15 09:20:15] glass 1457: df 0.80 K 16 | outer MAE input 8.11, gather 6.71, hard 6.35, soft 6.52, mpib 6.65
+== [2026-11-15 09:20:18] glass 326: df 0.90 K 8 | outer MAE input 12.72, gather 12.70, hard 11.68, soft 12.80, mpib 11.22
+== [2026-11-15 09:20:21] glass 90: df 0.60 K 8 | outer MAE input 22.40, gather 22.49, hard 22.82, soft 22.47, mpib 23.19
+== [2026-11-15 09:20:25] glass 765: df 0.30 K 8 | outer MAE input 18.71, gather 18.41, hard 17.55, soft 17.77, mpib 19.01
+== [2026-11-15 09:20:28] glass 1466: df 0.90 K 8 | outer MAE input 5.15, gather 5.05, hard 4.40, soft 4.97, mpib 4.13
+== [2026-11-15 09:20:31] glass 1231: df 0.80 K 8 | outer MAE input 12.17, gather 9.79, hard 8.78, soft 9.90, mpib 8.75
+== [2026-11-15 09:20:34] glass 690: df 0.40 K 8 | outer MAE input 18.69, gather 16.01, hard 15.96, soft 15.81, mpib 15.89
+== [2026-11-15 09:20:37] control 1356: df 0.30 K 8 | outer MAE input 9.01, gather 11.49, hard 11.36, soft 11.50, mpib 11.91
+== [2026-11-15 09:20:40] control 456: df 0.60 K 8 | outer MAE input 14.23, gather 13.02, hard 13.28, soft 12.99, mpib 13.61
+== [2026-11-15 09:20:43] control 399: df 0.80 K 8 | outer MAE input 7.19, gather 11.12, hard 10.17, soft 10.93, mpib 10.84
+== [2026-11-15 09:20:49] control 1398: df 1.00 K 32 | outer MAE input 16.85, gather 27.89, hard 15.32, soft 27.26, mpib 15.16
+== [2026-11-15 09:20:52] control 755: df 0.80 K 8 | outer MAE input 13.96, gather 14.04, hard 12.22, soft 14.64, mpib 12.67
+== [2026-11-15 09:20:55] control 904: df 0.60 K 8 | outer MAE input 9.28, gather 10.82, hard 10.19, soft 10.70, mpib 10.43
+== [2026-11-15 09:20:58] control 836: df 1.00 K 8 | outer MAE input 17.16, gather 13.64, hard 11.75, soft 13.52, mpib 11.54
+== [2026-11-15 09:21:01] control 1449: df 0.80 K 16 | outer MAE input 18.52, gather 16.01, hard 16.43, soft 16.36, mpib 17.36
+== [2026-11-15 09:21:05] control 941: df 0.90 K 8 | outer MAE input 17.98, gather 17.02, hard 14.34, soft 17.24, mpib 13.92
+== [2026-11-15 09:21:08] control 965: df 0.90 K 8 | outer MAE input 15.39, gather 17.43, hard 17.35, soft 17.46, mpib 17.78
+== [2026-11-15 09:21:11] control 257: df 0.90 K 8 | outer MAE input 9.83, gather 11.35, hard 10.85, soft 10.98, mpib 11.74
+== [2026-11-15 09:21:16] control 1206: df 1.00 K 24 | outer MAE input 24.44, gather 23.01, hard 16.74, soft 24.55, mpib 22.45
+== [2026-11-15 09:21:19] control 944: df 0.90 K 8 | outer MAE input 31.18, gather 27.35, hard 23.26, soft 28.62, mpib 27.11
+== [2026-11-15 09:21:22] control 23: df 1.00 K 8 | outer MAE input 22.65, gather 19.50, hard 17.53, soft 19.44, mpib 17.79
+== [2026-11-15 09:21:28] control 812: df 0.70 K 48 | outer MAE input 32.31, gather 26.71, hard 25.23, soft 27.24, mpib 31.18
+== [2026-11-15 09:21:32] control 109: df 0.80 K 8 | outer MAE input 30.09, gather 19.64, hard 21.32, soft 19.75, mpib 22.83
+== [2026-11-15 09:21:35] control 1253: df 0.60 K 8 | outer MAE input 20.32, gather 13.90, hard 13.52, soft 14.06, mpib 16.00
+== [2026-11-15 09:21:38] control 749: df 0.40 K 8 | outer MAE input 18.19, gather 17.54, hard 17.55, soft 17.51, mpib 17.73
+== [2026-11-15 09:21:41] control 1087: df 0.90 K 8 | outer MAE input 9.85, gather 10.06, hard 9.66, soft 10.08, mpib 10.32
+== [2026-11-15 09:21:45] control 59: df 0.70 K 8 | outer MAE input 20.69, gather 19.15, hard 18.78, soft 19.14, mpib 19.12
+# Round 15 subset A: single-depth vs layered rendering on real EBB! pairs (diagnostic)
+
+| check | result | detail |
+|---|---|---|
+| every scene ran | PASS | 60/60 |
+| measures finite (outer band, all methods) | PASS |  |
+| renderers differ from the input (blur applied) | info |  |
+| contact sheet <= 25 images | PASS | 20 |
+
+Error against the real f/1.8 photo (MAE x 255; LPIPS AlexNet). outer = defocused side of the in-focus boundary (where foreground colour bleeds: the layer-leakage measure); inner = in-focus side; thin = thin near structures (disparity top-hat); interior = defocused background far from boundaries. floor = the target against itself shifted 1 px (how much a 1 px misalignment alone costs). Focus and K fitted per scene with `hard`, then shared.
+
+## thin (hair, branches, fence, foliage) (32 scenes)
+
+| method | mae_outer | mae_inner | mae_thin | mae_interior_bg | lpips_band | lpips_all | psnr |
+|---|---|---|---|---|---|---|---|
+| input | 17.60 | 15.62 | 25.70 | 18.90 | 0.250 | 0.418 | 20.22 |
+| gather | 17.58 | 15.16 | 22.29 | 12.99 | 0.234 | 0.229 | 23.00 |
+| hard | 14.79 | 15.60 | 23.41 | 13.09 | 0.212 | 0.223 | 23.10 |
+| soft | 17.92 | 15.16 | 22.48 | 13.25 | 0.252 | 0.241 | 22.79 |
+| mpib | 15.51 | 15.68 | 23.11 | 13.18 | 0.220 | 0.229 | 22.97 |
+| floor_shift1 | 5.24 | 8.44 | 12.30 | 2.20 | 0.028 | 0.024 | 31.32 |
+
+Per scene, outer-band MAE at least 10% lower: mpib vs hard 0/32, mpib vs gather 13/32, soft vs hard 0/32, mpib vs soft (inpainting) 13/32; thin-structure MAE mpib vs hard 8/32.
+
+## glass (8 scenes)
+
+| method | mae_outer | mae_inner | mae_thin | mae_interior_bg | lpips_band | lpips_all | psnr |
+|---|---|---|---|---|---|---|---|
+| input | 14.74 | 12.70 | 21.82 | 13.02 | 0.164 | 0.232 | 23.79 |
+| gather | 13.64 | 12.55 | 17.65 | 10.42 | 0.156 | 0.189 | 25.57 |
+| hard | 13.19 | 13.17 | 18.24 | 10.45 | 0.157 | 0.187 | 25.56 |
+| soft | 13.49 | 12.85 | 16.51 | 10.44 | 0.166 | 0.193 | 25.59 |
+| mpib | 13.39 | 13.12 | 17.44 | 10.45 | 0.171 | 0.194 | 25.59 |
+| floor_shift1 | 5.27 | 7.23 | 11.86 | 2.91 | 0.025 | 0.025 | 29.61 |
+
+Per scene, outer-band MAE at least 10% lower: mpib vs hard 0/8, mpib vs gather 3/8, soft vs hard 0/8, mpib vs soft (inpainting) 3/8; thin-structure MAE mpib vs hard 3/8.
+
+## control (20 scenes)
+
+| method | mae_outer | mae_inner | mae_thin | mae_interior_bg | lpips_band | lpips_all | psnr |
+|---|---|---|---|---|---|---|---|
+| input | 17.96 | 12.66 | 31.84 | 19.97 | 0.183 | 0.275 | 21.09 |
+| gather | 17.03 | 13.07 | 26.68 | 15.43 | 0.193 | 0.219 | 22.66 |
+| hard | 15.34 | 13.66 | 26.57 | 15.49 | 0.186 | 0.223 | 22.71 |
+| soft | 17.20 | 13.18 | 26.96 | 15.58 | 0.207 | 0.231 | 22.53 |
+| mpib | 16.57 | 14.71 | 28.02 | 15.54 | 0.193 | 0.226 | 22.59 |
+| floor_shift1 | 6.05 | 8.21 | 13.51 | 3.38 | 0.026 | 0.026 | 28.60 |
+
+Per scene, outer-band MAE at least 10% lower: mpib vs hard 0/20, mpib vs gather 3/20, soft vs hard 0/20, mpib vs soft (inpainting) 4/20; thin-structure MAE mpib vs hard 1/20.
+
+## Decision (frozen in README)
+
+- Thin-structure scenes where MPIB's outer-band error is >= 10% below the better single-depth renderer: 0/32.
+- Mean outer-band gain of MPIB over the better single-depth renderer: -0.79 (MAE x 255); 1 px shift floor 5.24.
+- MPIB residual: outer band / background interior = 1.32.
+- **Layered rendering does not clearly beat single-depth rendering at boundaries on these real pairs: the 2.5D failure is not the dominant error here (depth error and misalignment are candidates).**
+
+`subsetA_examples.png` columns: input, real target, gather, hard, mpib (one hair, branches, fence, glass scene).
+
+Total time 230 s.
+
+== [2026-11-15 09:21:46] stage: subsetB
+/opt/conda/lib/python3.11/site-packages/torch/functional.py:507: UserWarning: torch.meshgrid: in an upcoming release, it will be required to pass the indexing argument. (Triggered internally at ../aten/src/ATen/native/TensorShape.cpp:3549.)
+  return _VF.meshgrid(tensors, **kwargs)  # type: ignore[attr-defined]
+2026-11-15 09:21:50.717455: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-15 09:21:50.717487: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-15 09:21:50.718757: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-15 09:21:50.725241: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+num_ch_enc= [ 64  64 128 256 512]
+upconv_4_0 528 256
+upconv_4_1 528 256
+upconv_3_0 256 128
+upconv_3_1 272 128
+upconv_2_0 128 64
+upconv_2_1 144 64
+upconv_1_0 64 32
+upconv_1_1 112 32
+upconv_0_0 32 16
+upconv_0_1 16 16
+== [2026-11-15 09:22:17] glass pair 0: focus_scene: gather 11.20, hard 11.07, mpib 11.07, input 10.91, additive_oracle 0.00; focus_reflection: gather 11.19, hard 11.84, mpib 11.37, input 18.85, additive_oracle 0.00
+== [2026-11-15 09:22:39] glass pair 1: focus_scene: gather 9.96, hard 9.88, mpib 9.80, input 6.95, additive_oracle 0.00; focus_reflection: gather 8.97, hard 10.25, mpib 9.52, input 23.49, additive_oracle 0.00
+== [2026-11-15 09:23:01] glass pair 2: focus_scene: gather 7.04, hard 7.04, mpib 7.02, input 7.21, additive_oracle 0.00; focus_reflection: gather 8.45, hard 9.82, mpib 9.13, input 17.53, additive_oracle 0.00
+== [2026-11-15 09:23:23] glass pair 3: focus_scene: gather 10.43, hard 10.52, mpib 10.54, input 7.67, additive_oracle 0.00; focus_reflection: gather 9.63, hard 9.88, mpib 9.87, input 19.56, additive_oracle 0.00
+== [2026-11-15 09:23:44] glass pair 4: focus_scene: gather 14.46, hard 14.49, mpib 14.82, input 14.14, additive_oracle 0.00; focus_reflection: gather 14.76, hard 14.58, mpib 16.04, input 18.77, additive_oracle 0.00
+== [2026-11-15 09:24:07] glass pair 5: focus_scene: gather 10.54, hard 10.44, mpib 10.38, input 11.08, additive_oracle 0.00; focus_reflection: gather 10.42, hard 10.94, mpib 10.73, input 13.89, additive_oracle 0.00
+== [2026-11-15 09:24:30] glass pair 6: focus_scene: gather 15.01, hard 14.95, mpib 15.52, input 12.96, additive_oracle 0.00; focus_reflection: gather 12.55, hard 13.07, mpib 12.69, input 25.03, additive_oracle 0.00
+== [2026-11-15 09:24:53] glass pair 7: focus_scene: gather 13.77, hard 13.67, mpib 14.52, input 12.58, additive_oracle 0.00; focus_reflection: gather 18.35, hard 19.08, mpib 18.48, input 33.14, additive_oracle 0.00
+== [2026-11-15 09:25:16] glass pair 8: focus_scene: gather 12.14, hard 12.18, mpib 12.92, input 7.36, additive_oracle 0.00; focus_reflection: gather 10.94, hard 12.02, mpib 10.90, input 25.64, additive_oracle 0.00
+== [2026-11-15 09:25:38] glass pair 9: focus_scene: gather 11.16, hard 10.74, mpib 10.51, input 15.77, additive_oracle 0.00; focus_reflection: gather 13.32, hard 13.85, mpib 13.29, input 14.28, additive_oracle 0.00
+# Round 15 subset B: additive glass reflections (10 synthetic scenes from EBB! photos; diagnostic)
+
+| check | result | detail |
+|---|---|---|
+| all scenes ran | PASS | 10 |
+| targets differ (focus actually moves) | PASS |  |
+| contact sheet <= 25 images | PASS | 10 |
+
+I = transmitted scene (dimmed 30% inside the window) + reflection (strength 0.25-0.45) inside a window. Exact targets: focus on the scene (reflection blurred, K 24) and focus on the reflection (scene blurred). gather / hard: focus and K fitted to each target on the window (oracle settings); mpib: hard's settings. The additive oracle renders T and R separately with their own blur, so it is exact by construction: it shows what a two-depth additive representation could reach, not a method. MAE x 255 inside the window.
+
+| target | input | gather | hard | mpib | additive_oracle |
+|---|---|---|---|---|---|
+| focus_scene | 10.66 | 11.57 | 11.50 | 11.71 | 0.00 |
+| focus_reflection | 21.02 | 11.86 | 12.53 | 12.20 | 0.00 |
+
+## Decision (frozen in README)
+
+- Best single-image renderer as a fraction of doing nothing (input): focus_scene 1.07, focus_reflection 0.56
+- **No single-depth or layered renderer can produce the two focus targets from one image: they barely beat the unedited input (>= 0.7 of its error) on at least one target.**
+- Real data with a focus shift between reflection and scene is still needed: EBB! has one fixed focus per pair. Its glass scenes are scored in subset A.
+
+`subsetB_examples.png` rows: focus on scene, focus on reflection; columns: input, target, gather, hard, mpib.
+
+== [2026-11-15 09:25:40] done (status 0)

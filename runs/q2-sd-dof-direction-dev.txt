@@ -1,0 +1,331 @@
+GPU 0: NVIDIA GeForce GTX 1080 Ti (UUID: GPU-035a4397-07de-0375-6bfc-72921356e262)
+4.10.0 0.30.3 4.44.2
+== [2026-11-13 15:17:22] smoke test: build tune select confirm
+== [2026-11-13 15:17:26] captions: dev 16, test_P 32, test_O 32; dev[0] (33, 'A bird with red eyes perched on top of a tree branch')
+== [2026-11-13 15:17:26] stage build (smoke)
+Using device: cuda
+DualRFM: N=960, D=327680
+  kernel=l2_high_dim, normalize=True, center_data=True, center_grads=False
+  Memory: 3.7MB (dual) vs 429.5GB (primal)
+
+  Iteration 1/5
+  Val AUC: 0.9642
+  New best at iter 1!
+
+  Iteration 2/5
+== [2026-11-13 15:17:29] RFM out of GPU memory; refitting on CPU
+Using device: cpu
+DualRFM: N=960, D=327680
+  kernel=l2_high_dim, normalize=True, center_data=True, center_grads=False
+  Memory: 3.7MB (dual) vs 429.5GB (primal)
+
+  Iteration 1/5
+  Val AUC: 0.9642
+  New best at iter 1!
+
+  Iteration 2/5
+  Val AUC: 0.8869
+
+  Iteration 3/5
+  Val AUC: 0.8927
+
+  Iteration 4/5
+  Val AUC: 0.9021
+
+  Iteration 5/5
+  Val AUC: 0.9190
+
+  Direction sign: -1 (Pearson corr: -0.8259)
+  Best F1: 0.9250 (P=0.9174, R=0.9328)
+  Average Precision: 0.9647
+  Score dist - Target: 28.8641±18.7147, Other: -26.0104±18.7426
+== [2026-11-13 15:18:25] refit: held-out AUC 0.964 [58 s]; eigenvalues [10398.8583984375, 0.5551984906196594, 0.3185984492301941, 0.21909907460212708, 0.18726715445518494]
+== [2026-11-13 15:18:25] refit check: |cos(refit top eigenvector, round 4 direction)| = 1.0000
+# Candidate directions (round 4's activations: 1,200 photos at sigma 0.344, empty prompt)
+
+Refit: held-out AUC 0.964; |cos(top eigenvector, round 4 direction)| = 1.0000; eigenvalues 1.04e+04, 0.555, 0.319, 0.219, 0.187 (lambda1 / lambda2 = 18729.98).
+
+| candidate | probe AUC (held-out 20%) | kept |
+|---|---|---|
+| rfm_eig1 | 1.000 | yes |
+| rfm_eig2 | 0.669 | yes |
+| rfm_eig3 | 0.700 | yes |
+| meandiff | 0.948 | yes |
+| meandiff_std | 0.949 | no, duplicate of meandiff |
+
+Probe AUCs of the RFM eigenvectors use a split that overlaps the RFM's own training split, so they are optimistic; they are not used to choose.
+
+| pair | cosine |
+|---|---|
+| rfm_eig1|rfm_eig2 | +0.000 |
+| rfm_eig1|rfm_eig3 | +0.000 |
+| rfm_eig1|meandiff | +0.727 |
+| rfm_eig1|meandiff_std | +0.757 |
+| rfm_eig2|rfm_eig3 | +0.000 |
+| rfm_eig2|meandiff | +0.278 |
+| rfm_eig2|meandiff_std | +0.289 |
+| rfm_eig3|meandiff | +0.304 |
+| rfm_eig3|meandiff_std | +0.312 |
+| meandiff|meandiff_std | +0.968 |
+== [2026-11-13 15:18:27] stage build done [61 s]
+== [2026-11-13 15:18:27] stage tune (smoke)
+2026-11-13 15:18:28.915444: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 15:18:28.915473: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 15:18:28.916993: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 15:18:28.924706: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading pipeline components...:   0%|          | 0/6 [00:00<?, ?it/s]Loading pipeline components...:  17%|█▋        | 1/6 [00:00<00:01,  2.53it/s]/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+Loading pipeline components...:  67%|██████▋   | 4/6 [00:01<00:00,  4.15it/s]Loading pipeline components...:  83%|████████▎ | 5/6 [00:01<00:00,  4.35it/s]Loading pipeline components...: 100%|██████████| 6/6 [00:01<00:00,  4.94it/s]
+== [2026-11-13 15:19:27] dev/none: 2 images, 13.9 s per image
+== [2026-11-13 15:20:06] dev/rfm_eig1_s4: 2 images, 19.4 s per image
+== [2026-11-13 15:20:44] dev/random_s4: 2 images, 19.5 s per image
+== [2026-11-13 15:21:24] dev/prompt_s1: 2 images, 19.5 s per image
+# Dev grid (16 person/animal captions x seeds 1, 2; paired with the unsteered image)
+
+Changes in log Laplacian variance inside the unsteered image's depth mask. ratio = foreground - background (positive = selective). DINOv2: cosine with the unsteered image. Intervals: bootstrap over captions, then seeds.
+
+| condition | s | background | foreground | log FG/BG ratio | DINOv2 cosine | CLIP caption | log scale | ratio, own mask |
+|---|---|---|---|---|---|---|---|---|
+| rfm_eig1 | 4 | +0.308 (+0.052, +0.563) | -0.866 (-1.332, -0.401) | -1.174 (-1.895, -0.453) | 0.427 | +1.10 | +0.000 | +0.122 |
+| random | 4 | +0.140 (+0.128, +0.152) | -0.176 (-0.327, -0.025) | -0.316 (-0.454, -0.177) | 0.525 | +0.05 | +0.000 | -0.163 |
+| prompt | 1 | +0.344 (+0.188, +0.501) | -0.106 (-0.255, +0.043) | -0.450 (-0.756, -0.145) | 0.612 | +0.01 | +0.000 | +0.138 |
+== [2026-11-13 15:21:24] stage tune done [177 s]
+== [2026-11-13 15:21:24] stage select (smoke)
+{
+ "target_dev_bg": 0.30768323313832413,
+ "picks": {
+  "prompt": 1.0,
+  "random": 4.0,
+  "rfm_eig1": 4.0
+ },
+ "reaches_target": {
+  "prompt": true,
+  "random": false,
+  "rfm_eig1": true
+ },
+ "challenger": null,
+ "challenger_s": null,
+ "baseline_s": 4.0,
+ "random_s": 4.0,
+ "prompt_s": 1.0,
+ "oracle_radius": 0.5,
+ "oracle_dev_bg": {
+  "0.5": -0.546305773653553,
+  "1.0": -1.530958473921626,
+  "1.5": -1.9767903347707558,
+  "2.0": -2.185555879394106,
+  "3.0": -2.3246337083101993,
+  "4.0": -2.3583595090206053,
+  "6.0": -2.3682851970536647,
+  "8.0": -2.367607519357229
+ },
+ "rule": "closest dev background change to the paper direction at s 4; eligible within 25%; challenger: highest dev log FG/BG ratio change (ties: DINOv2)",
+ "time": "2026-11-13 15:21:27"
+}
+== [2026-11-13 15:21:27] stage select done [3 s]
+== [2026-11-13 15:21:27] stage confirm (smoke)
+== [2026-11-13 15:21:55] test/none: 2 images, 13.8 s per image
+== [2026-11-13 15:22:34] test/rfm_eig1_s4: 2 images, 19.5 s per image
+== [2026-11-13 15:23:13] test/random_s4: 2 images, 19.5 s per image
+== [2026-11-13 15:23:52] test/prompt_s1: 2 images, 19.5 s per image
+# Test: 1 new person/animal (P) + 1 object/scene (O) captions x seeds [42]
+
+Paired with the unsteered image, inside its depth mask; intervals: bootstrap over captions, then seeds.
+
+| condition | setting | background | foreground | log FG/BG ratio | ratio, P | ratio, O | DINOv2 cosine | CLIP caption | pixel change FG / BG | ratio, own mask |
+|---|---|---|---|---|---|---|---|---|---|---|
+| paper | rfm_eig1_s4 | -0.309 (-0.403, -0.215) | -0.772 (-0.799, -0.745) | -0.463 (-0.584, -0.342) | -0.584 (-0.584, -0.584) | -0.342 (-0.342, -0.342) | +0.502 (+0.115, +0.889) | -0.20 (-0.81, +0.42) | 0.100 / 0.117 | -0.526 (-0.570, -0.482) |
+| random | random_s4 | -0.035 (-0.077, +0.006) | -0.021 (-0.084, +0.043) | +0.014 (-0.008, +0.037) | -0.008 (-0.008, -0.008) | +0.037 (+0.037, +0.037) | +0.869 (+0.777, +0.961) | +1.41 (+0.16, +2.66) | 0.084 / 0.052 | +0.075 (+0.063, +0.088) |
+| prompt | prompt_s1 | -0.000 (-0.163, +0.162) | -0.253 (-0.504, -0.001) | -0.252 (-0.341, -0.164) | -0.164 (-0.164, -0.164) | -0.341 (-0.341, -0.341) | +0.782 (+0.599, +0.965) | -1.24 (-2.01, -0.48) | 0.066 / 0.056 | -0.290 (-0.431, -0.149) |
+| oracle | radius 0.5 | -0.699 (-0.767, -0.632) | -0.021 (-0.031, -0.012) | +0.678 (+0.619, +0.737) | +0.737 (+0.737, +0.737) | +0.619 (+0.619, +0.619) | +0.999 (+0.999, +1.000) | +0.05 (-0.01, +0.10) | 0.000 / 0.006 | n/a |
+
+No eligible challenger (none reached the target background change): the challenger branch of the decision fails.
+
+For the other branches of the decision table (paired differences in log FG/BG ratio change):
+- oracle - paper: +1.141 (+0.961, +1.320)
+- random - paper: +0.477 (+0.378, +0.576)
+== [2026-11-13 15:23:53] stage confirm done [146 s]
+== [2026-11-13 15:23:55] dev: build tune select
+== [2026-11-13 15:23:59] captions: dev 16, test_P 32, test_O 32; dev[0] (33, 'A bird with red eyes perched on top of a tree branch')
+== [2026-11-13 15:23:59] stage build
+Using device: cuda
+DualRFM: N=960, D=327680
+  kernel=l2_high_dim, normalize=True, center_data=True, center_grads=False
+  Memory: 3.7MB (dual) vs 429.5GB (primal)
+
+  Iteration 1/5
+  Val AUC: 0.9642
+  New best at iter 1!
+
+  Iteration 2/5
+== [2026-11-13 15:24:01] RFM out of GPU memory; refitting on CPU
+Using device: cpu
+DualRFM: N=960, D=327680
+  kernel=l2_high_dim, normalize=True, center_data=True, center_grads=False
+  Memory: 3.7MB (dual) vs 429.5GB (primal)
+
+  Iteration 1/5
+  Val AUC: 0.9642
+  New best at iter 1!
+
+  Iteration 2/5
+  Val AUC: 0.8869
+
+  Iteration 3/5
+  Val AUC: 0.8927
+
+  Iteration 4/5
+  Val AUC: 0.9021
+
+  Iteration 5/5
+  Val AUC: 0.9190
+
+  Direction sign: -1 (Pearson corr: -0.8259)
+  Best F1: 0.9250 (P=0.9174, R=0.9328)
+  Average Precision: 0.9647
+  Score dist - Target: 28.8641±18.7147, Other: -26.0104±18.7426
+== [2026-11-13 15:24:59] refit: held-out AUC 0.964 [60 s]; eigenvalues [10398.8583984375, 0.5551984906196594, 0.3185984492301941, 0.21909907460212708, 0.18726715445518494]
+== [2026-11-13 15:24:59] refit check: |cos(refit top eigenvector, round 4 direction)| = 1.0000
+# Candidate directions (round 4's activations: 1,200 photos at sigma 0.344, empty prompt)
+
+Refit: held-out AUC 0.964; |cos(top eigenvector, round 4 direction)| = 1.0000; eigenvalues 1.04e+04, 0.555, 0.319, 0.219, 0.187 (lambda1 / lambda2 = 18729.98).
+
+| candidate | probe AUC (held-out 20%) | kept |
+|---|---|---|
+| rfm_eig1 | 1.000 | yes |
+| rfm_eig2 | 0.669 | yes |
+| rfm_eig3 | 0.700 | yes |
+| meandiff | 0.948 | yes |
+| meandiff_std | 0.949 | no, duplicate of meandiff |
+
+Probe AUCs of the RFM eigenvectors use a split that overlaps the RFM's own training split, so they are optimistic; they are not used to choose.
+
+| pair | cosine |
+|---|---|
+| rfm_eig1|rfm_eig2 | +0.000 |
+| rfm_eig1|rfm_eig3 | +0.000 |
+| rfm_eig1|meandiff | +0.727 |
+| rfm_eig1|meandiff_std | +0.757 |
+| rfm_eig2|rfm_eig3 | +0.000 |
+| rfm_eig2|meandiff | +0.278 |
+| rfm_eig2|meandiff_std | +0.289 |
+| rfm_eig3|meandiff | +0.304 |
+| rfm_eig3|meandiff_std | +0.312 |
+| meandiff|meandiff_std | +0.968 |
+== [2026-11-13 15:25:01] stage build done [62 s]
+== [2026-11-13 15:25:01] stage tune
+2026-11-13 15:25:02.859490: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-11-13 15:25:02.859535: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-11-13 15:25:02.861055: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-11-13 15:25:02.868456: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading pipeline components...:   0%|          | 0/6 [00:00<?, ?it/s]Loading pipeline components...:  33%|███▎      | 2/6 [00:00<00:00,  4.87it/s]/opt/conda/lib/python3.11/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+Loading pipeline components...:  67%|██████▋   | 4/6 [00:00<00:00,  7.69it/s]Loading pipeline components...: 100%|██████████| 6/6 [00:00<00:00,  7.71it/s]Loading pipeline components...: 100%|██████████| 6/6 [00:00<00:00,  7.28it/s]
+== [2026-11-13 15:32:52] dev/none: 32 images, 14.5 s per image
+== [2026-11-13 15:43:45] dev/rfm_eig1_s4: 32 images, 20.4 s per image
+== [2026-11-13 15:54:37] dev/rfm_eig1_s1: 32 images, 20.4 s per image
+== [2026-11-13 16:05:30] dev/rfm_eig1_s2: 32 images, 20.4 s per image
+== [2026-11-13 16:16:22] dev/rfm_eig1_s8: 32 images, 20.4 s per image
+== [2026-11-13 16:27:15] dev/rfm_eig1_s16: 32 images, 20.4 s per image
+== [2026-11-13 16:38:08] dev/rfm_eig2_s1: 32 images, 20.4 s per image
+== [2026-11-13 16:49:00] dev/rfm_eig2_s2: 32 images, 20.4 s per image
+== [2026-11-13 16:59:52] dev/rfm_eig2_s4: 32 images, 20.4 s per image
+== [2026-11-13 17:10:44] dev/rfm_eig2_s8: 32 images, 20.4 s per image
+== [2026-11-13 17:21:36] dev/rfm_eig2_s16: 32 images, 20.4 s per image
+== [2026-11-13 17:32:28] dev/rfm_eig3_s1: 32 images, 20.4 s per image
+== [2026-11-13 17:43:21] dev/rfm_eig3_s2: 32 images, 20.4 s per image
+== [2026-11-13 17:54:13] dev/rfm_eig3_s4: 32 images, 20.4 s per image
+== [2026-11-13 18:05:07] dev/rfm_eig3_s8: 32 images, 20.4 s per image
+== [2026-11-13 18:16:00] dev/rfm_eig3_s16: 32 images, 20.4 s per image
+== [2026-11-13 18:26:52] dev/meandiff_s1: 32 images, 20.4 s per image
+== [2026-11-13 18:37:45] dev/meandiff_s2: 32 images, 20.4 s per image
+== [2026-11-13 18:48:38] dev/meandiff_s4: 32 images, 20.4 s per image
+== [2026-11-13 18:59:31] dev/meandiff_s8: 32 images, 20.4 s per image
+== [2026-11-13 19:10:24] dev/meandiff_s16: 32 images, 20.4 s per image
+== [2026-11-13 19:21:18] dev/random_s1: 32 images, 20.4 s per image
+== [2026-11-13 19:32:11] dev/random_s2: 32 images, 20.4 s per image
+== [2026-11-13 19:43:04] dev/random_s4: 32 images, 20.4 s per image
+== [2026-11-13 19:53:57] dev/random_s8: 32 images, 20.4 s per image
+== [2026-11-13 20:04:51] dev/random_s16: 32 images, 20.4 s per image
+== [2026-11-13 20:15:43] dev/prompt_s0.5: 32 images, 20.4 s per image
+== [2026-11-13 20:26:36] dev/prompt_s1: 32 images, 20.4 s per image
+== [2026-11-13 20:37:29] dev/prompt_s2: 32 images, 20.4 s per image
+== [2026-11-13 20:48:22] dev/prompt_s4: 32 images, 20.4 s per image
+# Dev grid (16 person/animal captions x seeds 1, 2; paired with the unsteered image)
+
+Changes in log Laplacian variance inside the unsteered image's depth mask. ratio = foreground - background (positive = selective). DINOv2: cosine with the unsteered image. Intervals: bootstrap over captions, then seeds.
+
+| condition | s | background | foreground | log FG/BG ratio | DINOv2 cosine | CLIP caption | log scale | ratio, own mask |
+|---|---|---|---|---|---|---|---|---|
+| rfm_eig1 | 4 | -0.010 (-0.243, +0.231) | -0.170 (-0.344, -0.016) | -0.160 (-0.485, +0.114) | 0.666 | -0.33 | +0.007 | +0.373 |
+| rfm_eig1 | 1 | -0.001 (-0.101, +0.112) | -0.012 (-0.078, +0.055) | -0.011 (-0.121, +0.107) | 0.867 | +0.45 | +0.001 | +0.166 |
+| rfm_eig1 | 2 | +0.012 (-0.168, +0.198) | -0.095 (-0.219, +0.018) | -0.107 (-0.320, +0.089) | 0.755 | -0.50 | +0.002 | +0.202 |
+| rfm_eig1 | 8 | -0.059 (-0.327, +0.225) | -0.238 (-0.525, +0.021) | -0.179 (-0.579, +0.189) | 0.532 | -0.89 | +0.049 | +0.873 |
+| rfm_eig1 | 16 | +0.066 (-0.449, +0.579) | -0.430 (-0.848, -0.054) | -0.496 (-1.030, +0.011) | 0.364 | -3.33 | +0.168 | +0.608 |
+| rfm_eig2 | 1 | +0.176 (+0.058, +0.299) | -0.025 (-0.120, +0.054) | -0.201 (-0.359, -0.068) | 0.823 | +0.89 | -0.001 | -0.094 |
+| rfm_eig2 | 2 | +0.356 (+0.140, +0.591) | -0.041 (-0.160, +0.089) | -0.398 (-0.600, -0.211) | 0.722 | +1.02 | -0.004 | -0.337 |
+| rfm_eig2 | 4 | +0.596 (+0.234, +0.986) | -0.064 (-0.221, +0.102) | -0.659 (-1.038, -0.301) | 0.602 | -1.00 | +0.009 | -0.335 |
+| rfm_eig2 | 8 | +0.844 (+0.421, +1.300) | -0.171 (-0.431, +0.082) | -1.015 (-1.424, -0.623) | 0.422 | -1.77 | +0.136 | -0.613 |
+| rfm_eig2 | 16 | +0.962 (+0.475, +1.464) | -0.265 (-0.632, +0.066) | -1.227 (-1.636, -0.831) | 0.185 | -4.01 | +0.315 | -0.993 |
+| rfm_eig3 | 1 | +0.056 (-0.033, +0.158) | -0.129 (-0.224, -0.037) | -0.185 (-0.319, -0.058) | 0.858 | +0.40 | +0.009 | +0.054 |
+| rfm_eig3 | 2 | +0.120 (-0.053, +0.327) | -0.231 (-0.356, -0.102) | -0.351 (-0.573, -0.139) | 0.761 | +0.50 | +0.026 | +0.010 |
+| rfm_eig3 | 4 | +0.187 (-0.098, +0.493) | -0.361 (-0.648, -0.101) | -0.549 (-0.942, -0.167) | 0.640 | -0.22 | +0.035 | +0.072 |
+| rfm_eig3 | 8 | +0.173 (-0.195, +0.556) | -0.605 (-0.946, -0.267) | -0.778 (-1.227, -0.346) | 0.522 | -0.43 | +0.044 | -0.058 |
+| rfm_eig3 | 16 | +0.169 (-0.210, +0.527) | -0.937 (-1.250, -0.594) | -1.106 (-1.535, -0.638) | 0.303 | -2.97 | +0.262 | -0.723 |
+| meandiff | 1 | +0.079 (-0.076, +0.245) | -0.088 (-0.177, +0.002) | -0.167 (-0.349, -0.029) | 0.790 | +0.70 | +0.000 | +0.091 |
+| meandiff | 2 | +0.185 (-0.043, +0.439) | -0.165 (-0.316, -0.026) | -0.350 (-0.616, -0.122) | 0.688 | -0.19 | -0.001 | +0.051 |
+| meandiff | 4 | +0.183 (-0.145, +0.536) | -0.340 (-0.590, -0.108) | -0.524 (-0.951, -0.130) | 0.551 | -2.61 | -0.002 | +0.388 |
+| meandiff | 8 | +0.084 (-0.330, +0.469) | -0.608 (-0.990, -0.234) | -0.692 (-1.224, -0.144) | 0.388 | -4.18 | +0.113 | +0.758 |
+| meandiff | 16 | -0.105 (-0.593, +0.389) | -0.968 (-1.429, -0.538) | -0.863 (-1.368, -0.337) | 0.261 | -6.10 | +0.258 | +0.777 |
+| random | 1 | +0.053 (+0.012, +0.100) | +0.015 (-0.029, +0.063) | -0.038 (-0.092, +0.009) | 0.948 | +0.19 | +0.001 | +0.024 |
+| random | 2 | +0.088 (+0.006, +0.169) | +0.003 (-0.076, +0.089) | -0.084 (-0.199, +0.009) | 0.893 | +0.73 | +0.001 | +0.141 |
+| random | 4 | +0.081 (-0.061, +0.218) | -0.034 (-0.145, +0.081) | -0.114 (-0.275, +0.037) | 0.820 | +0.59 | +0.001 | +0.186 |
+| random | 8 | +0.094 (-0.111, +0.273) | -0.082 (-0.208, +0.052) | -0.176 (-0.387, +0.035) | 0.747 | +0.25 | +0.016 | +0.235 |
+| random | 16 | +0.259 (-0.125, +0.601) | -0.114 (-0.334, +0.105) | -0.372 (-0.689, -0.054) | 0.595 | -0.58 | +0.019 | +0.253 |
+| prompt | 0.5 | +0.020 (-0.045, +0.095) | -0.008 (-0.066, +0.045) | -0.028 (-0.108, +0.053) | 0.908 | +0.02 | -0.001 | +0.152 |
+| prompt | 1 | +0.021 (-0.072, +0.125) | -0.018 (-0.104, +0.061) | -0.039 (-0.153, +0.074) | 0.838 | -0.33 | -0.001 | +0.263 |
+| prompt | 2 | -0.001 (-0.202, +0.231) | -0.028 (-0.176, +0.106) | -0.027 (-0.297, +0.220) | 0.769 | -0.49 | -0.001 | +0.453 |
+| prompt | 4 | +0.077 (-0.201, +0.404) | -0.112 (-0.300, +0.059) | -0.189 (-0.531, +0.127) | 0.714 | -0.93 | -0.001 | +0.742 |
+== [2026-11-13 20:50:34] stage tune done [19533 s]
+== [2026-11-13 20:50:34] stage select
+{
+ "target_dev_bg": -0.009877648187597454,
+ "picks": {
+  "meandiff": 1.0,
+  "prompt": 2.0,
+  "random": 1.0,
+  "rfm_eig1": 4.0,
+  "rfm_eig2": 1.0,
+  "rfm_eig3": 1.0
+ },
+ "reaches_target": {
+  "meandiff": false,
+  "prompt": false,
+  "random": false,
+  "rfm_eig1": true,
+  "rfm_eig2": false,
+  "rfm_eig3": false
+ },
+ "challenger": null,
+ "challenger_s": null,
+ "baseline_s": 4.0,
+ "random_s": 1.0,
+ "prompt_s": 2.0,
+ "oracle_radius": 0.5,
+ "oracle_dev_bg": {
+  "0.5": -0.7021954391782937,
+  "1.0": -2.0765252277486725,
+  "1.5": -2.6664767534272067,
+  "2.0": -2.940034546837691,
+  "3.0": -3.1400767787276656,
+  "4.0": -3.2000410246994155,
+  "6.0": -3.233515346778934,
+  "8.0": -3.2406991009605792
+ },
+ "rule": "closest dev background change to the paper direction at s 4; eligible within 25%; challenger: highest dev log FG/BG ratio change (ties: DINOv2)",
+ "time": "2026-11-13 20:51:21"
+}
+== [2026-11-13 20:51:21] stage select done [47 s]
+== [2026-11-13 20:51:22] done
