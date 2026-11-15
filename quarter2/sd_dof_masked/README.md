@@ -16,6 +16,8 @@ If it already works at matched blur, it becomes the baseline that any learned co
 - Nov 14, 2026: smoke tests 1-3 written; one pod (`q2-sd-dof-masked-smoke`) runs them one after another. No
   design frozen yet; the smoke images are a pipeline check and are not used for any decision. The dev/test design is
   written and frozen before any dev image.
+- Nov 14, 2026: all three smoke tests passed every check (one pod, 17 min on the GPU after a 3.5 h wait; pod
+  deleted). Results: `results/smoke/`. See "Smoke results" below.
 
 ## Smoke test 1: masked steering and the measures
 
@@ -101,3 +103,34 @@ This tests the training, saving and loading path only; it is not a trained basel
 
 So it cannot run on our SD 1.5 setup or our pods. Any comparison with it is against its released FLUX model on a
 larger GPU, labelled as a different backbone. Without training code, it cannot be retrained on our pairs.
+
+## Smoke results (Nov 14, 2026; pipeline checks on 6-8 images, not results)
+
+Every pass/fail check passed in all three tests: `results/smoke/{smoke,paired,lora}_checks.md`.
+
+**Things the smoke test showed that the design has to handle:**
+- **The masked edit still changes the subject.**
+  - Sharpness says it is selective: at s 4, background -0.93, foreground -0.16, ratio +0.78, against -0.24 for the
+    global edit.
+  - Pixels say it is not: pixel change is about equal inside and outside the subject (0.079 / 0.090), and DINOv2
+    similarity is 0.69.
+  - In `smoke_examples.png` (columns: none, global s 4, masked s 4, post-hoc blur), the masked images have a
+    different dog pose, a different street, a different deer.
+  - Zeroing the edit at foreground positions of one layer does not keep the foreground: later layers spread the
+    change. The design needs a subject-preservation measure (pixel or DINOv2 change inside the mask) next to the
+    sharpness ratio, and the ratio alone must not decide.
+- **A uniform blur scores slightly selective** (ratio +0.20). The measure has a small bias, so the design needs a
+  uniform-blur control at matched background change, not a comparison with 0.
+- **Post-hoc blur radii are too coarse.** Even radius 1 drops background sharpness by -2.4, so matching at round 9's
+  -0.28 needs radii below 1 px (the "0.11" in the checks is a linear guess between 0 and 1).
+- **The depth foreground can be the wrong region.** For the small bird on a beach, the nearest 40% is the sand, so
+  the rendered pair blurs the bird. Hard cases need a subject mask, not only "nearest 40%".
+- **Per-pair changes carry spatial information.**
+  - Their energy is 7x higher at background positions than at foreground ones (median over 8 images).
+  - They barely share a direction (mean cosine 0.12).
+  - Their mean has cosine 0.13 with round 9's RFM direction and 0.16 with its mean difference.
+  - This supports the proposal's point that a single averaged direction throws away what the pairs contain.
+- **The LoRA path works** (797k parameters, 66 s for 50 steps, peak 4.9 GB). At weight 1, 50 steps on 8 images
+  mostly changed the composition, which is expected from so little training.
+- **Cost:** a steered generation takes 21.9 s per image against 14.9 s unsteered (third CFG branch), with the same
+  peak memory (6.8 GB). Masking adds nothing beyond the unsteered pass that makes the mask.

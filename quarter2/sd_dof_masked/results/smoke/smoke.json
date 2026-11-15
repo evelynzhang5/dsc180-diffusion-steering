@@ -1,0 +1,165 @@
+{
+ "mean": {
+  "none": {
+   "bg": 0.0,
+   "fg": 0.0,
+   "ratio": 0.0,
+   "pix_fg": 0.0,
+   "pix_bg": 0.0,
+   "ratio_own": 0.0,
+   "dino": 1.0000000198682149,
+   "clip": 0.0
+  },
+  "rfm_global_s2": {
+   "bg": -0.14649276605478848,
+   "fg": -0.4299635980113416,
+   "ratio": -0.2834708319565531,
+   "pix_fg": 0.05875296609241563,
+   "pix_bg": 0.06718915824266063,
+   "ratio_own": -0.3170317759197943,
+   "dino": 0.7932399411996206,
+   "clip": 1.470487912495931
+  },
+  "rfm_global_s4": {
+   "bg": -0.3619397891731448,
+   "fg": -0.6049187436991739,
+   "ratio": -0.2429789545260291,
+   "pix_fg": 0.08208222752205484,
+   "pix_bg": 0.08863628159762366,
+   "ratio_own": -0.3416039220130196,
+   "dino": 0.6463123162587484,
+   "clip": 0.2513008117675781
+  },
+  "rfm_masked_s2": {
+   "bg": -0.3639072869049622,
+   "fg": -0.14326251811023294,
+   "ratio": 0.22064476879472927,
+   "pix_fg": 0.05151278972110057,
+   "pix_bg": 0.058563233145055245,
+   "ratio_own": 0.2505055633765214,
+   "dino": 0.8652065594991049,
+   "clip": 0.6937990188598633
+  },
+  "rfm_masked_s4": {
+   "bg": -0.9328233782970092,
+   "fg": -0.15752630265236367,
+   "ratio": 0.7752970756446457,
+   "pix_fg": 0.07893441409361539,
+   "pix_bg": 0.09029312352389608,
+   "ratio_own": 0.7903033273716678,
+   "dino": 0.6895099679629008,
+   "clip": 1.7022911707560222
+  },
+  "posthoc_r1": {
+   "bg": -2.4388080806441343,
+   "fg": -0.08512337699452188,
+   "ratio": 2.353684703649612,
+   "pix_fg": 0.0011770124560194718,
+   "pix_bg": 0.030713437190323434,
+   "ratio_own": 2.3592931927934733,
+   "dino": 0.9675693909327189,
+   "clip": -0.3767712910970052
+  },
+  "posthoc_r3": {
+   "bg": -4.376892396084053,
+   "fg": -0.10328169972404384,
+   "ratio": 4.2736106963600085,
+   "pix_fg": 0.0026959979199590637,
+   "pix_bg": 0.06269133754291926,
+   "ratio_own": 4.286877235528543,
+   "dino": 0.8599181175231934,
+   "clip": -0.053050994873046875
+  },
+  "uniform_r2": {
+   "bg": -4.623608176159306,
+   "fg": -4.422343122654483,
+   "ratio": 0.2012650535048238,
+   "pix_fg": 0.027135683152952447,
+   "pix_bg": 0.05248794523510272,
+   "ratio_own": 0.20077430289691253,
+   "dino": 0.9801265895366669,
+   "clip": -0.22184244791666666
+  }
+ },
+ "perf": {
+  "none": {
+   "s_per_image": 14.949580669403076,
+   "peak_gb": 6.7605695724487305
+  },
+  "rfm_global_s2": {
+   "s_per_image": 21.768981734911602,
+   "peak_gb": 6.76335334777832
+  },
+  "rfm_global_s4": {
+   "s_per_image": 21.851551572481792,
+   "peak_gb": 6.76335334777832
+  },
+  "rfm_masked_s2": {
+   "s_per_image": 21.898130893707275,
+   "peak_gb": 6.763354301452637
+  },
+  "rfm_masked_s4": {
+   "s_per_image": 21.893060326576233,
+   "peak_gb": 6.763354301452637
+  }
+ },
+ "match": {
+  "rfm_global": 3.2393509273216465,
+  "rfm_masked": 1.5388534941490448,
+  "posthoc": 0.11481018216326676
+ },
+ "leak": 0.0,
+ "hit": 5.092857360839844,
+ "checks": [
+  [
+   "identity: unsteered vs itself, every change 0",
+   true,
+   "max |change| 0.00e+00"
+  ],
+  [
+   "masked hook: layer output unchanged where mask = 0",
+   true,
+   "max |change| 0.00e+00"
+  ],
+  [
+   "masked hook: layer output changed where mask > 0",
+   true,
+   "max |change| 5.093"
+  ],
+  [
+   "post-hoc blur: background sharper drop than foreground (|fg| < 0.25 |bg|, bg < 0)",
+   true,
+   "bg -4.377, fg -0.103"
+  ],
+  [
+   "measure separates selective from uniform blur (post-hoc ratio > uniform ratio + 0.3)",
+   true,
+   "post-hoc +4.274, uniform +0.201"
+  ],
+  [
+   "fixed-mask and own-mask ratios finite for every generated condition",
+   true,
+   ""
+  ],
+  [
+   "matching returns a strength or says out of range for each method",
+   true,
+   "rfm_global: 3.24, rfm_masked: 1.54, posthoc: 0.11"
+  ],
+  [
+   "all metrics finite",
+   true,
+   "384 values"
+  ],
+  [
+   "runtime and peak memory recorded",
+   true,
+   ""
+  ],
+  [
+   "contact sheet <= 24 images",
+   true,
+   "24 images"
+  ]
+ ]
+}
