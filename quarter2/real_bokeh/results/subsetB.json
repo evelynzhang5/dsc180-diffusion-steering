@@ -1,0 +1,522 @@
+[
+ {
+  "pair": 0,
+  "refl_strength": 0.3773923374642909,
+  "res": {
+   "focus_scene": {
+    "gather": {
+     "mae_window": 11.199722564216056,
+     "df": 0.8999999999999999,
+     "K": 8
+    },
+    "hard": {
+     "mae_window": 11.06560498172213,
+     "df": 0.8999999999999999,
+     "K": 8
+    },
+    "mpib": {
+     "mae_window": 11.06729968651162,
+     "df": 0.8999999999999999,
+     "K": 8
+    },
+    "input": {
+     "mae_window": 10.912363184560643
+    },
+    "additive_oracle": {
+     "mae_window": 0.0
+    }
+   },
+   "focus_reflection": {
+    "gather": {
+     "mae_window": 11.186529435821186,
+     "df": 0.5,
+     "K": 48
+    },
+    "hard": {
+     "mae_window": 11.838772378214385,
+     "df": 0.5,
+     "K": 48
+    },
+    "mpib": {
+     "mae_window": 11.368725800802736,
+     "df": 0.5,
+     "K": 48
+    },
+    "input": {
+     "mae_window": 18.85099964260749
+    },
+    "additive_oracle": {
+     "mae_window": 0.0
+    }
+   }
+  }
+ },
+ {
+  "pair": 1,
+  "refl_strength": 0.3039573427527741,
+  "res": {
+   "focus_scene": {
+    "gather": {
+     "mae_window": 9.963914481757199,
+     "df": 0.8999999999999999,
+     "K": 8
+    },
+    "hard": {
+     "mae_window": 9.876323292369594,
+     "df": 0.8999999999999999,
+     "K": 8
+    },
+    "mpib": {
+     "mae_window": 9.799634825843514,
+     "df": 0.8999999999999999,
+     "K": 8
+    },
+    "input": {
+     "mae_window": 6.953309490210515
+    },
+    "additive_oracle": {
+     "mae_window": 0.0
+    }
+   },
+   "focus_reflection": {
+    "gather": {
+     "mae_window": 8.972867677580231,
+     "df": 0.5,
+     "K": 48
+    },
+    "hard": {
+     "mae_window": 10.245510880235601,
+     "df": 0.5,
+     "K": 48
+    },
+    "mpib": {
+     "mae_window": 9.522451185130647,
+     "df": 0.5,
+     "K": 48
+    },
+    "input": {
+     "mae_window": 23.49314569395967
+    },
+    "additive_oracle": {
+     "mae_window": 0.0
+    }
+   }
+  }
+ },
+ {
+  "pair": 2,
+  "refl_strength": 0.25819470478723894,
+  "res": {
+   "focus_scene": {
+    "gather": {
+     "mae_window": 7.041683318722497,
+     "df": 0.7,
+     "K": 8
+    },
+    "hard": {
+     "mae_window": 7.038544271907659,
+     "df": 0.7,
+     "K": 8
+    },
+    "mpib": {
+     "mae_window": 7.023559033149409,
+     "df": 0.7,
+     "K": 8
+    },
+    "input": {
+     "mae_window": 7.208266635582829
+    },
+    "additive_oracle": {
+     "mae_window": 0.0
+    }
+   },
+   "focus_reflection": {
+    "gather": {
+     "mae_window": 8.45203536466928,
+     "df": 0.3,
+     "K": 48
+    },
+    "hard": {
+     "mae_window": 9.820322661335142,
+     "df": 0.3,
+     "K": 48
+    },
+    "mpib": {
+     "mae_window": 9.132522118585555,
+     "df": 0.3,
+     "K": 48
+    },
+    "input": {
+     "mae_window": 17.533840379480655
+    },
+    "additive_oracle": {
+     "mae_window": 0.0
+    }
+   }
+  }
+ },
+ {
+  "pair": 3,
+  "refl_strength": 0.2533055271057058,
+  "res": {
+   "focus_scene": {
+    "gather": {
+     "mae_window": 10.429437489016749,
+     "df": 0.39999999999999997,
+     "K": 8
+    },
+    "hard": {
+     "mae_window": 10.521109050804732,
+     "df": 0.39999999999999997,
+     "K": 8
+    },
+    "mpib": {
+     "mae_window": 10.539631688042345,
+     "df": 0.39999999999999997,
+     "K": 8
+    },
+    "input": {
+     "mae_window": 7.669368167660461
+    },
+    "additive_oracle": {
+     "mae_window": 0.0
+    }
+   },
+   "focus_reflection": {
+    "gather": {
+     "mae_window": 9.631245019663806,
+     "df": 0.7999999999999999,
+     "K": 48
+    },
+    "hard": {
+     "mae_window": 9.88463212169139,
+     "df": 0.7999999999999999,
+     "K": 48
+    },
+    "mpib": {
+     "mae_window": 9.873685134434991,
+     "df": 0.7999999999999999,
+     "K": 48
+    },
+    "input": {
+     "mae_window": 19.5628778806416
+    },
+    "additive_oracle": {
+     "mae_window": 0.0
+    }
+   }
+  }
+ },
+ {
+  "pair": 4,
+  "refl_strength": 0.4126540478400545,
+  "res": {
+   "focus_scene": {
+    "gather": {
+     "mae_window": 14.455286617401105,
+     "df": 0.5,
+     "K": 8
+    },
+    "hard": {
+     "mae_window": 14.492397886065058,
+     "df": 0.5,
+     "K": 8
+    },
+    "mpib": {
+     "mae_window": 14.817139192632586,
+     "df": 0.5,
+     "K": 8
+    },
+    "input": {
+     "mae_window": 14.141437571201765
+    },
+    "additive_oracle": {
+     "mae_window": 0.0
+    }
+   },
+   "focus_reflection": {
+    "gather": {
+     "mae_window": 14.757958501490693,
+     "df": 0.5,
+     "K": 48
+    },
+    "hard": {
+     "mae_window": 14.57927521148439,
+     "df": 0.5,
+     "K": 48
+    },
+    "mpib": {
+     "mae_window": 16.038490424120127,
+     "df": 0.5,
+     "K": 48
+    },
+    "input": {
+     "mae_window": 18.768726348137243
+    },
+    "additive_oracle": {
+     "mae_window": 0.0
+    }
+   }
+  }
+ },
+ {
+  "pair": 5,
+  "refl_strength": 0.43255111545554437,
+  "res": {
+   "focus_scene": {
+    "gather": {
+     "mae_window": 10.539273963203613,
+     "df": 0.8999999999999999,
+     "K": 8
+    },
+    "hard": {
+     "mae_window": 10.441646182847451,
+     "df": 0.8999999999999999,
+     "K": 8
+    },
+    "mpib": {
+     "mae_window": 10.383770530373349,
+     "df": 0.8999999999999999,
+     "K": 8
+    },
+    "input": {
+     "mae_window": 11.082801631400118
+    },
+    "additive_oracle": {
+     "mae_window": 0.0
+    }
+   },
+   "focus_reflection": {
+    "gather": {
+     "mae_window": 10.422738847778007,
+     "df": 0.6,
+     "K": 48
+    },
+    "hard": {
+     "mae_window": 10.940844422170082,
+     "df": 0.6,
+     "K": 48
+    },
+    "mpib": {
+     "mae_window": 10.732029701179753,
+     "df": 0.6,
+     "K": 48
+    },
+    "input": {
+     "mae_window": 13.889910035925467
+    },
+    "additive_oracle": {
+     "mae_window": 0.0
+    }
+   }
+  }
+ },
+ {
+  "pair": 6,
+  "refl_strength": 0.37132715515343595,
+  "res": {
+   "focus_scene": {
+    "gather": {
+     "mae_window": 15.010810765321324,
+     "df": 0.3,
+     "K": 8
+    },
+    "hard": {
+     "mae_window": 14.950830239273927,
+     "df": 0.3,
+     "K": 8
+    },
+    "mpib": {
+     "mae_window": 15.516545070848231,
+     "df": 0.3,
+     "K": 8
+    },
+    "input": {
+     "mae_window": 12.963589116073065
+    },
+    "additive_oracle": {
+     "mae_window": 0.0
+    }
+   },
+   "focus_reflection": {
+    "gather": {
+     "mae_window": 12.548253270965118,
+     "df": 0.39999999999999997,
+     "K": 48
+    },
+    "hard": {
+     "mae_window": 13.071986300192519,
+     "df": 0.39999999999999997,
+     "K": 48
+    },
+    "mpib": {
+     "mae_window": 12.691027012857536,
+     "df": 0.39999999999999997,
+     "K": 48
+    },
+    "input": {
+     "mae_window": 25.02660282304272
+    },
+    "additive_oracle": {
+     "mae_window": 0.0
+    }
+   }
+  }
+ },
+ {
+  "pair": 7,
+  "refl_strength": 0.3958993121967997,
+  "res": {
+   "focus_scene": {
+    "gather": {
+     "mae_window": 13.767985652731939,
+     "df": 0.6,
+     "K": 8
+    },
+    "hard": {
+     "mae_window": 13.66809319278282,
+     "df": 0.6,
+     "K": 8
+    },
+    "mpib": {
+     "mae_window": 14.518518428991337,
+     "df": 0.6,
+     "K": 8
+    },
+    "input": {
+     "mae_window": 12.583075002650004
+    },
+    "additive_oracle": {
+     "mae_window": 0.0
+    }
+   },
+   "focus_reflection": {
+    "gather": {
+     "mae_window": 18.351137066831683,
+     "df": 1.0,
+     "K": 48
+    },
+    "hard": {
+     "mae_window": 19.080762649832693,
+     "df": 1.0,
+     "K": 48
+    },
+    "mpib": {
+     "mae_window": 18.48220387631211,
+     "df": 1.0,
+     "K": 48
+    },
+    "input": {
+     "mae_window": 33.14153423805922
+    },
+    "additive_oracle": {
+     "mae_window": 0.0
+    }
+   }
+  }
+ },
+ {
+  "pair": 8,
+  "refl_strength": 0.3587249982930846,
+  "res": {
+   "focus_scene": {
+    "gather": {
+     "mae_window": 12.135229286274981,
+     "df": 0.3,
+     "K": 8
+    },
+    "hard": {
+     "mae_window": 12.183578978014989,
+     "df": 0.3,
+     "K": 8
+    },
+    "mpib": {
+     "mae_window": 12.915008086095067,
+     "df": 0.3,
+     "K": 8
+    },
+    "input": {
+     "mae_window": 7.356108511241749
+    },
+    "additive_oracle": {
+     "mae_window": 0.0
+    }
+   },
+   "focus_reflection": {
+    "gather": {
+     "mae_window": 10.937401743917881,
+     "df": 0.6,
+     "K": 48
+    },
+    "hard": {
+     "mae_window": 12.02386123215186,
+     "df": 0.6,
+     "K": 48
+    },
+    "mpib": {
+     "mae_window": 10.896533256841309,
+     "df": 0.6,
+     "K": 48
+    },
+    "input": {
+     "mae_window": 25.64454987165383
+    },
+    "additive_oracle": {
+     "mae_window": 0.0
+    }
+   }
+  }
+ },
+ {
+  "pair": 9,
+  "refl_strength": 0.43701448475755367,
+  "res": {
+   "focus_scene": {
+    "gather": {
+     "mae_window": 11.160267979922992,
+     "df": 0.7999999999999999,
+     "K": 32
+    },
+    "hard": {
+     "mae_window": 10.739275001718921,
+     "df": 0.7999999999999999,
+     "K": 32
+    },
+    "mpib": {
+     "mae_window": 10.509921402296479,
+     "df": 0.7999999999999999,
+     "K": 32
+    },
+    "input": {
+     "mae_window": 15.765749621837184
+    },
+    "additive_oracle": {
+     "mae_window": 0.0
+    }
+   },
+   "focus_reflection": {
+    "gather": {
+     "mae_window": 13.320370513613861,
+     "df": 0.3,
+     "K": 24
+    },
+    "hard": {
+     "mae_window": 13.85282590759076,
+     "df": 0.3,
+     "K": 8
+    },
+    "mpib": {
+     "mae_window": 13.293287198185963,
+     "df": 0.3,
+     "K": 8
+    },
+    "input": {
+     "mae_window": 14.28140434486157
+    },
+    "additive_oracle": {
+     "mae_window": 0.0
+    }
+   }
+  }
+ }
+]

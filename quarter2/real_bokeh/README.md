@@ -77,6 +77,77 @@ per scene:
   predicted, still to be confirmed on real focus-shift data.
 - EBB!'s real glass scenes are scored in subset A at their fixed focus.
 
+## Results (Nov 15, 2026; files in [results/](results/))
+
+Ran on a GTX 1080 Ti, 09:08-09:26, including the 3.8 GB download. Every scene ran; every check passed.
+- **Data:** EBB! has 4694 training pairs; the first 1500 were scanned.
+- **Checkpoints:** mpinet 60 MB, inpnet 136 MB, aupnet 0.18 MB (a small network; the file is complete).
+
+**Selection check (`selection_check.png`, by eye):**
+
+| category | right | notes |
+|---|---|---|
+| foliage | 5/5 | |
+| branches | 4/5 | |
+| fence | 4/5 | a chain-link fence, railings, a gate, a swing grid |
+| hair | about 3/5 | people, but no flyaway or backlit hair; one poster and a tree trunk |
+| glass | about 2/5 | mostly shiny metalware and posters |
+
+The "glass" group is therefore not a glass test.
+
+### Subset A (real EBB! pairs): no dominant 2.5D failure; plain layered scatter is as good as MPIB
+
+Thin-structure scenes (32), MAE x 255 against the real f/1.8 photo:
+
+| method | outer band (leakage) | inner band | thin | background interior | boundary LPIPS |
+|---|---|---|---|---|---|
+| input (no edit) | 17.60 | 15.62 | 25.70 | 18.90 | 0.250 |
+| gather (single depth, no occlusion) | 17.58 | 15.16 | 22.29 | 12.99 | 0.234 |
+| **hard (one depth per pixel, layered with occlusion)** | **14.79** | 15.60 | 23.41 | 13.09 | **0.212** |
+| soft (MPIB layers, no inpainting) | 17.92 | 15.16 | 22.48 | 13.25 | 0.252 |
+| mpib (full) | 15.51 | 15.68 | 23.11 | 13.18 | 0.220 |
+| 1 px shift of the target (floor) | 5.24 | 8.44 | 12.30 | 2.20 | 0.028 |
+
+**Decision (frozen rule):**
+- MPIB beat the better single-depth renderer by at least 10% at the outer band in **0 of 32** thin-structure scenes.
+- **No dominant 2.5D failure on these real pairs.**
+
+What the run shows:
+- **Occlusion handling matters; MPIB's soft layers do not add to it here.**
+  - The layered one-depth-per-pixel scatter (`hard`) cuts leakage against `gather` (14.8 vs 17.6; at least 10% lower
+    in 16 of 32 scenes).
+  - MPIB's soft layers alone are *worse* than `hard` (17.9).
+  - Its inpainting brings them back to 15.5, still above `hard`.
+- **The error does not come from the representation.**
+  - Every renderer leaves the in-focus side as wrong as the input (about 15.6).
+  - Boundary errors stay about 3x the 1 px misalignment floor.
+  - The examples show why: the real targets differ from the inputs in exposure and alignment, and their blur is mild
+    (35 of 60 scenes fitted the smallest K, 8 at 512 px).
+- **Controls and the "glass" group show the same pattern.**
+
+Caveats:
+- **The fit favours `hard`:** focus and K were fitted with it. MPIB at its own best settings might do a little better.
+- **EBB! cannot test the partial-occlusion case.** Its subjects are in focus and there are no defocused foreground
+  occluders. The run therefore tests only colour bleeding into a defocused background.
+- Depth is monocular (Depth Anything V2 Small).
+
+### Subset B (synthetic glass): a representational gap, as predicted
+
+| target | input (no edit) | gather | hard | mpib | additive oracle |
+|---|---|---|---|---|---|
+| focus on the scene behind the glass (blur the reflection) | 10.66 | 11.57 | 11.50 | 11.71 | 0 |
+| focus on the reflection (blur the scene) | 21.02 | 11.86 | 12.53 | 12.20 | 0 |
+
+**Decision (frozen rule):** the best renderer reaches 1.07x the input's error on the first target (worse than doing
+nothing) and 0.56x on the second. With one depth per pixel inside the window, single-depth and layered renderers can
+blur everything there, but cannot blur the reflection while keeping the scene behind it sharp.
+
+**Limits:**
+- The images are synthetic, and the gap follows from the additive model used to build the targets.
+- The test covers only *explicit* renderers. Diffusion refocusers (Learning to Refocus, AnyBokeh, Bokeh Diffusion) do
+  not composite layers and might handle reflections implicitly. That is untested: they need 20-27 GB of GPU memory.
+- Real focal stacks with a reflection-to-scene focus shift are needed to show the gap matters on real photos.
+
 ## Running
 
 `bash quarter2/real_bokeh/dsmlp_real_bokeh.sh` on a DSMLP GPU pod (setup, select, subsetA, subsetB).
@@ -84,3 +155,4 @@ per scene:
 ## Status
 
 - Nov 15, 2026: design frozen, code written; launched as `q2-real-bokeh`.
+- Nov 15, 2026: ran; results above. Closed.

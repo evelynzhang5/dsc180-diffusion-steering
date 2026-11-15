@@ -1,0 +1,374 @@
+{
+ "hair": [
+  {
+   "key": "171",
+   "orig": "validation/original/171.jpg",
+   "bokeh": "validation/bokeh/171.jpg",
+   "p": 0.9400706887245178
+  },
+  {
+   "key": "696",
+   "orig": "train/original/696.jpg",
+   "bokeh": "train/bokeh/696.jpg",
+   "p": 0.7350398302078247
+  },
+  {
+   "key": "714",
+   "orig": "train/original/714.jpg",
+   "bokeh": "train/bokeh/714.jpg",
+   "p": 0.6288856267929077
+  },
+  {
+   "key": "411",
+   "orig": "train/original/411.jpg",
+   "bokeh": "train/bokeh/411.jpg",
+   "p": 0.5837371349334717
+  },
+  {
+   "key": "1325",
+   "orig": "train/original/1325.jpg",
+   "bokeh": "train/bokeh/1325.jpg",
+   "p": 0.5623548626899719
+  },
+  {
+   "key": "412",
+   "orig": "train/original/412.jpg",
+   "bokeh": "train/bokeh/412.jpg",
+   "p": 0.5541675090789795
+  },
+  {
+   "key": "320",
+   "orig": "train/original/320.jpg",
+   "bokeh": "train/bokeh/320.jpg",
+   "p": 0.4937187135219574
+  },
+  {
+   "key": "1463",
+   "orig": "train/original/1463.jpg",
+   "bokeh": "train/bokeh/1463.jpg",
+   "p": 0.49093037843704224
+  }
+ ],
+ "branches": [
+  {
+   "key": "523",
+   "orig": "train/original/523.jpg",
+   "bokeh": "train/bokeh/523.jpg",
+   "p": 0.9539995789527893
+  },
+  {
+   "key": "493",
+   "orig": "train/original/493.jpg",
+   "bokeh": "train/bokeh/493.jpg",
+   "p": 0.9274219870567322
+  },
+  {
+   "key": "1288",
+   "orig": "train/original/1288.jpg",
+   "bokeh": "train/bokeh/1288.jpg",
+   "p": 0.8584767580032349
+  },
+  {
+   "key": "1078",
+   "orig": "train/original/1078.jpg",
+   "bokeh": "train/bokeh/1078.jpg",
+   "p": 0.8515188097953796
+  },
+  {
+   "key": "1136",
+   "orig": "train/original/1136.jpg",
+   "bokeh": "train/bokeh/1136.jpg",
+   "p": 0.8501986861228943
+  },
+  {
+   "key": "519",
+   "orig": "train/original/519.jpg",
+   "bokeh": "train/bokeh/519.jpg",
+   "p": 0.8108187317848206
+  },
+  {
+   "key": "872",
+   "orig": "train/original/872.jpg",
+   "bokeh": "train/bokeh/872.jpg",
+   "p": 0.7707855701446533
+  },
+  {
+   "key": "1083",
+   "orig": "train/original/1083.jpg",
+   "bokeh": "train/bokeh/1083.jpg",
+   "p": 0.7345041036605835
+  }
+ ],
+ "fence": [
+  {
+   "key": "178",
+   "orig": "validation/original/178.jpg",
+   "bokeh": "validation/bokeh/178.jpg",
+   "p": 0.9984890222549438
+  },
+  {
+   "key": "189",
+   "orig": "validation/original/189.jpg",
+   "bokeh": "validation/bokeh/189.jpg",
+   "p": 0.9982218146324158
+  },
+  {
+   "key": "1448",
+   "orig": "train/original/1448.jpg",
+   "bokeh": "train/bokeh/1448.jpg",
+   "p": 0.9967305660247803
+  },
+  {
+   "key": "921",
+   "orig": "train/original/921.jpg",
+   "bokeh": "train/bokeh/921.jpg",
+   "p": 0.9965919256210327
+  },
+  {
+   "key": "1373",
+   "orig": "train/original/1373.jpg",
+   "bokeh": "train/bokeh/1373.jpg",
+   "p": 0.995676577091217
+  },
+  {
+   "key": "1447",
+   "orig": "train/original/1447.jpg",
+   "bokeh": "train/bokeh/1447.jpg",
+   "p": 0.9951366782188416
+  },
+  {
+   "key": "1357",
+   "orig": "train/original/1357.jpg",
+   "bokeh": "train/bokeh/1357.jpg",
+   "p": 0.9949139356613159
+  },
+  {
+   "key": "1429",
+   "orig": "train/original/1429.jpg",
+   "bokeh": "train/bokeh/1429.jpg",
+   "p": 0.9946000576019287
+  }
+ ],
+ "foliage": [
+  {
+   "key": "287",
+   "orig": "train/original/287.jpg",
+   "bokeh": "train/bokeh/287.jpg",
+   "p": 0.9977230429649353
+  },
+  {
+   "key": "789",
+   "orig": "train/original/789.jpg",
+   "bokeh": "train/bokeh/789.jpg",
+   "p": 0.9954022169113159
+  },
+  {
+   "key": "261",
+   "orig": "train/original/261.jpg",
+   "bokeh": "train/bokeh/261.jpg",
+   "p": 0.9909210205078125
+  },
+  {
+   "key": "1320",
+   "orig": "train/original/1320.jpg",
+   "bokeh": "train/bokeh/1320.jpg",
+   "p": 0.9900976419448853
+  },
+  {
+   "key": "1113",
+   "orig": "train/original/1113.jpg",
+   "bokeh": "train/bokeh/1113.jpg",
+   "p": 0.9887915849685669
+  },
+  {
+   "key": "267",
+   "orig": "train/original/267.jpg",
+   "bokeh": "train/bokeh/267.jpg",
+   "p": 0.9852555990219116
+  },
+  {
+   "key": "302",
+   "orig": "train/original/302.jpg",
+   "bokeh": "train/bokeh/302.jpg",
+   "p": 0.9793750643730164
+  },
+  {
+   "key": "851",
+   "orig": "train/original/851.jpg",
+   "bokeh": "train/bokeh/851.jpg",
+   "p": 0.9783051013946533
+  }
+ ],
+ "glass": [
+  {
+   "key": "1437",
+   "orig": "train/original/1437.jpg",
+   "bokeh": "train/bokeh/1437.jpg",
+   "p": 0.9975098371505737
+  },
+  {
+   "key": "1457",
+   "orig": "train/original/1457.jpg",
+   "bokeh": "train/bokeh/1457.jpg",
+   "p": 0.992642343044281
+  },
+  {
+   "key": "326",
+   "orig": "train/original/326.jpg",
+   "bokeh": "train/bokeh/326.jpg",
+   "p": 0.9906574487686157
+  },
+  {
+   "key": "90",
+   "orig": "validation/original/90.jpg",
+   "bokeh": "validation/bokeh/90.jpg",
+   "p": 0.990177571773529
+  },
+  {
+   "key": "765",
+   "orig": "train/original/765.jpg",
+   "bokeh": "train/bokeh/765.jpg",
+   "p": 0.9860348701477051
+  },
+  {
+   "key": "1466",
+   "orig": "train/original/1466.jpg",
+   "bokeh": "train/bokeh/1466.jpg",
+   "p": 0.983853816986084
+  },
+  {
+   "key": "1231",
+   "orig": "train/original/1231.jpg",
+   "bokeh": "train/bokeh/1231.jpg",
+   "p": 0.9834260940551758
+  },
+  {
+   "key": "690",
+   "orig": "train/original/690.jpg",
+   "bokeh": "train/bokeh/690.jpg",
+   "p": 0.9815599918365479
+  }
+ ],
+ "control": [
+  {
+   "key": "1356",
+   "orig": "train/original/1356.jpg",
+   "bokeh": "train/bokeh/1356.jpg",
+   "p": NaN
+  },
+  {
+   "key": "456",
+   "orig": "train/original/456.jpg",
+   "bokeh": "train/bokeh/456.jpg",
+   "p": NaN
+  },
+  {
+   "key": "399",
+   "orig": "train/original/399.jpg",
+   "bokeh": "train/bokeh/399.jpg",
+   "p": NaN
+  },
+  {
+   "key": "1398",
+   "orig": "train/original/1398.jpg",
+   "bokeh": "train/bokeh/1398.jpg",
+   "p": NaN
+  },
+  {
+   "key": "755",
+   "orig": "train/original/755.jpg",
+   "bokeh": "train/bokeh/755.jpg",
+   "p": NaN
+  },
+  {
+   "key": "904",
+   "orig": "train/original/904.jpg",
+   "bokeh": "train/bokeh/904.jpg",
+   "p": NaN
+  },
+  {
+   "key": "836",
+   "orig": "train/original/836.jpg",
+   "bokeh": "train/bokeh/836.jpg",
+   "p": NaN
+  },
+  {
+   "key": "1449",
+   "orig": "train/original/1449.jpg",
+   "bokeh": "train/bokeh/1449.jpg",
+   "p": NaN
+  },
+  {
+   "key": "941",
+   "orig": "train/original/941.jpg",
+   "bokeh": "train/bokeh/941.jpg",
+   "p": NaN
+  },
+  {
+   "key": "965",
+   "orig": "train/original/965.jpg",
+   "bokeh": "train/bokeh/965.jpg",
+   "p": NaN
+  },
+  {
+   "key": "257",
+   "orig": "train/original/257.jpg",
+   "bokeh": "train/bokeh/257.jpg",
+   "p": NaN
+  },
+  {
+   "key": "1206",
+   "orig": "train/original/1206.jpg",
+   "bokeh": "train/bokeh/1206.jpg",
+   "p": NaN
+  },
+  {
+   "key": "944",
+   "orig": "train/original/944.jpg",
+   "bokeh": "train/bokeh/944.jpg",
+   "p": NaN
+  },
+  {
+   "key": "23",
+   "orig": "validation/original/23.jpg",
+   "bokeh": "validation/bokeh/23.jpg",
+   "p": NaN
+  },
+  {
+   "key": "812",
+   "orig": "train/original/812.jpg",
+   "bokeh": "train/bokeh/812.jpg",
+   "p": NaN
+  },
+  {
+   "key": "109",
+   "orig": "validation/original/109.jpg",
+   "bokeh": "validation/bokeh/109.jpg",
+   "p": NaN
+  },
+  {
+   "key": "1253",
+   "orig": "train/original/1253.jpg",
+   "bokeh": "train/bokeh/1253.jpg",
+   "p": NaN
+  },
+  {
+   "key": "749",
+   "orig": "train/original/749.jpg",
+   "bokeh": "train/bokeh/749.jpg",
+   "p": NaN
+  },
+  {
+   "key": "1087",
+   "orig": "train/original/1087.jpg",
+   "bokeh": "train/bokeh/1087.jpg",
+   "p": NaN
+  },
+  {
+   "key": "59",
+   "orig": "validation/original/59.jpg",
+   "bokeh": "validation/bokeh/59.jpg",
+   "p": NaN
+  }
+ ]
+}
