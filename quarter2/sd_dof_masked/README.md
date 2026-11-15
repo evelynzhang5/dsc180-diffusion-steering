@@ -109,6 +109,9 @@ larger GPU, labelled as a different backbone. Without training code, it cannot b
 Every pass/fail check passed in all three tests: `results/smoke/{smoke,paired,lora}_checks.md`.
 
 **Things the smoke test showed that the design has to handle:**
+- **Masked and global were not compared fairly.** At the same s, the masked edit blurred the background far more
+  (-0.93 vs -0.36), so its subject change cannot be compared with the global edit's at equal strength. Compare at the
+  same achieved background change, inside a verified subject mask (round 12 does this).
 - **The masked edit still changes the subject.**
   - Sharpness says it is selective: at s 4, background -0.93, foreground -0.16, ratio +0.78, against -0.24 for the
     global edit.
@@ -119,8 +122,9 @@ Every pass/fail check passed in all three tests: `results/smoke/{smoke,paired,lo
   - Zeroing the edit at foreground positions of one layer does not keep the foreground: later layers spread the
     change. The design needs a subject-preservation measure (pixel or DINOv2 change inside the mask) next to the
     sharpness ratio, and the ratio alone must not decide.
-- **A uniform blur scores slightly selective** (ratio +0.20). The measure has a small bias, so the design needs a
-  uniform-blur control at matched background change, not a comparison with 0.
+- **A uniform blur scores slightly selective** (ratio +0.20). This need not be a fixed bias: foreground and
+  background contain different textures and can respond differently to the same blur. The design needs a matched
+  uniform-blur control curve (same background change, same scene), not a constant subtracted from every result.
 - **Post-hoc blur radii are too coarse.** Even radius 1 drops background sharpness by -2.4, so matching at round 9's
   -0.28 needs radii below 1 px (the "0.11" in the checks is a linear guess between 0 and 1).
 - **The depth foreground can be the wrong region.** For the small bird on a beach, the nearest 40% is the sand, so
@@ -129,7 +133,9 @@ Every pass/fail check passed in all three tests: `results/smoke/{smoke,paired,lo
   - Their energy is 7x higher at background positions than at foreground ones (median over 8 images).
   - They barely share a direction (mean cosine 0.12).
   - Their mean has cosine 0.13 with round 9's RFM direction and 0.16 with its mean difference.
-  - This supports the proposal's point that a single averaged direction throws away what the pairs contain.
+  - These motivate experiments; they are not evidence about methods. Spatial misalignment, scene differences and
+    noise all lower cosine similarity, so low similarity does not show that a global direction cannot work, and the
+    7x background concentration is partly built into our renderer (it keeps the foreground exact).
 - **The LoRA path works** (797k parameters, 66 s for 50 steps, peak 4.9 GB). At weight 1, 50 steps on 8 images
   mostly changed the composition, which is expected from so little training.
 - **Cost:** a steered generation takes 21.9 s per image against 14.9 s unsteered (third CFG branch), with the same
