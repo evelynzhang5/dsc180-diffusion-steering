@@ -92,9 +92,13 @@ steering damage. It remains a separate, known problem for editing real photos.
 **Idea 1 feasibility (`feasibility`, 6 scenes, target -0.5). Outcome: the first row of the decision table.**
 Measured-response corrections do not beat tuned masking.
 - A correction beat the best tuned masking by at least 10% subject RMS in **2 of 6** scenes, and beat the random
-  control in **3 of 6**, which is chance level.
-- **The subject's response is not smooth even at small steps.** The nonlinearity index for the subject pixels is
-  0.5-2.3 for every component, mostly above 1. The curvature between +0.5 and -0.5 is as large as the slope.
+  control in **3 of 6**. The correction shows no demonstrated advantage over a random one (six scenes cannot
+  establish that it performs at chance).
+- **The local linear approximation was unreliable at the tested perturbation sizes (+/- 0.5).** The second
+  difference of the subject pixels was 0.5-2.3 times the first difference for every component, mostly above 1.
+  This does not show the response is non-smooth: a smooth but strongly curved function gives the same pattern.
+  Two things were not checked: that identical inputs and sampler states reproduce identical outputs (round 13 checks
+  this), and smaller steps.
   - Linear predictions of the corrected subject RMS were within 25% in 4 of 6 scenes, but only because the
     corrections barely moved it.
   - The background often missed: -1.15 and -0.04 against a predicted -0.5.
@@ -104,10 +108,17 @@ Measured-response corrections do not beat tuned masking.
 - **No correction beats copy-back on the boundary (0 of 6), and copy-back itself loses to post-hoc blur.**
 - **Cost:** 22 generations (about 8 min) per scene, against 3 or fewer for a tuned mask.
 
-**Reading.** At this layer and steering window, the subject damage is mostly trajectory divergence: the scene
-re-lays-out, and small activation changes alter pose and position. It is not a smooth side effect that a local
-correction can cancel. The steering window starts at sigma 13, where layout is still being decided. The basis or the
-mechanism has to change before any predictor is trained.
+**Reading (Nov 15, revised after review).** Established, for these settings and small scene sets:
+- masking improves where the softness appears but does not preserve the subject;
+- the tested linear correction does not improve on tuned masking, costs far more, and has no demonstrated advantage
+  over a random correction;
+- for the mild blur tested, post-processing is the strongest preservation baseline.
+
+This is enough to pause the correction approach. It does not show that all activation steering or response-based
+methods fail.
+
+A hypothesis, not yet tested: the window starts at sigma 13, where the layout is still being decided, so early
+steering re-lays-out the scene (pose and position change). Round 13 (`q2-sd-dof-timing`) tests this.
 
 ## Status
 
