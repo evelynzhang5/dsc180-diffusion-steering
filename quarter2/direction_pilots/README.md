@@ -43,7 +43,51 @@ predictor, so it has nothing to select for until idea 1 shows a signal.
   anything.
 - **Pilot 1's components are hand-picked, and its linear model is the simplest possible one.**
 
+## Pilot results (Nov 14, 2026; all checks passed; files in [results/](results/))
+
+These are pipeline checks on 4-8 images with a first look at the signal. None of them is a result.
+
+**Pilot 1 (response): the linear model failed, so the comparison is not valid.**
+- **Scaling.** Doubling the masked edit gave a background change far from twice the original: -0.83 vs a predicted
+  -2.17, and -1.29 vs -3.16. The relative error in subject pixel change was 0.61-0.93.
+- **Adding.** Combining two components was just as far off (relative error 0.61-0.80).
+- **Prediction.** Predicted subject RMS was off by a factor of 2-4.
+- **The target was missed.** The "optimised" combination hit the background target in only 2 of 4 scenes. In scene 1
+  it sharpened the background instead (+2.07). Its lower mean subject change (0.109 vs 0.123) therefore comes at a
+  different background effect and is not a like-for-like comparison.
+- **Masking was not tuned either.** The masked baseline missed the target in 2 of 4 scenes (-0.85 and -0.12 against
+  -0.5).
+- **Probably a large noise floor.** Masked RFM at c 0.3-0.5 already moved the subject by 0.06-0.17 RMS. The sheet
+  shows why: the dog and the deer change pose and position under almost any edit. A pixel measure of "subject
+  change" mostly measures the subject moving, and copying the subject back cannot fix a subject that moved.
+
+**Pilot 2 (geometry): no protection rule helped, and the one apparent win was a confound.**
+- Feathering at 4 px or at sigma gave the same errors as plain rendering under every depth error.
+- The ensemble looked far better under the threshold error: boundary 0.0039 vs 0.0175 at sigma 8. But its subject cut
+  was drawn around the *true* threshold (35-45%), not the method's wrong one, so it never saw that error. Round 12's
+  `geometry2` fixes this.
+- Under noisy depth every method under-blurs the background (gap +0.5 to +1.1). Under a shifted cut every method
+  except the ensemble over-blurs it (-1.2 to -1.7).
+
+**Pilot 3 (residual): the signal is real, but only for editing a real photo through the VAE.**
+- The VAE round trip of our images: 30.3 dB.
+- Passing the lost detail through the same blur ("carried") beat adding it directly in the background, at every
+  sigma: 39.0 vs 29.1 dB at sigma 8. Adding it directly puts sharp detail back into regions that should be blurred.
+- Carried residual plus a subject copy was best overall: 40.1 dB at sigma 8.
+- Caveats:
+  - The truth is our own renderer.
+  - Our generated images are D(z) and were never encoded, so this does not address the steering failure.
+  - Source-conditioned decoders already exist (Asymmetric VQGAN).
+  - Round 12's `vaecheck` measures how large the VAE loss is next to the steering damage.
+
+**Next:** round 12 (`q2-diagnostics`) fixes the evaluation and runs idea 1's feasibility test properly:
+- tuned baselines at matched background blur;
+- central-difference responses around the operating point;
+- generated corrections;
+- a random control and a noise-floor measurement.
+
 ## Status
 
 - Nov 14, 2026: code written; first launch had an empty pod command (the login node's home differs from the pod's),
-  deleted within a minute; relaunched as `q2-direction-pilots` (waiting for a GPU).
+  deleted within a minute; relaunched as `q2-direction-pilots`.
+- Nov 14, 2026: ran on a GTX 1080 Ti (22:00-22:18, 18 min); all checks passed; results above. Closed.

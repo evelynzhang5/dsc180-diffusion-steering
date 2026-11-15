@@ -1,0 +1,218 @@
+{
+ "noise|2|plain": {
+  "fg_interior": 9.346543513621543e-06,
+  "bg_interior": 0.008256943775034083,
+  "boundary": 0.002710028020135087,
+  "bg_blur_gap": 0.5290607435993804
+ },
+ "noise|2|feather4": {
+  "fg_interior": 8.162408467708988e-06,
+  "bg_interior": 0.008310987638238272,
+  "boundary": 0.003734584287516287,
+  "bg_blur_gap": 0.5333231404808928
+ },
+ "noise|2|feather_L": {
+  "fg_interior": 9.115068379376329e-06,
+  "bg_interior": 0.008267172241872938,
+  "boundary": 0.003321929522737676,
+  "bg_blur_gap": 0.5296580581042987
+ },
+ "noise|2|ensemble8": {
+  "fg_interior": 1.7774712291652025e-05,
+  "bg_interior": 0.008776384912496875,
+  "boundary": 0.002873551153466937,
+  "bg_blur_gap": 0.5504237878857997
+ },
+ "noise|4|plain": {
+  "fg_interior": 6.901534952258088e-05,
+  "bg_interior": 0.010691819681728724,
+  "boundary": 0.004625317394757507,
+  "bg_blur_gap": 0.7714576484451838
+ },
+ "noise|4|feather4": {
+  "fg_interior": 4.916867404882687e-05,
+  "bg_interior": 0.01074062652488772,
+  "boundary": 0.005750255446037199,
+  "bg_blur_gap": 0.7886030290597511
+ },
+ "noise|4|feather_L": {
+  "fg_interior": 4.916867404882687e-05,
+  "bg_interior": 0.01074062652488772,
+  "boundary": 0.005750255446037199,
+  "bg_blur_gap": 0.7886030290597511
+ },
+ "noise|4|ensemble8": {
+  "fg_interior": 0.00010714676229650324,
+  "bg_interior": 0.011223589411248317,
+  "boundary": 0.0049110449528103495,
+  "bg_blur_gap": 0.7954588350127482
+ },
+ "noise|8|plain": {
+  "fg_interior": 7.05413212629039e-05,
+  "bg_interior": 0.012328801897473336,
+  "boundary": 0.006768935012584985,
+  "bg_blur_gap": 1.1103432674069877
+ },
+ "noise|8|feather4": {
+  "fg_interior": 4.466408114182891e-05,
+  "bg_interior": 0.012396078882373193,
+  "boundary": 0.0076622985786147235,
+  "bg_blur_gap": 1.1475096588512745
+ },
+ "noise|8|feather_L": {
+  "fg_interior": 2.917231166836492e-05,
+  "bg_interior": 0.01239922137280633,
+  "boundary": 0.008325909425650445,
+  "bg_blur_gap": 1.1607627216578895
+ },
+ "noise|8|ensemble8": {
+  "fg_interior": 0.00015646896887162805,
+  "bg_interior": 0.01241082450399446,
+  "boundary": 0.007117568589361096,
+  "bg_blur_gap": 1.0453991728823713
+ },
+ "smoothed|2|plain": {
+  "fg_interior": 2.444145874223248e-07,
+  "bg_interior": 0.00596802343161927,
+  "boundary": 0.0059049037222831165,
+  "bg_blur_gap": -0.3729350371461
+ },
+ "smoothed|2|feather4": {
+  "fg_interior": 2.086722664772432e-07,
+  "bg_interior": 0.005997828797654587,
+  "boundary": 0.0060110975653554196,
+  "bg_blur_gap": -0.3648984687136019
+ },
+ "smoothed|2|feather_L": {
+  "fg_interior": 2.3466487239469732e-07,
+  "bg_interior": 0.0059734485150705115,
+  "boundary": 0.005929586420794321,
+  "bg_blur_gap": -0.3713304456523969
+ },
+ "smoothed|2|ensemble8": {
+  "fg_interior": 1.230408593689158e-05,
+  "bg_interior": 0.005432781045883123,
+  "boundary": 0.006245140790042901,
+  "bg_blur_gap": -0.18295381936430144
+ },
+ "smoothed|4|plain": {
+  "fg_interior": 1.9807791674656577e-06,
+  "bg_interior": 0.0072773112298995255,
+  "boundary": 0.007276169116969198,
+  "bg_blur_gap": -0.6266490173444166
+ },
+ "smoothed|4|feather4": {
+  "fg_interior": 1.918516081564095e-06,
+  "bg_interior": 0.007285476282657445,
+  "boundary": 0.00758113069288962,
+  "bg_blur_gap": -0.6184804698082266
+ },
+ "smoothed|4|feather_L": {
+  "fg_interior": 1.918516081564095e-06,
+  "bg_interior": 0.007285476282657445,
+  "boundary": 0.00758113069288962,
+  "bg_blur_gap": -0.6184804698082266
+ },
+ "smoothed|4|ensemble8": {
+  "fg_interior": 5.933551914555201e-05,
+  "bg_interior": 0.006228996902274246,
+  "boundary": 0.008313801267505902,
+  "bg_blur_gap": -0.2753097511420688
+ },
+ "smoothed|8|plain": {
+  "fg_interior": 6.715917105669495e-10,
+  "bg_interior": 0.008370615116107797,
+  "boundary": 0.00761036169822154,
+  "bg_blur_gap": -0.8146450583023143
+ },
+ "smoothed|8|feather4": {
+  "fg_interior": 3.591924251332031e-10,
+  "bg_interior": 0.008369231907859435,
+  "boundary": 0.007876180865824079,
+  "bg_blur_gap": -0.8134476066687152
+ },
+ "smoothed|8|feather_L": {
+  "fg_interior": 3.4645570118250177e-10,
+  "bg_interior": 0.008356609958159428,
+  "boundary": 0.008413555543607652,
+  "bg_blur_gap": -0.802045523570724
+ },
+ "smoothed|8|ensemble8": {
+  "fg_interior": 5.5721388256679334e-05,
+  "bg_interior": 0.0073885808228159235,
+  "boundary": 0.009044533812481029,
+  "bg_blur_gap": -0.5237645341105871
+ },
+ "threshold|2|plain": {
+  "fg_interior": 0.0006117620889653812,
+  "bg_interior": 0.008643180820925422,
+  "boundary": 0.008513499838655765,
+  "bg_blur_gap": -1.2292398299704814
+ },
+ "threshold|2|feather4": {
+  "fg_interior": 0.0006052235948829023,
+  "bg_interior": 0.00862388928228969,
+  "boundary": 0.00789711176545663,
+  "bg_blur_gap": -1.2253031140466155
+ },
+ "threshold|2|feather_L": {
+  "fg_interior": 0.0006084959704437023,
+  "bg_interior": 0.00864193706484405,
+  "boundary": 0.007966429316886178,
+  "bg_blur_gap": -1.229229136295217
+ },
+ "threshold|2|ensemble8": {
+  "fg_interior": 3.0343977074470428e-06,
+  "bg_interior": 0.002825200437209978,
+  "boundary": 0.0009295768246502434,
+  "bg_blur_gap": 0.154679605838286
+ },
+ "threshold|4|plain": {
+  "fg_interior": 0.0014952754295811358,
+  "bg_interior": 0.010908632225619965,
+  "boundary": 0.013437149356708256,
+  "bg_blur_gap": -1.7331041502404407
+ },
+ "threshold|4|feather4": {
+  "fg_interior": 0.001463934128597986,
+  "bg_interior": 0.010905125509668384,
+  "boundary": 0.012878648656204566,
+  "bg_blur_gap": -1.7326631823464622
+ },
+ "threshold|4|feather_L": {
+  "fg_interior": 0.001463934128597986,
+  "bg_interior": 0.010905125509668384,
+  "boundary": 0.012878648656204566,
+  "bg_blur_gap": -1.7326631823464622
+ },
+ "threshold|4|ensemble8": {
+  "fg_interior": 2.9442161293769262e-05,
+  "bg_interior": 0.003694102069347922,
+  "boundary": 0.001999169706648927,
+  "bg_blur_gap": 0.178036779534769
+ },
+ "threshold|8|plain": {
+  "fg_interior": 0.0016971513169304234,
+  "bg_interior": 0.012907964168354241,
+  "boundary": 0.017545652334653078,
+  "bg_blur_gap": -1.6364746741462939
+ },
+ "threshold|8|feather4": {
+  "fg_interior": 0.001652157775452183,
+  "bg_interior": 0.012907963082012698,
+  "boundary": 0.017153991880110107,
+  "bg_blur_gap": -1.636479102256222
+ },
+ "threshold|8|feather_L": {
+  "fg_interior": 0.0015927114900528693,
+  "bg_interior": 0.012900137404675646,
+  "boundary": 0.016983451350129443,
+  "bg_blur_gap": -1.6340860794380117
+ },
+ "threshold|8|ensemble8": {
+  "fg_interior": 3.935148090828917e-05,
+  "bg_interior": 0.005217847822651402,
+  "boundary": 0.0039200409876861434,
+  "bg_blur_gap": 0.09478764875172874
+ }
+}
