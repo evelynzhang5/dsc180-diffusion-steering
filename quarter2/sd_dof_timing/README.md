@@ -61,6 +61,67 @@ preservation on difficult boundaries, or more reliable control across scenes.
 Seven scenes decide only whether to continue; any promising setting must then hold on untouched scenes and seeds.
 FID is not used: it cannot tell whether the particular dog, person or scene survived the edit.
 
+## Results (Nov 15, 2026; files in [results/](results/))
+
+**Every check passed.**
+- **Sampler:** run twice it gives identical images, both unsteered and steered, and it reproduces round 4's sampler
+  exactly.
+- **Zero edit:** adding the third branch with no edit changes a pixel by at most 1 level (mean 0.0006).
+- **Windows:**
+
+  | window | steps | sigma |
+  |---|---|---|
+  | early | 0-15 | 13.1 -> 3.1 |
+  | middle | 17-32 | 2.7 -> 0.96 |
+  | late | 34-49 | 0.84 -> 0.04 |
+
+- **The bird:** the automatic masker failed on it again ("bird" at threshold 0.4 found nothing). "small bird" at 0.3
+  found it (290 px), and the overlay sheet confirms the mask sits on the bird. Its layout IoU on edited images is
+  unreliable (0 in most cells), so the bird is read only through subject RMS.
+
+**Target -0.5, means over the scenes that reached the target:**
+
+| window | reached | subject RMS | subject-mask IoU | centre shift (px) |
+|---|---|---|---|---|
+| full | 7/7 | 0.185 | 0.48 | 21 |
+| early | 6/7 | 0.181 | 0.51 | 37 |
+| middle | 5/7 | 0.144 | 0.58 | 82 |
+| late | **1/7** | 0.087 | 0.81 | 8 |
+| post-hoc | 7/7 | < 0.001 | 1.00 | 0 |
+
+- **Target -2.0:** no window reached it in more than 2 of 7 scenes (full 2, early 1, middle 1, late 0).
+- **The full-window images that did reach -2.0 are badly degraded:** smeared, with the scene dissolved
+  (`timing_examples.png`).
+- **The late window cannot produce the blur.** Even at c up to 24, its background change stayed between -0.02 and
+  -0.88. At high strength it adds streaks and ghosting instead of blur.
+
+**Post-hoc row: corrected after the run.** The frozen run matched post-hoc blur on a radius grid with steps of
+0.1-0.25 px. That was too coarse: it reported 3/7 reached, because radius 0.4 gave -0.29 and 0.5 gave -0.72 for the
+dog. Recomputed on a 0.02 px grid from the saved reference images and masks (`results/posthoc_fine.json`):
+- target -0.5: post-hoc reaches the target in **7/7** scenes, at sigma 0.42-0.50 px;
+- target -2.0: **7/7**, at sigma 0.66-1.32 px;
+- subject RMS at most 0.003 in every case.
+
+This correction only strengthens the row-4 outcome.
+
+**Decision (frozen rule):**
+- **Target -0.5: row 3.** The best later window (middle) reaches the target in 5/7 scenes but beats the full window
+  by 20% subject RMS, while on target, in only 3/7. The subject still changes (IoU 0.58).
+- **Target -2.0: row 2.** Later windows preserve the subject better in 6/7 scenes but reach the target in at most 1/7.
+- **Row 4 at both targets.** Post-processing beats every window that reached the target, on subject change and on
+  boundary error.
+- **Action: stop this direction-and-layer approach.** The task, as posed, does not justify a generative steering
+  method.
+
+**What the timing test says about the hypothesis.** Supported in part, and not the whole story:
+- **Supported:** the early third does almost all the layout damage. Its subject change and IoU match the full window's
+  (0.181 / 0.51 vs 0.185 / 0.48), and delaying the edit does keep the layout (late IoU 0.81).
+- **But the edit's background softening is produced in the same early and middle steps.** Once the layout is set,
+  this edit can no longer blur. With this direction at this layer, softness and layout change come from the same phase
+  of sampling, so timing cannot separate them.
+- **Limits:** one seed, 7 scenes, one direction and layer. The middle window's large centre shift (82 px) comes
+  mostly from masks that broke on edited images (IoU 0 for the woman and the bird), not from measured moves.
+
 ## Running
 
 `bash quarter2/sd_dof_timing/dsmlp_timing.sh` on a DSMLP GPU pod. It needs round 9's `directions.pt`; round 12's
@@ -69,3 +130,4 @@ FID is not used: it cannot tell whether the particular dog, person or scene surv
 ## Status
 
 - Nov 15, 2026: design frozen, code written; launched as `q2-sd-dof-timing`.
+- Nov 15, 2026: ran on a GTX 1080 Ti (06:50-07:42, 52 min); every check passed; results above. Closed.
