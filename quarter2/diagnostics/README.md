@@ -52,6 +52,64 @@ Feasibility controls:
 Per-scene probing is a feasibility diagnostic. Success is not evidence of reusable steering and not a proven upper
 bound.
 
+## Results (Nov 15, 2026; files in [results/](results/))
+
+All stages ran (GTX 1080 Ti, 03:29-04:26, 57 min). One check failed in `evalfix`: CLIPSeg found no bird in the
+small-bird scene (mask area 0). That scene was skipped and the other four were scored. Small subjects need a
+better segmenter.
+
+**Evaluation fixes (`evalfix`, 4 scenes).**
+- **Matched comparison at a background change of -0.28:**
+
+  | method | subject sharpness | subject RMS | subject DINOv2 |
+  |---|---|---|---|
+  | masked | +0.01 | 0.139 | 0.87 |
+  | global | -0.14 | 0.169 | 0.81 |
+  | post-hoc blur (sigma 0.34 px) | 0 | 0.000 | 1.00 |
+
+  - Masking does make the *sharpness* effect selective: +0.27 above a matched uniform blur, close to post-hoc blur's
+    +0.28.
+  - But masking does not preserve the subject, and post-hoc blur beats every steering method on every preservation
+    measure.
+- **The global edit reaches the target less often:** -0.5 in 2 of 4 scenes, against 3 of 4 for masked.
+- **Copy-back does not fix moved subjects.** It keeps the interior exactly by construction, but its boundary error is
+  10x post-hoc blur's (0.059 vs 0.006 at -0.5). The sheet shows why: the steered subject has moved, so pasting the
+  original produces ghosts and double outlines (two deer, a doubled dog).
+- **The mask convention matters a lot.** The sign of the selectivity score flips between the depth mask and the
+  CLIPSeg subject mask in 3 of 8 scene-method cells. IoU between the two masks is only 0.22-0.48: the depth mask
+  covers ground and tree trunks.
+
+**Idea 3 (`vaecheck`).** Steering moves the subject 6-7x more than a VAE round trip does (subject RMS 0.19 vs 0.03).
+Round trip: 28.6 dB on our generated images, 30.4 dB on real photos. Residual reinjection cannot be the fix for
+steering damage. It remains a separate, known problem for editing real photos.
+
+**Idea 2 (`geometry2`).** With the confound removed, nothing beats plain rendering.
+- Ensemble boundary error under the threshold error: 0.0159 vs 0.0175 at sigma 8. Round 11 reported 0.0039 because
+  of the confound.
+- The soft mask and the sigma-wide feather match plain rendering under every error.
+- With clean depth, every protection rule only adds error.
+
+**Idea 1 feasibility (`feasibility`, 6 scenes, target -0.5). Outcome: the first row of the decision table.**
+Measured-response corrections do not beat tuned masking.
+- A correction beat the best tuned masking by at least 10% subject RMS in **2 of 6** scenes, and beat the random
+  control in **3 of 6**, which is chance level.
+- **The subject's response is not smooth even at small steps.** The nonlinearity index for the subject pixels is
+  0.5-2.3 for every component, mostly above 1. The curvature between +0.5 and -0.5 is as large as the slope.
+  - Linear predictions of the corrected subject RMS were within 25% in 4 of 6 scenes, but only because the
+    corrections barely moved it.
+  - The background often missed: -1.15 and -0.04 against a predicted -0.5.
+- **The noise floor is large.** A 10% edit already moves the subject by 0.076 RMS on average, 38% of the full tuned
+  edit's 0.20 (0.16 of 0.28 for the cat). In the sheet the dog, deer and cat change pose or position under every
+  edit.
+- **No correction beats copy-back on the boundary (0 of 6), and copy-back itself loses to post-hoc blur.**
+- **Cost:** 22 generations (about 8 min) per scene, against 3 or fewer for a tuned mask.
+
+**Reading.** At this layer and steering window, the subject damage is mostly trajectory divergence: the scene
+re-lays-out, and small activation changes alter pose and position. It is not a smooth side effect that a local
+correction can cancel. The steering window starts at sigma 13, where layout is still being decided. The basis or the
+mechanism has to change before any predictor is trained.
+
 ## Status
 
-- Nov 14, 2026: code written after round 11's pilots finished. Launched as `q2-diagnostics` (waiting for a GPU).
+- Nov 14, 2026: code written after round 11's pilots finished. Launched as `q2-diagnostics`.
+- Nov 15, 2026: ran; results above. Closed.
