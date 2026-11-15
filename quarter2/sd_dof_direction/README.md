@@ -205,12 +205,14 @@ blur") did not hold: on test, background sharpness falls (-0.28) but foreground 
 unsteered mask the FG/BG ratio goes slightly *down* (-0.11, CI just includes 0), in both groups. Pixel change is
 about equal inside and outside the mask (0.127 / 0.119): the edit is global.
 
-**The paper's measure gives the paper's number; the fixed mask does not.** With each image's own mask the ratio rises
-by +0.146, close to the paper's 2.25 -> 2.58 (log 0.137). With the mask fixed to the unsteered layout it is -0.106.
-The two differ only in which mask is used, and the steered images change layout and content (DINOv2 0.675; in the
-examples a mural's subject changes). So the paper's selectivity number depends on the mask moving with the image,
-and is not evidence of background-only blur. The prompt control ("shallow depth of field") shows the same gap
-(+0.012 fixed vs +0.100 own mask).
+**The estimated selectivity changes substantially with the mask convention, so the reported ratio alone does not
+establish preservation of the original subject.** With each image's own mask the ratio rises by +0.146, close to
+the paper's 2.25 -> 2.58 (log 0.137). With the mask fixed to the unsteered layout it is -0.106. The two differ only
+in which mask is used, and the steered images change layout and content (DINOv2 0.675; in the examples a mural's
+subject changes). Both intervals include 0, so this does not show that the paper's gain is a measurement artifact;
+it shows the number cannot be read as background-only blur without a fixed-mask and preservation check. The prompt
+control ("shallow depth of field") shows the same gap (+0.012 fixed vs +0.100 own mask). (Wording softened Nov 14,
+2026, after review; the numbers are unchanged.)
 
 **Caveats.** One model, layer and reference dataset; COCO captions only; Laplacian variance falls when texture is
 removed as well as when it is blurred. The oracle is not at matched blur (its smallest radius already exceeds the
