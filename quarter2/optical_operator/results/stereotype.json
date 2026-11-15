@@ -1,0 +1,482 @@
+[
+ {
+  "kind": "landscape",
+  "seed": 42,
+  "cond": "none",
+  "bg_change": 0.0,
+  "clip_blur": -0.6082954406738281,
+  "fg_pref": -6.257452011108398,
+  "area": NaN,
+  "dino": 1.0
+ },
+ {
+  "kind": "landscape",
+  "seed": 42,
+  "cond": "prompt",
+  "bg_change": 0.3232155441504272,
+  "clip_blur": -0.3744335174560547,
+  "fg_pref": -5.666808128356934,
+  "area": NaN,
+  "dino": 0.8991467952728271
+ },
+ {
+  "kind": "landscape",
+  "seed": 42,
+  "cond": "rfm",
+  "bg_change": -0.12694126578075693,
+  "clip_blur": -0.08626556396484375,
+  "fg_pref": -5.158419609069824,
+  "area": NaN,
+  "dino": 0.6148779392242432
+ },
+ {
+  "kind": "landscape",
+  "seed": 123,
+  "cond": "none",
+  "bg_change": 0.0,
+  "clip_blur": -3.0511207580566406,
+  "fg_pref": -4.670065879821777,
+  "area": NaN,
+  "dino": 0.9999999403953552
+ },
+ {
+  "kind": "landscape",
+  "seed": 123,
+  "cond": "prompt",
+  "bg_change": 0.05786523188585235,
+  "clip_blur": -2.931966781616211,
+  "fg_pref": -4.913478851318359,
+  "area": NaN,
+  "dino": 0.9625444412231445
+ },
+ {
+  "kind": "landscape",
+  "seed": 123,
+  "cond": "rfm",
+  "bg_change": -0.033343812974019116,
+  "clip_blur": -1.6732311248779297,
+  "fg_pref": -3.3642845153808594,
+  "area": NaN,
+  "dino": 0.5889970064163208
+ },
+ {
+  "kind": "landscape",
+  "seed": 256,
+  "cond": "none",
+  "bg_change": 0.0,
+  "clip_blur": -2.6305742263793945,
+  "fg_pref": -3.7585268020629883,
+  "area": NaN,
+  "dino": 1.0
+ },
+ {
+  "kind": "landscape",
+  "seed": 256,
+  "cond": "prompt",
+  "bg_change": 0.05946285232132986,
+  "clip_blur": -2.1154727935791016,
+  "fg_pref": -3.5082321166992188,
+  "area": NaN,
+  "dino": 0.9087304472923279
+ },
+ {
+  "kind": "landscape",
+  "seed": 256,
+  "cond": "rfm",
+  "bg_change": -1.3210970694622173,
+  "clip_blur": -2.065614700317383,
+  "fg_pref": -1.3548946380615234,
+  "area": NaN,
+  "dino": 0.3764265775680542
+ },
+ {
+  "kind": "landscape",
+  "seed": 789,
+  "cond": "none",
+  "bg_change": 0.0,
+  "clip_blur": -2.1083974838256836,
+  "fg_pref": -1.3203773498535156,
+  "area": NaN,
+  "dino": 0.9999999403953552
+ },
+ {
+  "kind": "landscape",
+  "seed": 789,
+  "cond": "prompt",
+  "bg_change": 0.2959441249591528,
+  "clip_blur": -1.116703987121582,
+  "fg_pref": -2.272624969482422,
+  "area": NaN,
+  "dino": 0.5134481191635132
+ },
+ {
+  "kind": "landscape",
+  "seed": 789,
+  "cond": "rfm",
+  "bg_change": 0.8089210489296956,
+  "clip_blur": -0.8972444534301758,
+  "fg_pref": -2.5521087646484375,
+  "area": NaN,
+  "dino": 0.5023543238639832
+ },
+ {
+  "kind": "small_bird",
+  "seed": 42,
+  "cond": "none",
+  "bg_change": 0.0,
+  "clip_blur": -0.7265357971191406,
+  "fg_pref": -0.5262699127197266,
+  "area": 0.001140594482421875,
+  "dino": 1.0
+ },
+ {
+  "kind": "small_bird",
+  "seed": 42,
+  "cond": "prompt",
+  "bg_change": -0.7032911888190965,
+  "clip_blur": 0.8997211456298828,
+  "fg_pref": -3.2318668365478516,
+  "area": 0.00722503662109375,
+  "dino": 0.8694623112678528
+ },
+ {
+  "kind": "small_bird",
+  "seed": 42,
+  "cond": "rfm",
+  "bg_change": -1.086335406436632,
+  "clip_blur": -0.5485153198242188,
+  "fg_pref": -2.1270198822021484,
+  "area": 0.0,
+  "dino": 0.4807560443878174
+ },
+ {
+  "kind": "small_bird",
+  "seed": 123,
+  "cond": "none",
+  "bg_change": 0.0,
+  "clip_blur": 0.19576644897460938,
+  "fg_pref": -0.30126476287841797,
+  "area": 0.03505706787109375,
+  "dino": 1.0
+ },
+ {
+  "kind": "small_bird",
+  "seed": 123,
+  "cond": "prompt",
+  "bg_change": -0.8036598613021768,
+  "clip_blur": 0.05310821533203125,
+  "fg_pref": -0.6133794784545898,
+  "area": 0.035480499267578125,
+  "dino": 0.9504286646842957
+ },
+ {
+  "kind": "small_bird",
+  "seed": 123,
+  "cond": "rfm",
+  "bg_change": 0.17612701073689863,
+  "clip_blur": -0.5708694458007812,
+  "fg_pref": 0.07119941711425781,
+  "area": 0.0342864990234375,
+  "dino": 0.7381545305252075
+ },
+ {
+  "kind": "small_bird",
+  "seed": 256,
+  "cond": "none",
+  "bg_change": 0.0,
+  "clip_blur": -0.37134552001953125,
+  "fg_pref": -0.16025733947753906,
+  "area": 0.01908111572265625,
+  "dino": 1.0000001192092896
+ },
+ {
+  "kind": "small_bird",
+  "seed": 256,
+  "cond": "prompt",
+  "bg_change": -2.1365764348062335,
+  "clip_blur": 0.11676788330078125,
+  "fg_pref": -1.5109939575195312,
+  "area": 0.023052215576171875,
+  "dino": 0.648230254650116
+ },
+ {
+  "kind": "small_bird",
+  "seed": 256,
+  "cond": "rfm",
+  "bg_change": -2.437281498218744,
+  "clip_blur": 0.5989952087402344,
+  "fg_pref": 0.1484851837158203,
+  "area": 0.02764129638671875,
+  "dino": 0.43303045630455017
+ },
+ {
+  "kind": "small_bird",
+  "seed": 789,
+  "cond": "none",
+  "bg_change": 0.0,
+  "clip_blur": -0.8849601745605469,
+  "fg_pref": -2.193735122680664,
+  "area": 0.014011383056640625,
+  "dino": 1.0000001192092896
+ },
+ {
+  "kind": "small_bird",
+  "seed": 789,
+  "cond": "prompt",
+  "bg_change": -0.619455558094717,
+  "clip_blur": 0.40206146240234375,
+  "fg_pref": -0.16988182067871094,
+  "area": 0.00420379638671875,
+  "dino": 0.5134158134460449
+ },
+ {
+  "kind": "small_bird",
+  "seed": 789,
+  "cond": "rfm",
+  "bg_change": -0.6072646733021081,
+  "clip_blur": 0.3135032653808594,
+  "fg_pref": -1.9450645446777344,
+  "area": 0.00678253173828125,
+  "dino": 0.48953622579574585
+ },
+ {
+  "kind": "sharp_wildlife",
+  "seed": 42,
+  "cond": "none",
+  "bg_change": 0.0,
+  "clip_blur": -1.159693717956543,
+  "fg_pref": 1.258772850036621,
+  "area": 0.13468170166015625,
+  "dino": 1.0
+ },
+ {
+  "kind": "sharp_wildlife",
+  "seed": 42,
+  "cond": "prompt",
+  "bg_change": -0.3454631738863707,
+  "clip_blur": -1.2037506103515625,
+  "fg_pref": 0.2565937042236328,
+  "area": 0.08726119995117188,
+  "dino": 0.7999469637870789
+ },
+ {
+  "kind": "sharp_wildlife",
+  "seed": 42,
+  "cond": "rfm",
+  "bg_change": -0.3866325224848861,
+  "clip_blur": -0.9640731811523438,
+  "fg_pref": -0.7336282730102539,
+  "area": 0.08789825439453125,
+  "dino": 0.8024113178253174
+ },
+ {
+  "kind": "sharp_wildlife",
+  "seed": 123,
+  "cond": "none",
+  "bg_change": 0.0,
+  "clip_blur": -1.450662612915039,
+  "fg_pref": 0.5365715026855469,
+  "area": 0.09159088134765625,
+  "dino": 1.0
+ },
+ {
+  "kind": "sharp_wildlife",
+  "seed": 123,
+  "cond": "prompt",
+  "bg_change": 0.1534145322702214,
+  "clip_blur": -1.3381824493408203,
+  "fg_pref": 0.4593009948730469,
+  "area": 0.12371444702148438,
+  "dino": 0.7867099046707153
+ },
+ {
+  "kind": "sharp_wildlife",
+  "seed": 123,
+  "cond": "rfm",
+  "bg_change": 0.2737771980266759,
+  "clip_blur": -0.883697509765625,
+  "fg_pref": 0.1494903564453125,
+  "area": 0.11004638671875,
+  "dino": 0.7849314212799072
+ },
+ {
+  "kind": "sharp_wildlife",
+  "seed": 256,
+  "cond": "none",
+  "bg_change": 0.0,
+  "clip_blur": -1.3478775024414062,
+  "fg_pref": 0.0766916275024414,
+  "area": 0.10367202758789062,
+  "dino": 0.9999999403953552
+ },
+ {
+  "kind": "sharp_wildlife",
+  "seed": 256,
+  "cond": "prompt",
+  "bg_change": -0.29932444098445643,
+  "clip_blur": -1.4846563339233398,
+  "fg_pref": 0.9650306701660156,
+  "area": 0.11920547485351562,
+  "dino": 0.9553316831588745
+ },
+ {
+  "kind": "sharp_wildlife",
+  "seed": 256,
+  "cond": "rfm",
+  "bg_change": -0.18166673889701457,
+  "clip_blur": -2.2256641387939453,
+  "fg_pref": -3.013779640197754,
+  "area": 0.16347503662109375,
+  "dino": 0.7272555232048035
+ },
+ {
+  "kind": "sharp_wildlife",
+  "seed": 789,
+  "cond": "none",
+  "bg_change": 0.0,
+  "clip_blur": -2.010080337524414,
+  "fg_pref": -1.2435932159423828,
+  "area": 0.166259765625,
+  "dino": 1.0
+ },
+ {
+  "kind": "sharp_wildlife",
+  "seed": 789,
+  "cond": "prompt",
+  "bg_change": -0.8873260870103534,
+  "clip_blur": -2.4184799194335938,
+  "fg_pref": -1.1636056900024414,
+  "area": 0.17418670654296875,
+  "dino": 0.9216641783714294
+ },
+ {
+  "kind": "sharp_wildlife",
+  "seed": 789,
+  "cond": "rfm",
+  "bg_change": -0.29113557113180466,
+  "clip_blur": -1.9930191040039062,
+  "fg_pref": -0.35874176025390625,
+  "area": 0.16726303100585938,
+  "dino": 0.9125661849975586
+ },
+ {
+  "kind": "empty_street",
+  "seed": 42,
+  "cond": "none",
+  "bg_change": 0.0,
+  "clip_blur": -0.5123395919799805,
+  "fg_pref": -3.5998830795288086,
+  "area": 0.0,
+  "dino": 0.9999999403953552
+ },
+ {
+  "kind": "empty_street",
+  "seed": 42,
+  "cond": "prompt",
+  "bg_change": 0.06757588653860669,
+  "clip_blur": -0.42827415466308594,
+  "fg_pref": -3.2297182083129883,
+  "area": 0.0,
+  "dino": 0.976166844367981
+ },
+ {
+  "kind": "empty_street",
+  "seed": 42,
+  "cond": "rfm",
+  "bg_change": -0.6388869467622422,
+  "clip_blur": 0.4204597473144531,
+  "fg_pref": -2.3217649459838867,
+  "area": 0.0,
+  "dino": 0.5330075025558472
+ },
+ {
+  "kind": "empty_street",
+  "seed": 123,
+  "cond": "none",
+  "bg_change": 0.0,
+  "clip_blur": 0.06917572021484375,
+  "fg_pref": -3.8970470428466797,
+  "area": 0.0,
+  "dino": 1.0
+ },
+ {
+  "kind": "empty_street",
+  "seed": 123,
+  "cond": "prompt",
+  "bg_change": -0.1098455878281559,
+  "clip_blur": 0.04395484924316406,
+  "fg_pref": -2.9431896209716797,
+  "area": 0.0,
+  "dino": 0.820375382900238
+ },
+ {
+  "kind": "empty_street",
+  "seed": 123,
+  "cond": "rfm",
+  "bg_change": 0.24311688158414668,
+  "clip_blur": 0.4367504119873047,
+  "fg_pref": -5.108620643615723,
+  "area": 0.0,
+  "dino": 0.4445635676383972
+ },
+ {
+  "kind": "empty_street",
+  "seed": 256,
+  "cond": "none",
+  "bg_change": 0.0,
+  "clip_blur": -0.31549644470214844,
+  "fg_pref": -2.8113861083984375,
+  "area": 0.0,
+  "dino": 0.9999999403953552
+ },
+ {
+  "kind": "empty_street",
+  "seed": 256,
+  "cond": "prompt",
+  "bg_change": -0.45157115059424857,
+  "clip_blur": 0.04788684844970703,
+  "fg_pref": -2.38504695892334,
+  "area": 0.0,
+  "dino": 0.809644877910614
+ },
+ {
+  "kind": "empty_street",
+  "seed": 256,
+  "cond": "rfm",
+  "bg_change": 0.08587888063963511,
+  "clip_blur": -0.32433319091796875,
+  "fg_pref": -0.07810783386230469,
+  "area": 0.0,
+  "dino": 0.6348513960838318
+ },
+ {
+  "kind": "empty_street",
+  "seed": 789,
+  "cond": "none",
+  "bg_change": 0.0,
+  "clip_blur": -1.0519113540649414,
+  "fg_pref": -2.624953269958496,
+  "area": 0.0,
+  "dino": 1.0
+ },
+ {
+  "kind": "empty_street",
+  "seed": 789,
+  "cond": "prompt",
+  "bg_change": -0.0005693243189028863,
+  "clip_blur": -0.41114139556884766,
+  "fg_pref": -1.1449899673461914,
+  "area": 0.0,
+  "dino": 0.8318197727203369
+ },
+ {
+  "kind": "empty_street",
+  "seed": 789,
+  "cond": "rfm",
+  "bg_change": -0.5602560717664309,
+  "clip_blur": -0.9592142105102539,
+  "fg_pref": -2.147317886352539,
+  "area": 0.0,
+  "dino": 0.6620272397994995
+ }
+]
