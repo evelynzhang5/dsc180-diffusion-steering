@@ -812,6 +812,63 @@ def diag():
     log(f"diag finished in {time.time() - t0:.0f} s")
 
 
+# ---------------------------------------------------------------- one blur fit after the diagnosis (README)
+BLUR_T = -2.0
+BLUR_FITS = dict(global_=(40, 0.04, None, 10), spatial=(60, 0.04, 0.01, 10))   # as in the diagnosis's recovery
+
+
+class LossRecon(Loss):
+    """Background, subject and band reconstruction against the rendered target, weight 1 each; sharpness is
+    reported only (README, fixed before the diagnosis)."""
+    def __call__(self, x):
+        parts = dict(bg=self.mse(x, "background") / max(self.bg0, 1e-6),
+                     subj=self.mse(x, "subject") / SUBJ_MAX ** 2,
+                     band=self.mse(x, "band") / self.band0)
+        with torch.no_grad():
+            dls = float(lapvar_t(x, self.m["background"]) - self.lv0)
+        return sum(parts.values()), dict({k: float(v) for k, v in parts.items()}, dlogsharp=dls)
+
+
+def blur1():
+    out = OUT / "diag"
+    out.mkdir(parents=True, exist_ok=True)
+    t0 = time.time()
+    torch.backends.cudnn.deterministic, torch.backends.cudnn.benchmark = True, False
+    D.Hook = PL.ComboHook
+    sd, seg = D.SD("cuda"), G.Seg("cuda")
+    fz = Fitter(sd)
+    B = torch.load(OUT / "basis.pt")["B"].cuda()
+    meta, subj, R_, zs, cond, ref, redo, tg = setup(fz, DIAG_SCENE)
+    rgb, bgm, T = arr(ref), bg_cells(subj), BLUR_T
+    loss = LossRecon(rgb, tg[T], R_, T)
+    res = dict(scene=DIAG_SCENE, target=T, regen_max_diff=redo, none=score(rgb, tg[T], R_, ref),
+               rendered=score(rgb, tg[T], R_, G.to_img(tg[T])))
+    path = out / "blur1.json"
+    imgs = [G.to_img(rgb), G.to_img(tg[T])]
+    for kind, key in (("global", "global_"), ("spatial", "spatial")):
+        n_iter, lr, lr_res, warm = BLUR_FITS[key]
+        (L, coef, it), hist = fz.fit(zs, cond, B, kind, bgm, loss, n_iter, lr, lr_res, warm=warm, tag=f"blur {kind}")
+        im = fz.decode_img(fz.run(zs, cond, make_edit(B, coef, kind, bgm)))
+        m = score(rgb, tg[T], R_, im)
+        m["iou"], m["shift"] = layout(seg, meta["noun"], meta["thr"], subj, im)
+        c = crit(m, T)
+        m.update(loss=L, best_it=it, coef_absmax=float(coef.abs().max()), hist=hist, criteria=c,
+                 success=bool(c["agree"] and c["subject"]))
+        res[kind] = m
+        im.save(out / f"blur1_{kind}.png")
+        imgs.append(im)
+        log(f"blur {kind}: {'SUCCESS' if m['success'] else 'FAIL'}; bg change {m['bg']:+.2f} (target {T}), interior MAE "
+            f"{m['int_mae']:.2f} (<= {SUBJ_MAX}), bg MAE to target {m['bg_mae_T']:.2f} vs unedited {m['bg_mae_refT']:.2f} "
+            f"(<= 0.5x), band MAE {m['band_mae']:.2f}, IoU {m['iou']:.2f}; best iter {it}; terms at best "
+            + json.dumps({k: round(v, 3) for k, v in hist[it].items() if k in ("bg", "subj", "band", "dlogsharp")}))
+        path.write_text(json.dumps(res, indent=1, default=float))
+    old = OUT / "fit" / "images" / f"{DIAG_SCENE}_spatial_T{abs(T):g}.png"
+    if old.exists():
+        imgs.append(Image.open(old))
+    P.sheet([imgs], out / "blur1_sheet.png", W=200)
+    log(f"blur1 finished in {time.time() - t0:.0f} s")
+
+
 # ---------------------------------------------------------------- report and frozen decision
 def judge(r, T):
     """Per scene and target: criteria for global and spatial (README)."""
@@ -944,4 +1001,4 @@ def sheets(rows):
 
 
 if __name__ == "__main__":
-    {"gen": gen, "fit": fit_all, "control3": control3, "diag": diag}[sys.argv[1]]()
+    {"gen": gen, "fit": fit_all, "control3": control3, "diag": diag, "blur1": blur1}[sys.argv[1]]()

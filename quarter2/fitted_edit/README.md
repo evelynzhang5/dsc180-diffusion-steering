@@ -280,3 +280,8 @@ The first attempt (08:28-08:42) passed the target replay and the amended spatial
 | 6 | spatial recovery | **pass**: 0.029 (0.39 / 0.17 / 0.071 / 0.041 / 0.032 / 0.029 at iterations 10-60). Round 16's version, with constant steps, stalled at 0.48 and 0.63. Coefficient error is 84%: the image is recovered with quite different coefficients, so the spatial coefficients are not identifiable from the image |
 
 **Interpretation.** The pipeline and gradients are sound, and with warm-up plus decay the optimizer can recover known global and spatial edits on this scene within 60 iterations. Round 16's failed control was an optimizer-schedule problem. By the decision table this does not by itself say anything about blur. The next step is the single blur fit fixed above.
+
+**Blur fit launched (stage `blur1`).**
+- Scene 0, target −2.0; loss and success rule as fixed above.
+- Same optimizer settings as the recovery checks: global 40 iterations (peak 0.04); spatial 60 iterations (0.04 / 0.01); 10-iteration warm-up, cosine decay.
+- Output `results/blur1.json` and a sheet with columns: unedited, rendered target, global, spatial, and round 16's old-objective spatial fit.
