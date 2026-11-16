@@ -629,6 +629,7 @@ def diag():
     meta, subj, R_, zs, cond, ref, redo, tg = setup(fz, DIAG_SCENE)
     bgm = bg_cells(subj)
     path = out / ("diag.json" if DIAG_RUN == 1 else f"diag_run{DIAG_RUN}.json")
+    prev = json.loads(path.read_text()) if DIAG_RUN > 1 and path.exists() else {}   # read before any save
     res = dict(run=DIAG_RUN, scene=DIAG_SCENE, known_strength=DIAG_A, regen_max_diff=redo)
     save = lambda: path.write_text(json.dumps(res, indent=1, default=float))
     e1 = torch.zeros(2, R, device="cuda")
@@ -718,25 +719,30 @@ def diag():
     es = float(((X0 - Ys) ** 2).mean())
     dirs = [(lambda v: v / v.norm())(torch.randn(2, R, GRID, GRID, generator=torch.Generator().manual_seed(s)).cuda())
             for s in ((11, 12, 13) if DIAG_RUN == 1 else DIAG_DIR_SEEDS)]
-    gsp = {}
-    for nm, c in (("zero", torch.zeros_like(gt)), ("half", 0.5 * gt)):
+    if prev.get("grad_spatial", {}).get("pass"):   # resume after a crash: keep the passed check, do not re-run it
+        res["grad_spatial"] = prev["grad_spatial"]
+        log("diag grad_spatial: PASS (kept from the earlier attempt of this run)")
+        save()
+    gsp = {} if not res.get("grad_spatial") else None
+    for nm, c in (("zero", torch.zeros_like(gt)), ("half", 0.5 * gt)) if gsp is not None else ():
         gsp[nm], _ = fd_check(c, "spatial", mse_loss(Ys, es), dirs, DIAG_H["spatial"])
-    res["grad_spatial"] = dict(points=gsp, e0=es, seeds=list(DIAG_DIR_SEEDS) if DIAG_RUN > 1 else [11, 12, 13])
-    worst = max(best_rel(r) for rows in gsp.values() for r in rows)
-    ok_rule = (lambda r: any(abs(f - r["autograd"]) <= GRAD_ATOL + GRAD_TOL * max(abs(f), abs(r["autograd"]))
-                             for f in r["fd"].values())) if DIAG_RUN > 1 else (lambda r: best_rel(r) <= GRAD_TOL)
-    if DIAG_RUN > 1:   # run 1's near-zero direction again, with larger steps (report only)
-        v11 = (lambda v: v / v.norm())(torch.randn(2, R, GRID, GRID, generator=torch.Generator().manual_seed(11)).cuda())
-        res["grad_spatial"]["nearzero_seed11"], _ = fd_check(torch.zeros_like(gt), "spatial", mse_loss(Ys, es), [v11],
-                                                             NEARZERO_H)
-        nz = res["grad_spatial"]["nearzero_seed11"][0]
-        log(f"diag near-zero direction (run 1, report only): autograd {nz['autograd']:.3g} vs fd by step " +
-            ", ".join(f"{h:g}: {f:.3g}" for h, f in nz["fd"].items()))
-    if not verdict("grad_spatial", all(ok_rule(r) for rows in gsp.values() for r in rows), f"worst best-step relative error {worst:.3g} over 2 points x 3 "
-                   "directions; " + "; ".join(f"{nm} d{j}: {r['autograd']:.4g} vs " +
-                                             ", ".join(f"{f:.4g}" for f in r["fd"].values())
-                                             for nm, rows in gsp.items() for j, r in enumerate(rows))):
-        return
+    if gsp is not None:
+        res["grad_spatial"] = dict(points=gsp, e0=es, seeds=list(DIAG_DIR_SEEDS) if DIAG_RUN > 1 else [11, 12, 13])
+        worst = max(best_rel(r) for rows in gsp.values() for r in rows)
+        ok_rule = (lambda r: any(abs(f - r["autograd"]) <= GRAD_ATOL + GRAD_TOL * max(abs(f), abs(r["autograd"]))
+                                 for f in r["fd"].values())) if DIAG_RUN > 1 else (lambda r: best_rel(r) <= GRAD_TOL)
+        if DIAG_RUN > 1:   # run 1's near-zero direction again, with larger steps (report only)
+            v11 = (lambda v: v / v.norm())(torch.randn(2, R, GRID, GRID, generator=torch.Generator().manual_seed(11)).cuda())
+            res["grad_spatial"]["nearzero_seed11"], _ = fd_check(torch.zeros_like(gt), "spatial", mse_loss(Ys, es), [v11],
+                                                                 NEARZERO_H)
+            nz = res["grad_spatial"]["nearzero_seed11"][0]
+            log(f"diag near-zero direction (run 1, report only): autograd {nz['autograd']:.3g} vs fd by step " +
+                ", ".join(f"{h:g}: {f:.3g}" for h, f in nz["fd"].items()))
+        if not verdict("grad_spatial", all(ok_rule(r) for rows in gsp.values() for r in rows), f"worst best-step relative error {worst:.3g} over 2 points x 3 "
+                       "directions; " + "; ".join(f"{nm} d{j}: {r['autograd']:.4g} vs " +
+                                                 ", ".join(f"{f:.4g}" for f in r["fd"].values())
+                                                 for nm, rows in gsp.items() for j, r in enumerate(rows))):
+            return
 
     # 4-6. recovery of known edits with Adam (reconstruction loss only), judged on the image
     def adam(name, params, coef_fn, kind, Yt, e, lrs):
@@ -760,7 +766,9 @@ def diag():
             ti = time.time()
             opt.zero_grad()
             coef = coef_fn()
-            L, _ = fz.loss_grad(zs, cond, make_edit(B, coef, kind, bgm), loss_f)
+            c = coef.detach().requires_grad_(True)   # leaf for the per-step backward; then chain to the parameters
+            L, _ = fz.loss_grad(zs, cond, make_edit(B, c, kind, bgm), loss_f)
+            coef.backward(c.grad)
             hist.append(dict(it=it, loss=L, sec=time.time() - ti))
             if L < best[0]:
                 best = (L, coef.detach().clone(), it)
