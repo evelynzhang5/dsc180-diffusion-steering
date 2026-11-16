@@ -234,3 +234,20 @@ L = MSE_bg(x, T) / MSE_bg(ref, T) + MSE_subject(x, T) / 3² + MSE_band(x, T) / m
 
 - A fit that passes the control: smaller shared step or warm-up, and about 100 iterations. At 52 s per iteration, that is about 1.5 h per fit, so it must be split across pods by scene because of the 6-hour limit.
 - If the control then passes and the spatial edit still misses R or S, that is a genuine NO-GO for this layer and basis. The basis captures 49% of the *activation-difference energy* between unedited and target features (pooled over scenes, targets and steps). That does not mean the edit can produce only 49% of the image change, because later layers can amplify or suppress components.
+
+### Diagnosis result, run 1 (Nov 16, 08:03-08:22): stopped at check 3b by the fixed rule
+
+File: [results/diag.json](results/diag.json).
+
+| # | check | result |
+|---|---|---|
+| 1 | target replay | **pass**: identical (relative MSE 0, max difference 0); zero edit identical; one forward pass 9.8 s |
+| 2 | strength grid | **pass**: one smooth bowl, minimum exactly at −0.2. Relative MSE 0.090 at −0.25 and 0.118 at −0.15, so the 0.1 recovery bar means getting the strength right to about ±0.05 |
+| 3a | scalar gradient | **pass**: autograd 7.514 vs finite differences 7.514-7.516 at 0, and 5.384 vs 5.381-5.382 at −0.1 (under 0.1%). At −0.2 autograd gives exactly 0; finite differences shrink toward 0 as the step shrinks (0.23, 0.0011, 2e-5, −1e-6). 52 s per gradient |
+| 3b | spatial gradient | **fail by the rule** (worst best-step relative error 25%) |
+
+The 3b failure is entirely one direction, at the zero edit. There the directional derivative is near 0: autograd gives 4.5e-5, while the other five are 0.010-0.055. The four finite-difference estimates (−5e-5, 6e-5, −2.4e-4, 2.0e-4) change sign from step to step, so they are rounding noise around 0. Measured against the typical directional derivative size (RMS 0.032 over the six), the closest finite-difference estimate differs from autograd by:
+- at most 0.5% in every one of the six cases;
+- 0.05% in the failing one.
+
+The other five pass the relative rule (≤ 0.2% at the best step). My fixed rule used relative error for every direction. That is the same mistake the review warned about for the known solution: a relative error is unreliable when the derivative is about 0. By the table above this is a numerical-precision outcome, not evidence of a gradient bug, but under the fixed rule the run stopped before any Adam recovery.
