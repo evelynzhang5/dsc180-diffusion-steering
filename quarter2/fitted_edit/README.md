@@ -285,3 +285,24 @@ The first attempt (08:28-08:42) passed the target replay and the amended spatial
 - Scene 0, target −2.0; loss and success rule as fixed above.
 - Same optimizer settings as the recovery checks: global 40 iterations (peak 0.04); spatial 60 iterations (0.04 / 0.01); 10-iteration warm-up, cosine decay.
 - Output `results/blur1.json` and a sheet with columns: unedited, rendered target, global, spatial, and round 16's old-objective spatial fit.
+
+**Success measures for the blur fit, fixed before any blur result (Nov 16, while the pod was queued).** These match the code (`score`, `crit`).
+
+- **Background reconstruction (criterion A):** R_BG = MAE_bg(fitted, target) / MAE_bg(unedited, target) ≤ 0.5.
+  - MAE in 0-255 units over the background region (pixels more than 12 px outside the subject mask), against the rendered −2.0 target.
+  - This halves the reconstruction error. It does not mean reaching half the requested blur.
+- **Subject change (criterion S):** MAE between the fitted and unedited images over the subject interior (more than 6 px inside the mask) ≤ 3, in 0-255 units (3/255).
+- **Reported separately, not pass criteria:**
+  - boundary-band MAE to the target;
+  - achieved background log-sharpness change, against the −2.0 target (criterion R, a diagnostic);
+  - subject layout IoU;
+  - each loss term per iteration.
+
+| result | interpretation and next step |
+|---|---|
+| only spatial passes | preliminary evidence that spatial flexibility helps; confirm on fresh scenes |
+| both pass | the intervention is feasible on this scene; spatial complexity still has to justify itself |
+| neither passes | no demonstrated feasibility for this configuration and budget. Recovering a known edit validates the fitting procedure, but does not certify a global optimum for this task |
+| background passes but subject change > 3/255 | the blur-preservation trade-off is unresolved |
+
+A pass would be a single-scene feasibility result, not the original 8-scene GO. Changing the basis, adding scenes and training a controller all wait for this result.
