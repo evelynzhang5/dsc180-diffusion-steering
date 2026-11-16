@@ -60,14 +60,15 @@ SCENES = [
     ("thin boundary", "A man riding a bicycle on a country road", "man riding a bicycle", 0.4),
 ]
 OFFC_SEEDS = [42, 43, 44, 45, 46]   # off-centre scene: first seed whose subject centre is >= 20% of the width off centre
-MASK_FIX = {}                       # scene -> (noun, threshold): set only after the manual mask check, recorded in README
+# set only after the manual mask check (README): scene 0's "woman" mask left out the umbrella she holds
+MASK_FIX = {0: ("woman+red umbrella", 0.4)}   # "a+b": union of the CLIPSeg masks for a and b
 TARGETS = [-0.5, -2.0]
 TOL, SUBJ_MAX, BG_AGREE = 0.15, 3.0, 0.5
 K0, SPLIT, NSTEP = 17, 33, 50
 R, GRID, C_LAYER, H_LAYER = 8, 16, 640, 32
 BASIS_STEPS = [20, 28, 36, 44]
-N_ITER, LR = None, None             # set from the probe before `fit` (README)
-CTRL_SCENES, CTRL_STD = [0, 3], None
+N_ITER, LR = 16, 0.08              # set from the probe before any fit (README)
+CTRL_SCENES, CTRL_STD = [0, 3], 0.1
 log, arr = G.log, G.arr
 
 
@@ -218,13 +219,26 @@ def scene_dir():
     return d
 
 
+def seg_union(seg, img, noun, thr):
+    ms = [TM.seg_at(seg, img, n, thr)[0] for n in noun.split("+")]
+    return np.logical_or.reduce(ms), None
+
+
+def layout(seg, noun, thr, ref_mask, img):
+    m, _ = seg_union(seg, img, noun, thr)
+    if not m.any():
+        return 0.0, float("nan")
+    iou = float((m & ref_mask).sum() / max((m | ref_mask).sum(), 1))
+    return iou, float(np.linalg.norm(np.array(np.nonzero(m)).mean(1) - np.array(np.nonzero(ref_mask)).mean(1)))
+
+
 def find_mask(seg, img, noun, thr):
-    m, _ = TM.seg_at(seg, img, noun, thr)
+    m, _ = seg_union(seg, img, noun, thr)
     tries = [dict(thr=thr, area=float(m.mean()))]
     for t2 in (0.3, 0.2, 0.1):
         if 0.0005 <= m.mean() <= 0.8 or t2 >= thr:
             continue
-        m, _ = TM.seg_at(seg, img, noun, t2)
+        m, _ = seg_union(seg, img, noun, t2)
         tries.append(dict(thr=t2, area=float(m.mean())))
         thr = t2
     ok = 0.0005 <= m.mean() <= 0.8
@@ -506,13 +520,13 @@ def fit_all():
                 m = score(rgb, tg[T], R_, im)
                 m.update(loss=L, best_it=it, coef_absmax=float(coef.abs().max()),
                          coef_rms=float(coef.pow(2).mean().sqrt()), hist=hist)
-                m["iou"], m["shift"] = TM.layout(seg, meta["noun"], meta["thr"], subj, im)
+                m["iou"], m["shift"] = layout(seg, meta["noun"], meta["thr"], subj, im)
                 res[f"{kind}|{T}"], imgs[f"{kind}|{T}"] = m, im
                 im.save(out / "images" / f"{i}_{kind}_T{abs(T):g}.png")
                 torch.save(coef.cpu(), out / "images" / f"{i}_{kind}_T{abs(T):g}.pt")
             imgs[f"rfm|{T}"].save(out / "images" / f"{i}_rfm_T{abs(T):g}.png")
-            res[f"rfm|{T}"]["iou"], res[f"rfm|{T}"]["shift"] = TM.layout(seg, meta["noun"], meta["thr"], subj,
-                                                                          imgs[f"rfm|{T}"])
+            res[f"rfm|{T}"]["iou"], res[f"rfm|{T}"]["shift"] = layout(seg, meta["noun"], meta["thr"], subj,
+                                                                       imgs[f"rfm|{T}"])
         rows.append(dict(scene=i, kind=meta["kind"], noun=meta["noun"], regen_max_diff=redo,
                          rfm_sampler_max_diff=redo13, res=res, seconds=time.time() - ts))
         log(f"scene {i}: " + "; ".join(f"{k} bg {v['bg']:+.2f} int {v['int_mae']:.2f} band {v['band_mae']:.2f}"
@@ -608,7 +622,7 @@ def report(rows, ctrl, secs):
           f"- **{dec}**" + ("" if ctrl_ok else " (inconclusive: the optimizer failed its control)"), "",
           f"Total time {secs:.0f} s."]
     checks = [
-        ("regenerated unedited images match the saved ones", all(r["regen_max_diff"] == 0 for r in rows),
+        ("regenerated unedited images match the saved ones (<= 1 level)", all(r["regen_max_diff"] <= 1 for r in rows),
          ", ".join(f"{r['regen_max_diff']:.0f}" for r in rows)),
         ("round 13 sampler gives the same unedited image", all(r["rfm_sampler_max_diff"] <= 1 for r in rows),
          ", ".join(f"{r['rfm_sampler_max_diff']:.0f}" for r in rows)),

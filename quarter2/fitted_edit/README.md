@@ -1,6 +1,6 @@
 # Round 16: can a small spatial activation edit make the right depth-of-field edit at all?
 
-**Status:** design frozen; probe pending.
+**Status:** design and budget frozen; fitting running.
 
 This is a privileged feasibility test with a stopping rule. Before training any reusable controller, we give the proposed mechanism the easiest version of the task. Each edit is fitted separately for one image, with the target image visible to the optimizer.
 
@@ -99,7 +99,28 @@ These are engineering thresholds, not established standards. They are evaluated 
 
 ## Budget (from the probe, before fitting)
 
-Pending.
+The first `gen` run (Nov 15, scene 0 with the original mask) measured:
+
+| measurement | result |
+|---|---|
+| one fitting iteration (33 steps forward, re-run with gradient, VAE decoder) | 52 s, peak 8.2 GB on a GTX 1080 Ti |
+| gradient check (autograd vs central difference) | global: relative error 3e-5; spatial: 3% |
+| zero edit vs no edit; run cached from step 17 vs full run | identical (max difference 0) |
+| regenerating an unedited image vs its saved copy | max difference 1 level of 255 (GPU nondeterminism); the check allows 1 |
+| background change of a global edit along b_1 at a = -0.1, -0.2, -0.4 | -0.19, -0.42, -0.80 (subject interior MAE 0.44, 0.73, 1.46) |
+| same along b_2 | under 0.08 in size |
+| basis variance captured by b_1..b_8 | 49% (b_1 19%) |
+
+Frozen from these:
+- **Learning rate 0.08, 16 iterations, for every fit.** The −2.0 target needs coefficients of about 1, and Adam can move each coefficient up to 1.28 in 16 steps.
+- **Optimization control:** the hidden edit's coefficients have spread 0.1.
+- **Estimated total:** 34 fits × 16 × 52 s ≈ 7.9 h, plus about 1 h for the RFM baseline.
+
+**Mask check (by eye, after the first `gen`):**
+- Scenes 1, 2, 4, 6 and 7 are correct. Scene 4 got seed 44: the horse's centre is 25% of the width off centre.
+- Scene 0's "woman" mask left out the red umbrella she holds. It is fixed as the union of the CLIPSeg masks for "woman" and "red umbrella" (`MASK_FIX`), and `gen` is re-run.
+- Scene 3's "bird" is a small figure on a thin stalk. The mask (0.11% of the image) covers the figure, not the stalk; it is kept, as in round 13.
+- Scene 5's mask covers the mug, its handle and most of the saucer; it is kept.
 
 ## Results
 
