@@ -264,3 +264,19 @@ Only the spatial gradient rule changes. Recovery criteria, iteration budgets and
 - **Run 1's near-zero direction** (seed 11, zero edit) is re-evaluated at larger steps (1, 0.3, 0.1, 0.03, 0.01) and reported only. If it is rounding noise, the estimates should settle toward the autograd value as the step grows. fp64 was not tried: on the GTX 1080 Ti it would take roughly 30 times longer.
 - **Not repeated:** the grid and scalar gradient checks, which passed in run 1. The target replay is repeated, since it builds the target.
 - **Then** scalar → 16-coefficient → spatial recovery, unchanged, under a new 3-hour cap, stopping at the first failure. Output `results/diag_run2.json`.
+
+### Diagnosis result, run 2 (Nov 16): all checks pass
+
+Files: [results/diag_run2.json](results/diag_run2.json); `diag_run2_attempt1.json` is the first attempt, which crashed.
+
+The first attempt (08:28-08:42) passed the target replay and the amended spatial gradient check, then crashed on a code error at the first Adam step. The scalar coefficients were built as a × b₁ inside the graph, and the per-step backward freed it. This was fixed by chaining the gradient from a leaf copy of the coefficients (tested on CPU). The second attempt (10:30-12:26, 115 min of the 3 h cap) reused the passed gradient check.
+
+| # | check | result |
+|---|---|---|
+| 1 | target replay | pass (identical, both attempts) |
+| 3b | spatial gradient, amended rule, fresh directions | **pass**: all six agree; worst best-step relative error 1.3% (e.g. −0.05431 autograd vs −0.05432 at step 0.1). Run 1's near-zero direction (autograd 4.5e-5) gives 6e-5 and −5e-5 at steps 0.1 and 0.3, but −0.0018 at step 1, where truncation error grows. This is consistent with a derivative near 0, not proof of it |
+| 4 | scalar recovery | **pass**: image MSE 7e-5 of the no-edit MSE; strength −0.2015 (known −0.2), best at iteration 10. Later iterations oscillated (0.012 at iteration 30); the best iterate is kept |
+| 5 | 16-coefficient recovery | **pass**: 0.016 (1.0 → 0.30 → 0.15 → 0.034 → 0.016 at iterations 1/10/20/30/40); coefficient error 6% |
+| 6 | spatial recovery | **pass**: 0.029 (0.39 / 0.17 / 0.071 / 0.041 / 0.032 / 0.029 at iterations 10-60). Round 16's version, with constant steps, stalled at 0.48 and 0.63. Coefficient error is 84%: the image is recovered with quite different coefficients, so the spatial coefficients are not identifiable from the image |
+
+**Interpretation.** The pipeline and gradients are sound, and with warm-up plus decay the optimizer can recover known global and spatial edits on this scene within 60 iterations. Round 16's failed control was an optimizer-schedule problem. By the decision table this does not by itself say anything about blur. The next step is the single blur fit fixed above.
