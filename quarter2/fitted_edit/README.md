@@ -1,6 +1,6 @@
 # Round 16: can a small spatial activation edit make the right depth-of-field edit at all?
 
-**Status:** design and budget frozen; fitting running.
+**Status:** closed (Nov 16). By the frozen rule: NO-GO, inconclusive, because the optimizer failed its control. The run stopped after 3 of 8 scenes (DSMLP's 6-hour pod limit), and those 3 already fix the decision. See [Results](#results).
 
 This is a privileged feasibility test with a stopping rule. Before training any reusable controller, we give the proposed mechanism the easiest version of the task. Each edit is fitted separately for one image, with the target image visible to the optimizer.
 
@@ -138,4 +138,44 @@ The first Adam step moves all 4,096 coefficients by 0.08 at once and overshoots;
 
 ## Results
 
-Pending.
+Files: [results/fit_checks.md](results/fit_checks.md) (full tables and checks), [fit.json](results/fit.json), [fit_summary.json](results/fit_summary.json), [control.json](results/control.json), sheets [examples_T2.png](results/examples_T2.png), [examples_T0.5.png](results/examples_T0.5.png), [boundary_crops_T2.png](results/boundary_crops_T2.png) (columns: target, RFM, global, spatial).
+
+### What ran
+
+- **Optimization control (v2, after the revision above).** On scene 0 the residual-step grid gave remaining MSE 0.480, 0.487 and 0.574 for steps 0.01, 0.02 and 0.04. Step 0.01 was chosen; scene 3 then gave 0.632. The pass bar is 0.1, so the control **failed**. The first Adam step still overshoots: loss rises from 1 to 5.8 on scene 0 and to 12.6 on scene 3.
+- **Scenes.** Each scene took about 90 minutes: 4 fits × 24 iterations × 52 s, plus the RFM search. My estimate had been 22 minutes. The pod was stopped at DSMLP's 6-hour limit after scenes 0-2 (person, dog, deer in a cluttered forest). Scenes 3-7 were not run. With 3 of 8 scenes failing at −2.0 for every method, GO, SIMPLER and NOT GO all need at least 7 of 8, so none is reachable. The remaining 5.5 GPU-hours could not change the decision.
+- **Determinism checks** all passed: regenerated images, round 13's sampler, both endpoints, and finite measures.
+
+### Numbers (scenes 0-2)
+
+| | −0.5: reached | interior MAE | bg MAE vs target ÷ no edit's | −2.0: reached | interior MAE | bg MAE vs target ÷ no edit's |
+|---|---|---|---|---|---|---|
+| tuned masked RFM | 3/3 | 33.3 | 16.3 | 0/3 | 39.8 | 4.8 |
+| fitted global | 0/3 | 0.87 | 1.55 | 0/3 | 9.8 | 1.98 |
+| fitted spatial | 1/3 | 2.07 | 1.67 | 0/3 | 7.9 | 1.77 |
+
+Per scene, the spatial edit's background change is:
+- −0.5 target: −0.29, −0.39, −0.27
+- −2.0 target: −1.46, −1.60, −1.50
+
+Its subject-interior MAE at −2.0 is 5.0, 8.1 and 10.6 (the limit is 3).
+
+### Decision (frozen rule)
+
+- The spatial edit passes all five criteria in 0/3 scenes at both levels, and R + S + A in 0/3. The global edit passes R + S + A in 0/3.
+- **NO-GO for this architecture, inconclusive: the optimizer failed its control.**
+- Failure modes of the spatial edit:
+  - at −0.5: subject kept only by missing the blur (scenes 0 and 2); background unlike the target (scene 1);
+  - at −2.0: misses the blur and changes the subject (all 3).
+
+### What the result does and does not show
+
+1. **It is budget-limited, not a ceiling.** At −2.0, all six fitted edits reached their lowest loss at the last iteration (24). The spatial losses were still falling by about 2 per iteration (scene 0: 45.7 → 36.5 over the last 5). Together with the failed control, this means the test did not find out what this edit can express. Neither "it cannot blur the background while keeping the subject" nor "a better optimizer would pass" is established.
+2. **Spatial beat global under equal conditions, but not by the frozen margin.** At −2.0 the spatial edit reached about the same blur with 19% lower interior error (7.9 vs 9.8) and lower band error (12.5 vs 15.7). Criterion V needs a 50% reduction. At −0.5 the global edit barely moved the background (−0.18 to 0.00, and coefficient 0 was best on scene 2). The spatial edit moved further but still missed ±0.15 on 2 of 3 scenes.
+3. **The background change is not the target's blur.** In every fitted run, the background ended further from the rendered target than the unedited image was (ratio 1.4-2.5; criterion A needs at most 0.5). The edits lower the sharpness score partly by changing texture and colour. Scene 0's street goes grey, as with the global edit in `examples_T2.png`. They do not reproduce a Gaussian blur.
+4. **Even with privileged fitting, the edits preserve the subject far better than the RFM steering of rounds 9-13.** Interior error is 8-10 vs 40 at −2.0, with layout IoU 0.96 vs 0.47. The boundary crops show no doubled outlines. A fitted, position-dependent edit at a decoder layer is much less destructive than one direction at the encoder, but it still does not meet a 3/255 subject bar.
+
+### What would make this conclusive (not run)
+
+- A fit that passes the control: smaller shared step or warm-up, and about 100 iterations. At 52 s per iteration, that is about 1.5 h per fit, so it must be split across pods by scene because of the 6-hour limit.
+- If the control then passes and the spatial edit still misses R or S, that is a genuine NO-GO for this layer and basis. The basis captures only 49% of the target change, which is the first thing to vary.

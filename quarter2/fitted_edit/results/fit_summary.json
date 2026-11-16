@@ -1,0 +1,218 @@
+{
+ "summary": {
+  "none|-0.5": {
+   "reached": 0,
+   "int_mae": 0.0,
+   "subj_mae": 0.0,
+   "band_mae": 1.116330352793374,
+   "bg_ratio": 1.0,
+   "iou": 1.0
+  },
+  "target|-0.5": {
+   "reached": 3,
+   "int_mae": 0.0,
+   "subj_mae": 0.0003894831828650646,
+   "band_mae": 0.0,
+   "bg_ratio": 0.0,
+   "iou": 1.0
+  },
+  "rfm|-0.5": {
+   "reached": 3,
+   "int_mae": 33.292340879334866,
+   "subj_mae": 33.76441217224535,
+   "band_mae": 34.89656593356414,
+   "bg_ratio": 16.315249613844166,
+   "iou": 0.6720074115562172
+  },
+  "global|-0.5": {
+   "reached": 0,
+   "int_mae": 0.8734037135066638,
+   "subj_mae": 0.9510533193779556,
+   "band_mae": 2.213705203232218,
+   "bg_ratio": 1.5519491706955486,
+   "iou": 0.9962581184594351
+  },
+  "spatial|-0.5": {
+   "reached": 1,
+   "int_mae": 2.0727805747363726,
+   "subj_mae": 2.1715921310962116,
+   "band_mae": 2.8121893868167622,
+   "bg_ratio": 1.6747663003804911,
+   "iou": 0.9907739424798403
+  },
+  "none|-2.0": {
+   "reached": 0,
+   "int_mae": 0.0,
+   "subj_mae": 0.0,
+   "band_mae": 4.0774449392041685,
+   "bg_ratio": 1.0,
+   "iou": 1.0
+  },
+  "target|-2.0": {
+   "reached": 3,
+   "int_mae": 0.0,
+   "subj_mae": 0.0018773791585197557,
+   "band_mae": 0.0,
+   "bg_ratio": 0.0,
+   "iou": 1.0
+  },
+  "rfm|-2.0": {
+   "reached": 0,
+   "int_mae": 39.79049299082188,
+   "subj_mae": 39.79936357066038,
+   "band_mae": 37.0475796438782,
+   "bg_ratio": 4.757691415973625,
+   "iou": 0.4726244020029296
+  },
+  "global|-2.0": {
+   "reached": 0,
+   "int_mae": 9.807231409003434,
+   "subj_mae": 10.666952881256313,
+   "band_mae": 15.697451551177423,
+   "bg_ratio": 1.9824910383604781,
+   "iou": 0.9564412377724069
+  },
+  "spatial|-2.0": {
+   "reached": 0,
+   "int_mae": 7.906573535795787,
+   "subj_mae": 8.641353295784754,
+   "band_mae": 12.505394496296494,
+   "bg_ratio": 1.7659936924493405,
+   "iou": 0.9629584079343667
+  }
+ },
+ "judge": {
+  "-0.5": {
+   "0": {
+    "rfm": {
+     "reach": true,
+     "subject": false,
+     "agree": false
+    },
+    "global": {
+     "reach": false,
+     "subject": true,
+     "agree": false
+    },
+    "spatial": {
+     "reach": false,
+     "subject": true,
+     "agree": false,
+     "advantage": true,
+     "boundary": true
+    },
+    "baseline_feasible": [
+     "rfm"
+    ]
+   },
+   "1": {
+    "rfm": {
+     "reach": true,
+     "subject": false,
+     "agree": false
+    },
+    "global": {
+     "reach": false,
+     "subject": true,
+     "agree": false
+    },
+    "spatial": {
+     "reach": true,
+     "subject": true,
+     "agree": false,
+     "advantage": true,
+     "boundary": true
+    },
+    "baseline_feasible": [
+     "rfm"
+    ]
+   },
+   "2": {
+    "rfm": {
+     "reach": true,
+     "subject": false,
+     "agree": false
+    },
+    "global": {
+     "reach": false,
+     "subject": true,
+     "agree": false
+    },
+    "spatial": {
+     "reach": false,
+     "subject": true,
+     "agree": false,
+     "advantage": true,
+     "boundary": true
+    },
+    "baseline_feasible": [
+     "rfm"
+    ]
+   }
+  },
+  "-2.0": {
+   "0": {
+    "rfm": {
+     "reach": false,
+     "subject": false,
+     "agree": false
+    },
+    "global": {
+     "reach": false,
+     "subject": false,
+     "agree": false
+    },
+    "spatial": {
+     "reach": false,
+     "subject": false,
+     "agree": false,
+     "advantage": true,
+     "boundary": true
+    },
+    "baseline_feasible": []
+   },
+   "1": {
+    "rfm": {
+     "reach": false,
+     "subject": false,
+     "agree": false
+    },
+    "global": {
+     "reach": false,
+     "subject": false,
+     "agree": false
+    },
+    "spatial": {
+     "reach": false,
+     "subject": false,
+     "agree": false,
+     "advantage": true,
+     "boundary": true
+    },
+    "baseline_feasible": []
+   },
+   "2": {
+    "rfm": {
+     "reach": false,
+     "subject": false,
+     "agree": false
+    },
+    "global": {
+     "reach": false,
+     "subject": false,
+     "agree": false
+    },
+    "spatial": {
+     "reach": false,
+     "subject": false,
+     "agree": false,
+     "advantage": true,
+     "boundary": true
+    },
+    "baseline_feasible": []
+   }
+  }
+ },
+ "decision": "NO-GO for this architecture",
+ "control_ok": false
+}
