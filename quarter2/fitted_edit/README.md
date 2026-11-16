@@ -175,6 +175,16 @@ Its subject-interior MAE at −2.0 is 5.0, 8.1 and 10.6 (the limit is 3).
 3. **The background change is not the target's blur.** In every fitted run, the background ended further from the rendered target than the unedited image was (ratio 1.4-2.5; criterion A needs at most 0.5). The edits lower the sharpness score partly by changing texture and colour. Scene 0's street goes grey, as with the global edit in `examples_T2.png`. They do not reproduce a Gaussian blur.
 4. **Even with privileged fitting, the edits preserve the subject far better than the RFM steering of rounds 9-13.** Interior error is 8-10 vs 40 at −2.0, with layout IoU 0.96 vs 0.47. The boundary crops show no doubled outlines. A fitted, position-dependent edit at a decoder layer is much less destructive than one direction at the encoder, but it still does not meet a 3/255 subject bar.
 
+
+### Follow-up: optimizer control v3 (Nov 16, decided before running)
+
+v2's loss history shows the first step still overshoots (1 → 5.8 on scene 0). The loss then reached 0.48 by iteration 18 and oscillated. Changes, tested on the control alone with no scene fitted:
+
+- Adam with a 10-iteration linear warm-up, then cosine decay to 10% of the peak step; 100 iterations.
+- Peak steps (shared, residual): (0.04, 0.01) or (0.04, 0.02), chosen on control scene 0 by remaining MSE. The chosen pair must then pass on control scene 3. Stage `control3`, output `control_v3.json`.
+- **If both scenes are at or below 0.1:** rerun the scene fits with this optimizer. 100 iterations take about 87 minutes per fit, so each pod fits one or two scenes. Scenes run in order and stop as soon as the decision is fixed. Since every decision needs at least 7 of 8, that is when two scenes fail at either level for both the spatial and the global criteria.
+- **If either is above 0.1:** round 16 stays closed as inconclusive; the edit is too hard to fit within a usable budget for this test.
+
 ### What would make this conclusive (not run)
 
 - A fit that passes the control: smaller shared step or warm-up, and about 100 iterations. At 52 s per iteration, that is about 1.5 h per fit, so it must be split across pods by scene because of the 6-hour limit.

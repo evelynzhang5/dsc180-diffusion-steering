@@ -70,6 +70,10 @@ BASIS_STEPS = [20, 28, 36, 44]
 N_ITER, LR = 24, 0.08              # set from the probe, revised after the first optimization control failed (README)
 LR_RES_GRID = [0.01, 0.02, 0.04]   # spatial per-cell residual step size: chosen on control scene 0 only
 CTRL_SCENES, CTRL_STD = [0, 3], 0.1
+# v3 (Nov 16, after v2's control failed at 0.48 / 0.63): linear warm-up, cosine decay to 10%, 100 iterations.
+# Peak steps (shared, residual) chosen on control scene 0 only, then must pass on control scene 3 (README).
+N_ITER3, WARM3 = 100, 10
+LR3_GRID = [(0.04, 0.01), (0.04, 0.02)]
 log, arr = G.log, G.arr
 
 
@@ -169,7 +173,7 @@ class Fitter:
         self.train(False)
         return float(L), parts
 
-    def fit(self, zs, cond, B, kind, bgm, loss, n_iter, lr, lr_res=None):
+    def fit(self, zs, cond, B, kind, bgm, loss, n_iter, lr, lr_res=None, warm=0, tag=""):
         """global: coef (2, R), step lr. spatial: coef = shared (2, R) + per-cell residual (2, R, GRID, GRID); the
         shared part gets step lr, the residual lr_res (same set of edits, better-conditioned first steps)."""
         sh = torch.zeros(2, R, device="cuda", requires_grad=True)
@@ -178,6 +182,10 @@ class Fitter:
             res = torch.zeros(2, R, GRID, GRID, device="cuda", requires_grad=True)
             groups.append(dict(params=[res], lr=lr_res))
         opt = torch.optim.Adam(groups)
+        sched = None
+        if warm:   # v3: linear warm-up, then cosine decay to 10% of the peak step
+            sched = torch.optim.lr_scheduler.LambdaLR(opt, lambda it: (it + 1) / warm if it < warm else
+                                                      0.1 + 0.45 * (1 + np.cos(np.pi * (it - warm) / (n_iter - warm))))
         best, hist = (float("inf"), None, -1), []
         for it in range(n_iter):
             opt.zero_grad()
@@ -188,6 +196,10 @@ class Fitter:
             if L < best[0]:
                 best = (L, coef.detach().clone(), it)
             opt.step()
+            if sched:
+                sched.step()
+            if tag and it % 10 == 9:
+                log(f"{tag} iter {it + 1}: loss {L:.3f} (best {best[0]:.3f})")
         return best, hist
 
 
@@ -549,6 +561,45 @@ def fit_all():
     report(rows, ctrl, time.time() - t_start)
 
 
+def control3():
+    """v3 optimization control only (no scene fits): peak steps from LR3_GRID chosen on control scene 0, then
+    control scene 3 with the chosen steps. Resumable per entry (control_v3.json)."""
+    out = OUT / "fit"
+    out.mkdir(parents=True, exist_ok=True)
+    torch.backends.cuda.matmul.allow_tf32 = True
+    D.Hook = PL.ComboHook
+    sd = D.SD("cuda")
+    fz = Fitter(sd)
+    B = torch.load(OUT / "basis.pt")["B"].cuda()
+    path = out / "control_v3.json"
+    ctrl = json.loads(path.read_text()) if path.exists() else []
+    plan = [(CTRL_SCENES[0], lr) for lr in LR3_GRID] + [(CTRL_SCENES[1], None)]
+    for n, (i, lrs) in enumerate(plan):
+        if n < len(ctrl):
+            continue
+        if lrs is None:
+            lrs = tuple(min(ctrl, key=lambda c: c["rel_mse"])["lrs"])
+        meta, subj, R_, zs, cond, ref, redo, tg = setup(fz, i)
+        bgm = bg_cells(subj)
+        gt = (CTRL_STD * torch.randn(2, R, GRID, GRID, generator=torch.Generator().manual_seed(7))).cuda()
+        Y = arr(fz.decode_img(fz.run(zs, cond, make_edit(B, gt, "spatial", bgm))))
+        Yt = torch.from_numpy(Y).float().cuda().permute(2, 0, 1)[None]
+        e0 = float(((fz.decode(fz.run(zs, cond, None)) - Yt) ** 2).mean())
+        lossc = lambda x: (lambda v: (v, dict(mse=float(v))))(((x - Yt) ** 2).mean() / e0)
+        (L, coef, it), hist = fz.fit(zs, cond, B, "spatial", bgm, lossc, N_ITER3, lrs[0], lrs[1], warm=WARM3,
+                                     tag=f"control scene {i} steps {lrs}")
+        im = arr(fz.decode_img(fz.run(zs, cond, make_edit(B, coef, "spatial", bgm))))
+        rel = float(((im - Y) ** 2).mean()) / max(float(((arr(ref) - Y) ** 2).mean()), 1e-9)
+        ctrl.append(dict(scene=i, lrs=list(lrs), rel_mse=rel, best_it=it, coef_err=float(
+            (coef - gt).pow(2).mean() / gt.pow(2).mean()), hist=[h["loss"] for h in hist]))
+        log(f"control v3 scene {i} steps {lrs}: recovered MSE {rel:.3f} of the zero-edit MSE (best iter {it}); "
+            f"{'PASS' if rel <= 0.1 else 'FAIL'}")
+        path.write_text(json.dumps(ctrl, indent=1))
+    chosen = ctrl[-1]
+    log(f"control v3 chosen steps {chosen['lrs']}: " + ", ".join(
+        f"scene {c['scene']} {c['rel_mse']:.3f}" for c in ctrl if c["lrs"] == chosen["lrs"]))
+
+
 # ---------------------------------------------------------------- report and frozen decision
 def judge(r, T):
     """Per scene and target: criteria for global and spatial (README)."""
@@ -681,4 +732,4 @@ def sheets(rows):
 
 
 if __name__ == "__main__":
-    {"gen": gen, "fit": fit_all}[sys.argv[1]]()
+    {"gen": gen, "fit": fit_all, "control3": control3}[sys.argv[1]]()
