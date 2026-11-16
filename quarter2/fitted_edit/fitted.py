@@ -67,7 +67,8 @@ TOL, SUBJ_MAX, BG_AGREE = 0.15, 3.0, 0.5
 K0, SPLIT, NSTEP = 17, 33, 50
 R, GRID, C_LAYER, H_LAYER = 8, 16, 640, 32
 BASIS_STEPS = [20, 28, 36, 44]
-N_ITER, LR = 16, 0.08              # set from the probe before any fit (README)
+N_ITER, LR = 24, 0.08              # set from the probe, revised after the first optimization control failed (README)
+LR_RES_GRID = [0.01, 0.02, 0.04]   # spatial per-cell residual step size: chosen on control scene 0 only
 CTRL_SCENES, CTRL_STD = [0, 3], 0.1
 log, arr = G.log, G.arr
 
@@ -168,15 +169,22 @@ class Fitter:
         self.train(False)
         return float(L), parts
 
-    def fit(self, zs, cond, B, kind, bgm, loss, n_iter, lr, init=None):
-        shape = (2, R) if kind == "global" else (2, R, GRID, GRID)
-        coef = (torch.zeros(shape, device="cuda") if init is None else init.clone()).requires_grad_(True)
-        opt = torch.optim.Adam([coef], lr=lr)
+    def fit(self, zs, cond, B, kind, bgm, loss, n_iter, lr, lr_res=None):
+        """global: coef (2, R), step lr. spatial: coef = shared (2, R) + per-cell residual (2, R, GRID, GRID); the
+        shared part gets step lr, the residual lr_res (same set of edits, better-conditioned first steps)."""
+        sh = torch.zeros(2, R, device="cuda", requires_grad=True)
+        groups = [dict(params=[sh], lr=lr)]
+        if kind == "spatial":
+            res = torch.zeros(2, R, GRID, GRID, device="cuda", requires_grad=True)
+            groups.append(dict(params=[res], lr=lr_res))
+        opt = torch.optim.Adam(groups)
         best, hist = (float("inf"), None, -1), []
         for it in range(n_iter):
             opt.zero_grad()
+            coef = sh if kind == "global" else sh[..., None, None] + res
             L, parts = self.loss_grad(zs, cond, make_edit(B, coef, kind, bgm), loss)
-            hist.append(dict(it=it, loss=L, **parts, gnorm=float(coef.grad.norm())))
+            hist.append(dict(it=it, loss=L, **parts, gnorm=float(sum(g["params"][0].grad.norm() ** 2
+                                                                    for g in groups) ** 0.5)))
             if L < best[0]:
                 best = (L, coef.detach().clone(), it)
             opt.step()
@@ -477,9 +485,12 @@ def fit_all():
     done_ids = {r["scene"] for r in prev}
     rows += prev
 
-    # optimization control: can the same budget recover a known, achievable spatial edit?
+    # optimization control: can the same budget recover a known, achievable spatial edit? The residual step size is
+    # chosen on control scene 0 only (lowest recovered MSE), then must pass on control scene 3 too.
     if not (out / "control.json").exists():
-        for i in CTRL_SCENES:
+        for i, lr_res in [(CTRL_SCENES[0], x) for x in LR_RES_GRID] + [(CTRL_SCENES[1], None)]:
+            if lr_res is None:
+                lr_res = min(ctrl, key=lambda c: c["rel_mse"])["lr_res"]
             meta, subj, R_, zs, cond, ref, redo, tg = setup(fz, i)
             bgm = bg_cells(subj)
             gt = (CTRL_STD * torch.randn(2, R, GRID, GRID, generator=torch.Generator().manual_seed(7))).cuda()
@@ -487,14 +498,17 @@ def fit_all():
             Yt = torch.from_numpy(Y).float().cuda().permute(2, 0, 1)[None]
             e0 = float(((fz.decode(fz.run(zs, cond, None)) - Yt) ** 2).mean())
             lossc = lambda x: (lambda v: (v, dict(mse=float(v))))(((x - Yt) ** 2).mean() / e0)
-            (L, coef, it), hist = fz.fit(zs, cond, B, "spatial", bgm, lossc, N_ITER, LR)
+            (L, coef, it), hist = fz.fit(zs, cond, B, "spatial", bgm, lossc, N_ITER, LR, lr_res)
             im = arr(fz.decode_img(fz.run(zs, cond, make_edit(B, coef, "spatial", bgm))))
             rel = float(((im - Y) ** 2).mean()) / max(float(((arr(ref) - Y) ** 2).mean()), 1e-9)
-            ctrl.append(dict(scene=i, rel_mse=rel, best_it=it, int_mae_gt_vs_ref=float(np.abs(Y - arr(ref))[
+            ctrl.append(dict(scene=i, lr_res=lr_res, rel_mse=rel, best_it=it, int_mae_gt_vs_ref=float(np.abs(Y - arr(ref))[
                 R_["interior"]].mean()), hist=[h["loss"] for h in hist]))
-            log(f"control scene {i}: recovered MSE {rel:.3f} of the zero-edit MSE (best iter {it})")
+            log(f"control scene {i} lr_res {lr_res}: recovered MSE {rel:.3f} of the zero-edit MSE (best iter {it})")
         (out / "control.json").write_text(json.dumps(ctrl, indent=1))
-    ctrl = json.loads((out / "control.json").read_text())
+    ctrl_all = json.loads((out / "control.json").read_text())
+    LR_RES = ctrl_all[-1]["lr_res"]
+    ctrl = [c for c in ctrl_all if c["lr_res"] == LR_RES]
+    log(f"chosen residual step {LR_RES}; controls {[(c['scene'], round(c['rel_mse'], 3)) for c in ctrl]}")
 
     for meta in metas:
         i = meta["scene"]
@@ -515,7 +529,7 @@ def fit_all():
             imgs[f"rfm|{T}"] = im
             loss = Loss(rgb, tg[T], R_, T)
             for kind in ("global", "spatial"):
-                (L, coef, it), hist = fz.fit(zs, cond, B, kind, bgm, loss, N_ITER, LR)
+                (L, coef, it), hist = fz.fit(zs, cond, B, kind, bgm, loss, N_ITER, LR, LR_RES)
                 im = fz.decode_img(fz.run(zs, cond, make_edit(B, coef, kind, bgm)))
                 m = score(rgb, tg[T], R_, im)
                 m.update(loss=L, best_it=it, coef_absmax=float(coef.abs().max()),

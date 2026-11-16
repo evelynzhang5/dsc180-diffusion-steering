@@ -122,6 +122,20 @@ Frozen from these:
 - Scene 3's "bird" is a small figure on a thin stalk. The mask (0.11% of the image) covers the figure, not the stalk; it is kept, as in round 13.
 - Scene 5's mask covers the mug, its handle and most of the saucer; it is kept.
 
+**Revision after the first optimization control failed (Nov 15, 22:20, before any scene had been fitted).** With step 0.08 and 16 iterations, the spatial fit could not recover a known random spatial edit:
+
+| control scene | remaining MSE (pass ≤ 0.1) | loss by iteration |
+|---|---|---|
+| 0 | 0.84 | 1.0 → 7.3 → 3.7 → … → 0.84 |
+| 3 | 1.00 | 1.0 → 19.0 → 5.6 → … → 1.64 |
+
+The first Adam step moves all 4,096 coefficients by 0.08 at once and overshoots; the loss then falls only slowly. This is an optimizer setting, not a property of the edit, so the run was stopped before any scene was fitted (`control_v1_lr0.08.json` is kept). Changes, decided on the control alone:
+
+- **Spatial parameterization.** The spatial edit is now fitted as one shared coefficient set (2 × 8, step 0.08, the same as the global edit) plus a per-cell residual (2 × 8 × 16 × 16). The set of edits it can express is unchanged; only the first steps are better conditioned.
+- **Residual step size.** Chosen from {0.01, 0.02, 0.04} on control scene 0 only, by lowest remaining MSE. It must then also pass on control scene 3.
+- **Iterations.** 24 for every fit, global and spatial.
+- **Estimated time.** About 13.5 h.
+
 ## Results
 
 Pending.
