@@ -170,13 +170,14 @@ Its subject-interior MAE at −2.0 is 5.0, 8.1 and 10.6 (the limit is 3).
 
 ### What the result does and does not show
 
-1. **It is budget-limited, not a ceiling.** At −2.0, all six fitted edits reached their lowest loss at the last iteration (24). The spatial losses were still falling by about 2 per iteration (scene 0: 45.7 → 36.5 over the last 5). Together with the failed control, this means the test did not find out what this edit can express. Neither "it cannot blur the background while keeping the subject" nor "a better optimizer would pass" is established.
+1. **It is budget-limited, not a ceiling.** At −2.0, all six fitted edits reached their lowest loss at the last iteration (24). The spatial losses were still falling by about 2 per iteration (scene 0: 45.7 → 36.5 over the last 5). Together with the failed control, this means the test did not find out what this edit can express.
+   The loss breakdown also shows that the objective **accepted worse reconstruction in exchange for a better sharpness score**. At −2.0 the sharpness term was 177 of the starting loss of 179. In all six −2.0 fits, the background error to the target rose (spatial: 1.0 → 4.0, 2.0, 3.0) while the sharpness term fell (177 → 11, 7, 11). This does not prove that more iterations would necessarily have made reconstruction worse, but the objective did not reward the intended transformation. Neither "it cannot blur the background while keeping the subject" nor "a better optimizer would pass" is established.
 2. **Spatial beat global under equal conditions, but not by the frozen margin.** At −2.0 the spatial edit reached about the same blur with 19% lower interior error (7.9 vs 9.8) and lower band error (12.5 vs 15.7). Criterion V needs a 50% reduction. At −0.5 the global edit barely moved the background (−0.18 to 0.00, and coefficient 0 was best on scene 2). The spatial edit moved further but still missed ±0.15 on 2 of 3 scenes.
 3. **The background change is not the target's blur.** In every fitted run, the background ended further from the rendered target than the unedited image was (ratio 1.4-2.5; criterion A needs at most 0.5). The edits lower the sharpness score partly by changing texture and colour. Scene 0's street goes grey, as with the global edit in `examples_T2.png`. They do not reproduce a Gaussian blur.
 4. **Even with privileged fitting, the edits preserve the subject far better than the RFM steering of rounds 9-13.** Interior error is 8-10 vs 40 at −2.0, with layout IoU 0.96 vs 0.47. The boundary crops show no doubled outlines. A fitted, position-dependent edit at a decoder layer is much less destructive than one direction at the encoder, but it still does not meet a 3/255 subject bar.
 
 
-### Follow-up: optimizer control v3 (Nov 16, decided before running)
+### Follow-up: optimizer control v3 (Nov 16; launched, then stopped after review before any result)
 
 v2's loss history shows the first step still overshoots (1 → 5.8 on scene 0). The loss then reached 0.48 by iteration 18 and oscillated. Changes, tested on the control alone with no scene fitted:
 
@@ -185,7 +186,51 @@ v2's loss history shows the first step still overshoots (1 → 5.8 on scene 0). 
 - **If both scenes are at or below 0.1:** rerun the scene fits with this optimizer. 100 iterations take about 87 minutes per fit, so each pod fits one or two scenes. Scenes run in order and stop as soon as the decision is fixed. Since every decision needs at least 7 of 8, that is when two scenes fail at either level for both the spatial and the global criteria.
 - **If either is above 0.1:** round 16 stays closed as inconclusive; the edit is too hard to fit within a usable budget for this test.
 
+This pod was stopped within minutes, before it logged any iteration. A review pointed out that it skipped the simpler checks, so it was replaced by the diagnosis below. `control3` stays in the code but was never completed.
+
+## Follow-up: one-scene optimizer diagnosis (Nov 16, fixed before running)
+
+**Purpose.** Find out whether this pipeline and optimizer can recover a known, exactly achievable edit before any capability claim. This is a separate run. Its results are not pooled with the 3-scene run above, and passing does not by itself trigger the 8-scene rerun or controller training.
+
+**Setup.** Stage `diag` in [fitted.py](fitted.py), scene 0:
+- deterministic cuDNN;
+- loss is image reconstruction error only: MSE to the known-edit image ÷ no-edit image's MSE, on the float decoded image before rounding to 8 bits;
+- no preservation, sharpness or edit-size terms.
+
+Each check runs in order, results are saved after each one, and the run stops at the first failure:
+
+| # | check | passes if |
+|---|---|---|
+| 1 | **Target replay.** Known edit: basis direction b₁ at strength −0.2 (global, background cells). Generate it twice; also zero edit vs no edit | replay MSE ≤ 0.001 of the no-edit MSE; zero edit identical |
+| 2 | **Strength grid** −0.4 … +0.1 (9 points). A check of the target, not optimizer recovery | the minimum is at −0.2 |
+| 3a | **Scalar gradient**, autograd vs central differences at steps 0.03, 0.01, 0.003, 0.001; at strengths 0 and −0.1 (relative), and at the known −0.2 (absolute, since the gradient there should be about 0) | best-step relative error ≤ 2% at 0 and −0.1; at −0.2 both the autograd value and its gap from the finite difference are ≤ 2% of the gradient size at 0 |
+| 3b | **Spatial gradient**, 3 random unit directions in the 4,096 spatial coefficients, at zero and at half a known random spatial edit; steps 0.3, 0.1, 0.03, 0.01 | best-step relative error ≤ 2% for all six |
+| 4 | **Scalar recovery** with Adam from 0: 30 iterations, peak step 0.03, 5-iteration warm-up, cosine decay to 10% | recovered image MSE ≤ 0.1 of the no-edit MSE |
+| 5 | **16-coefficient recovery** (known global edit, spread 0.1): 40 iterations, peak 0.04, warm-up 10 | same; coefficient error reported only as a diagnostic, since different coefficients can give the same image |
+| 6 | **Spatial recovery** (round 16's known spatial edit), shared + residual: 60 iterations, peak 0.04 / 0.01, warm-up 10 | same |
+
+**Budget.**
+- Three hours is a spending cap, not an estimate. Iteration times are logged.
+- A stage that would exceed the cap is not started; a running stage stops at the cap.
+- Either case is reported as **unfinished**, not as a capability failure.
+
+| outcome | interpretation |
+|---|---|
+| replay or a gradient check fails | pipeline or numerical issue; no conclusion about steering |
+| gradients pass, recovery fails | optimization is inadequate for this test |
+| recovery passes; the blur fit below fails | stop this configuration under this budget |
+| recovery and the blur fit pass | continue to more scenes; reusable control remains untested |
+
+**Blur fit (separate stage, only if 1–6 pass; loss fixed now).** Scene 0, target −2.0, global and spatial edits. Every term is a mean within its region, against the rendered target T, with weight 1 for each:
+
+L = MSE_bg(x, T) / MSE_bg(ref, T) + MSE_subject(x, T) / 3² + MSE_band(x, T) / max(MSE_band(ref, T), 3²)
+
+- Sharpness is not in the loss. It is reported only as a diagnostic.
+- Each term is reported separately at every iteration.
+- **Success:** background MAE to the target ≤ 0.5 × the unedited image's (criterion A) **and** subject interior MAE ≤ 3/255 (criterion S). Reaching the sharpness level (R) is reported but is not enough on its own.
+- If global and spatial both pass, the simpler global edit is preferred.
+
 ### What would make this conclusive (not run)
 
 - A fit that passes the control: smaller shared step or warm-up, and about 100 iterations. At 52 s per iteration, that is about 1.5 h per fit, so it must be split across pods by scene because of the 6-hour limit.
-- If the control then passes and the spatial edit still misses R or S, that is a genuine NO-GO for this layer and basis. The basis captures only 49% of the target change, which is the first thing to vary.
+- If the control then passes and the spatial edit still misses R or S, that is a genuine NO-GO for this layer and basis. The basis captures 49% of the *activation-difference energy* between unedited and target features (pooled over scenes, targets and steps). That does not mean the edit can produce only 49% of the image change, because later layers can amplify or suppress components.

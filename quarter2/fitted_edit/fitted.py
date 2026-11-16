@@ -600,6 +600,191 @@ def control3():
         f"scene {c['scene']} {c['rel_mse']:.3f}" for c in ctrl if c["lrs"] == chosen["lrs"]))
 
 
+# ---------------------------------------------------------------- one-scene optimizer diagnosis (Nov 16, after review)
+DIAG_SCENE, DIAG_A, DIAG_CAP = 0, -0.2, 3 * 3600   # known edit: b_1 at strength -0.2 (global, background cells)
+DIAG_GRID = [-0.4, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.0, 0.1]
+DIAG_H = dict(scalar=[3e-2, 1e-2, 3e-3, 1e-3], spatial=[0.3, 0.1, 0.03, 0.01])   # finite-difference steps
+REPLAY_MAX, RECOVER_MAX, GRAD_TOL = 1e-3, 0.1, 0.02
+# (iterations, peak step, residual peak step, warm-up iterations); linear warm-up then cosine decay to 10%
+DIAG_FITS = dict(scalar=(30, 0.03, None, 5), global16=(40, 0.04, None, 10), spatial=(60, 0.04, 0.01, 10))
+
+
+def diag():
+    """Target replay -> strength grid -> gradient checks -> scalar recovery -> 16-coefficient recovery -> spatial
+    recovery, on one scene, image reconstruction loss only. Stops at the first failed check; saves after every
+    stage; stops at the 3-hour cap and reports 'unfinished' (README)."""
+    out = OUT / "diag"
+    out.mkdir(parents=True, exist_ok=True)
+    t0 = time.time()
+    torch.backends.cudnn.deterministic, torch.backends.cudnn.benchmark = True, False
+    D.Hook = PL.ComboHook
+    sd = D.SD("cuda")
+    fz = Fitter(sd)
+    B = torch.load(OUT / "basis.pt")["B"].cuda()
+    meta, subj, R_, zs, cond, ref, redo, tg = setup(fz, DIAG_SCENE)
+    bgm = bg_cells(subj)
+    path = out / "diag.json"
+    res = dict(scene=DIAG_SCENE, known_strength=DIAG_A, regen_max_diff=redo)
+    save = lambda: path.write_text(json.dumps(res, indent=1, default=float))
+    e1 = torch.zeros(2, R, device="cuda")
+    e1[:, 0] = 1
+
+    def img(f):                                   # float decoded image (0-255), before quantization
+        with torch.no_grad():
+            return fz.decode(fz.run(zs, cond, f))
+
+    def mse_loss(Yt, e):
+        return lambda x: (lambda v: (v, dict(mse=float(v))))(((x - Yt) ** 2).mean() / e)
+
+    rel = lambda x, Yt, e: float(((x - Yt) ** 2).mean()) / e
+
+    def verdict(name, ok, msg):
+        res[name]["pass"] = bool(ok)
+        log(f"diag {name}: {'PASS' if ok else 'FAIL'}; {msg}")
+        save()
+        return ok
+
+    # 1. target replay
+    torch.cuda.synchronize()
+    t = time.time()
+    Y = img(make_edit(B, DIAG_A * e1, "global", bgm))
+    torch.cuda.synchronize()
+    sec_fwd = time.time() - t
+    X0, Xz = img(None), img(make_edit(B, 0 * e1, "global", bgm))
+    e0 = float(((X0 - Y) ** 2).mean())
+    Y2 = img(make_edit(B, DIAG_A * e1, "global", bgm))
+    res["replay"] = dict(sec_forward=sec_fwd, e0=e0, replay_rel_mse=rel(Y2, Y, e0),
+                         replay_max_abs=float((Y2 - Y).abs().max()), zero_edit_max_abs=float((Xz - X0).abs().max()))
+    if not verdict("replay", res["replay"]["replay_rel_mse"] <= REPLAY_MAX and res["replay"]["zero_edit_max_abs"] == 0,
+                   f"replay rel MSE {res['replay']['replay_rel_mse']:.2e}, max |diff| "
+                   f"{res['replay']['replay_max_abs']:.3g}, zero edit max |diff| {res['replay']['zero_edit_max_abs']:.3g}"
+                   f", forward {sec_fwd:.1f} s"):
+        return
+
+    # 2. strength grid (a check of the target, not optimizer recovery)
+    grid = {a: rel(img(make_edit(B, a * e1, "global", bgm)), Y, e0) for a in DIAG_GRID}
+    best_a = min(grid, key=grid.get)
+    res["grid"] = dict(rel_mse=grid, best=best_a)
+    if not verdict("grid", best_a == DIAG_A and grid[DIAG_A] <= REPLAY_MAX,
+                   "rel MSE by strength " + ", ".join(f"{a:g}: {v:.3g}" for a, v in grid.items())):
+        return
+
+    # 3. gradient checks: autograd vs central differences at several steps (no Adam before this passes)
+    def fd_check(coef, kind, loss_f, dirs, hs):
+        c = coef.clone().requires_grad_(True)
+        torch.cuda.synchronize()
+        t = time.time()
+        fz.loss_grad(zs, cond, make_edit(B, c, kind, bgm), loss_f)
+        torch.cuda.synchronize()
+        sec = time.time() - t
+        rows = []
+        for v in dirs:
+            ad = float((c.grad * v).sum())
+            fds = {}
+            for h in hs:
+                Lp = float(loss_f(img(make_edit(B, coef + h * v, kind, bgm)))[0])
+                Lm = float(loss_f(img(make_edit(B, coef - h * v, kind, bgm)))[0])
+                fds[h] = (Lp - Lm) / (2 * h)
+            rows.append(dict(autograd=ad, fd=fds))
+        return rows, sec
+
+    gs = {}
+    for a in (0.0, -0.1, DIAG_A):
+        rows, sec = fd_check(a * e1, "global", mse_loss(Y, e0), [e1], DIAG_H["scalar"])
+        gs[a] = rows[0]
+    res["grad_scalar"] = dict(points={str(a): v for a, v in gs.items()}, sec_iter=sec)
+    g0 = abs(gs[0.0]["autograd"])
+    best_rel = lambda r: min(abs(f - r["autograd"]) / max(abs(f), 1e-12) for f in r["fd"].values())
+    best_abs = lambda r: min(abs(f - r["autograd"]) for f in r["fd"].values())
+    ok = (best_rel(gs[0.0]) <= GRAD_TOL and best_rel(gs[-0.1]) <= GRAD_TOL and
+          abs(gs[DIAG_A]["autograd"]) <= GRAD_TOL * g0 and best_abs(gs[DIAG_A]) <= GRAD_TOL * g0)
+    if not verdict("grad_scalar", ok, "; ".join(
+            f"a {a:g}: autograd {r['autograd']:.4g} vs fd " + ", ".join(f"{f:.4g}" for f in r["fd"].values())
+            for a, r in gs.items()) + f"; {sec:.0f} s per gradient"):
+        return
+
+    gt = (CTRL_STD * torch.randn(2, R, GRID, GRID, generator=torch.Generator().manual_seed(7))).cuda()
+    Ys = img(make_edit(B, gt, "spatial", bgm))
+    es = float(((X0 - Ys) ** 2).mean())
+    dirs = [(lambda v: v / v.norm())(torch.randn(2, R, GRID, GRID, generator=torch.Generator().manual_seed(s)).cuda())
+            for s in (11, 12, 13)]
+    gsp = {}
+    for nm, c in (("zero", torch.zeros_like(gt)), ("half", 0.5 * gt)):
+        gsp[nm], _ = fd_check(c, "spatial", mse_loss(Ys, es), dirs, DIAG_H["spatial"])
+    res["grad_spatial"] = dict(points=gsp, e0=es)
+    worst = max(best_rel(r) for rows in gsp.values() for r in rows)
+    if not verdict("grad_spatial", worst <= GRAD_TOL, f"worst best-step relative error {worst:.3g} over 2 points x 3 "
+                   "directions; " + "; ".join(f"{nm} d{j}: {r['autograd']:.4g} vs " +
+                                             ", ".join(f"{f:.4g}" for f in r["fd"].values())
+                                             for nm, rows in gsp.items() for j, r in enumerate(rows))):
+        return
+
+    # 4-6. recovery of known edits with Adam (reconstruction loss only), judged on the image
+    def adam(name, params, coef_fn, kind, Yt, e, lrs):
+        n_iter, lr, lr_res, warm = DIAG_FITS[name]
+        if time.time() - t0 + n_iter * sec * 1.1 > DIAG_CAP:
+            res[name] = dict(status="unfinished (not started: over the 3-hour cap)")
+            log(f"diag {name}: UNFINISHED (would exceed the cap)")
+            save()
+            return None
+        groups = [dict(params=[params[0]], lr=lr)] + ([dict(params=[params[1]], lr=lr_res)] if lr_res else [])
+        opt = torch.optim.Adam(groups)
+        sched = torch.optim.lr_scheduler.LambdaLR(opt, lambda it: (it + 1) / warm if it < warm else
+                                                  0.1 + 0.45 * (1 + np.cos(np.pi * (it - warm) / (n_iter - warm))))
+        loss_f, best, hist = mse_loss(Yt, e), (float("inf"), None, -1), []
+        for it in range(n_iter):
+            if time.time() - t0 > DIAG_CAP:
+                res[name] = dict(status="unfinished (3-hour cap)", hist=hist)
+                log(f"diag {name}: UNFINISHED at iteration {it}")
+                save()
+                return None
+            ti = time.time()
+            opt.zero_grad()
+            coef = coef_fn()
+            L, _ = fz.loss_grad(zs, cond, make_edit(B, coef, kind, bgm), loss_f)
+            hist.append(dict(it=it, loss=L, sec=time.time() - ti))
+            if L < best[0]:
+                best = (L, coef.detach().clone(), it)
+            opt.step()
+            sched.step()
+            if it < 3 or it % 10 == 9:
+                log(f"diag {name} iter {it + 1}: loss {L:.4f} (best {best[0]:.4f}), {hist[-1]['sec']:.0f} s")
+        r = rel(img(make_edit(B, best[1], kind, bgm)), Yt, e)
+        res[name] = dict(rel_mse=r, best_it=best[2], hist=hist, coef_err=None)
+        return best[1], r
+
+    a = torch.zeros(1, device="cuda", requires_grad=True)
+    got = adam("scalar", [a], lambda: a * e1, "global", Y, e0, None)
+    if got is None:
+        return
+    res["scalar"]["recovered_strength"] = float(got[0][0, 0])
+    if not verdict("scalar", got[1] <= RECOVER_MAX, f"image rel MSE {got[1]:.4f} (pass <= {RECOVER_MAX}), "
+                   f"strength {float(got[0][0, 0]):.4f} (known {DIAG_A})"):
+        return
+
+    gg = (CTRL_STD * torch.randn(2, R, generator=torch.Generator().manual_seed(7))).cuda()
+    Yg = img(make_edit(B, gg, "global", bgm))
+    eg = float(((X0 - Yg) ** 2).mean())
+    c16 = torch.zeros(2, R, device="cuda", requires_grad=True)
+    got = adam("global16", [c16], lambda: c16, "global", Yg, eg, None)
+    if got is None:
+        return
+    res["global16"].update(e0=eg, coef_err=float((got[0] - gg).pow(2).mean() / gg.pow(2).mean()))
+    if not verdict("global16", got[1] <= RECOVER_MAX, f"image rel MSE {got[1]:.4f}, coefficient rel error "
+                   f"{res['global16']['coef_err']:.3f} (diagnostic only)"):
+        return
+
+    sh = torch.zeros(2, R, device="cuda", requires_grad=True)
+    rs = torch.zeros(2, R, GRID, GRID, device="cuda", requires_grad=True)
+    got = adam("spatial", [sh, rs], lambda: sh[..., None, None] + rs, "spatial", Ys, es, None)
+    if got is None:
+        return
+    res["spatial"].update(e0=es, coef_err=float((got[0] - gt).pow(2).mean() / gt.pow(2).mean()))
+    verdict("spatial", got[1] <= RECOVER_MAX, f"image rel MSE {got[1]:.4f}, coefficient rel error "
+            f"{res['spatial']['coef_err']:.3f} (diagnostic only)")
+    log(f"diag finished in {time.time() - t0:.0f} s")
+
+
 # ---------------------------------------------------------------- report and frozen decision
 def judge(r, T):
     """Per scene and target: criteria for global and spatial (README)."""
@@ -732,4 +917,4 @@ def sheets(rows):
 
 
 if __name__ == "__main__":
-    {"gen": gen, "fit": fit_all, "control3": control3}[sys.argv[1]]()
+    {"gen": gen, "fit": fit_all, "control3": control3, "diag": diag}[sys.argv[1]]()
