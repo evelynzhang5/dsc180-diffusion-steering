@@ -251,3 +251,16 @@ The 3b failure is entirely one direction, at the zero edit. There the directiona
 - 0.05% in the failing one.
 
 The other five pass the relative rule (≤ 0.2% at the best step). My fixed rule used relative error for every direction. That is the same mistake the review warned about for the known solution: a relative error is unreliable when the derivative is about 0. By the table above this is a numerical-precision outcome, not evidence of a gradient bug, but under the fixed rule the run stopped before any Adam recovery.
+
+**Run 1's outcome stands as recorded:** it failed the original relative-only rule at 3b.
+
+### Amendment for run 2 (post hoc, fixed before run 2; reviewed)
+
+Only the spatial gradient rule changes. Recovery criteria, iteration budgets and the blur-fit loss and success rule are unchanged.
+
+- **Rule.** A direction passes if, at some finite-difference step, |autograd − finite difference| ≤ atol + 0.02 × max(|autograd|, |finite difference|). This is an absolute-plus-relative tolerance, as in `torch.allclose`.
+- **atol = 5e-4,** set from run 1's observed precision. In the near-zero direction the four finite-difference estimates ranged from −2.4e-4 to 2.0e-4; atol is about twice the largest of them. The typical directional derivative is about 0.03, so atol is about 1.5% of it.
+- **Fresh check.** Three new unit directions (seeds 21, 22, 23) at the zero edit and at half the known edit. These six cases decide 3b.
+- **Run 1's near-zero direction** (seed 11, zero edit) is re-evaluated at larger steps (1, 0.3, 0.1, 0.03, 0.01) and reported only. If it is rounding noise, the estimates should settle toward the autograd value as the step grows. fp64 was not tried: on the GTX 1080 Ti it would take roughly 30 times longer.
+- **Not repeated:** the grid and scalar gradient checks, which passed in run 1. The target replay is repeated, since it builds the target.
+- **Then** scalar → 16-coefficient → spatial recovery, unchanged, under a new 3-hour cap, stopping at the first failure. Output `results/diag_run2.json`.
