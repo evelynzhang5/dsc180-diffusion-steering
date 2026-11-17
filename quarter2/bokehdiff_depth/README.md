@@ -120,7 +120,7 @@ By eye the blur is clean and sorted by depth (sheet): the focused plane stays sh
 
 Error patterns. These are descriptive, from the same 54 cases; the frozen rule does not depend on them.
 
-1. **Small requests are ignored.** All 8 cases with r_nom < 5 px (1.6–4.6 px) read 1.0–2.1 px, the same as the K = 0 output's own softness (0.9–2.1 px; this is the round trip through the image encoder and decoder). Some blur appears from about 6 px. This is consistent with the 16 px token grid of the attention constraint (see above), though the threshold is lower than 16 px.
+1. **Small requests are ignored.** All 8 cases with r_nom < 5 px (1.6–4.6 px) read 1.0–2.1 px, the same as the K = 0 output's own softness (0.9–2.1 px; this is the round trip through the image encoder and decoder). Some blur appears from about 6 px. One possible cause is the 16 px token grid of the attention constraint (see above). But the rest of the network also shapes the output, and the threshold is lower than 16 px, so the plateau alone does not identify the cause.
 2. **Large requests overshoot, more so as they grow.** Median measured/requested radius, uncapped cases with r_nom ≥ 6 px:
 
    | K | in front of focus | behind focus |
@@ -129,16 +129,17 @@ Error patterns. These are descriptive, from the same 54 cases; the frozen rule d
    | 20 | 1.20 (n 5) | 1.47 (n 11) |
    | 40 | 1.13 (n 5) | 1.53 (n 8) |
 
-   A further 5 cases at K = 40, all behind the focus, hit the 48 px measurement cap, so the K = 40 "behind" ratio is an underestimate.
-3. **Behind the focus gets more blur than in front, at the same requested radius.** The thin-lens model is symmetric in disparity. This asymmetry is confounded with focus position: most "behind" cases come from near-focus runs. Within mid-focus runs alone it is suggestive but mixed (e.g. scene B, K = 40: front 1.02 and 1.13, behind 1.68 and 1.46).
+   A further 5 cases at K = 40, all behind the focus, are **above range** (the estimator stops at 48 px; 48 is not an exact measurement), so the K = 40 "behind" ratio is an underestimate.
+3. **Behind the focus gets more blur than in front, at the same requested radius.** Under the paper's ideal thin-lens model, equal absolute disparity differences (here equal |d_norm − d_focus| at the same K, i.e. equal r_nom) give equal nominal radii inside surfaces. Equal distances in metres would not. This asymmetry is confounded with focus position: most "behind" cases come from near-focus runs. Within mid-focus runs alone it is suggestive but mixed (e.g. scene B, K = 40: front 1.02 and 1.13, behind 1.68 and 1.46).
 
 **Exploratory (decided after seeing the data, not a frozen test).** A monotone curve from requested to measured radius, fitted on scene A, gets 19 / 33 = 58 % of held-out uncapped cases within tolerance. Its held-out residuals differ by side: in front −36 % (median), behind −18 %. So a 1-D correction of the radius may not be enough either, but this is post hoc and small.
 
 ### Preservation
 
 - **In-focus planes stay sharp:** the measured radius stays at the K = 0 level, within +1.1 px, in all 24 cases.
-- **But their detail changes:** MAE against the K = 0 output is 1.9–6.9/255. Only 8 / 24 meet the ≤ 3/255 rule. Very little of this is a colour shift: after a per-channel gain and offset it is still 1.8–6.0/255. The change grows with K and the amount of blur elsewhere in the image, and it is texture-dependent: gravel and grass change more than brick.
-- **For reference:** the K = 0 output itself differs from the input by 10–15/255 on grass and gravel. The image encoder and decoder alone already change fine texture a lot.
+- **Their detail differs from the K = 0 output:** MAE against it is 1.9–6.9/255. Only 8 / 24 meet the ≤ 3/255 rule. Very little of this is a colour shift: after a per-channel gain and offset it is still 1.8–6.0/255. The change grows with K and the amount of blur elsewhere in the image, and it is texture-dependent: gravel and grass change more than brick.
+- **Against the original input (added after review, Nov 17):** in-focus planes differ from the input by 3.0–13.4/255. The K = 0 output's own error on the same planes is 2.9–13.2/255; this is reconstruction error from the image decoder, which the paper acknowledges. The extra error with blur elsewhere is small: median +0.04 / +0.15 / +0.22 per 255 at K = 10 / 20 / 40, at most +0.78.
+- **So the 2–7/255 differences from the K = 0 output are mostly a different reconstruction, not extra damage.** Blur elsewhere changes the decoder's fine-texture errors without moving them further from the input. The ≤ 3/255 rule measured against the K = 0 output therefore overstates blur-induced damage.
 - **Positions:** 85 % of cases have shift ≤ 1 px. Every case above 1 px has r̂ ≥ 27 px, where the texture is mostly erased and the shift search is unreliable. In the sheet, no plane visibly moves.
 
 ### Interpretation (narrow)
