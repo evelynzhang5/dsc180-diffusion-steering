@@ -16,11 +16,14 @@ nvidia-smi -L
 python -c "import torch; print('system torch', torch.__version__, 'cuda', torch.version.cuda)"
 
 stamp "setup"
-[ -d "$W/venv" ] || python -m venv --system-site-packages "$W/venv"
+# keep the image's CUDA 12.1 PyTorch: newer wheels drop Pascal (sm_61) support; rebuild the venv with pins
+python -c "import torch, torchvision, numpy; print(f'torch=={torch.__version__}'); print(f'torchvision=={torchvision.__version__}'); print('numpy<2')" > "$W/constraints.txt"
+cat "$W/constraints.txt"
+rm -rf "$W/venv" && python -m venv --system-site-packages "$W/venv"
 source "$W/venv/bin/activate"
-pip install -q diffusers==0.32.1 transformers==4.47.1 peft==0.14.0 accelerate==1.2.1 \
+pip install -q -c "$W/constraints.txt" diffusers==0.32.1 transformers==4.47.1 peft==0.14.0 accelerate==1.2.1 \
     cupy-cuda12x opencv-python-headless scikit-image piq lpips pandas timm einops kornia "numpy<2" || { stamp "setup FAILED"; exit 1; }
-python -c "import numpy, torch, diffusers, transformers, peft, cupy; print('venv numpy', numpy.__version__, 'torch', torch.__version__, diffusers.__version__, transformers.__version__, peft.__version__, cupy.__version__)" || { stamp "import check FAILED"; exit 1; }
+python -c "import numpy, torch, diffusers, transformers, peft, cupy; print('venv numpy', numpy.__version__, 'torch', torch.__version__, diffusers.__version__, transformers.__version__, peft.__version__, cupy.__version__); assert torch.cuda.is_available(), 'CUDA not available'; print('gpu', torch.cuda.get_device_name(0), torch.cuda.get_device_capability(0))" || { stamp "import check FAILED"; exit 1; }
 [ -d "$W/repo" ] || git clone -q https://github.com/FreeButUselessSoul/bokehdiff.git "$W/repo"
 cd "$W/repo" && git fetch -q origin && git checkout -q $COMMIT && git log -1 --format='bokehdiff commit %H'
 
