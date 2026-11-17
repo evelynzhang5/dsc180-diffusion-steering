@@ -99,7 +99,7 @@ Images are in `outputs/q2_depth_isolation/`.
 | V1 with occlusion **zeroed** | 4 / 32 (12.5 %) | +6.1 % | −1.4 … +10.6 % |
 
 **What the variants show:**
-- **Absolute disparity barely matters.** V4 (centred 0.3) and V5 (centred 0.7) share the same structure and differ from true geometry by +3.9 % and +1.3 %. That is far too small to explain the focus-position differences of rounds 19 and 22 (e.g. 6.3 vs 8.4 px at the same request). **Those differences therefore do not come from depth at a fixed blur map;** they come from the different blur maps and patches in those runs.
+- **Absolute disparity barely matters.** V4 (centred 0.3) and V5 (centred 0.7) share the same structure and differ from true geometry by +3.9 % and +1.3 %. That is far too small to explain the focus-position differences of rounds 19 and 22 (e.g. 6.3 vs 8.4 px at the same request). **Those differences therefore do not come from depth at a fixed blur map.** They point to the different blur maps and patches in those runs; this round did not test that directly.
 - **Occlusion's whole contribution is small.** With true geometry, occlusion removes a median of 4.0 % of each non-focus key's attention mass: 0.7 % for cells in front of the focus, 6.1 % behind, and up to 8.8 % for the far anchor. Removing occlusion entirely raises blur by a median of 6 %. Flat depth (no occlusion) gives exactly the same numbers, as it should.
 - **The disparity = 1 edge case is harmless here.** No occlusion entry was non-finite. The near anchor at disparity 1 has 0 occlusion removal, and capping it at 0.99 changes nothing (identical r̂).
 - **In-focus detail:** MAE against the input changes by at most 0.03/255 across the variants.
