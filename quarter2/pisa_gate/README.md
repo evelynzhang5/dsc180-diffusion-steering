@@ -6,7 +6,9 @@
 
 **Test.** At inference only, replace the gate with one that represents sub-token blur directly. Does that give graded, consistent control of mild blur without hurting larger blur or the in-focus content?
 
-**Status.** Plan and rules fixed before running.
+**Status.** Run Nov 17 (pod `q2-gate`, 263 images in 8 min). The test's own checks all passed; the re-implementation with G0 equals the original exactly. Plan and rules were committed (86356ad) before the run.
+- **Outcome N: the cell-transfer gate (G1) does not restore graded mild blur; it makes control much worse.** Any request above about 0.7 px jumps to 21–42 px of blur.
+- **The original gate (G0) with fp32 and a curve fitted on 12 diverse patches controls mild blur well:** 94 % of held-out mild targets within ±1 px, and 88 % of larger targets within tolerance.
 
 ## The two gates (`run25.py`)
 
@@ -77,4 +79,66 @@ That is 262 images in all.
 
 ## Results
 
-Pending.
+Files:
+- `results/gate.json`;
+- `results/cells.json`;
+- `results/gate_sheet.png`: crops of one swept cell at raw requests 1–12 px, G0 row and G1 row.
+
+Images and `calib.json` are in `outputs/q2_pisa_gate/`.
+
+**Gate passed:**
+- the re-implementation with G0 equals the original (max difference 0);
+- the repeat is identical;
+- 263 outputs, none bad;
+- estimator validation passed;
+- 1.42 s per image for both gates.
+
+### Raw response on held-out patches (median r̂, px)
+
+| request (px) | 1 | 2 | 3 | 4 | 5 | 6 | 8 | 10 | 12 | 16 | 19 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| G0 | 1.2 | 1.2 | 1.2 | 1.2 | 2.0 | 3.9 | 8.0 | 12.6 | 16.5 | 23.7 | 25.5 |
+| G1 | **23.2** | 24.7 | 25.7 | 26.5 | 27.1 | 27.8 | 29.0 | 30.3 | 31.4 | 33.3 | 42.2 |
+
+- **G0:** the output goes from 2 to 5 px over requests 5.0–6.5 px.
+- **G1:** never in the 2–5 px range at these requests. Even 1 px gives 23 px.
+
+### Control after each gate's own calibration (held-out patches, corrected reruns)
+
+| | mild 3–6 px within ±1 px | larger 8–15.5 px within tolerance | mild across-patch CV | focus MAE (/255) | disk-fit residual |
+|---|---|---|---|---|---|
+| G0 | **94 %** | **88 %** | 0.106 | 2.52 | 0.037 |
+| G1 | 1 % | 8 % | 0.201 | 2.79 | 0.053 |
+
+**G0 per target** (within ±1 px / within tolerance):
+
+| target (px) | 3 | 4 | 5 | 6 | 8 | 11.6 | 15.5 |
+|---|---|---|---|---|---|---|---|
+| G0 | 100 / 100 % | 100 / 100 % | 92 / 100 % | 83 / 97 % | 61 / 86 % | 33 / 86 % | 36 / 92 % |
+
+**G1** asks for 0.07–0.7 px to hit 3–15.5 px targets. The output stays at about 1.2–1.7 px up to a 0.5 px request, then jumps to about 21 px at 0.69 px. Its curve has an even sharper step than G0's, only at a smaller request.
+
+### Mechanism this reveals
+
+- **Content similarity amplifies the gate enormously.** PISA normalizes each source token's weights over targets after exp(q·k − max). With G1, a neighbour weight of only about 1 % (a 0.5–1 px request) is already enough for similar neighbours to take most of a token's attention mass, which gives heavy blur.
+- **The original gate's design is what makes the usable window possible.** Its sigmoid moves the neighbour weight through many orders of magnitude (10⁻¹¹ → 10⁻³ → 0.5) as the request rises. Combined with the amplification, that spreads the transition over requests of about 5–19 px. G1 moves the weight only linearly (0 → 0.13), so the amplified response has nowhere to go but straight up.
+- Together with round 24 (removing content similarity removes blur), this means delivered blur in PISA is governed by *the product of a log-scale gate leak and content-similarity amplification*. A redesigned gate would need to act on that log scale, which the original sigmoid already does.
+
+## Interpretation
+
+- **Outcome N.** A physically motivated, linear sub-token gate is not a usable inference-time intervention for this model; it breaks control. This candidate steering option is closed.
+- **The baseline is stronger than expected.** fp32 PISA plus a monotone radius curve, fitted on 12 diverse development patches, now controls:
+  - mild blur (3–6 px) within ±1 px on 94 % of held-out patches;
+  - larger blur (8–15.5 px) within tolerance on 88 %.
+
+  Rounds 19–22 needed the fp16 fix and better calibration coverage to get here.
+- **What remains open:**
+  - occlusion boundaries (round 24's option 2);
+  - highlight / high-contrast patches (round 24);
+  - real photographs.
+
+  In flat interiors, after the fp32 fix, an ordinary calibration is sufficient on this evidence.
+
+**Not shown:**
+- other gate shapes, e.g. a log-scaled graded gate or a G1 with tempered similarity;
+- other models, K or resolutions.
