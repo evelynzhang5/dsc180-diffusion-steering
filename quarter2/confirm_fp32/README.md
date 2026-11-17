@@ -124,14 +124,24 @@ As in round 19, the calibration curve predicts the *uncorrected* held-out output
    | ≥ 0.5 px from any calibration point (n = 232) | −17 % |
 
    **Not the cause.**
-2. **The same request in a different setting.** Corrected cells were compared with *uncorrected* cells at the same request (within 0.15 px), the same focus position and the same scene. **Corrected cells blur 11 % less** (median, n = 96).
-   - The difference: a correction changes only the blur map. The disparity map keeps the true geometry, so a corrected cell has the same blur request as the uncorrected one but a larger disparity gap from the focus. Other cells' requests also change.
-   - Round 19 found that other cells' blur does not move an anchor's blur. That leaves the **disparity map as the likely factor**: it enters PISA through its occlusion test.
-   - This would also fit round 19's focus-position effect, where the same request gave less blur when the focus sat near the end of the disparity range.
+2. **The same request in a different setting: retracted after review (Nov 17).** The first version compared corrected and uncorrected cells at the same request, scene and focus position, but **not the same cell**. It found −11 %. With the cell matched as well, the difference vanishes:
 
-   This is a lead, not a result. The next test should change one thing at a time:
-   - (a) the same request with the disparity map changed and the blur map fixed;
-   - (b) PISA's occlusion mask recorded per cell.
+   | comparison | n | median difference |
+   |---|---|---|
+   | same cell, same request (±0.3 px), same scene and focus | 160 | 0.0 % |
+   | of which: same true disparity gap | 96 | +0.4 % |
+   | of which: true disparity gap 0.15 larger | 64 | +0.4 % |
+
+   The −11 % came from mixing different patches, which differ a lot (round 19). **There is no evidence here that the disparity map changes blur.**
+3. **What does explain the shortfall.** The curve is biased by request range on the held-out scenes. Its median residual on its own development data is between −5 % and +2 % at every range. On held-out uncorrected cells:
+
+   | request range (px) | 4.5–6.5 | 6.5–9 | 9–12.5 | 12.5–16 | 16–20 | 20–32 |
+   |---|---|---|---|---|---|---|
+   | held-out residual against the curve | −11 % | −10 % | −10 % | +1 % | +2 % | −11 % |
+
+   So **held-out patches blur about 10 % less than the development patches** in most ranges. Corrected requests (median 11.9 px; 10–90 % range 6.7–19.9) fall mostly in those ranges. In addition, the focus positions 0.2/0.8 give less blur at the same request (e.g. 7.8 px → 6.3 px against 8.4 px at d_f = 0.5). The pooled curve averages over them.
+
+   **The remaining error is transfer of the request-to-blur mapping between patches/scenes and focus positions,** not a mechanism triggered by the correction.
 
 ## Interpretation
 
@@ -142,7 +152,7 @@ As in round 19, the calibration curve predicts the *uncorrected* held-out output
   - Not side of focus (C2 = C1).
   - Not surrounding blur (round 19).
   - Not one dominant condition.
-  - The post-hoc lead: blur depends on the disparity map as well as the blur map, so a calibration that only changes the blur map undershoots.
+  - The post-hoc analysis (corrected after review): the mapping from request to blur differs between patches/scenes (held-out about 10 % lower) and between focus positions. That is a transfer problem; an earlier "disparity map" lead was an artefact of comparing different patches.
 
   Whether a richer calibration that uses disparity / focus position fixes this (O3's planned next step) is untested.
 
