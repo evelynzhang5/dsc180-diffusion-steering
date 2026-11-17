@@ -4,6 +4,7 @@
 - **8-scene test:** NO-GO by the frozen rule, inconclusive because the optimizer failed its control. It stopped after 3 of 8 scenes (DSMLP's 6-hour pod limit), and those 3 already fix the decision. See [Results](#results).
 - **Follow-up, optimizer diagnosis:** passed. Known global and spatial edits are recovered.
 - **Follow-up, one blur fit with a reconstruction loss (scene 0, −2.0):** neither the global nor the spatial edit passes. Both keep the subject (interior change 0.5 and 0.4 /255), but they close only 13% and 31% of the background gap to the blurred target (the bar is 50%). By the pre-set table: no demonstrated feasibility for this configuration and budget.
+- **Follow-up, capacity test (more edit directions, everything else fixed):** the background gap closed rises from 31% (8 directions) to 39% (16), then flattens (42% at 32, 43% at 64). The subject stays within 0.5/255. The 32-, 64- and 640-direction fits were flagged unstable (their first steps overshot with the shared step sizes), so the rule is not formally applicable at 64. Taken at face value it is "capacity helps but is not sufficient here". No new scenes.
 
 This is a privileged feasibility test with a stopping rule. Before training any reusable controller, we give the proposed mechanism the easiest version of the task. Each edit is fitted separately for one image, with the target image visible to the optimizer.
 
@@ -381,3 +382,32 @@ The recorded NO-GO stays, scoped to that configuration and budget. This test ask
 | subject > 3/255 at the R that passes the background bar | the blur-preservation trade-off returns with capacity; report it |
 
 Each outcome is one-scene evidence about capacity, not generalization.
+
+### Capacity test result (Nov 16 21:29 - Nov 17 01:01)
+
+Files: [results/capacity.json](results/capacity.json), [results/capacity_sheet.png](results/capacity_sheet.png) (columns: rendered target, then 16, 32, 64 and 640 directions).
+
+The recomputed top-8 subspace matched the saved one exactly (smallest principal cosine 1.00000).
+
+| directions | share of activation-difference energy | background gap closed (pass ≥ 50%) | subject interior MAE (≤ 3) | band MAE | bg sharpness change (target −2.0) | layout IoU | peak loss ÷ start | stable |
+|---|---|---|---|---|---|---|---|---|
+| 8 (blur fit) | 49% | 31% | 0.36 | 2.19 | −0.40 | 1.00 | 1.0 | yes |
+| 16 | 56% | **39%** | 0.30 | 2.03 | −0.56 | 0.99 | 1.0 | yes |
+| 32 | 63% | 42% | 0.39 | 2.00 | −0.62 | 0.99 | 1.9 | **no** |
+| 64 | 71% | 43% | 0.46 | 2.01 | −0.67 | 1.00 | 4.5 | **no** |
+| 640 (every channel) | 100% | 33% | 1.03 | 2.36 | −0.87 | 0.99 | 12.1 | **no** |
+
+More detail on the fits:
+- **Best iterate:** every fit reached its best at the last iteration.
+- **Loss drop over the last 10 iterations:** 0.011, 0.022, 0.036 and 0.098 for 16, 32, 64 and 640 directions. So the larger fits were still moving when the budget ran out.
+- **Background loss term at the best iterate:** 0.32, 0.29, 0.28 and 0.38.
+
+**Reading (by the rule fixed before the run).**
+1. **Only 8 → 16 is a clean comparison.** Adding 8 directions raised the gap closed from 31% to 39% with the same optimizer and no instability. The subject changed even less (0.36 → 0.30/255).
+2. **32, 64 and 640 are optimizer-limited.** With the same step sizes, the first steps add up to a larger total edit as directions are added, so the loss overshot right after warm-up (to 1.9×, 4.5× and 12× its start). By the fixed rule these are optimizer results, not capacity results, and the rule cannot formally be applied at 64.
+   - Taken at face value, 8 → 64 gains 12 points (≥ 10) and stays under 50%. That is the "capacity helps but is not sufficient here" row, so no new scenes.
+   - The 640-direction fit recovered to only 33% and was still falling. It says nothing reliable about this layer's ceiling.
+3. **Diminishing returns before the instability matters.** 16 → 32 → 64 adds 3 and 1 points while captured energy rises from 56% to 71%. Even with a clean optimizer, reaching 50% at this layer and start step looks unlikely from this curve. That is an extrapolation, not a measurement.
+4. **Subject preservation is not the bottleneck at any size** (≤ 0.5/255 up to 64 directions, 1.0/255 at 640, layout unchanged). The edit stays far from the blur-preservation trade-off. The limit is how much target-like blur it can produce.
+
+**Not run.** Scaling the step size with the number of directions (for example by 1/√R) would make the larger fits comparable. That would be a new, separately fixed test. By the decision table the next investment is not more scenes. The open question is whether the limit is the layer and timing (start at step 17, one decoder layer) rather than the number of directions.
