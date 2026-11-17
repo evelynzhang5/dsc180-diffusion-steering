@@ -2,7 +2,9 @@
 
 **Question.** Round 18 found that BokehDiff's blur is ordered correctly by depth but not proportional to the request. Can a simple calibration predict and correct the blur on new scenes, or does the same request produce different effects depending on its surroundings?
 
-**Status.** Plan and decision rules fixed before any output exists.
+**Status.** Run Nov 17 (pod `q2-confirm`), 241 outputs in 7.5 min. The test's own checks all passed.
+
+**Outcome O3:** no simple calibration corrects the held-out scenes. The best is a radius curve at 70 % (need 80 %). Neither the front/behind asymmetry nor an effect of surrounding blur holds up. What remains is a dependence on **focus position** and on the **individual patch**. Plan and rules were committed (5211a48) before the run.
 
 Setup as in rounds 17–18:
 - BokehDiff at commit `38ff937`, unchanged;
@@ -119,4 +121,81 @@ Breakdowns reported:
 
 ## Results
 
-Pending.
+Files:
+- `results/confirm.json`: gate, all frozen decisions, breakdowns;
+- `results/cells.json`: every cell × condition;
+- `results/calib.json`: the frozen calibrations and the development measurements;
+- `results/estimator_validation.json`;
+- `results/confirm_sheet.png`: rows = held-out S3/S4/S5; columns = input, K 0, calm R0, busy R3, R3 swapped, R3 with C1, R3 with C2, R5 with C1.
+
+Images and maps are in `outputs/q2_bokehdiff_confirm/`.
+
+### Gate: passed
+
+| check | result |
+|---|---|
+| estimator on these layouts | all within tolerance, worst 0.25 px; closed form matches round 18's fit |
+| in-process repeat | identical (max difference 0) |
+| outputs | 241, no NaN or black; 9.5 GB peak GPU |
+| seed 0 vs 1 (R3) | radius differs by a median of 0.38 px, at most 1.69 px |
+
+**Frozen calibration** (from S1 + S2):
+- the K = 0 softness is 1.46 px;
+- C0 gain is 1.36;
+- the C1 curve (requested → measured, px) runs 0–4.8 → 1.2 (flat), 5.8 → 5.8, 7.8 → 8.3, 9.7 → 12.2, 11.6 → 18.2, 13.6 → 22.4, 15.5–19.4 → 24.6 (flat), 21.3 → 34.6, 31 → 39.9.
+
+### 1. Calibration on held-out scenes: O3
+
+| method | agree (384 cells) | target 0–3 | 3–6 | 6–12 | 12–20 | 20–40 | front / behind | median residual front / behind |
+|---|---|---|---|---|---|---|---|---|
+| uncorrected | 45 % | 92 % | 46 % | 64 % | 19 % | 28 % | 42 / 47 % | +14 / +7 % |
+| C0 gain | 59 % | 92 % | 14 % | 19 % | 94 % | 81 % | 57 / 61 % | −14 / −17 % |
+| C1 radius curve | **70 %** | 92 % | 70 % | 60 % | 62 % | 78 % | 72 / 67 % | −17 / −19 % |
+| C2 radius + side | **70 %** | 92 % | 70 % | 60 % | 62 % | 80 % | 71 / 69 % | −17 / −19 % |
+
+- **Calibration helps** (45 → 70 %), but no calibration reaches 80 %.
+- **C2 adds nothing over C1.** Side of focus is not what the curve is missing.
+- **After correction, held-out scenes blur less than predicted** (median −17 to −19 %), even though the per-scene medians of measured/requested radius are almost the same for all six scenes (1.29–1.36). The misses come from the spread around the curve, not from a shift between development and test scenes.
+- One above-range cell (uncorrected); none after correction.
+
+### 2. Symmetry: not asymmetric
+
+- **Data:** identical patches at equal gaps, positions swapped, 48 instances, none above range.
+- **Result:** median ratio behind/front 0.99; 73 % share a sign. This fails both parts of the asymmetry rule.
+- **What it means for round 18:** its "more blur behind the focus" does not survive texture and position controls. Within a scene, the same patch in front of and behind the focus gets nearly the same blur (e.g. 12.1 / 11.8, 27.7 / 26.9 px).
+
+### 3. Context: surrounding blur does not change a patch's blur
+
+- **Anchor cells** (same patch, same 19.4 px request), calm R0 against busy R3: 0 of 24 change beyond tolerance; median change −0.8 px.
+- **Focus cell against the K = 0 output:** MAE rises ≥ 1/255 from calm to busy in 12 / 12 instances. So blur elsewhere does change the decoder's fine detail.
+- **Focus cell against the input:** only 4 / 12 rise ≥ 1/255 (median +0.5/255). By the rule there is **no extra damage beyond reconstruction**. The detail is reconstructed differently, not worse; this matches round 18 after its review fix.
+
+### 4. Small blur: not attainable as specified
+
+- **Targets of 3–6 px under C1:** 26 % within ±1 px (uncorrected: 20 %). Need 80 %.
+- **Why:** the measured curve is flat at the 1.2–1.5 px floor up to a 4.8 px request, then jumps to about 6 px by 5.8 px. Blur of 2–5 px is skipped, not merely mis-scaled. The plateau's cause is still open: the 16 px attention grid is one candidate, the rest of the network another.
+
+### What the remaining error depends on (descriptive, after seeing the data)
+
+1. **Focus position.** At the same request, cells blur less when the focus is near the ends of the depth range than when it is in the middle:
+   - 7.8 px requested: 6.1–7.7 px at d_f = 0.2 / 0.8, against 9.4–9.5 px at d_f = 0.5;
+   - 5.8 px requested: 3.7–6.0 px against 6.4–6.9 px.
+
+   In these runs d_f is tied to the cell's absolute disparity (the cells concerned sit at d = 0 or d = 1) and to the overall layout (R5/R6 have large blur on one side). This round cannot tell which of these matters.
+2. **The individual patch.** At a fixed request, the six scenes spread widely. For example, 6.8 px requested gives 5.5–10.7 px, and 7.8 px gives 7.3–11.4 px. Yet the same patch is consistent front and behind and across seeds. Texture class alone does not explain it (median ratio grass 1.33, gravel 1.32, brick 1.29), but C1 does worst on brick (51 %).
+   - Caveat: r̂ is a disk-equivalent radius. Validation shows the estimator is unbiased across these patches for disk blur. For a Gaussian kernel, round 18 found the reading stable across content to about ±3 %. A content-dependent reading of an unusual kernel shape cannot be fully ruled out.
+
+## Interpretation
+
+- **What fails, under these controlled conditions:**
+  - small blur (2–5 px) cannot be produced;
+  - above it, the blur for a given request depends on focus position and on the patch itself;
+  - so a fixed lookup by requested radius (or radius and side) gets only 70 % of new cells right.
+- **What does not fail:**
+  - front versus behind;
+  - interference from blur elsewhere;
+  - extra damage to in-focus detail beyond the decoder's reconstruction error.
+- **This narrows the problem.** The open question is local and per-region: the blur a cell receives depends on its own content and on where the focus sits, not on how busy the rest of the image is. A candidate correction must use local information (the patch and its disparity relative to the range), or else fill the 2–5 px gap.
+- **Not shown:**
+  - that a learned or steering correction would do better than a richer calibration, e.g. one also conditioned on d_f or on simple patch statistics (not tested; this is the next baseline);
+  - anything about real photos, occlusion boundaries or other K.
