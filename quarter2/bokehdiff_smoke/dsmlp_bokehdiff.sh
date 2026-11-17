@@ -62,8 +62,8 @@ measure() {  # measure <tag> <cmd...>
 stamp "prepare depth (Depth-Anything-V2 Base) and mask (BiRefNet), separate process"
 measure prepare python prepare_data.py --root "$W/data" || { stamp "prepare FAILED"; exit 1; }
 
-run() {  # run <tag> <K>  (fp16, PyTorch SDPA attention, no xformers, seed 0; 3 focal planes per call)
-  measure "$1" python inference_hf.py --test_data_dir "$W/data/input/*" --output_dir "$OUT" --data_id "$1" \
+run() {  # run <tag> <K>  (fp16 via run_fp16.py's dtype cast + autocast, SDPA attention, no xformers, seed 0; 3 focal planes)
+  measure "$1" python "$REPO/quarter2/bokehdiff_smoke/run_fp16.py" --test_data_dir "$W/data/input/*" --output_dir "$OUT" --data_id "$1" \
       --K "$2" --mixed_precision fp16 --seed 0
 }
 stamp "inference K 20 (fp16)"
