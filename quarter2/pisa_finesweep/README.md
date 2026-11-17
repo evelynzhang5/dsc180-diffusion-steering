@@ -3,7 +3,7 @@
 **Question.** Rounds 19–20 found almost no blur for small requests, then a steep rise. If we step the request finely through that rise, can the editor deliver 2, 3, 4 and 5 px of blur on one fixed scene? Or does it jump over some of them?
 
 **Status.** Run Nov 17 (pod `q2-finesweep`, 90 images in 3 min). The test's own checks all passed. Plan and rules were committed (b132a1a) before the run.
-- **Shipped fp16: F2 (skips).** The response is a staircase that jumps over 3 px.
+- **Released fp16 inference path: F2 (skips).** The response is a staircase that jumps over 3 px.
 - **fp32: F1 (continuous but narrow).** 2, 3, 4 and 5 px are all reachable, but only within about 2 px of requested radius (4.9–6.8 px).
 - **The staircase's steps sit exactly where half-precision rounding of PISA's neighbour gate predicts.**
 
@@ -86,7 +86,7 @@ Seed 0 and seed 1 differ by a median of 0.2 px.
 
   These spread by 0.3–0.5 px of request, which is about 0.6–0.9 px of output at this slope. Even within one scene the patches need slightly different requests; the two brick cells have the lowest floor (≈ 0–0.3 px) and start lowest.
 
-**Focus cell:** MAE against the input is 2.8/255 in both modes.
+**Focus cell:** MAE against the input is 2.8/255 in both modes, so no additional in-focus error was measured.
 
 ### Mechanism: the staircase is fp16 rounding of the neighbour gate
 
@@ -114,7 +114,7 @@ Round 20's frozen outcome (P3) stands: fp32 did not raise blur at requests of 2.
 ## Interpretation
 
 Two separate problems, now distinguishable:
-1. **An implementation issue (shipped fp16):** mild blur is quantized and some values cannot be dialled in. Computing PISA's attention in fp32 fixes this, at no measurable runtime cost (round 20: 1.42 s per image either way). This is an engineering finding, not a reason for a new steering method.
+1. **An implementation issue (the released fp16 inference path, in our configuration):** mild blur is quantized and some values cannot be dialled in. Computing PISA's attention in fp32 fixes this, at no measurable runtime cost (round 20: 1.42 s per image either way). This is an engineering finding, not a reason for a new steering method.
 2. **A control-range issue (fp32):**
    - all mild blur lives within about 2 px of requested radius, with a slope near 2;
    - below that there is no response;
