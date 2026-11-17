@@ -155,7 +155,12 @@ Images and maps are in `outputs/q2_bokehdiff_confirm/`.
 
 - **Calibration helps** (45 → 70 %), but no calibration reaches 80 %.
 - **C2 adds nothing over C1.** Side of focus is not what the curve is missing.
-- **After correction, held-out scenes blur less than predicted** (median −17 to −19 %), even though the per-scene medians of measured/requested radius are almost the same for all six scenes (1.29–1.36). The misses come from the spread around the curve, not from a shift between development and test scenes.
+- **After correction, held-out cells blur less than the target** (median −17 to −19 %). This is not a difference between development and test scenes:
+  - the C1 curve fits its own data with a median residual of +1 %;
+  - it predicts the uncorrected held-out outputs with −2 %;
+  - the per-scene median of measured/requested radius is 1.29–1.36 for all six scenes.
+
+  The shortfall appears only at the corrected requests, which come out 17 % below the curve's own prediction. Corrected requests are often applied at a different focus position from where the curve measured them. For example, the large targets in R5/R6 (d_f = 0.2/0.8) are mapped to requests of 19–21 px, which the curve learned at d_f = 0.5, where the same request gives more blur (see focus position below). So the blur is not a single function of the requested radius.
 - One above-range cell (uncorrected); none after correction.
 
 ### 2. Symmetry: not asymmetric
