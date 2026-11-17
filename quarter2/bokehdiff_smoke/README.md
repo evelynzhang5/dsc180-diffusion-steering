@@ -1,6 +1,6 @@
 # Round 17: can we run BokehDiff on our GPU? (one-image smoke test)
 
-**Status:** planned (Nov 16); runs after round 16's capacity test.
+**Status:** closed (Nov 17). **BokehDiff runs on the GTX 1080 Ti** in fp16: 9.6 GB peak, 1.7 s per image, repeat runs identical, no NaN or black outputs, blur increases with K. The baseline is usable for a small study on this GPU.
 
 ## Why this round
 
@@ -54,3 +54,46 @@ For the team project, ask course staff about larger-GPU access:
 - 24 GB is a sensible target for BokehDiff;
 - AnyBokeh's README reports about 27 GB for its full inference pipeline;
 - FLUX-based editors (Bokeh Diffusion) need more, so ask whether 48 GB is available if those become necessary.
+
+## Results (Nov 17, 01:02-01:18)
+
+Files: [results/smoke_sheet.png](results/smoke_sheet.png) and [results/smoke.json](results/smoke.json). The full logs and images are in `outputs/q2_bokehdiff_smoke/`.
+
+| step | exit | wall time | peak GPU memory (card) | peak system memory |
+|---|---|---|---|---|
+| depth and mask preparation | 0 | 10 s | 4.6 GB | 1.7 GB |
+| K = 20 | 0 | 35 s (model load included; 1.69 s per image) | 9.5 GB | 16.6 GB |
+| K = 20 repeat | 0 | 22 s (1.72 s per image) | 9.5 GB | 16.4 GB |
+| K = 10 | 0 | 23 s (1.75 s per image) | 9.6 GB | 16.3 GB |
+| K = 40 | 0 | 21 s (1.71 s per image) | 9.6 GB | 16.2 GB |
+
+**Checks.**
+- **Repeat run:** identical to the first (max difference 0 on all three focal planes).
+- **Outputs:** all finite, none black.
+- **Blur grows with K.** Whole-image Laplacian variance (input 113.7) by focal-plane shift:
+
+  | K | shift −0.48 (focus behind the flower) | shift 0 (focus on the flower) | shift +0.12 |
+  |---|---|---|---|
+  | 10 | 54.7 | 63.5 | 63.9 |
+  | 20 | 27.7 | 54.9 | 43.1 |
+  | 40 | 12.6 | 39.7 | 25.2 |
+
+**By eye** (sheet rows: input, depth and mask; then K = 10, 20, 40; columns: the three focal planes):
+- With focus on the flower, the flower stays sharp and the background blurs more as K grows.
+- With focus behind the flower, the flower blurs and the background stays sharp.
+
+Whether this blur follows the depth map quantitatively is the next study's question. It is not judged here.
+
+**Compatibility debugging used about 10 minutes of the 60-90-minute budget.** Three problems, all in packaging; BokehDiff's own code was not modified:
+1. **numpy.** pip installed numpy 2, and the image's TensorFlow (which transformers imports) is built for numpy 1. Fixed by pinning `numpy<2` and setting `USE_TF=0`.
+2. **PyTorch.** pip replaced the image's PyTorch 2.2.1 + CUDA 12.1 with 2.15 + CUDA 13.2, which ran on the CPU (0 MB of GPU memory used), most likely because that build no longer supports Pascal. Fixed by rebuilding the venv with the image's PyTorch pinned, plus a check that stops the run if CUDA is not available.
+3. **fp16 input.** Upstream's fp16 path feeds an fp32 image into the fp16 VAE encoder ("Input type (float) and bias type (c10::Half)"). [run_fp16.py](run_fp16.py) casts that input to fp16 and runs the call under autocast. No component or mechanism was changed.
+
+**Limits of this result.**
+- One image, at 512 × 512.
+- The repository's own test photo, which is already mildly defocused (an EBB! sample).
+- Depth and focus come from Depth-Anything-V2 and BiRefNet, not ground truth.
+- It establishes "we can run this baseline", not a failure or a contribution.
+- Peak GPU memory is 9.6 of 11 GB. Larger images would need tiling (the pipeline has a `TILE_SIZE` option) or a bigger card.
+
+**Next (not run).** The depth-distribution test from the project question: on scenes with known depth (for example rendered or layered synthetic scenes), check whether BokehDiff's blur at each depth follows its own requested circle of confusion, K/10 × |disparity − focus disparity|.
