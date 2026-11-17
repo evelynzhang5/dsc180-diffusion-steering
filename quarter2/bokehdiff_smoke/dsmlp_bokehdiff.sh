@@ -7,6 +7,7 @@ stamp() { echo "== [$(date '+%F %T')] $*"; }
 REPO=$PWD
 export HF_HOME=$HOME/hf-cache
 export OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8
+export USE_TF=0 USE_TORCH=1 TRANSFORMERS_NO_TF=1   # the image has TensorFlow built for numpy 1; keep transformers off it
 W=$HOME/bokehdiff-smoke
 OUT=$REPO/outputs/q2_bokehdiff_smoke
 COMMIT=38ff9372ab146ab20468832a0424fa0b2888dffd
@@ -18,8 +19,8 @@ stamp "setup"
 [ -d "$W/venv" ] || python -m venv --system-site-packages "$W/venv"
 source "$W/venv/bin/activate"
 pip install -q diffusers==0.32.1 transformers==4.47.1 peft==0.14.0 accelerate==1.2.1 \
-    cupy-cuda12x opencv-python-headless scikit-image piq lpips pandas timm einops kornia || { stamp "setup FAILED"; exit 1; }
-python -c "import torch, diffusers, transformers, peft, cupy; print('venv', torch.__version__, diffusers.__version__, transformers.__version__, peft.__version__, cupy.__version__)"
+    cupy-cuda12x opencv-python-headless scikit-image piq lpips pandas timm einops kornia "numpy<2" || { stamp "setup FAILED"; exit 1; }
+python -c "import numpy, torch, diffusers, transformers, peft, cupy; print('venv numpy', numpy.__version__, 'torch', torch.__version__, diffusers.__version__, transformers.__version__, peft.__version__, cupy.__version__)" || { stamp "import check FAILED"; exit 1; }
 [ -d "$W/repo" ] || git clone -q https://github.com/FreeButUselessSoul/bokehdiff.git "$W/repo"
 cd "$W/repo" && git fetch -q origin && git checkout -q $COMMIT && git log -1 --format='bokehdiff commit %H'
 
