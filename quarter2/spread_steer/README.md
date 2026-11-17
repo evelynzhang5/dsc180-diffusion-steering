@@ -9,7 +9,11 @@ Global levers (similarity temperature, round 24; gate shape, round 25) failed.
 
 **This round steers each token's spread directly.** Does that beat calibration where calibration falls short?
 
-**Status.** Plan and rules fixed before running.
+**Status.** Run Nov 17 (pod `q2-steer`, 173 images in 6 min). The test's own checks all passed: the baseline reproduces round 25 exactly, and steering hits its target share (median error 2·10⁻⁷). Plan and rules were committed (e9467c5) before the run.
+
+**Outcome F.** Steering every token to exactly the same attention share does **not** make delivered blur more consistent across patches, and does not halve the high-contrast error. So the remaining patch dependence is not set by how much attention PISA spreads.
+
+**Design flaw on my side:** the m range (≤ 0.4) reaches only about 4.8 px, so every target ≥ 6 px was unreachable. The mild-only comparison below does not depend on that flaw and leads to the same conclusion.
 
 ## Method (`run26.py`, inference only, training-free)
 
@@ -72,4 +76,74 @@ That is 175 images, plus checks.
 
 ## Results
 
-Pending.
+Files:
+- `results/steer.json`;
+- `results/cells.json`;
+- `results/steer_sheet.png`: two test layouts; baseline vs steering at 4, 8 and 15.5 px.
+
+Images and `calib.json` are in `outputs/q2_spread_steer/`.
+
+**Gate passed:**
+- the baseline equals round 25 (max difference 0);
+- the repeat is identical;
+- 173 outputs, none bad;
+- estimator validation passed;
+- the steered leave share hit its target (median |L − m| = 2·10⁻⁷).
+
+The one large error (0.98) is from a source token whose off-self weight underflowed (O_j = 0), so it could not be steered.
+
+**Frozen steering curve** (m → delivered px, development):
+
+| m | 0.06 | 0.10 | 0.13 | 0.16 | 0.20 | 0.25 | 0.30 | 0.40 |
+|---|---|---|---|---|---|---|---|---|
+| delivered (px) | 1.6 | 1.7 | 1.9 | 2.2 | 2.6 | 3.0 | 3.4 | 4.5 |
+
+This is a smooth, gentle knob: about 1 px per 0.1 of share, compared with the baseline's 2 → 5 px in 1.5 px of request. But it stops at about 4.8 px.
+
+### Frozen comparison (held-out patches, corrected reruns)
+
+| | mild 3–6 px within ±1 px | larger 8–15.5 px within tolerance | across-patch CV (median, 7 targets) | high-contrast \|ratio − 1\| | focus MAE | residual |
+|---|---|---|---|---|---|---|
+| baseline (fp32 + curve) | **94 %** | **88 %** | 0.103 | 0.144 | 2.55 | 0.037 |
+| spread steering | 77 % | 0 % (unreachable) | 0.116 | 0.222 | 2.28 | 0.035 |
+
+Conditions (a), (b) and (c) fail; (d) holds. **Outcome F.**
+
+### Mild targets only (3–5 px; both methods reach them; post-hoc, not part of the frozen rule)
+
+| | high-contrast patches, median \|ratio − 1\| | other patches | across-patch CV at 3 / 4 / 5 px |
+|---|---|---|---|
+| baseline | 0.112 | 0.073 | 0.117 / 0.097 / 0.103 |
+| steering | 0.085 | 0.089 | 0.108 / 0.106 / 0.115 |
+
+**Per-patch delivered/target ratio at 3–5 px:**
+
+| method | astronaut_1 | chelsea_0/1 | coins_0 | coins_1 | gravel_0 | rocket_1 | text_0/1 |
+|---|---|---|---|---|---|---|---|
+| baseline | 0.82 | 0.90 / 0.85 | 1.13 | 1.09 | 1.12 | 1.08 | 1.04 / 1.03 |
+| steering | 0.80 | 0.85 / 0.82 | 1.13 | 0.97 | 1.05 | 1.03 | 0.93 / 0.95 |
+
+- The high-contrast error falls by about a quarter, not half. The other patches get slightly worse. The CV is unchanged.
+- **The per-patch pattern survives:** astronaut and chelsea under-blur, and coins_0 over-blurs by 13 %. That holds even though every steered token now sends exactly the same share of its attention to its neighbours.
+- Raw sweeps agree. At a fixed m, the across-patch CV is 0.13–0.20, no lower than the baseline's at a fixed request (round 25: 0.08–0.21).
+
+## Interpretation
+
+- **The patch dependence is not in PISA's attention amount.** With the attention spread fixed per token, patches still blur differently, in the same order. The dependence must arise after PISA:
+  - in how the rest of the UNet and the decoder render the same attention spread on different content;
+  - and partly in the measurement (round 24: known blur already reads 3–11 % differently across these patches).
+- **Steering's one benefit:** a smooth, gentle mild-blur knob (about 1 px per 0.1 share). Calibration already reaches mild targets just as accurately, so this is a usability property, not an accuracy gain.
+- **For the steering goal:** three attention-level levers are now closed on the patch-consistency problem.
+
+  | round | lever | result |
+  |---|---|---|
+  | 24 | similarity temperature | moves blur, same patch pattern |
+  | 25 | gate shape | breaks control |
+  | 26 | per-token spread | same patch pattern even at exactly equal spread |
+
+  If steering is to fix patch dependence, it has to act **downstream of PISA**, on the features that turn attention spread into pixels. Or it targets a different failure (boundaries, highlights).
+
+**Not shown:**
+- steering with a wider m range or a larger R_REF (needed for ≥ 6 px; a design flaw here);
+- downstream steering;
+- boundaries.
