@@ -178,7 +178,7 @@ Images and maps are in `outputs/q2_bokehdiff_confirm/`.
 ### 4. Small blur: not attainable as specified
 
 - **Targets of 3–6 px under C1:** 26 % within ±1 px (uncorrected: 20 %). Need 80 %.
-- **Why:** the measured curve is flat at the 1.2–1.5 px floor up to a 4.8 px request, then jumps to about 6 px by 5.8 px. Blur of 2–5 px is skipped, not merely mis-scaled. The plateau's cause is still open: the 16 px attention grid is one candidate, the rest of the network another.
+- **Why:** the measured curve is flat at the 1.2–1.5 px floor up to a 4.8 px request, then jumps to about 6 px by 5.8 px. Under these request steps no output landed in 2–5 px. Later wording correction (Nov 17, after review): rounds 20 and 21 show 2.6–3.9 px outputs occur with requests between the steps here, so the supported finding is a flat response then a steep rise, not a missing output range. The plateau's cause is still open: the 16 px attention grid is one candidate, the rest of the network another.
 
 ### What the remaining error depends on (descriptive, after seeing the data)
 
@@ -193,14 +193,14 @@ Images and maps are in `outputs/q2_bokehdiff_confirm/`.
 ## Interpretation
 
 - **What fails, under these controlled conditions:**
-  - small blur (2–5 px) cannot be produced;
+  - small requests (up to about 5 px) produce almost no blur, followed by a steep rise (see the wording correction in section 4);
   - above it, the blur for a given request depends on focus position and on the patch itself;
   - so a fixed lookup by requested radius (or radius and side) gets only 70 % of new cells right.
 - **What does not fail:**
   - front versus behind;
   - interference from blur elsewhere;
   - extra damage to in-focus detail beyond the decoder's reconstruction error.
-- **This narrows the problem.** The open question is local and per-region: the blur a cell receives depends on its own content and on where the focus sits, not on how busy the rest of the image is. A candidate correction must use local information (the patch and its disparity relative to the range), or else fill the 2–5 px gap.
+- **This narrows the problem.** The open question is local and per-region: the blur a cell receives depends on its own content and on where the focus sits, not on how busy the rest of the image is. A candidate correction must use local information (the patch and its disparity relative to the range), or else make the response to small requests gradual.
 - **Not shown:**
   - that a learned or steering correction would do better than a richer calibration, e.g. one also conditioned on d_f or on simple patch statistics (not tested; this is the next baseline);
   - anything about real photos, occlusion boundaries or other K.
