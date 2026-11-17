@@ -335,6 +335,15 @@ def gen():
 @torch.no_grad()
 def basis(fz, metas):
     """Shared channel basis: principal directions of the layer's feature change, unedited -> target."""
+    ev, evec = basis_eig(fz, metas)
+    B = evec[:, -R:].flip(1).T.float().contiguous()                     # (R, 640), unit rows
+    frac = (ev[-R:].flip(0) / ev.sum()).tolist()
+    torch.save(dict(B=B.cpu(), frac=frac), OUT / "basis.pt")
+    log(f"basis: top-{R} variance fractions {[round(x, 3) for x in frac]} (sum {sum(frac):.3f})")
+
+
+def basis_eig(fz, metas):
+    """Eigen-decomposition of the pooled covariance of feature changes (ascending), as used by basis()."""
     p, d = fz.p, OUT / "scenes"
     cov, n = torch.zeros(C_LAYER, C_LAYER, device="cuda", dtype=torch.float64), 0
     g = torch.Generator().manual_seed(0)
@@ -358,11 +367,7 @@ def basis(fz, metas):
                 v = (fs[1] - fs[0])[0].flatten(1).T.double()           # (1024, 640)
                 cov += v.T @ v
                 n += v.shape[0]
-    ev, evec = torch.linalg.eigh(cov / n)
-    B = evec[:, -R:].flip(1).T.float().contiguous()                     # (R, 640), unit rows
-    frac = (ev[-R:].flip(0) / ev.sum()).tolist()
-    torch.save(dict(B=B.cpu(), frac=frac), OUT / "basis.pt")
-    log(f"basis: top-{R} variance fractions {[round(x, 3) for x in frac]} (sum {sum(frac):.3f})")
+    return torch.linalg.eigh(cov / n)
 
 
 def bg_cells(subj):
@@ -869,6 +874,76 @@ def blur1():
     log(f"blur1 finished in {time.time() - t0:.0f} s")
 
 
+# ---------------------------------------------------------------- capacity test (Nov 16, README)
+CAP_RS = [16, 32, 64, 640]   # number of edit directions; 8 is the blur1 spatial fit; 640 = every channel
+CAP_CAP = 4.5 * 3600         # do not start a fit that would end past this
+
+
+def capacity():
+    """Spatial blur fit on scene 0 at -2.0 with more edit directions; everything else as in blur1."""
+    global R
+    out = OUT / "capacity"
+    out.mkdir(parents=True, exist_ok=True)
+    t0 = time.time()
+    torch.backends.cudnn.deterministic, torch.backends.cudnn.benchmark = True, False
+    D.Hook = PL.ComboHook
+    sd, seg = D.SD("cuda"), G.Seg("cuda")
+    fz = Fitter(sd)
+    metas = json.loads((OUT / "scenes" / "scenes.json").read_text())
+    bp = out / "basis_full.pt"
+    if not bp.exists():
+        with torch.no_grad():
+            ev, evec = basis_eig(fz, metas)
+        torch.save(dict(B=evec.flip(1).T.float().cpu().contiguous(), frac=(ev.flip(0) / ev.sum()).tolist()), bp)
+    full = torch.load(bp)
+    Bf, frac = full["B"], full["frac"]
+    B8 = torch.load(OUT / "basis.pt")["B"]
+    cos = torch.linalg.svdvals(Bf[:8].double() @ B8.double().T).float()   # top-8 subspace overlap (1 = same)
+    res_path = out / "capacity.json"
+    res = json.loads(res_path.read_text()) if res_path.exists() else {}
+    res["basis_check"] = dict(cos_top8=cos.tolist(), frac_cum={str(r): float(sum(frac[:r])) for r in [8] + CAP_RS})
+    log(f"capacity: recomputed vs saved top-8 subspace, smallest principal cosine {float(cos.min()):.5f}; cumulative energy "
+        + ", ".join(f"{r}: {sum(frac[:r]):.2f}" for r in [8] + CAP_RS))
+    if float(cos.min()) < 0.999:
+        log("capacity: STOP, recomputed basis does not match the saved one")
+        res_path.write_text(json.dumps(res, indent=1))
+        return
+    meta, subj, R_, zs, cond, ref, redo, tg = setup(fz, DIAG_SCENE)
+    rgb, bgm, T = arr(ref), bg_cells(subj), BLUR_T
+    loss = LossRecon(rgb, tg[T], R_, T)
+    n_iter, lr, lr_res, warm = BLUR_FITS["spatial"]
+    sec_fit = None
+    for r in CAP_RS:
+        if str(r) in res:
+            continue
+        if sec_fit and time.time() - t0 + sec_fit * 1.1 > CAP_CAP:
+            res[str(r)] = dict(status="unfinished (not started: over the cap)")
+            log(f"capacity R {r}: UNFINISHED (not started)")
+            break
+        ts = time.time()
+        R = r
+        B = Bf[:r].cuda()
+        (L, coef, it), hist = fz.fit(zs, cond, B, "spatial", bgm, loss, n_iter, lr, lr_res, warm=warm,
+                                     tag=f"capacity R {r}")
+        im = fz.decode_img(fz.run(zs, cond, make_edit(B, coef, "spatial", bgm)))
+        m = score(rgb, tg[T], R_, im)
+        m["iou"], m["shift"] = layout(seg, meta["noun"], meta["thr"], subj, im)
+        m.update(loss=L, best_it=it, hist=hist, energy=float(sum(frac[:r])),
+                 gap_closed=1 - m["bg_mae_T"] / m["bg_mae_refT"], unstable=bool(max(h["loss"] for h in hist) >
+                                                                                  1.5 * hist[0]["loss"]))
+        res[str(r)] = m
+        im.save(out / f"R{r}.png")
+        sec_fit = time.time() - ts
+        log(f"capacity R {r}: background gap closed {m['gap_closed']:.0%} (pass >= 50%), interior MAE "
+            f"{m['int_mae']:.2f} (<= 3), band {m['band_mae']:.2f}, bg sharpness {m['bg']:+.2f}, IoU {m['iou']:.2f}, "
+            f"best iter {it}{', UNSTABLE' if m['unstable'] else ''}")
+        res_path.write_text(json.dumps(res, indent=1, default=float))
+    R = 8
+    ims = [G.to_img(tg[T])] + [Image.open(out / f"R{r}.png") for r in CAP_RS if (out / f"R{r}.png").exists()]
+    P.sheet([ims], out / "capacity_sheet.png", W=256)
+    log(f"capacity finished in {time.time() - t0:.0f} s")
+
+
 # ---------------------------------------------------------------- report and frozen decision
 def judge(r, T):
     """Per scene and target: criteria for global and spatial (README)."""
@@ -1001,4 +1076,4 @@ def sheets(rows):
 
 
 if __name__ == "__main__":
-    {"gen": gen, "fit": fit_all, "control3": control3, "diag": diag, "blur1": blur1}[sys.argv[1]]()
+    {"gen": gen, "fit": fit_all, "control3": control3, "diag": diag, "blur1": blur1, "capacity": capacity}[sys.argv[1]]()

@@ -343,3 +343,41 @@ How the loss terms moved (background term = background MSE ÷ unedited's; 1 at t
    - starting the edit earlier than step 17.
 
    This single scene does not justify the 8-scene rerun or controller training. Any next test would vary one of these and needs its own decision first.
+
+## Follow-up: capacity test (Nov 16, fixed before running)
+
+**Framing (review).** The blur fit is a weak positive signal with a failed feasibility gate:
+- the optimizer checks passed;
+- the reconstruction objective moves the background toward the actual blurred target;
+- the subject is kept;
+- spatial closed 31% of the gap against 13% for global.
+
+The recorded NO-GO stays, scoped to that configuration and budget. This test asks one question: **does a richer activation edit give progressively better blur while keeping the scene?**
+
+**Setup.** Stage `capacity` in [fitted.py](fitted.py).
+- **Fixed** (identical to the blur fit):
+  - scene 0, target −2.0, layer `up_blocks[2].resnets[-1]`;
+  - steps 17-49 in two segments;
+  - spatial edit on the 16 × 16 grid (shared plus residual);
+  - reconstruction loss without sharpness;
+  - 60 iterations, peak steps 0.04 / 0.01, 10-iteration warm-up and cosine decay.
+- **Varied:** only the number of edit directions R = 16, 32, 64 and 640 (every channel, the ceiling for this layer and timing). R = 8 is the blur fit already run (31%).
+- **Directions:** principal directions of the same pooled feature-change covariance (same construction and seed), recomputed with all 640 components. They are nested, so top-16 contains top-8, and so on. Before fitting, the recomputed top-8 subspace must match the saved one (smallest principal cosine ≥ 0.999), or the run stops.
+- **Optimizer settings are the same for every R.** If a fit's loss rises above 1.5 × its starting value, it is flagged **unstable**. That is an optimizer result, not a capacity result.
+- **Budget:** about 53 minutes per fit. A fit is not started if it would end more than 4.5 h after the stage started.
+
+**Measures.** As in the blur fit:
+- background gap closed = 1 − background MAE to target ÷ unedited's (pass ≥ 50%);
+- subject interior MAE (≤ 3/255);
+- band MAE, background sharpness change and layout IoU, reported only.
+
+**Decision (fixed now).**
+
+| result | next step |
+|---|---|
+| some R ≤ 64 closes ≥ 50% with subject ≤ 3/255 | check the trend on two more scenes, 1 (dog) and 2 (deer, cluttered), with the same settings, before expanding further |
+| gap closed rises by ≥ 10 points from R = 8 to R = 64 but stays < 50% | capacity helps but is not sufficient here; R = 640 shows how far this layer and timing can go; no new scenes yet |
+| < 10 points gain from R = 8 to R = 64 | more directions in this basis do not help; the limit is elsewhere (layer, timing, objective) or the directions themselves; R = 640 tells which |
+| subject > 3/255 at the R that passes the background bar | the blur-preservation trade-off returns with capacity; report it |
+
+Each outcome is one-scene evidence about capacity, not generalization.
