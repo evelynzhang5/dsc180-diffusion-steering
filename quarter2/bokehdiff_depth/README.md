@@ -2,7 +2,7 @@
 
 **Question.** When we supply the correct depth and the requested focus, does the editor apply the right amount of blur to each region while preserving the scene?
 
-**Status.** Plan and decision rules fixed before any BokehDiff output exists.
+**Status.** Run Nov 17 (pod `q2-depth`, about 4 min). The test's own checks all passed. **Outcome 3 by the pre-set rule: BokehDiff's blur amounts do not follow the requested amounts, and one global gain does not fix them.** The plan and rules below were committed (a6203b2) before the run.
 
 Setup is the same as round 17 (`bokehdiff_smoke/`):
 - BokehDiff at commit `38ff937`, unchanged;
@@ -92,4 +92,77 @@ Three rendered, all-in-focus 512 × 512 scenes with exact depth: fronto-parallel
 
 ## Results
 
-Pending.
+Files:
+- `results/depth.json`: every region × condition, plus gate and decision;
+- `results/estimator_validation.json`;
+- `results/depth_sheet.png`: rows = scenes A/B/C; columns = input, K 0, near K 10/20/40, mid K 10/20/40.
+
+Outputs and maps are in `outputs/q2_bokehdiff_depth/`.
+
+### Gate: passed
+
+| check | result |
+|---|---|
+| estimator on known disk blur | all within tolerance, worst error 0.25 px; known (1, −2) px shift recovered |
+| BokehDiff's loader vs our maps | disparity within 1.4·10⁻⁴, blur map within 2.0·10⁻⁴, input image identical |
+| in-process repeat | identical (max difference 0) |
+| outputs | no NaN or black images; 9.6 GB peak GPU; about 1.7 s per image |
+| seed 0 vs seed 1 | radius differs by ≤ 0.42 px (mean 0.17) |
+
+### Blur amount: outcome 3
+
+| rule | result | needed |
+|---|---|---|
+| agree with r_nom (c = 1), all 54 cases | 26 / 54 = 48 % | ≥ 80 % |
+| one gain fitted on scene A (c = 1.43), held-out B + C | 16 / 36 = 44 % | ≥ 80 % |
+
+By eye the blur is clean and sorted by depth (sheet): the focused plane stays sharp, and the further a plane is from the focus, the blurrier it gets. The error is in how much blur each plane gets.
+
+Error patterns. These are descriptive, from the same 54 cases; the frozen rule does not depend on them.
+
+1. **Small requests are ignored.** All 8 cases with r_nom < 5 px (1.6–4.6 px) read 1.0–2.1 px, the same as the K = 0 output's own softness (0.9–2.1 px; this is the round trip through the image encoder and decoder). Some blur appears from about 6 px. This is consistent with the 16 px token grid of the attention constraint (see above), though the threshold is lower than 16 px.
+2. **Large requests overshoot, more so as they grow.** Median measured/requested radius, uncapped cases with r_nom ≥ 6 px:
+
+   | K | in front of focus | behind focus |
+   |---|---|---|
+   | 10 | 0.84 (n 4) | 1.12 (n 8) |
+   | 20 | 1.20 (n 5) | 1.47 (n 11) |
+   | 40 | 1.13 (n 5) | 1.53 (n 8) |
+
+   A further 5 cases at K = 40, all behind the focus, hit the 48 px measurement cap, so the K = 40 "behind" ratio is an underestimate.
+3. **Behind the focus gets more blur than in front, at the same requested radius.** The thin-lens model is symmetric in disparity. This asymmetry is confounded with focus position: most "behind" cases come from near-focus runs. Within mid-focus runs alone it is suggestive but mixed (e.g. scene B, K = 40: front 1.02 and 1.13, behind 1.68 and 1.46).
+
+**Exploratory (decided after seeing the data, not a frozen test).** A monotone curve from requested to measured radius, fitted on scene A, gets 19 / 33 = 58 % of held-out uncapped cases within tolerance. Its held-out residuals differ by side: in front −36 % (median), behind −18 %. So a 1-D correction of the radius may not be enough either, but this is post hoc and small.
+
+### Preservation
+
+- **In-focus planes stay sharp:** the measured radius stays at the K = 0 level, within +1.1 px, in all 24 cases.
+- **But their detail changes:** MAE against the K = 0 output is 1.9–6.9/255. Only 8 / 24 meet the ≤ 3/255 rule. Very little of this is a colour shift: after a per-channel gain and offset it is still 1.8–6.0/255. The change grows with K and the amount of blur elsewhere in the image, and it is texture-dependent: gravel and grass change more than brick.
+- **For reference:** the K = 0 output itself differs from the input by 10–15/255 on grass and gravel. The image encoder and decoder alone already change fine texture a lot.
+- **Positions:** 85 % of cases have shift ≤ 1 px. Every case above 1 px has r̂ ≥ 27 px, where the texture is mostly erased and the shift search is unreliable. In the sheet, no plane visibly moves.
+
+### Interpretation (narrow)
+
+- Under the conditions tested, the editor's blur is ordered correctly across depth, but its amount is not proportional to the request:
+  - nothing below about 5 px;
+  - growing overshoot above about 10 px;
+  - possibly more behind the focus than in front.
+- By the rule fixed in advance, this is a **candidate problem, to be confirmed on a few more scenes** before building any correction.
+- "Requested" here means r_nom, the radius the internal attention constraint imposes. The authors may intend K as a relative aperture with a different pixel scale. However, that cannot explain the result: a free global gain fails as well, so the problem is the shape of the relationship, not its scale.
+
+Limits:
+- three synthetic planar scenes;
+- disk-equivalent radius: a Gaussian-like output kernel would read differently (Gaussian σ̂ is reported in `depth.json`);
+- interiors only, no occlusion boundaries;
+- radius above 48 px not measurable.
+
+### Suggested next step (not started)
+
+A confirmation round that also separates the confound:
+- a few more scenes, including one or two real all-in-focus photos with measured depth;
+- the same requested radii placed both in front of and behind the focus within a single run;
+- a finer K grid around the 5 px threshold.
+
+The questions, each with its own rule fixed in advance:
+1. Does the measured radius depend only on the requested radius? If so, a fixed 1-D calibration curve suffices, and there is no steering problem.
+2. Does it also depend on side, focus or content? If so, that is the targeted failure for a steering correction.
