@@ -125,7 +125,7 @@ At 5.8 px and above, fp32 gives 0.1–0.4 px *less* blur than fp16.
 ## Interpretation
 
 - Half precision is not the main explanation. It accounts for about 0.5 px of request at the onset, and the flat region remains with fp32 attention.
-- **Wording correction (after review, Nov 17).** This is not a missing 2–5 px *output* range. Outputs of 2.6, 3.5 and 3.9 px do occur. What is supported is **a flat response to small requests followed by a steep rise**: a control problem. Whether intermediate values are reachable with finer requests is tested in round 21. The frozen outcome P3 stands; only its reading is narrowed.
+- **Wording correction (after review, Nov 17).** This is not a missing 2–5 px *output* range. Outputs of 2.6, 3.5 and 3.9 px do occur. What is supported is **a flat response to small requests followed by a steep rise**: a control problem. Whether intermediate values are reachable with finer requests is tested in round 21. The frozen outcome P3 stands; only its reading is narrowed. **Round 21 follow-up:** with 0.1 px request steps, shipped fp16 gives a staircase that skips about 3 px, at exactly the fp16 gate-rounding thresholds; fp32 is continuous. So precision does decide whether mild blur can be dialled in continuously. It does not decide where the flat region ends (about 4.9 px of request in fp32).
 - The evidence points next at **the 16 px token grid and the gate shape**. Between tokens, the gate goes from ≈ 10⁻⁸ to 0.5 only as the request rises to 16 px. So blur smaller than one token must come from small leaks the rest of the network mostly ignores.
 - This is a description of PISA's mechanism, **not a proven architectural limit**. Other layers could in principle produce sub-token blur; they just do not here.
 
