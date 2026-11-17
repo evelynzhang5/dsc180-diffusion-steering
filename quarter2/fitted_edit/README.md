@@ -1,6 +1,9 @@
 # Round 16: can a small spatial activation edit make the right depth-of-field edit at all?
 
-**Status:** closed (Nov 16). By the frozen rule: NO-GO, inconclusive, because the optimizer failed its control. The run stopped after 3 of 8 scenes (DSMLP's 6-hour pod limit), and those 3 already fix the decision. See [Results](#results).
+**Status:** closed (Nov 16).
+- **8-scene test:** NO-GO by the frozen rule, inconclusive because the optimizer failed its control. It stopped after 3 of 8 scenes (DSMLP's 6-hour pod limit), and those 3 already fix the decision. See [Results](#results).
+- **Follow-up, optimizer diagnosis:** passed. Known global and spatial edits are recovered.
+- **Follow-up, one blur fit with a reconstruction loss (scene 0, −2.0):** neither the global nor the spatial edit passes. Both keep the subject (interior change 0.5 and 0.4 /255), but they close only 13% and 31% of the background gap to the blurred target (the bar is 50%). By the pre-set table: no demonstrated feasibility for this configuration and budget.
 
 This is a privileged feasibility test with a stopping rule. Before training any reusable controller, we give the proposed mechanism the easiest version of the task. Each edit is fitted separately for one image, with the target image visible to the optimizer.
 
@@ -306,3 +309,37 @@ The first attempt (08:28-08:42) passed the target replay and the amended spatial
 | background passes but subject change > 3/255 | the blur-preservation trade-off is unresolved |
 
 A pass would be a single-scene feasibility result, not the original 8-scene GO. Changing the basis, adding scenes and training a controller all wait for this result.
+
+### Blur fit result (Nov 16, 16:00-17:28)
+
+Files: [results/blur1.json](results/blur1.json), [results/blur1_sheet.png](results/blur1_sheet.png) (columns: unedited, rendered −2.0 target, global, spatial, round 16's old-objective spatial fit).
+
+| scene 0, target −2.0 | bg MAE to target (ratio to unedited; pass ≤ 0.5) | subject interior MAE (pass ≤ 3) | band MAE to target | bg log-sharpness change (diagnostic) | layout IoU | result |
+|---|---|---|---|---|---|---|
+| unedited | 5.40 (1.00) | 0 | 2.44 | 0 | 1 | - |
+| rendered target | 0 (0) | 0 | 0 | −2.00 | 1 | - |
+| fitted global (40 iterations) | 4.71 (**0.87**) | 0.54 | 2.71 | −0.12 | 1.00 | **fail** (A) |
+| fitted spatial (60 iterations) | 3.73 (**0.69**) | 0.36 | 2.19 | −0.40 | 1.00 | **fail** (A) |
+| round 16, old objective with the sharpness term, spatial | 11.16 (2.07) | 5.04 | 9.73 | −1.46 | 0.98 | (for reference) |
+
+How the loss terms moved (background term = background MSE ÷ unedited's; 1 at the start, and 0.25 corresponds roughly to the pass bar):
+
+- **Global:**
+  - The background term fell to 0.71 by iteration 10, then rose to 0.75 while the boundary and subject terms fell. Total loss 2.01 → 1.71, flat after iteration 20.
+  - Coefficients stayed small (largest 0.15).
+- **Spatial:**
+  - The background term fell steadily: 1.00 → 0.58 → 0.49 → 0.45 → 0.44 → 0.43 → 0.42 at iterations 0, 10, 20, …, 59.
+  - The best iterate was the last one, but the curve had flattened (−0.003 over the last 10 iterations).
+  - Largest coefficient 0.33.
+
+**Reading (by the pre-set table: neither passes).**
+
+1. **The trade-off is not the binding constraint.** Both fits used almost none of the subject budget (0.4-0.5 of the allowed 3/255), and the layout did not move (IoU 1.00). What limited them is that, under this objective, they could not make the background look like the Gaussian-blurred target. The spatial edit reached a sharpness change of only −0.40 against the requested −2.0.
+2. **Removing the sharpness term changed what the fit does.** Round 16's old objective reached −1.46 in sharpness by moving the background away from the target (ratio 2.07) and changing the subject (5.0/255). The reconstruction objective moves toward the target (ratio 0.69) and keeps the subject, but only a short way.
+3. **Spatial did better than global** at closing the background gap (31% vs 13%) and on the boundary band (2.19 vs 2.71). This is one scene and neither passed, so it is not evidence that spatial flexibility has earned its complexity.
+4. **What is not shown.** The recovery checks validate the fitting procedure, not a global optimum for this task. Fixed before the run and unchanged here, so not ruled out by this result:
+   - a different layer;
+   - a larger basis (b₁..b₈ capture 49% of the activation-difference energy);
+   - starting the edit earlier than step 17.
+
+   This single scene does not justify the 8-scene rerun or controller training. Any next test would vary one of these and needs its own decision first.
