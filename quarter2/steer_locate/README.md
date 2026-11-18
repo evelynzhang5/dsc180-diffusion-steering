@@ -149,6 +149,47 @@ Input-only correction alone lowers the error by a median 20 % vs the baseline. A
 
   The latent and early-decoder locations gave the largest error reductions vs baseline (0.83 and 0.80 median). They are the cheapest places to test this, and the crops show no structural damage there.
 
+## Exploratory reanalysis: same constraints on every method (`reanalyze29.py`, saved outputs only)
+
+**Rule.** Round 29's frozen outcome (NONE) is unchanged. A reviewer pointed out that blur tolerance should constrain selection, not only be checked afterwards. So for every method, the best output is chosen only among candidates that are:
+- within blur tolerance (max(2 px, 20 %));
+- within the focused-region guard.
+
+A case with no valid candidate is an **attainment failure** and is kept, not dropped.
+
+The candidate sets are:
+- input-only: 24 requests, including the baseline;
+- each feature location: 8 edits plus the baseline.
+
+Results: `results/reanalysis.json`.
+
+| location | cases attained (input-only: 8/8) | median ratio vs input-only | wins |
+|---|---|---|---|
+| pre_pisa | 7 | 1.03 | 2/7 |
+| post_pisa | 6 | 1.06 | 2/6 |
+| mid | 4 | 1.08 | 1/4 |
+| up_late | 8 | 1.06 | 1/8 |
+| latent | 7 | 1.01 | 3/7 |
+| dec_early | 7 | **0.96** | 4/7 |
+
+- **Correction to the post-hoc note above.** The "dec_early 0.89, 6/8" figure compared unconstrained feature edits against constrained input-only correction. Constraining both gives 0.96 with 4/7 wins, plus one attainment failure. **No location shows a reliable advantage.**
+- **Feature edits cannot bring coins @ 11.6 px into tolerance.** The baseline delivers 14.8 px against a 13.95 px limit; every location except up_late fails. Input-only correction attains all 8 cases.
+- **Sign choice was already covered.** Positive and negative α were searched per case, and selections do differ in sign (e.g. gravel @ 8 picks sharpening at the latent and decoder). A rule like "smooth under-blurred patches, sharpen over-blurred ones" picks from the same candidates, so it cannot beat this search.
+
+**Size vs shape.** For each selected output with measured radius r̂, the error is split into two parts:
+- the *size* part: error of an ideal disk at r̂ against the target;
+- the *shape* part: error of the output against that ideal disk. This part covers everything other than size, including any non-blur change.
+
+After the best valid request adjustment (all 8 cases), the median size part is **0.69** and the median shape part is **4.64**. Once the request is tuned, nearly all remaining error is the kernel's shape, not its size.
+
+**Decision** (reviewer's table):
+- no reliable advantage at any location → **close this single-width smoothing/sharpening edit family**;
+- correct radius but persistent shape mismatch → the next test is a **two-scale correction**, run on top of the best valid request adjustment, at the final latent and early decoder:
+
+  h′ = h + M[a(G_s1 ∗ h − h) + b(G_s2 ∗ h − h)]
+
+  It asks whether internal steering adds anything after the ordinary control is tuned. It must be run, not composed from saved outputs.
+
 **Not shown:** that any location is ineffective in general (only this edit family and range); fresh images; real photos.
 
 **If LOC:** freeze the location, edit family, search budget and selection rule, then confirm on four fresh source images (next round).
