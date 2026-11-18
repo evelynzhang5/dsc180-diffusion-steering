@@ -1,0 +1,179 @@
+{
+ "gate": {
+  "repro_r25": true,
+  "repeat": true,
+  "zero_edit": true,
+  "passed": true
+ },
+ "gate_values": {
+  "repro_r25": {
+   "8": 0.0,
+   "11.625": 0.0
+  },
+  "repeat": {
+   "8": 0.0,
+   "11.625": 0.0
+  },
+  "zero_edit": {
+   "pre_pisa_8": 0.0,
+   "post_pisa_8": 0.0,
+   "mid_8": 0.0,
+   "up_late_8": 0.0,
+   "latent_8": 0.0,
+   "dec_early_8": 0.0,
+   "pre_pisa_11.625": 0.0,
+   "post_pisa_11.625": 0.0,
+   "mid_11.625": 0.0,
+   "up_late_11.625": 0.0,
+   "latent_11.625": 0.0,
+   "dec_early_11.625": 0.0
+  }
+ },
+ "outcome": "NONE: this smoothing/sharpening edit family did not demonstrate useful control at these locations (search range unresolved at ['pre_pisa', 'post_pisa', 'mid', 'latent', 'dec_early'])",
+ "best_location": "dec_early",
+ "locations": {
+  "pre_pisa": {
+   "median_ratio_vs_input": 1.0972537609930104,
+   "median_ratio_vs_base": 0.8934042598607793,
+   "wins_vs_input": 2,
+   "within_tol": 7,
+   "within_tol_base": 4,
+   "at_alpha_edge": 8,
+   "passed": false,
+   "unresolved": true,
+   "max_focus_add": 0.03140978816654494,
+   "median_others_vs_base": 0.10483299119662756,
+   "median_raw_ratio_vs_base": 0.8617841095901748
+  },
+  "post_pisa": {
+   "median_ratio_vs_input": 1.12742485425097,
+   "median_ratio_vs_base": 0.9362840202266155,
+   "wins_vs_input": 2,
+   "within_tol": 5,
+   "within_tol_base": 4,
+   "at_alpha_edge": 8,
+   "passed": false,
+   "unresolved": true,
+   "max_focus_add": -0.007669831994156162,
+   "median_others_vs_base": 0.09634995746106856,
+   "median_raw_ratio_vs_base": 0.8934486108255311
+  },
+  "mid": {
+   "median_ratio_vs_input": 1.242049967422738,
+   "median_ratio_vs_base": 0.9976811495844237,
+   "wins_vs_input": 1,
+   "within_tol": 4,
+   "within_tol_base": 4,
+   "at_alpha_edge": 7,
+   "passed": false,
+   "unresolved": true,
+   "max_focus_add": 0.006574141709276837,
+   "median_others_vs_base": 0.024392718837163284,
+   "median_raw_ratio_vs_base": 0.9982282079500344
+  },
+  "up_late": {
+   "median_ratio_vs_input": 1.1429946374321673,
+   "median_ratio_vs_base": 0.9607082622764084,
+   "wins_vs_input": 1,
+   "within_tol": 6,
+   "within_tol_base": 4,
+   "at_alpha_edge": 2,
+   "passed": false,
+   "unresolved": false,
+   "max_focus_add": 0.03098368638909177,
+   "median_others_vs_base": 0.07608750032992459,
+   "median_raw_ratio_vs_base": 1.0
+  },
+  "latent": {
+   "median_ratio_vs_input": 1.0462231888654907,
+   "median_ratio_vs_base": 0.8280328936000504,
+   "wins_vs_input": 3,
+   "within_tol": 4,
+   "within_tol_base": 4,
+   "at_alpha_edge": 8,
+   "passed": false,
+   "unresolved": true,
+   "max_focus_add": 0.01406135865595326,
+   "median_others_vs_base": 0.07459867055826652,
+   "median_raw_ratio_vs_base": 1.1274154535549727
+  },
+  "dec_early": {
+   "median_ratio_vs_input": 0.993766785162782,
+   "median_ratio_vs_base": 0.798143756091455,
+   "wins_vs_input": 4,
+   "within_tol": 4,
+   "within_tol_base": 4,
+   "at_alpha_edge": 8,
+   "passed": false,
+   "unresolved": true,
+   "max_focus_add": 0.025809593377160933,
+   "median_others_vs_base": 0.08026142369576714,
+   "median_raw_ratio_vs_base": 1.1788349695065983
+  }
+ },
+ "input_only": {
+  "median_ratio_vs_base": 0.8037288351297656,
+  "factors": {
+   "gravel_0@8": 0.8875,
+   "gravel_0@11.625": 0.9125,
+   "astronaut_0@8": 1.0125,
+   "astronaut_0@11.625": 1.0375,
+   "chelsea_0@8": 1.125,
+   "chelsea_0@11.625": 1.1625,
+   "coins_0@8": 2.0875,
+   "coins_0@11.625": 2.0875
+  },
+  "at_edge": [
+   "coins_0@8",
+   "coins_0@11.625"
+  ]
+ },
+ "shapes": {
+  "pre_pisa": [
+   1,
+   640,
+   32,
+   32
+  ],
+  "post_pisa": [
+   1,
+   640,
+   32,
+   32
+  ],
+  "mid": [
+   1,
+   1280,
+   16,
+   16
+  ],
+  "up_late": [
+   1,
+   320,
+   64,
+   64
+  ],
+  "latent": [
+   1,
+   4,
+   64,
+   64
+  ],
+  "dec_early": [
+   1,
+   512,
+   64,
+   64
+  ]
+ },
+ "module_names": {
+  "pre_pisa": "unet.down_blocks.1.attentions.0 (input)",
+  "post_pisa": "unet.down_blocks.1.attentions.0 (output)",
+  "mid": "unet.mid_block (output)",
+  "up_late": "unet.up_blocks.2 (output, UpBlock2D)",
+  "latent": "vae.decode input (unscaled final latent)",
+  "dec_early": "vae.decoder.mid_block (output)"
+ },
+ "sec_per_gen": 1.5723666311115831,
+ "n_generations": 592
+}

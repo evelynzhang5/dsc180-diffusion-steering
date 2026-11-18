@@ -8,7 +8,10 @@ This round asks a practical steering question instead of a mechanistic one: **at
 
 **This is privileged feasibility testing.** Every edit is chosen per case using the known target. A positive result would not yet be a deployable steering method.
 
-**Status.** Plan and rules fixed before running (this commit).
+**Status.** Run Nov 17 (pod `q2-steer`, 592 generations at 1.6 s, GTX 1080 Ti). Plan and rules were committed (f0aba56) before the run. The gate passed exactly: the baseline matches round 25, repeats are identical, and α = 0 changes nothing at all six locations (max difference 0).
+- **Outcome: NONE.** No location passes. Five of six are formally **unresolved**: the best edits sit at |α| = 0.10.
+- **But the edits are not content-specific.** At almost every location the best edit is the same for every patch: maximum feature smoothing (σ = 32 px, α = +0.10). That holds for under-blurring chelsea and over-blurring coins and gravel alike. It barely changes the measured radius (≤ 1 px) and lowers the error by washing out texture. A larger α would most likely give more of the same, not a per-patch correction.
+- **The primary error can be gamed by over-blurring.** Coins' best input-only request is 2.09× (the grid top), which delivers a 25 px blur for an 8 px target.
 
 ## Design (`run29.py`, `metrics29.py`, `analyze29.py`)
 
@@ -87,5 +90,65 @@ That gives 6 × 8 cases × 2 σ × 4 α = **384** edited generations.
 | **NONE** | no location passes: "this smoothing/sharpening edit family did not demonstrate useful control at these locations". A failing location where ≥ 4 of 8 best edits sit at \|α\| = 0.10 is marked **unresolved** (search range too small), not ineffective. |
 
 The thresholds are resource decisions, not publication standards. The paired crops (`results/crops_t11.6.png`) are inspected for structural damage before any claim.
+
+## Results
+
+Files:
+- `results/steer_locate.json`;
+- `results/steer_locate_cases.json`;
+- `results/crops_t11.6.png`.
+
+Images are in `outputs/q2_steer_locate/`.
+
+**Module shapes:**
+
+| location | shape |
+|---|---|
+| pre_pisa, post_pisa | [1, 640, 32, 32] |
+| mid | [1, 1280, 16, 16] |
+| up_late | [1, 320, 64, 64] (UpBlock2D) |
+| latent | [1, 4, 64, 64] |
+| dec_early | [1, 512, 64, 64] |
+
+**Primary error per case** (gain/offset-adjusted MAE vs the disk target; * = best edit at |α| = 0.10):
+
+| case | baseline | input-only (factor) | pre_pisa | post_pisa | mid | up_late | latent | dec_early |
+|---|---|---|---|---|---|---|---|---|
+| gravel_0 @ 8 | 3.42 | 2.64 (0.89) | 3.25* | 3.27* | 3.42* | 3.31 | 3.01* | 2.84* |
+| gravel_0 @ 11.6 | 2.38 | 1.96 (0.91) | 2.20* | 2.28* | 2.37* | 2.38 | 2.12* | 2.03* |
+| astronaut_0 @ 8 | 7.39 | 7.37 (1.01) | 6.79* | 6.85* | 7.36* | 7.39 | 6.05* | 5.93* |
+| astronaut_0 @ 11.6 | 6.87 | 6.74 (1.04) | 6.18* | 6.24* | 6.84* | 6.87 | 5.51* | 5.34* |
+| chelsea_0 @ 8 | 2.69 | 2.33 (1.13) | 2.38* | 2.54* | 2.68 | 2.56 | 1.93* | 1.82* |
+| chelsea_0 @ 11.6 | 3.03 | 2.09 (1.16) | 2.59* | 2.88* | 3.03* | 2.76 | 2.11* | 2.01* |
+| coins_0 @ 8 | 10.84 | 8.50 (2.09) | 9.10* | 9.08* | 10.82* | 8.42* | 9.20* | 8.71* |
+| coins_0 @ 11.6 | 10.46 | 7.10 (2.09) | 8.54* | 8.71* | 10.43* | 8.41* | 8.75* | 8.30* |
+
+**Per location** (rule: median ratio ≤ 0.80 and ≥ 6 wins vs input-only):
+
+| location | median ratio vs input-only | wins | median ratio vs baseline | within blur tolerance (baseline 4/8) | best at \|α\| = 0.10 | other cells changed (MAE) |
+|---|---|---|---|---|---|---|
+| pre_pisa | 1.10 | 2 | 0.89 | 7 | 8/8 | 0.11 |
+| post_pisa | 1.13 | 2 | 0.94 | 5 | 8/8 | 0.10 |
+| mid | 1.24 | 1 | 1.00 | 4 | 7/8 | 0.02 |
+| up_late | 1.14 | 1 | 0.96 | 6 | 2/8 | 0.08 |
+| latent | 1.05 | 3 | 0.83 | 4 | 8/8 | 0.08 |
+| dec_early | 0.99 | 4 | 0.80 | 4 | 8/8 | 0.08 |
+
+Input-only correction alone lowers the error by a median 20 % vs the baseline. All edits stay well inside the focused-region guard (≤ 0.03/255 added).
+
+**Post hoc (not a frozen rule):** restricting input-only correction to requests whose delivered blur is within tolerance removes coins' over-blur "win" (coins best becomes 0.80× request). Against that, dec_early reaches a median ratio of 0.89 with 6/8 wins and latent 0.93 with 4/8. Neither reaches 0.80.
+
+## Interpretation
+
+- **No useful steering location was found with this edit family**, at this strength.
+- **The "unresolved" flags should not be read as "promising".** The best edits all push in the same direction, maximum feature smoothing, regardless of whether the patch under- or over-blurs. They reduce the error by lowering texture contrast (visible in the crops: gravel and coins look washed out), not by moving each patch's blur toward its target; measured radii change by ≤ 1 px except at up_late. A content-independent smoothing edit cannot remove a content-dependent error. A larger α range would test "more smoothing", not steering.
+- **The error measure needs fixing before the next round.** Coins' unconstrained input-only optimum is a gross over-blur (25 px for 8 px) with the lowest score, and global smoothing scores well everywhere. Any next round should score error only among outputs within blur tolerance, or use a measure that penalizes lost texture contrast.
+- **What this suggests for steering:**
+  - an edit whose *direction* depends on the patch (smooth where the model under-blurs, sharpen where it over-blurs), chosen from a measured signal rather than fixed;
+  - or an edit family that changes kernel *shape* (rim and tails) rather than overall smoothness.
+
+  The latent and early-decoder locations gave the largest error reductions vs baseline (0.83 and 0.80 median). They are the cheapest places to test this, and the crops show no structural damage there.
+
+**Not shown:** that any location is ineffective in general (only this edit family and range); fresh images; real photos.
 
 **If LOC:** freeze the location, edit family, search budget and selection rule, then confirm on four fresh source images (next round).
