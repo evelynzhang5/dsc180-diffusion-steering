@@ -32,3 +32,34 @@
 - Reported, not part of the decision: each single (block, scale) setting across all cases; size vs shape split of the selected outputs; changes in other cells.
 
 Files: `run31.py`, `analyze31.py`, `metrics29.py` (round 29's cases and error), `dsmlp_lora.sh`.
+
+## Results (Nov 19, 2026; 829 generations, pod `q2-lora`)
+
+**Gate passed exactly.** Round 25's baseline reproduced at both targets (max abs diff 0). The repeat run was identical, and s = 1 in all blocks was identical. s = 1.5 in all blocks changed the output (max diff 64). LoRA layers found per block: down0 7, down1 52, down2 211, mid 108, up0 319, up1 79, up2 12. None were found outside these blocks.
+
+**Decision: FAIL.**
+- Median ratio (LoRA / request-only) was **0.95**; the bar was ≤ 0.80.
+- LoRA won **7 of 8** cases, which clears the ≥ 6 requirement.
+- Both methods attained all 8 cases. The unadjusted baseline was within tolerance on only 4 of 8.
+
+Single-block LoRA scaling in 0.5–1.5 did not demonstrate useful control beyond request adjustment on these cases.
+
+| Case | Baseline err (r̂) | Request-only err (r̂, factor) | LoRA err (r̂, setting, factor) | Ratio |
+|---|---|---|---|---|
+| gravel_0 @ 8 | 3.42 (10.3) | 2.64 (8.4, 0.888) | 2.68 (8.4, up0×0.75, 0.95) | 1.01 |
+| gravel_0 @ 11.6 | 2.38 (13.7) | 1.96 (12.2, 0.913) | 1.82 (12.1, down2×0.5, 0.913) | 0.93 |
+| astronaut_0 @ 8 | 7.39 (8.0) | 7.37 (8.2, 1.013) | 6.99 (8.2, up2×1.25, 1.063) | 0.95 |
+| astronaut_0 @ 11.6 | 6.87 (11.3) | 6.74 (12.0, 1.038) | 6.13 (11.9, up1×0.75, 1.075) | 0.91 |
+| chelsea_0 @ 8 | 2.69 (6.8) | 2.33 (8.0, 1.125) | 2.25 (8.1, up0×1.5, 1.125) | 0.97 |
+| chelsea_0 @ 11.6 | 3.03 (9.2) | 2.09 (11.9, 1.163) | 2.07 (11.4, up0×1.5, 1.163) | 0.99 |
+| coins_0 @ 8 | 10.84 (10.1) | 8.83 (6.5, 0.788) | 8.36 (6.7, up2×1.25, 0.825) | 0.95 |
+| coins_0 @ 11.6 | 10.46 (14.8) | 10.20 (10.6, 0.775) | 8.56 (10.9, up1×0.75, 0.825) | 0.84 |
+
+**Reported, not part of the decision.**
+- **Where the gains come from.** The LoRA gains are small and consistent, and almost all of them are in shape, not size. Shape error (output vs an ideal disk at the delivered radius) is lower in 7 of 8 cases. The largest drop is coins @ 11.6, 10.16 → 8.53.
+- **No consistent block.** The selected setting differs across cases: up0, up1 and up2 each appear twice, plus down2 and up0×0.75. No single setting attains all 8 cases and wins. The best single setting was up1×0.75: 3 cases attained, median ratio 0.91.
+- **Preservation.** Both methods pass the focus guard. LoRA changes the *other* free cells much more than request-only does: MAE vs the baseline was 0.97–2.50 for LoRA against 0.04–0.47 for request-only. A whole-image weight change costs scene preservation elsewhere.
+- **Crop sheet.** `results/crops_t11.6.png` shows no structural damage, and request-only and LoRA outputs look nearly identical.
+- **Caveat.** The ~5% gain is the minimum over about 100 candidates per case, against about 25 for request-only, so part of it may be selection on noise. Tested at 7 of 8 cases, it does not need a fresh-image round.
+
+**Reading.** Even with the target known, per-block LoRA scaling buys about 5% beyond tuning the request, and it costs more change in other cells. The content-dependent error is not removable by turning one block's learned adjustment up or down.

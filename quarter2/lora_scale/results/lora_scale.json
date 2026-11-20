@@ -1,0 +1,288 @@
+{
+ "decision": "FAIL",
+ "median_ratio": 0.9483893435214368,
+ "wins": 7,
+ "n_cases": 8,
+ "rule": {
+  "ratio_max": 0.8,
+  "wins_min": 6
+ },
+ "gate": {
+  "repro_r25_8": 0.0,
+  "repro_r25_11.625": 0.0,
+  "repeat": 0.0,
+  "scale1_all": 0.0,
+  "scale1p5_all_changes": 64.0
+ },
+ "lora_layers": {
+  "down0": 7,
+  "down1": 52,
+  "down2": 211,
+  "mid": 108,
+  "up0": 319,
+  "up1": 79,
+  "up2": 12
+ },
+ "n_generations": 829,
+ "promising": {
+  "gravel_0@8": [
+   [
+    "down2",
+    1.5
+   ],
+   [
+    "up0",
+    0.75
+   ],
+   [
+    "up0",
+    0.5
+   ]
+  ],
+  "gravel_0@11.625": [
+   [
+    "down2",
+    1.5
+   ],
+   [
+    "down2",
+    0.5
+   ],
+   [
+    "up0",
+    0.75
+   ]
+  ],
+  "astronaut_0@8": [
+   [
+    "up0",
+    1.5
+   ],
+   [
+    "up2",
+    1.25
+   ],
+   [
+    "up0",
+    1.25
+   ]
+  ],
+  "astronaut_0@11.625": [
+   [
+    "up1",
+    0.75
+   ],
+   [
+    "mid",
+    0.5
+   ],
+   [
+    "mid",
+    0.75
+   ]
+  ],
+  "chelsea_0@8": [
+   [
+    "up0",
+    1.5
+   ],
+   [
+    "down2",
+    1.5
+   ],
+   [
+    "mid",
+    0.5
+   ]
+  ],
+  "chelsea_0@11.625": [
+   [
+    "down1",
+    1.25
+   ],
+   [
+    "up2",
+    0.75
+   ],
+   [
+    "up0",
+    1.5
+   ]
+  ],
+  "coins_0@8": [
+   [
+    "up2",
+    1.25
+   ],
+   [
+    "up0",
+    0.5
+   ],
+   [
+    "mid",
+    0.5
+   ]
+  ],
+  "coins_0@11.625": [
+   [
+    "up1",
+    0.75
+   ],
+   [
+    "up2",
+    1.25
+   ],
+   [
+    "down1",
+    1.25
+   ]
+  ]
+ },
+ "attained": {
+  "request": 8,
+  "lora": 8,
+  "baseline": 4
+ },
+ "single_setting_exploratory": {
+  "down0x0.5": {
+   "cases_attained": 0,
+   "wins": 0,
+   "median_ratio": null
+  },
+  "down0x0.75": {
+   "cases_attained": 0,
+   "wins": 0,
+   "median_ratio": null
+  },
+  "down0x1.25": {
+   "cases_attained": 5,
+   "wins": 0,
+   "median_ratio": 1.2896343109533208
+  },
+  "down0x1.5": {
+   "cases_attained": 0,
+   "wins": 0,
+   "median_ratio": null
+  },
+  "down1x0.5": {
+   "cases_attained": 0,
+   "wins": 0,
+   "median_ratio": null
+  },
+  "down1x0.75": {
+   "cases_attained": 0,
+   "wins": 0,
+   "median_ratio": null
+  },
+  "down1x1.25": {
+   "cases_attained": 3,
+   "wins": 1,
+   "median_ratio": 1.0055031652612825
+  },
+  "down1x1.5": {
+   "cases_attained": 0,
+   "wins": 0,
+   "median_ratio": null
+  },
+  "down2x0.5": {
+   "cases_attained": 6,
+   "wins": 1,
+   "median_ratio": 1.084601397556098
+  },
+  "down2x0.75": {
+   "cases_attained": 5,
+   "wins": 0,
+   "median_ratio": 1.1508271579014022
+  },
+  "down2x1.25": {
+   "cases_attained": 7,
+   "wins": 0,
+   "median_ratio": 1.173123343366396
+  },
+  "down2x1.5": {
+   "cases_attained": 8,
+   "wins": 0,
+   "median_ratio": 1.0441034804042149
+  },
+  "midx0.5": {
+   "cases_attained": 7,
+   "wins": 3,
+   "median_ratio": 1.0022444548316112
+  },
+  "midx0.75": {
+   "cases_attained": 5,
+   "wins": 1,
+   "median_ratio": 1.1443597939063586
+  },
+  "midx1.25": {
+   "cases_attained": 4,
+   "wins": 0,
+   "median_ratio": 1.0940251767154416
+  },
+  "midx1.5": {
+   "cases_attained": 4,
+   "wins": 0,
+   "median_ratio": 1.0961018259366062
+  },
+  "up0x0.5": {
+   "cases_attained": 7,
+   "wins": 0,
+   "median_ratio": 1.1102540898247137
+  },
+  "up0x0.75": {
+   "cases_attained": 6,
+   "wins": 0,
+   "median_ratio": 1.0377273605131616
+  },
+  "up0x1.25": {
+   "cases_attained": 4,
+   "wins": 1,
+   "median_ratio": 1.0731490812869962
+  },
+  "up0x1.5": {
+   "cases_attained": 5,
+   "wins": 3,
+   "median_ratio": 0.9905317873650956
+  },
+  "up1x0.5": {
+   "cases_attained": 0,
+   "wins": 0,
+   "median_ratio": null
+  },
+  "up1x0.75": {
+   "cases_attained": 3,
+   "wins": 2,
+   "median_ratio": 0.910008263609783
+  },
+  "up1x1.25": {
+   "cases_attained": 5,
+   "wins": 0,
+   "median_ratio": 1.193980849228631
+  },
+  "up1x1.5": {
+   "cases_attained": 4,
+   "wins": 0,
+   "median_ratio": 1.2240047557664933
+  },
+  "up2x0.5": {
+   "cases_attained": 0,
+   "wins": 0,
+   "median_ratio": null
+  },
+  "up2x0.75": {
+   "cases_attained": 2,
+   "wins": 0,
+   "median_ratio": 1.106621259268233
+  },
+  "up2x1.25": {
+   "cases_attained": 7,
+   "wins": 3,
+   "median_ratio": 1.0083275345896583
+  },
+  "up2x1.5": {
+   "cases_attained": 0,
+   "wins": 0,
+   "median_ratio": null
+  }
+ }
+}
