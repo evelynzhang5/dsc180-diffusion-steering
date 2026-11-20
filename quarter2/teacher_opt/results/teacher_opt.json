@@ -1,0 +1,123 @@
+{
+ "feasible": [],
+ "unresolved": [
+  "post_pisa",
+  "up0",
+  "up1"
+ ],
+ "gate": {
+  "x0_formula_8": 2.384185791015625e-07,
+  "repro_r25_8": 0.0,
+  "x0_formula_11.625": 2.384185791015625e-07,
+  "repro_r25_11.625": 0.0,
+  "repeat": 0.0,
+  "C1_replace_all_8": 0.0,
+  "C1_replace_all_11.625": 0.0,
+  "G3_cases": 8,
+  "C2_cases": 8
+ },
+ "request_others_max": 0.3420875420875421,
+ "steps": 150,
+ "locations": {
+  "post_pisa": {
+   "median_ratio": Infinity,
+   "wins": 0,
+   "others_max": 3.8029037971234505,
+   "feasible": false,
+   "converged": false,
+   "convergence": {
+    "8": {
+     "loss0": 0.41586267948150635,
+     "best": 0.04873093217611313,
+     "late_drop": 0.10677447921620785,
+     "delta_over_h": 1.5425187349319458,
+     "energy_top1": 0.15979604423046112,
+     "energy_top5": 0.24351277947425842
+    },
+    "11.625": {
+     "loss0": 0.27977630496025085,
+     "best": 0.03063351660966873,
+     "late_drop": 0.13092587625320573,
+     "delta_over_h": 1.6520164012908936,
+     "energy_top1": 0.16783563792705536,
+     "energy_top5": 0.2602516710758209
+    }
+   }
+  },
+  "mid": {
+   "median_ratio": Infinity,
+   "wins": 0,
+   "others_max": 2.2205095268679083,
+   "feasible": false,
+   "converged": true,
+   "convergence": {
+    "8": {
+     "loss0": 0.41586267948150635,
+     "best": 0.20479309558868408,
+     "late_drop": 0.04166225360890829,
+     "delta_over_h": 2.392305374145508,
+     "energy_top1": 0.22373317182064056,
+     "energy_top5": 0.36730194091796875
+    },
+    "11.625": {
+     "loss0": 0.27977630496025085,
+     "best": 0.14991578459739685,
+     "late_drop": 0.025791732957103835,
+     "delta_over_h": 2.4288489818573,
+     "energy_top1": 0.2041069120168686,
+     "energy_top5": 0.3672488033771515
+    }
+   }
+  },
+  "up0": {
+   "median_ratio": Infinity,
+   "wins": 0,
+   "others_max": 3.6910336505712227,
+   "feasible": false,
+   "converged": false,
+   "convergence": {
+    "8": {
+     "loss0": 0.41586267948150635,
+     "best": 0.044969942420721054,
+     "late_drop": 0.11455997840591813,
+     "delta_over_h": 1.4907797574996948,
+     "energy_top1": 0.20130890607833862,
+     "energy_top5": 0.2726171314716339
+    },
+    "11.625": {
+     "loss0": 0.27977630496025085,
+     "best": 0.030521513894200325,
+     "late_drop": 0.1171312426596483,
+     "delta_over_h": 1.2824933528900146,
+     "energy_top1": 0.1832173466682434,
+     "energy_top5": 0.2607663869857788
+    }
+   }
+  },
+  "up1": {
+   "median_ratio": Infinity,
+   "wins": 0,
+   "others_max": 1.488546349818026,
+   "feasible": false,
+   "converged": false,
+   "convergence": {
+    "8": {
+     "loss0": 0.41586267948150635,
+     "best": 0.00028345780447125435,
+     "late_drop": -0.0046539877811289905,
+     "delta_over_h": 1.0074912309646606,
+     "energy_top1": 0.16357940435409546,
+     "energy_top5": 0.36372873187065125
+    },
+    "11.625": {
+     "loss0": 0.27977630496025085,
+     "best": 0.000216732281842269,
+     "late_drop": 0.2885164410547364,
+     "delta_over_h": 0.8324238061904907,
+     "energy_top1": 0.1380990594625473,
+     "energy_top5": 0.32901790738105774
+    }
+   }
+  }
+ }
+}
