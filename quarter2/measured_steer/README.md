@@ -91,3 +91,39 @@ There are 6 arms ({mid, up0} × {size, shape, random}), about 203 generations in
 - **Reported, not decided on:** S vs R1 (steering instead of a request round); probe responses (error and radius vs a) per arm and cell.
 
 Files: `directions32.py` (run locally on round 30's saved outputs; writes `results/directions32.npz/.json`), `run32.py`, `analyze32.py`, `dsmlp_measured.sh`. Shared modules are copied from round 31.
+
+## Results (Nov 20, 2026; 203 generations at 1.8 s, pod `q2-measured`)
+
+**Gate passed exactly.**
+- Round 25 was reproduced at both targets, and the repeat was identical (max difference 0).
+- a = 0 was identical at both layers.
+- Random a = 2 changed the output (max 3/255 at mid, 5/255 at up0).
+- Each hook fired once per generation.
+
+**Decision: FAIL.** No arm comes close.
+
+| Arm | S+R vs R+R: median ratio | Wins | Unedited-cell change (steer / request) | S vs R1: median | Wins |
+|---|---|---|---|---|---|
+| mid size | 1.01 | 3/8 | 0.21 / 0.20 | 1.06 | 1/8 |
+| mid shape | 1.01 | 2/8 | 0.20 / 0.20 | 1.13 | 0/8 |
+| mid random | 1.01 | 1/8 | 0.20 / 0.20 | 1.17 | 0/8 |
+| up0 size | 0.99 | 5/8 | 0.24 / 0.20 | 1.02 | 3/8 |
+| up0 shape | 1.01 | 3/8 | 0.23 / 0.20 | 1.10 | 0/8 |
+| up0 random | 0.98 | 5/8 | 0.27 / 0.20 | 1.15 | 1/8 |
+
+Measured-error adaptive steering along these directions does not beat equally adaptive request adjustment.
+- Every arm is within ±2 % of a second request round.
+- The random direction does as well as the best real one.
+- Steering *instead of* a request round is worse in every arm.
+- The crop sheet shows no damage; steered and request-adjusted outputs look the same.
+
+**What the probes show (reported; `results/measured_steer_cases.json`).**
+- **The size directions control the blur amount, and the shape directions do not fix shape.**
+  - up0 size moves the delivered radius smoothly and in one direction in every cell: a = −2 → +2 shifts it by about 1.5–2.7 px.
+  - mid size moves it by about 0.5–1.8 px.
+  - The random direction barely moves the radius (≤ 0.2 px).
+- **But that is the same knob the request already turns.** The error follows the radius: steering toward the requested size helps exactly as much as adjusting the request does. It does not reduce the remaining shape error.
+- **The shape directions' best settings are mostly a = ±2, at the edge of the probe range.** Their gains are no larger than the random direction's, and the random direction changes the error (e.g. astronaut and coins improve at a = −2) without moving the radius.
+- So no tested direction has a content-specific effect on shape.
+
+**Reading.** The directions round 30's activations provide are blur-*amount* directions, and the request already gives amount control. Combined with rounds 29 (spatial smoothing) and 31 (LoRA scaling), three kinds of internal edit now fail to remove the content-dependent shape error beyond what request adjustment achieves. Step 4 (a one-pass strength probe) is not warranted.

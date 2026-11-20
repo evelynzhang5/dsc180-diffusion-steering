@@ -1,0 +1,131 @@
+{
+ "decision": "FAIL",
+ "passing_arms": [],
+ "gate": {
+  "repro_r25_8": 0.0,
+  "repro_r25_11.625": 0.0,
+  "repeat": 0.0,
+  "zero_mid": 0.0,
+  "random2_mid_changes": 3.0,
+  "zero_up0": 0.0,
+  "random2_up0_changes": 5.0
+ },
+ "n_generations": 203,
+ "rule": {
+  "ratio_max": 0.8,
+  "wins_min": 6,
+  "preservation_margin": 0.5
+ },
+ "main": {
+  "mid_size": {
+   "median_ratio": 1.0141389769739273,
+   "wins": 3,
+   "core": false,
+   "others_steer": 0.211926587649131,
+   "others_request": 0.19547108853467235,
+   "preserved": true,
+   "passed": false
+  },
+  "mid_shape": {
+   "median_ratio": 1.0131728991090445,
+   "wins": 2,
+   "core": false,
+   "others_steer": 0.20160175940522762,
+   "others_request": 0.19547108853467235,
+   "preserved": true,
+   "passed": false
+  },
+  "mid_random": {
+   "median_ratio": 1.0139826273887251,
+   "wins": 1,
+   "core": false,
+   "others_steer": 0.20259434421284134,
+   "others_request": 0.19547108853467235,
+   "preserved": true,
+   "passed": false
+  },
+  "up0_size": {
+   "median_ratio": 0.9879551017220458,
+   "wins": 5,
+   "core": false,
+   "others_steer": 0.23585566649150463,
+   "others_request": 0.19547108853467235,
+   "preserved": true,
+   "passed": false
+  },
+  "up0_shape": {
+   "median_ratio": 1.0078917435667696,
+   "wins": 3,
+   "core": false,
+   "others_steer": 0.23311146143516084,
+   "others_request": 0.19547108853467235,
+   "preserved": true,
+   "passed": false
+  },
+  "up0_random": {
+   "median_ratio": 0.9819253570858503,
+   "wins": 5,
+   "core": false,
+   "others_steer": 0.27257157314960784,
+   "others_request": 0.19547108853467235,
+   "preserved": true,
+   "passed": false
+  }
+ },
+ "steering_alone_vs_R1": {
+  "mid_size": {
+   "median_ratio": 1.0584179770233648,
+   "wins": 1,
+   "core": false,
+   "others_steer": 0.09752632295984898,
+   "others_request": 0.20267219400167377,
+   "preserved": true,
+   "passed": false
+  },
+  "mid_shape": {
+   "median_ratio": 1.126312224531207,
+   "wins": 0,
+   "core": false,
+   "others_steer": 0.06304859773067865,
+   "others_request": 0.20267219400167377,
+   "preserved": true,
+   "passed": false
+  },
+  "mid_random": {
+   "median_ratio": 1.169513774417445,
+   "wins": 0,
+   "core": false,
+   "others_steer": 0.025554193184250985,
+   "others_request": 0.20267219400167377,
+   "preserved": true,
+   "passed": false
+  },
+  "up0_size": {
+   "median_ratio": 1.0174569361960746,
+   "wins": 3,
+   "core": false,
+   "others_steer": 0.12246744905704443,
+   "others_request": 0.20267219400167377,
+   "preserved": true,
+   "passed": false
+  },
+  "up0_shape": {
+   "median_ratio": 1.0994417773650107,
+   "wins": 0,
+   "core": false,
+   "others_steer": 0.07130067534691813,
+   "others_request": 0.20267219400167377,
+   "preserved": true,
+   "passed": false
+  },
+  "up0_random": {
+   "median_ratio": 1.1503308723021808,
+   "wins": 1,
+   "core": false,
+   "others_steer": 0.16114906288316694,
+   "others_request": 0.20267219400167377,
+   "preserved": true,
+   "passed": false
+  }
+ }
+}
