@@ -1,0 +1,138 @@
+{
+ "decision": "FAIL",
+ "passing": [],
+ "gate": {
+  "repro_r25_8": 0.0,
+  "repro_r25_11.625": 0.0,
+  "repeat": 0.0,
+  "req_repro_gravel_0_8": 0.0,
+  "req_repro_gravel_0_11.625": 0.0,
+  "req_repro_astronaut_0_8": 0.0,
+  "req_repro_astronaut_0_11.625": 0.0,
+  "req_repro_chelsea_0_8": 0.0,
+  "req_repro_chelsea_0_11.625": 0.0,
+  "req_repro_coins_0_8": 0.0,
+  "req_repro_coins_0_11.625": 0.0,
+  "zero_post_pisa_8": 0.0,
+  "zero_down2_8": 0.0,
+  "zero_mid_8": 0.0,
+  "zero_up0_8": 0.0,
+  "zero_up1_8": 0.0,
+  "zero_up2_8": 0.0,
+  "zero_post_pisa_11.625": 0.0,
+  "zero_down2_11.625": 0.0,
+  "zero_mid_11.625": 0.0,
+  "zero_up0_11.625": 0.0,
+  "zero_up1_11.625": 0.0,
+  "zero_up2_11.625": 0.0
+ },
+ "gate_ok": true,
+ "n_generations": 73,
+ "passthrough": {
+  "ok_cases": 8,
+  "passed": true,
+  "cases": {
+   "gravel_0@8": {
+    "teacher_err": 0.9593220551192673,
+    "teacher_r": 7.977220042037306,
+    "request_err": 2.638150253270181,
+    "base_err": 3.424344807214153,
+    "ok": true
+   },
+   "astronaut_0@8": {
+    "teacher_err": 2.063078666409478,
+    "teacher_r": 7.854834937010187,
+    "request_err": 7.365600655084279,
+    "base_err": 7.390394946101895,
+    "ok": true
+   },
+   "chelsea_0@8": {
+    "teacher_err": 0.8804853151868294,
+    "teacher_r": 8.038527967593884,
+    "request_err": 2.3289649788562907,
+    "base_err": 2.685230556336489,
+    "ok": true
+   },
+   "coins_0@8": {
+    "teacher_err": 0.9513777470999883,
+    "teacher_r": 8.113057694764056,
+    "request_err": 8.82578773636322,
+    "base_err": 10.835509943910523,
+    "ok": true
+   },
+   "gravel_0@11.625": {
+    "teacher_err": 0.7171292480703683,
+    "teacher_r": 11.54474751435738,
+    "request_err": 1.957745811943856,
+    "base_err": 2.3779731210118267,
+    "ok": true
+   },
+   "astronaut_0@11.625": {
+    "teacher_err": 1.5111853163870805,
+    "teacher_r": 11.62023144323324,
+    "request_err": 6.7383167907691215,
+    "base_err": 6.871801701336971,
+    "ok": true
+   },
+   "chelsea_0@11.625": {
+    "teacher_err": 0.6948997841656949,
+    "teacher_r": 11.624541405501626,
+    "request_err": 2.0868624825569246,
+    "base_err": 3.0267387201987197,
+    "ok": true
+   },
+   "coins_0@11.625": {
+    "teacher_err": 0.8007539234270361,
+    "teacher_r": 11.756621323218186,
+    "request_err": 10.19665424638209,
+    "base_err": 10.457173687137622,
+    "ok": true
+   }
+  }
+ },
+ "request_others_max": 0.1615966991689535,
+ "locations": {
+  "post_pisa": {
+   "median_ratio": Infinity,
+   "wins": 3,
+   "others_max": 1.7285767112356707,
+   "ceiling": false,
+   "passed": false
+  },
+  "down2": {
+   "median_ratio": 1.0025267901500956,
+   "wins": 4,
+   "others_max": 0.325626204238921,
+   "ceiling": false,
+   "passed": false
+  },
+  "mid": {
+   "median_ratio": 1.0179826061494464,
+   "wins": 4,
+   "others_max": 0.2005215935851774,
+   "ceiling": false,
+   "passed": false
+  },
+  "up0": {
+   "median_ratio": 1.1155164516562817,
+   "wins": 0,
+   "others_max": 2.0834355111811758,
+   "ceiling": false,
+   "passed": false
+  },
+  "up1": {
+   "median_ratio": 1.3043703453613045,
+   "wins": 2,
+   "others_max": 3.6271578988341995,
+   "ceiling": false,
+   "passed": false
+  },
+  "up2": {
+   "median_ratio": Infinity,
+   "wins": 2,
+   "others_max": 3.6130476246083183,
+   "ceiling": true,
+   "passed": false
+  }
+ }
+}
