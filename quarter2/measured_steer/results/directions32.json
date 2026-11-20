@@ -1,0 +1,27 @@
+{
+ "n_cells": 432,
+ "n_generations": 72,
+ "mid_size": {
+  "raw_norm": 30.488505817315563,
+  "pooled_feature_norm": 137.318115234375,
+  "proj_spearman": 0.6396113793286168
+ },
+ "mid_shape": {
+  "raw_norm": 31.37299513922312,
+  "pooled_feature_norm": 137.318115234375,
+  "proj_spearman": 0.6712083540971192
+ },
+ "mid_cos_size_shape": -0.5130821466445923,
+ "up0_size": {
+  "raw_norm": 54.03372059681496,
+  "pooled_feature_norm": 340.5374755859375,
+  "proj_spearman": 0.6640898734049095
+ },
+ "up0_shape": {
+  "raw_norm": 52.251008218206415,
+  "pooled_feature_norm": 340.5374755859375,
+  "proj_spearman": 0.7318185146882575
+ },
+ "up0_cos_size_shape": -0.5579824447631836,
+ "label_corr_size_shape": -0.35990229054707035
+}
