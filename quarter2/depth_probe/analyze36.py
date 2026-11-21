@@ -16,7 +16,7 @@ B. The edit controls blur (u = round 32's size direction, w_d = probe weight dir
    CONTROLS BLUR if B1-B3 hold. (The probe's own output is not used: it moves along w_d by construction.)
 C. Adapting the strength adds value (72 test cells; ratio = revised error / calibrated request's; invalid or failing
    the contrast or preservation guard -> inf; calibrated invalid and method valid -> 0):
-     methods: fixed a (dev-chosen), depth-map g(gap), proxy g(d_hat - d_f), shuffled proxy; oracle per-cell a (ceiling)
+     methods: fixed a (dev-chosen), depth-map g(gap), proxy g(d_hat - d_f), shuffled proxy; 'oracle' = per-cell best outcome among the uniform-strength sweep images (reference only; not a bound on jointly chosen strengths)
      GATE (smoke-test level, as rounds 29-35): median ratio <= 0.80 and wins >= 54/72 (75 %)
    ADAPTATION HELPS if the proxy passes the gate AND beats the fixed strength (wins > 36/72 head-to-head and
    median ratio below fixed's) AND beats the shuffled proxy the same way. A pass needs fresh-image confirmation.

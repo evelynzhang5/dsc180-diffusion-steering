@@ -43,7 +43,7 @@ These are **three separate claims**, and passing the first does not establish th
    - **Strength rule:** g(signed gap) is piecewise-linear through the median best a per signed gap. "Best" means the lowest revised error among valid outputs; failing that, the radius closest to r\*.
    - **Fixed strength:** the grid value with the lowest dev median ratio.
 4. **D0 (disparity-only control).** Two test scenes are re-run with every gap's sign flipped: the blur map is identical and the depth is mirrored. Reported: pixel change, activation change, and the probe's change.
-5. **Test grid.** Each test scene is run at every a. This gives the calibrated request (a = 0), the fixed strength, and a per-cell oracle used as a ceiling. The a = 0 runs save the activations used to test the probe.
+5. **Test grid.** Each test scene is run at every a. This gives the calibrated request (a = 0), the fixed strength, and a per-cell best-of-sweep reference (each cell's best outcome among the uniform-strength images; not a bound on jointly chosen strengths). The a = 0 runs save the activations used to test the probe.
 6. **Step 3, causal edit.**
    - Test scenes 0–5 are run with w_d (the probe's weight direction, scaled to |u|) and with a random direction of the same norm, at a ∈ {−2, −1, 1, 2}.
    - u itself is covered by the test grid.
@@ -91,7 +91,7 @@ The probe's own output is *not* used here, because adding along w_d moves it by 
 
 A pass would still need fresh-image confirmation.
 
-**Expected difficulty.** Depth alone is not the correction signal. Distance from the focus plane sets the *desired* blur, which the calibrated request already uses. It does not tell whether BokehDiff over- or under-blurred a region, so correcting that error needs an estimate of the delivered blur too. The oracle row shows how much headroom per-cell strength has at all.
+**Expected difficulty.** Depth alone is not the correction signal. Distance from the focus plane sets the *desired* blur, which the calibrated request already uses. It does not tell whether BokehDiff over- or under-blurred a region, so correcting that error needs an estimate of the delivered blur too. The best-of-sweep row shows how much the tested uniform-strength sweep can offer per cell (not a bound on adaptive rules).
 
 **Smoke (DSMLP, Nov 20; 2 dev scenes, 1 test scene, a ∈ {−2, 0, 2}).**
 - G1: round 25 reproduced exactly (0). G2: repeats identical (0).
@@ -151,7 +151,7 @@ Each method's error is compared with the calibrated request's on 72 test cells. 
 | Depth map g(gap) | 0.999 | 36 | 16 (7 radius, 9 contrast) | fail |
 | Proxy g(d̂ − d_f) | 1.026 | 27 | 4 | fail |
 | Shuffled proxy | 1.025 | 27 | 4 | fail |
-| *Oracle: best grid a per cell (ceiling)* | *0.954* | *61* | 0 | *fail* |
+| *Best of the uniform-strength sweep, per cell (reference only)* | *0.954* | *61* | 0 | *fail* |
 
 Head-to-head:
 - proxy vs fixed: 27–45;
@@ -161,7 +161,7 @@ Head-to-head:
 **Reading.**
 - **The dev-fitted rule is noise.** The best dev strengths per signed gap scatter across −4…+4: medians −1.5…+2, with no monotone pattern. The fixed strength that won on dev was a = 0.
 - **The proxy behaves like the shuffled proxy.** Its depth readout is nearly constant, so its strengths depend only on the focus setting, and shuffling them across cells changes almost nothing.
-- **Even the per-cell oracle improves the median error by only 4.6 %.** With strength limited to about ±1 px of radius by preservation, this direction cannot reach the 20 % gate no matter how strength is chosen.
+- **The tested strength sweep offered only a small improvement:** picking each cell's best outcome among the uniform-strength images improves the median error by 4.6 %. This is not a bound on adaptive rules: those images apply one strength to all cells at once, and strengths chosen jointly per cell were not swept. (Corrected Nov 21; an earlier version called this an oracle ceiling.)
 - **The remaining error is not a radius error the knob can fix.** The calibrated request already gets the radius right in 66/72 cells. As rounds 32–35 found, what remains is shape and detail, which a one-dimensional radius knob cannot correct.
 
 ### Overall
