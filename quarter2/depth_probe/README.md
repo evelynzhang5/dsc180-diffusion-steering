@@ -127,7 +127,7 @@ Files: `scenes36.py`, `run36.py`, `analyze36.py`, `dsmlp_depth.sh` (`SMOKE=1`: 2
   - the probe's output moves by ≤ 0.002.
 
   Disparity reaches the network only through PISA's occlusion map, and the effect is small.
-- **Reading:** at up_blocks.0 the activations carry the requested blur, not depth. A "depth" readout here would be a blur-request readout. The 25/36 pair ordering (one-sided binomial p ≈ 0.01) is a weak trace of occlusion, far below the rule.
+- **Reading:** at up_blocks.0 the activations carry the requested blur, not depth. A "depth" readout here would be a blur-request readout. The 25/36 pair ordering (one-sided binomial p ≈ 0.014) is a weak trace of occlusion, far below the rule.
 
 ### B. Edits along u and along w_d both control blur
 
