@@ -1,0 +1,272 @@
+{
+ "post_pisa": {
+  "gravel_0@8": {
+   "ratio": Infinity,
+   "err": 1.9036587003429655,
+   "request_err": 3.0634481201116333,
+   "r_hat": 8.113439705047023,
+   "contrast": 1.0017634348271098,
+   "request_contrast": 0.9319312667812181,
+   "valid": false,
+   "shape": 1.9150757156098728,
+   "err_old": 1.8998964227939419
+  },
+  "astronaut_0@8": {
+   "ratio": Infinity,
+   "err": 3.3052506620201276,
+   "request_err": 7.646595651664017,
+   "r_hat": 8.086116652411592,
+   "contrast": 0.9944974112267057,
+   "request_contrast": 1.0110823991197218,
+   "valid": false,
+   "shape": 3.313326521640006,
+   "err_old": 3.2811610118027033
+  },
+  "chelsea_0@8": {
+   "ratio": Infinity,
+   "err": 1.727297308360579,
+   "request_err": 2.619075855942807,
+   "r_hat": 8.25428785192206,
+   "contrast": 0.9904038723676009,
+   "request_contrast": 0.9461658917419767,
+   "valid": false,
+   "shape": 1.7365927956212996,
+   "err_old": 1.7100981152019135
+  },
+  "coins_0@8": {
+   "ratio": Infinity,
+   "err": 1.8078857585550472,
+   "request_err": 8.09576482796259,
+   "r_hat": 7.9516986762567905,
+   "contrast": 1.0143456332609502,
+   "request_contrast": 1.0586951273033764,
+   "valid": false,
+   "shape": 1.6694374797298204,
+   "err_old": 1.6922044338921538
+  },
+  "gravel_0@11.625": {
+   "ratio": Infinity,
+   "err": 1.1972629207965513,
+   "request_err": 2.2431183118210094,
+   "r_hat": 11.62574085298661,
+   "contrast": 1.0046807668255213,
+   "request_contrast": 0.9226352356636148,
+   "valid": false,
+   "shape": 1.1959543642217936,
+   "err_old": 1.1939594470309653
+  },
+  "astronaut_0@11.625": {
+   "ratio": Infinity,
+   "err": 2.213196794577157,
+   "request_err": 7.218610032538964,
+   "r_hat": 11.716314195871005,
+   "contrast": 1.0022242480122083,
+   "request_contrast": 1.0066082083020416,
+   "valid": false,
+   "shape": 2.141175266177397,
+   "err_old": 2.141242433231291
+  },
+  "chelsea_0@11.625": {
+   "ratio": Infinity,
+   "err": 1.3132832490971529,
+   "request_err": 2.5294785540795366,
+   "r_hat": 11.598797724605808,
+   "contrast": 1.0127689090462872,
+   "request_contrast": 0.9370781026037438,
+   "valid": false,
+   "shape": 1.2777116187463653,
+   "err_old": 1.2890055671306724
+  },
+  "coins_0@11.625": {
+   "ratio": Infinity,
+   "err": 1.601162266954732,
+   "request_err": 10.232125283936503,
+   "r_hat": 11.856879088570281,
+   "contrast": 1.0178633720730208,
+   "request_contrast": 1.0482769648976344,
+   "valid": false,
+   "shape": 1.3851428792115223,
+   "err_old": 1.408691250088464
+  }
+ },
+ "up0": {
+  "gravel_0@8": {
+   "ratio": Infinity,
+   "err": 2.7167629089549865,
+   "request_err": 3.0634481201116333,
+   "r_hat": 8.33320906155548,
+   "contrast": 0.9697238426694562,
+   "request_contrast": 0.9319312667812181,
+   "valid": false,
+   "shape": 2.7839189841546435,
+   "err_old": 2.64446247602296
+  },
+  "astronaut_0@8": {
+   "ratio": Infinity,
+   "err": 4.387666353858117,
+   "request_err": 7.646595651664017,
+   "r_hat": 8.138059284002715,
+   "contrast": 1.0071312509018917,
+   "request_contrast": 1.0110823991197218,
+   "valid": false,
+   "shape": 4.355207149756283,
+   "err_old": 4.359881334295386
+  },
+  "chelsea_0@8": {
+   "ratio": Infinity,
+   "err": 3.159420455420936,
+   "request_err": 2.619075855942807,
+   "r_hat": 8.789764122156999,
+   "contrast": 0.9742993659564411,
+   "request_contrast": 0.9461658917419767,
+   "valid": false,
+   "shape": 3.257091315217321,
+   "err_old": 3.110524424831094
+  },
+  "coins_0@8": {
+   "ratio": Infinity,
+   "err": 2.621399086766404,
+   "request_err": 8.09576482796259,
+   "r_hat": 7.950704366439259,
+   "contrast": 1.0185224164480522,
+   "request_contrast": 1.0586951273033764,
+   "valid": false,
+   "shape": 2.4536162440745812,
+   "err_old": 2.4953040083759057
+  },
+  "gravel_0@11.625": {
+   "ratio": Infinity,
+   "err": 1.6775723866177967,
+   "request_err": 2.2431183118210094,
+   "r_hat": 11.903921011038454,
+   "contrast": 0.987925167910834,
+   "request_contrast": 0.9226352356636148,
+   "valid": false,
+   "shape": 1.6976956923232305,
+   "err_old": 1.6567152323719911
+  },
+  "astronaut_0@11.625": {
+   "ratio": Infinity,
+   "err": 3.190843990115622,
+   "request_err": 7.218610032538964,
+   "r_hat": 11.94761005394504,
+   "contrast": 0.9918925061002669,
+   "request_contrast": 1.0066082083020416,
+   "valid": false,
+   "shape": 3.0842838603815133,
+   "err_old": 3.051690375291456
+  },
+  "chelsea_0@11.625": {
+   "ratio": Infinity,
+   "err": 2.4700543567387743,
+   "request_err": 2.5294785540795366,
+   "r_hat": 12.17150895326627,
+   "contrast": 0.9859951664628558,
+   "request_contrast": 0.9370781026037438,
+   "valid": false,
+   "shape": 2.4245648362491363,
+   "err_old": 2.3580105357156733
+  },
+  "coins_0@11.625": {
+   "ratio": Infinity,
+   "err": 2.0302338124145987,
+   "request_err": 10.232125283936503,
+   "r_hat": 11.88211286158326,
+   "contrast": 1.0030053778296892,
+   "request_contrast": 1.0482769648976344,
+   "valid": false,
+   "shape": 2.0139556874520785,
+   "err_old": 2.0154947901999645
+  }
+ },
+ "up1": {
+  "gravel_0@8": {
+   "ratio": Infinity,
+   "err": 1.185966616668826,
+   "request_err": 3.0634481201116333,
+   "r_hat": 7.914207499425054,
+   "contrast": 1.037491854336012,
+   "request_contrast": 0.9319312667812181,
+   "valid": false,
+   "shape": 1.0499261961836333,
+   "err_old": 1.0860682423535117
+  },
+  "astronaut_0@8": {
+   "ratio": Infinity,
+   "err": 2.256402513978676,
+   "request_err": 7.646595651664017,
+   "r_hat": 8.150423003579203,
+   "contrast": 0.991836937159098,
+   "request_contrast": 1.0110823991197218,
+   "valid": false,
+   "shape": 2.2304226896063137,
+   "err_old": 2.2073080322731284
+  },
+  "chelsea_0@8": {
+   "ratio": Infinity,
+   "err": 1.0812169599277066,
+   "request_err": 2.619075855942807,
+   "r_hat": 8.164756992342811,
+   "contrast": 1.0050817865612,
+   "request_contrast": 0.9461658917419767,
+   "valid": false,
+   "shape": 1.0578409644525715,
+   "err_old": 1.0625715433065523
+  },
+  "coins_0@8": {
+   "ratio": Infinity,
+   "err": 1.45630810772584,
+   "request_err": 8.09576482796259,
+   "r_hat": 7.947458327194462,
+   "contrast": 1.0231027368117336,
+   "request_contrast": 1.0586951273033764,
+   "valid": false,
+   "shape": 1.0621996353427992,
+   "err_old": 1.08635859875677
+  },
+  "gravel_0@11.625": {
+   "ratio": Infinity,
+   "err": 1.0571937814445749,
+   "request_err": 2.2431183118210094,
+   "r_hat": 11.360352975652523,
+   "contrast": 1.0430265396802794,
+   "request_contrast": 0.9226352356636148,
+   "valid": false,
+   "shape": 0.932102437969701,
+   "err_old": 0.9686906892335309
+  },
+  "astronaut_0@11.625": {
+   "ratio": Infinity,
+   "err": 1.7432649037231698,
+   "request_err": 7.218610032538964,
+   "r_hat": 11.589941447689869,
+   "contrast": 1.0044483275082314,
+   "request_contrast": 1.0066082083020416,
+   "valid": false,
+   "shape": 1.632058092659402,
+   "err_old": 1.638372040329769
+  },
+  "chelsea_0@11.625": {
+   "ratio": Infinity,
+   "err": 0.9355293421112207,
+   "request_err": 2.5294785540795366,
+   "r_hat": 11.756413956257273,
+   "contrast": 1.0146477972621464,
+   "request_contrast": 0.9370781026037438,
+   "valid": false,
+   "shape": 0.8680018899064669,
+   "err_old": 0.8799613643319061
+  },
+  "coins_0@11.625": {
+   "ratio": Infinity,
+   "err": 1.0596931663025109,
+   "request_err": 10.232125283936503,
+   "r_hat": 11.975288662440763,
+   "contrast": 1.01059688830706,
+   "request_contrast": 1.0482769648976344,
+   "valid": false,
+   "shape": 0.9509543507968695,
+   "err_old": 0.9606941532894927
+  }
+ }
+}
