@@ -1,0 +1,358 @@
+{
+ "test": {
+  "all": {
+   "n": 72,
+   "within_tol": 66,
+   "r_best_minus_r_star": [
+    -1.188,
+    0.312,
+    2.162
+   ],
+   "E_star": [
+    1.85,
+    3.282,
+    9.166
+   ],
+   "E_best": [
+    1.728,
+    2.991,
+    8.935
+   ],
+   "radius_share": [
+    0.001,
+    0.033,
+    0.275
+   ],
+   "contrast_star": [
+    0.829,
+    0.997,
+    1.099
+   ],
+   "contrast_best": [
+    0.916,
+    0.991,
+    1.101
+   ],
+   "gain_mean": [
+    0.898,
+    0.975,
+    1.067
+   ],
+   "shape_best": [
+    1.726,
+    2.966,
+    8.457
+   ],
+   "offset_mean": [
+    0.903,
+    2.923,
+    10.628
+   ],
+   "colour_cast": [
+    0.48,
+    1.031,
+    4.387
+   ],
+   "low_share": [
+    0.399,
+    0.6,
+    0.745
+   ],
+   "detail_slope": [
+    -0.023,
+    0.016,
+    0.041
+   ],
+   "corr_E_best_detail_slope": -0.10602222514568287,
+   "corr_E_best_low_share": 0.17111773237923517
+  },
+  "within_tol": {
+   "n": 66,
+   "within_tol": 66,
+   "r_best_minus_r_star": [
+    -1.188,
+    0.188,
+    1.812
+   ],
+   "E_star": [
+    1.783,
+    3.168,
+    8.314
+   ],
+   "E_best": [
+    1.723,
+    2.991,
+    8.081
+   ],
+   "radius_share": [
+    0.001,
+    0.024,
+    0.242
+   ],
+   "contrast_star": [
+    0.843,
+    0.997,
+    1.105
+   ],
+   "contrast_best": [
+    0.915,
+    0.975,
+    1.102
+   ],
+   "gain_mean": [
+    0.898,
+    0.953,
+    1.069
+   ],
+   "shape_best": [
+    1.7,
+    2.966,
+    8.027
+   ],
+   "offset_mean": [
+    0.923,
+    2.541,
+    9.761
+   ],
+   "colour_cast": [
+    0.569,
+    1.045,
+    4.418
+   ],
+   "low_share": [
+    0.412,
+    0.606,
+    0.746
+   ],
+   "detail_slope": [
+    -0.014,
+    0.016,
+    0.042
+   ],
+   "corr_E_best_detail_slope": -0.10627511662641544,
+   "corr_E_best_low_share": 0.1747770591183742
+  },
+  "by_source": {
+   "astronaut": {
+    "E_star": 7.64,
+    "E_best": 7.46,
+    "detail_slope": 0.02,
+    "contrast_best": 1.038,
+    "low_share": 0.686
+   },
+   "chelsea": {
+    "E_star": 2.82,
+    "E_best": 2.72,
+    "detail_slope": 0.025,
+    "contrast_best": 0.933,
+    "low_share": 0.632
+   },
+   "coins": {
+    "E_star": 9.56,
+    "E_best": 9.23,
+    "detail_slope": -0.019,
+    "contrast_best": 1.09,
+    "low_share": 0.594
+   },
+   "gravel": {
+    "E_star": 3.54,
+    "E_best": 2.28,
+    "detail_slope": 0.026,
+    "contrast_best": 0.95,
+    "low_share": 0.362
+   },
+   "rocket": {
+    "E_star": 3.14,
+    "E_best": 3.01,
+    "detail_slope": 0.021,
+    "contrast_best": 1.07,
+    "low_share": 0.738
+   },
+   "text": {
+    "E_star": 2.33,
+    "E_best": 1.84,
+    "detail_slope": 0.016,
+    "contrast_best": 0.933,
+    "low_share": 0.632
+   }
+  }
+ },
+ "dev": {
+  "all": {
+   "n": 72,
+   "within_tol": 67,
+   "r_best_minus_r_star": [
+    -1.537,
+    0.5,
+    17.075
+   ],
+   "E_star": [
+    1.513,
+    2.902,
+    5.931
+   ],
+   "E_best": [
+    1.251,
+    2.521,
+    5.149
+   ],
+   "radius_share": [
+    -0.0,
+    0.091,
+    0.328
+   ],
+   "contrast_star": [
+    0.668,
+    0.98,
+    1.141
+   ],
+   "contrast_best": [
+    0.928,
+    1.004,
+    1.154
+   ],
+   "gain_mean": [
+    0.809,
+    0.966,
+    1.084
+   ],
+   "shape_best": [
+    1.352,
+    2.418,
+    5.725
+   ],
+   "offset_mean": [
+    0.753,
+    4.565,
+    8.135
+   ],
+   "colour_cast": [
+    0.349,
+    1.433,
+    5.305
+   ],
+   "low_share": [
+    0.299,
+    0.519,
+    0.7
+   ],
+   "detail_slope": [
+    0.004,
+    0.015,
+    0.041
+   ],
+   "corr_E_best_detail_slope": 0.32339905050432377,
+   "corr_E_best_low_share": 0.33992168836853864
+  },
+  "within_tol": {
+   "n": 67,
+   "within_tol": 67,
+   "r_best_minus_r_star": [
+    -1.412,
+    0.312,
+    18.112
+   ],
+   "E_star": [
+    1.441,
+    2.826,
+    5.903
+   ],
+   "E_best": [
+    1.315,
+    2.551,
+    5.294
+   ],
+   "radius_share": [
+    -0.0,
+    0.084,
+    0.253
+   ],
+   "contrast_star": [
+    0.663,
+    0.983,
+    1.133
+   ],
+   "contrast_best": [
+    0.924,
+    1.002,
+    1.16
+   ],
+   "gain_mean": [
+    0.802,
+    0.962,
+    1.076
+   ],
+   "shape_best": [
+    1.427,
+    2.552,
+    5.794
+   ],
+   "offset_mean": [
+    0.732,
+    4.575,
+    8.248
+   ],
+   "colour_cast": [
+    0.313,
+    1.492,
+    5.478
+   ],
+   "low_share": [
+    0.301,
+    0.535,
+    0.707
+   ],
+   "detail_slope": [
+    0.004,
+    0.015,
+    0.042
+   ],
+   "corr_E_best_detail_slope": 0.311812047114046,
+   "corr_E_best_low_share": 0.3434388863357608
+  },
+  "by_source": {
+   "brick": {
+    "E_star": 2.53,
+    "E_best": 1.85,
+    "detail_slope": 0.005,
+    "contrast_best": 1.12,
+    "low_share": 0.455
+   },
+   "camera": {
+    "E_star": 3.65,
+    "E_best": 3.26,
+    "detail_slope": 0.018,
+    "contrast_best": 1.091,
+    "low_share": 0.641
+   },
+   "coffee": {
+    "E_star": 3.58,
+    "E_best": 3.32,
+    "detail_slope": 0.015,
+    "contrast_best": 1.01,
+    "low_share": 0.629
+   },
+   "grass": {
+    "E_star": 2.79,
+    "E_best": 2.26,
+    "detail_slope": 0.017,
+    "contrast_best": 0.974,
+    "low_share": 0.384
+   },
+   "immunohistochemistry": {
+    "E_star": 2.8,
+    "E_best": 2.59,
+    "detail_slope": 0.035,
+    "contrast_best": 0.983,
+    "low_share": 0.441
+   },
+   "page": {
+    "E_star": 5.29,
+    "E_best": 3.33,
+    "detail_slope": 0.013,
+    "contrast_best": 0.95,
+    "low_share": 0.616
+   }
+  }
+ }
+}
