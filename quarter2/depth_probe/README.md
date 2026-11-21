@@ -100,3 +100,77 @@ A pass would still need fresh-image confirmation.
 - The numbers are not interpreted: there are too few scenes.
 
 Files: `scenes36.py`, `run36.py`, `analyze36.py`, `dsmlp_depth.sh` (`SMOKE=1`: 2 dev scenes, 1 test scene, reduced grid). Shared modules are copied from round 34. Round 32's directions are in `results/directions32.*`.
+
+## Results (Nov 20, 2026; pod `q2-r3536`, 11 min, 255 generations)
+
+**Checks passed.** G1: round 25 reproduced exactly (0). G2: repeats identical (0, dev and test).
+
+**Decisions: A (reads depth) NO · B (controls blur) YES for u and for w_d · C (adaptation helps) NO.**
+
+### A. The inner product does not read depth
+
+| Test-cell measure | Value | Rule |
+|---|---|---|
+| r(d̂, d) / MAE | 0.11 / 0.25 | ≥ 0.7 / ≤ 0.10 → **fail** |
+| Same-blur front/behind pairs ordered correctly | 25 / 36 | ≥ 29 → **fail** |
+| Partial r given requested blur / given signed gap | 0.16 / 0.02 | reported |
+| Residual variance by texture / position | 0.00 / 0.08 | ≤ 0.2 → pass, trivially: the predictions barely vary |
+| Probe for the *requested blur* (|gap|), test R² | **0.93** | reported |
+| Probe for the signed gap, test R² | 0.006 | reported |
+
+- **No generalisable disparity signal even on development data.** Cross-validation chose the strongest shrinkage on the grid (λ = 10⁶), where the CV error equals the label variance (0.083 vs 0.083). The probe effectively predicts a constant.
+- **The blur request, by contrast, is read almost perfectly** (λ = 10³, CV error 0.0006 vs variance 0.0067).
+- **D0 (disparity flipped, blur map identical):**
+  - up0 features change by 4–7 %;
+  - the output changes by 0.1–0.9/255;
+  - the delivered radius changes by ≤ 0.5 px;
+  - the probe's output moves by ≤ 0.002.
+
+  Disparity reaches the network only through PISA's occlusion map, and the effect is small.
+- **Reading:** at up_blocks.0 the activations carry the requested blur, not depth. A "depth" readout here would be a blur-request readout. The 25/36 pair ordering (one-sided binomial p ≈ 0.01) is a weak trace of occlusion, far below the rule.
+
+### B. Edits along u and along w_d both control blur
+
+| Direction (equal norm, a = −2 → +2) | Cells with consistent sign | Median radius change | Max preservation change at |a| = 2 | Median contrast change |
+|---|---|---|---|---|
+| u (round 32 size) | 36/36 | +1.85 px | 0.50 (at the guard) | 0.05 |
+| w_d (probe weight) | 35/36 | −1.13 px | 0.28 | 0.02 |
+| random | 23/36 | 0.08 px | 0.20 | 0.00 |
+
+- **w_d controls blur** even though the probe does not read depth. cos(w_d, u) = −0.25, so w_d partly overlaps the blur-amount direction. Its effect (−1.13 px) is larger than that overlap alone would give (about 0.46 px), so other blur-related components also contribute.
+- **Conclusion:** passing B says the direction is a blur knob. It says nothing about depth.
+- **Strength limits:** at a = ±4, u changes the focus and anchors by 0.49–1.03/255, past the guard in 23 of 24 runs. Strength is limited to about |a| ≤ 2 (≈ ±1 px).
+
+### C. Adapting the strength does not help
+
+Each method's error is compared with the calibrated request's on 72 test cells. The calibrated request is valid in 66 of them.
+
+| Method | Median ratio | Wins | Invalid | Gate (≤ 0.80, ≥ 54) |
+|---|---|---|---|---|
+| Fixed (dev chose a = 0, i.e. the calibrated request itself) | 1.000 | 0 | 0 | fail |
+| Depth map g(gap) | 0.999 | 36 | 16 (7 radius, 9 contrast) | fail |
+| Proxy g(d̂ − d_f) | 1.026 | 27 | 4 | fail |
+| Shuffled proxy | 1.025 | 27 | 4 | fail |
+| *Oracle: best grid a per cell (ceiling)* | *0.954* | *61* | 0 | *fail* |
+
+Head-to-head:
+- proxy vs fixed: 27–45;
+- proxy vs shuffled: 30–35 (7 ties);
+- depth map vs fixed: 36–36.
+
+**Reading.**
+- **The dev-fitted rule is noise.** The best dev strengths per signed gap scatter across −4…+4: medians −1.5…+2, with no monotone pattern. The fixed strength that won on dev was a = 0.
+- **The proxy behaves like the shuffled proxy.** Its depth readout is nearly constant, so its strengths depend only on the focus setting, and shuffling them across cells changes almost nothing.
+- **Even the per-cell oracle improves the median error by only 4.6 %.** With strength limited to about ±1 px of radius by preservation, this direction cannot reach the 20 % gate no matter how strength is chosen.
+- **The remaining error is not a radius error the knob can fix.** The calibrated request already gets the radius right in 66/72 cells. As rounds 32–35 found, what remains is shape and detail, which a one-dimensional radius knob cannot correct.
+
+### Overall
+1. At the preselected layer, the activations encode the blur request, not depth. Depth is nearly invisible to the UNet apart from occlusion.
+2. Directions that change blur exist, including the probe's own weight direction, so B holds. That does not make them depth readouts.
+3. Depth-based or proxy-based strength adds nothing over the calibrated request. As expected, depth sets the *desired* blur, which the request already supplies; it does not tell how BokehDiff missed it.
+
+Files:
+- `results/depth_probe.json`: all measures and per-cell ratios;
+- `results/frozen36.json`: probe λ and CV, and the strength rule;
+- `results/directions32.npz` (force-added);
+- images, features and probe weights in `outputs/q2_depth_probe/` (gitignored).
