@@ -9,7 +9,7 @@ export OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8
 export USE_TF=0 USE_TORCH=1 TRANSFORMERS_NO_TF=1
 W17=$HOME/bokehdiff-smoke
 W=$HOME/bokehdiff-freeze
-export R37_OUT=$REPO/outputs/q2_norm_freeze
+export R37_OUT=$REPO/outputs/q2_norm_freeze_v2
 export R25_OUT=$REPO/outputs/q2_pisa_gate
 export R31_OUT=$REPO/outputs/q2_lora_scale
 COMMIT=38ff9372ab146ab20468832a0424fa0b2888dffd

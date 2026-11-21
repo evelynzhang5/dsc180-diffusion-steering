@@ -166,6 +166,14 @@ def hijack(pipeline, seed, train_T, accelerator, validation_prompt="an excellent
     def cap(module, args, kwargs):
         if not S["inner"]:
             S["cap"] = (args, kwargs)
+            S["rng"] = (torch.get_rng_state(), torch.cuda.get_rng_state())   # RNG state of the real UNet call
+
+    def U(*a, **k):
+        """inner UNet pass with the real call's RNG state: PISA draws occlusion jitter (torch.rand) and applies attention
+        dropout (p = 0.1, train=True) at inference, so every pass must see the same draws (fixed after run 1)."""
+        torch.set_rng_state(S["rng"][0])
+        torch.cuda.set_rng_state(S["rng"][1])
+        return unet(*a, **k)
     unet.register_forward_pre_hook(cap, with_kwargs=True)
     orig_step = sched.step
 
@@ -177,10 +185,11 @@ def hijack(pipeline, seed, train_T, accelerator, validation_prompt="an excellent
         if S["mode"] == "check":
             ref = orig_step(noise_pred, t, latents, *a, **{k: v for k, v in kw.items() if k != "generator"})[0]
             S["info"] = dict(x0_formula_maxdiff=float((x0_of(noise_pred, t, latents) - ref.float()).abs().max()))
-        if S["mode"] == "opt":
-            noise_pred = optimise(t, latents)
-        if S["mode"] == "apply":
-            noise_pred = apply(t, latents)
+        if S["mode"] in ("opt", "apply"):
+            after = (torch.get_rng_state(), torch.cuda.get_rng_state())
+            noise_pred = optimise(t, latents) if S["mode"] == "opt" else apply(t, latents)
+            torch.set_rng_state(after[0])
+            torch.cuda.set_rng_state(after[1])
         out = orig_step(noise_pred, t, latents, *a, **kw)
         z = out[0]
         if S["mode"] == "teacher":
@@ -197,11 +206,11 @@ def hijack(pipeline, seed, train_T, accelerator, validation_prompt="an excellent
             args, kwargs = cl(S["cap"][0]), cl(S["cap"][1])
             S["inner"], S["D"], S["rms"], S["gn"] = True, None, None, "record"
             with torch.no_grad(), torch.autocast("cuda", dtype=torch.float16):
-                unet(*args, **kwargs)                     # unedited pass: rms at the location + GroupNorm stats
+                U(*args, **kwargs)                        # unedited pass: rms at the location + GroupNorm stats
             S["gn"] = "frozen" if S["frozen"] else None
             S["D"] = S["Dapply"]
             with torch.no_grad(), torch.autocast("cuda", dtype=torch.float16):
-                eps = unet(*args, **kwargs)[0]
+                eps = U(*args, **kwargs)[0]
             S["gn"], S["inner"] = None, False
             return eps
 
@@ -226,7 +235,7 @@ def hijack(pipeline, seed, train_T, accelerator, validation_prompt="an excellent
         tgt = S["ZT"].float().clone()
         S["D"], S["rms"], S["gn"] = None, None, "record"
         with torch.no_grad(), torch.autocast("cuda", dtype=torch.float16):
-            Z0 = x0_of(unet(*args, **kwargs)[0], t, latents).float().clone()   # unedited latent; records rms
+            Z0 = x0_of(U(*args, **kwargs)[0], t, latents).float().clone()   # unedited latent; records rms
         S["gn"] = "frozen" if S["frozen"] else None
         tgt = Z0 + ml * (tgt - Z0)                        # regional-paste latent (C2) as the whole-image target
         out_w = 1 - ml
@@ -239,7 +248,7 @@ def hijack(pipeline, seed, train_T, accelerator, validation_prompt="an excellent
                     Dp = torch.zeros(S["shape"], device=latents.device, requires_grad=True)
                     opt = torch.optim.Adam([Dp], lr=LR)
                 S["D"] = Dp
-                eps = unet(*args, **kwargs)[0]
+                eps = U(*args, **kwargs)[0]
                 se = (x0_of(eps, t, latents) - tgt) ** 2
                 loss = se.mean()
             lv = float(loss)
@@ -258,7 +267,7 @@ def hijack(pipeline, seed, train_T, accelerator, validation_prompt="an excellent
         S["D"] = best[1]
         S["Dbest"] = best[1].clone()
         with torch.no_grad(), torch.autocast("cuda", dtype=torch.float16):
-            eps = unet(*args, **kwargs)[0]
+            eps = U(*args, **kwargs)[0]
         S["inner"], S["gn"] = False, None
         Dm = (best[1] * F.adaptive_avg_pool2d(MASK["case"], best[1].shape[-2:]))[0]          # C x H x W
         X = Dm.flatten(1).T                                                                 # tokens x C
@@ -424,8 +433,12 @@ def hijack(pipeline, seed, train_T, accelerator, validation_prompt="an excellent
         y_free = rec("free", gen(t, f"free_t{t:.1f}", mode="opt", loc=loc), S["info"])
         D35 = S["Dbest"]
         torch.save(D35.cpu(), f"{OUT}/D35_t{t:.1f}.pt")
+        S["frozen"], S["Dapply"] = False, torch.zeros_like(D35)
+        y0f = rec("zero_free", gen(t, f"zero_free_t{t:.1f}", mode="apply", loc=loc))
+        arms["zero_free"]["maxdiff_vs_base"] = float(np.abs(y0f - base[t]).max())
         S["frozen"], S["Dapply"] = True, torch.zeros_like(D35)
-        rec("zero_frz", gen(t, f"zero_frz_t{t:.1f}", mode="apply", loc=loc))
+        y0z = rec("zero_frz", gen(t, f"zero_frz_t{t:.1f}", mode="apply", loc=loc))
+        arms["zero_frz"]["maxdiff_vs_base"] = float(np.abs(y0z - base[t]).max())
         S["frozen"], S["Dapply"] = False, D35
         y_rep = rec("repro", gen(t, f"repro_t{t:.1f}", mode="apply", loc=loc))
         arms["repro"]["maxdiff_vs_free"] = float(np.abs(y_rep - y_free).max())

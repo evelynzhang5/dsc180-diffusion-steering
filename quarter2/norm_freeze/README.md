@@ -45,3 +45,29 @@ Image change is measured directly against the baseline, separately in each prote
 - **Learning a reusable steering vector** comes only after a preserving correction is found.
 
 Files: `run37.py`, `analyze37.py`, `dsmlp_freeze.sh` (smoke: t = 11.6 only, 5 steps), launched as one chained pod `q2-r37` (smoke, then full).
+
+## Run 1 (Nov 20, 2026): controls failed because of a bug in the test setup; fixed and re-run
+
+Run 1 failed K1 (zero edit with statistics frozen) and K2 (re-applying the edit unfrozen). Both showed the same discrepancy:
+- mean |Δ| 0.67–0.86/255, max 13–33, with about 7–11 % of pixels > 2;
+- this held even for the **unfrozen** re-application, where nothing should change.
+
+The whole-pipeline repeat remained exact.
+
+**Cause.** BokehDiff's PISA attention adds random draws at inference:
+- the occlusion map supersamples with `torch.rand` jitter;
+- the attention applies **dropout p = 0.1 with `train=True`**.
+
+Each generation is reproducible only because the seed is reset before it. Every *extra* UNet pass inside a generation (the optimisation steps, the replay passes) drew new random numbers, which by itself moves the output by about 0.7/255.
+
+**Consequences for earlier rounds.**
+- Rounds 34–35 optimised a stochastic objective, with a new dropout mask at every step. Their final images include this resampling noise: about 0.3–0.7/255 in the protected regions, judging by run 1's zero-edit arm.
+- The leak they report (focus 2.1–3.0/255, flat with distance) is well above that, so their qualitative conclusion stands. Its size will be re-measured by the *free* arm here.
+- Rounds 33 and earlier compared separate, seeded generations and are unaffected.
+
+**Fix.**
+- The RNG state of the real UNet call is captured, and restored before every inner pass, so all passes see the same dropout mask and occlusion jitter as the real call.
+- New control **K0**: a zero edit, unfrozen, must reproduce the baseline to ≤ 1/255 (max).
+- Every other rule is unchanged.
+
+Run 1's per-arm numbers are kept in `results/run1_rng_bug/arms_run1.json` and are not interpreted. The re-run writes to `outputs/q2_norm_freeze_v2`.
