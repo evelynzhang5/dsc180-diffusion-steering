@@ -96,3 +96,31 @@ The improvement does not track near-saturated highlight share (r −0.04 on test
 - **Next:** rescore the key earlier comparisons (round 29/31 request-only and baselines, round 32) against linear-light targets, and build every future reference, including the boundary renderer, in linear light.
 
 Files: `edge_probe.py`, `residual_diag.py`, `linear_check.py`, and `results/` (`edge_probe.json`, `residual_cells.json`, `residual_summary.json`, `linear_check.json`).
+
+## D2c (post hoc). Earlier comparisons rescored against a linear-light reference (`rescore_linear.py`)
+
+Round 29's 8 cases. Baseline = round 25's calibrated request. Request-only and LoRA = round 31's best valid images, re-selected under each reference. Teacher = round 34's input already blurred to the target in **sRGB**.
+
+| Case | sRGB: base / request / LoRA / teacher | Linear: base / request / LoRA / teacher |
+|---|---|---|
+| gravel_0 @8 | 5.01 / 3.06 / 3.06 / 1.04 | 4.08 / 2.40 / 2.45 / 2.27 |
+| gravel_0 @11.6 | 2.97 / 2.24 / 2.23 / 0.76 | 2.34 / 1.60 / 1.59 / 1.74 |
+| astronaut_0 @8 | 7.72 / 7.65 / 7.29 / 2.14 | 5.34 / 4.53 / 4.49 / 6.96 |
+| astronaut_0 @11.6 | 7.49 / 7.22 / 6.71 / 1.61 | 5.00 / 3.92 / 3.95 / 6.84 |
+| chelsea_0 @8 | 2.69 / 2.62 / 2.62 / 0.91 | 2.27 / 1.74 / 1.71 / 2.51 |
+| chelsea_0 @11.6 | 2.99 / 2.53 / 2.46 / 0.75 | 2.73 / 1.43 / 1.48 / 2.49 |
+| coins_0 @8 | 10.37 / 8.10 / 7.55 / 1.19 | 3.84 / 2.41 / 2.56 / 8.19 |
+| coins_0 @11.6 | 11.52 / 10.23 / 8.60 / 1.04 | 5.24 / 2.71 / 2.72 / 9.47 |
+| **Median** | request / base 0.87; LoRA / request 0.96 (8/8 wins); teacher / request 0.29 | request / base **0.66**; LoRA / request **1.00 (3/8)**; teacher / request **1.63** |
+
+**Reading. This is post hoc: the references are re-chosen after the fact, and the rounds' frozen decisions stand as recorded. But it changes how those rounds should be read.**
+1. **The sRGB teacher is worse than request-only under the linear reference** (coins 8.2–9.5 against 2.4–2.7). Rounds 33–37 optimised BokehDiff toward a target that is probably not physically right. "Reaching the teacher at up_blocks.1" means reaching an sRGB-blur target.
+2. **Under the linear reference, the content-dependent error is much smaller and less extreme.** Request-only errors span 1.4–4.5 instead of 2.2–10.2, and coins is no longer an outlier. Astronaut, at 3.9–4.5, is the largest remaining case.
+3. **Round 31's small LoRA advantage disappears**, and adjusting the request does more (0.66 of the baseline instead of 0.87).
+4. **What does not depend on the reference:**
+   - the radius measurements and the calibration curve (best-radius shifts ≤ ~1 px);
+   - round 36's probe and blur-direction findings;
+   - round 37's question of whether normalisation statistics spread a local edit across the image.
+5. **Consequences:**
+   - every future reference, including the boundary renderer, is built in linear light;
+   - any renewed "correction" experiment must first re-establish, against a linear reference, that a repeatable error remains after request calibration.
