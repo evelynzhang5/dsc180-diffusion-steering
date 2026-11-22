@@ -128,3 +128,53 @@ That is 15 generations per scene and cell, 2160 in total.
 - **Adjustment:** the f-stop, from {2, 2.8, 4, 5.6, 8, 11, 16}, using the same inputs, references and measurement.
 - **Latency:** recorded.
 - It is reported alongside the decision, not used in it.
+
+## Step 1 results (pod `q2-r39b`, Nov 22; 2,186 BokehDiff generations, 72 min, plus Bokehlicious)
+
+**Checks: all passed.**
+- GPU vs numpy ray tracer: 6e-14.
+- Repeated generation: identical.
+- 1024 vs 4096 aperture samples: ≤ 0.025/255 in every edge band.
+- Available-information vs true reference: ≤ 0.002/255.
+
+**Decision (frozen rule): NOT ESTABLISHED.** No cell reaches 18/24 scenes.
+
+| Cell | Scenes with a boundary error after adjustment | No valid request | Median E: base → adjusted | Worst band (count) | Usual best adjustment |
+|---|---|---|---|---|---|
+| A L1 | 5/24 | 11 | 1.92 → 1.64 | out0-8 (8) | global ×0.6 |
+| A L2 | 4/24 | 11 | 1.96 → 1.55 | out0-8 (7) | global ×0.6 |
+| B L1 | 11/24 | 0 | 2.91 → 1.98 | **out0-8 (22)** | global ×1.1–1.2 |
+| B L2 | **16/24** | 0 | 3.06 → 2.17 | **out0-8 (21)** | global ×1.1–1.2 |
+| C L1 | 12/24 | 0 | 2.22 → 1.88 | out0-8 (23) | none (×1.0) |
+| C L2 | 11/24 | 0 | 2.21 → 1.89 | out0-8 (21) | none |
+
+**What the errors look like.**
+- **B (blurred foreground over a sharp background).**
+  - **Location:** the remaining error sits in the sharp background just outside the edge (0–8 px).
+  - **Profile:** a positive (brighter) luminance residual of +0.4 to +1.6/255 from about −16 to +12 px.
+  - **Adjustment:** a 10–20 % larger global request is usually best, and edge-only adjustment rarely helps.
+  - **Where it qualifies:** in 10–11 of the 12 uniform-background scenes but only 1–5 of the 12 gradient ones. A uniform background has almost no interior error, so its edge excess is not diluted.
+- **C (both layers blurred):** the same location (out0-8) and a smaller brightening of +0.3 to +1.2. Request adjustment almost never helps.
+- **A (sharp foreground over a blurred background) is degenerate in this design.**
+  - **Why:** a blurred uniform background is still uniform, and a blurred linear gradient is nearly unchanged. With the foreground sharp and in front, the correct thin-lens output is essentially the input. A therefore tests only whether the renderer leaves the scene alone. It says nothing about rendering a blurred boundary.
+  - **Rim residual:** BokehDiff leaves a +3.1/255 luminance rim 1 px inside the foreground edge.
+  - **Foreground change:** requesting background blur alters the sharp foreground relative to the zero-request output (median 5.2 gravel, 4.3 astronaut, 2.6 chelsea, 1.9 rocket). That makes 11/24 scenes invalid.
+  - **Status:** I missed this degeneracy when designing the round. Setting A needs a textured background to be meaningful.
+
+**Bokehlicious (setting A; small model; 0.08 s per image against BokehDiff's ~2 s per generation).**
+- Because A's correct answer is about the input itself, the best valid f-stop was usually f/11–16, which barely changes the image. That gives E ≈ 0.3 and 0/24 qualifying, identical at both levels.
+- This **does not** show better boundary rendering. It shows only that the weakest aperture leaves these images nearly unchanged.
+- **Foreground change with aperture:**
+  - Stronger apertures alter the sharp foreground progressively: median change to the input 2.1 at f/2, 1.4 at f/4, 0.9 at f/8.
+  - Requests are invalid in 7/24 scenes at f/2, all gravel and astronaut.
+  - On the gravel cutouts it blurs the "subject" heavily: 21/255 at f/2. Its own focus inference does not treat a high-frequency texture cutout as the subject.
+
+**Reading.**
+1. **No boundary error survives request adjustment in ≥ 18/24 scenes.**
+   - B at r = 11.6 px comes closest (16/24). Most of B's error is a mild brightening just outside a blurred foreground over a flat background.
+   - **On these simple scenes, a boundary-steering method has no repeatable target that request adjustment leaves behind.**
+2. **The near-miss is specific:** blurred-foreground edges over flat backgrounds, error 1.9–2.5/255 after adjustment. If boundary work continues, that is the case to strengthen. It would need more scenes and textured backgrounds, which require the visible-pixel reconstruction to be validated first.
+3. **Setting A must be redesigned with a textured background** before it can test anything, for BokehDiff or for Bokehlicious.
+4. **A side finding:** BokehDiff changes a sharp foreground by 2–5/255 when only the background's blur is requested. This is the same image-wide leak seen in rounds 35–37.
+
+Files: `results/boundary39.json` (analysis), `calib_linear.json`. Local only (`outputs/q2_boundary/`): `conds.json`, `bkl.json`, logs, inputs, base and zero-request images, and Bokehlicious outputs. All images and references are on the DSMLP workspace.
