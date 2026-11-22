@@ -48,3 +48,33 @@
   A boundary error qualifies only if it is repeatable, larger than the interior error, and not removed by request adjustment.
 
 Files: `lens39.py`, `validate39.py`, `results/validate39.json`, `results/validate39_log.txt`. The reference renders `results/ref_*.npy` are local only.
+
+## Step 0b (CPU, saved outputs): calibration and radius validity under a linear-light estimator (`calib_linear.py`)
+
+The radius estimator's disk stack is rebuilt in linear light, and everything that depends on it is refitted.
+
+**Checks.**
+- The sRGB refit reproduces round 25's frozen calibration curve (max 0.01 px).
+- It also reproduces round 36's 66/72 valid test cells.
+
+| | sRGB estimator | Linear estimator |
+|---|---|---|
+| Round 25 curve (calibrated request for target 3 / 8 / 11.6 / 15.5 px) | 5.55 / 8.25 / 9.85 / 11.47 | 5.61 / 8.27 / 9.84 / 11.67 |
+| Curve value at request 16 / 19 | 24.9 / 26.2 | 23.5 / 24.9 |
+| Round 36 test cells within tolerance | 66/72 | 67/72 (65 under both) |
+| r̂ linear − r̂ sRGB, round 36 test cells | | median −0.39 px, max \|·\| 2.0 px |
+
+**Reading.**
+- Over the tested targets (3–15.5 px), calibrated requests change by at most 0.2 px. Validity changes in a few cells: one more valid overall, 2 lost, 3 gained.
+- Radius results are therefore **nearly**, not entirely, reference-independent. A single cell's radius can move by up to 2 px.
+- The linear curve is the one frozen for step 1.
+
+**Step 1 draft (not launched).**
+- `scenes39.py`: 24 scenes. A foreground cutout (3 shapes × 4 test textures) over uniform or gradient backgrounds; the input is composited in linear light.
+- **Background reconstruction:** rebuilt from visible pixels only, it recovers the true background to ≤ 0.01/255 in all 24 scenes. For these scenes, the available-information reference therefore equals the true one.
+- `lens39.raytrace_torch`: the GPU ray tracer.
+- `measure39.py`: the frozen measurement and validity rules.
+- **Pending:**
+  - a convergence check (1024 vs 4096 aperture samples on these scenes);
+  - the request-adjustment search;
+  - the driver and the analysis.
