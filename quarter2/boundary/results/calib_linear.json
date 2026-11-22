@@ -1,0 +1,2957 @@
+{
+ "c1_rows": [
+  {
+   "r_req": 1.0,
+   "patch": "grass_0",
+   "srgb": 2.118421930128223,
+   "srgb_cap": false,
+   "lin": 2.0455049382930013,
+   "lin_cap": false
+  },
+  {
+   "r_req": 1.0,
+   "patch": "brick_0",
+   "srgb": 0.7607036285753044,
+   "srgb_cap": false,
+   "lin": 0.2500000953637319,
+   "lin_cap": false
+  },
+  {
+   "r_req": 1.0,
+   "patch": "camera_0",
+   "srgb": 1.2288505568953072,
+   "srgb_cap": false,
+   "lin": 1.1918324695191047,
+   "lin_cap": false
+  },
+  {
+   "r_req": 1.0,
+   "patch": "coffee_0",
+   "srgb": 1.223484110962394,
+   "srgb_cap": false,
+   "lin": 1.1849048882589088,
+   "lin_cap": false
+  },
+  {
+   "r_req": 1.0,
+   "patch": "immunohistochemistry_0",
+   "srgb": 2.167965925746072,
+   "srgb_cap": false,
+   "lin": 2.14059696473744,
+   "lin_cap": false
+  },
+  {
+   "r_req": 1.0,
+   "patch": "page_0",
+   "srgb": 0.788541732691138,
+   "srgb_cap": false,
+   "lin": 0.7797567707238857,
+   "lin_cap": false
+  },
+  {
+   "r_req": 2.0,
+   "patch": "grass_0",
+   "srgb": 2.11849717820748,
+   "srgb_cap": false,
+   "lin": 2.0454729336120936,
+   "lin_cap": false
+  },
+  {
+   "r_req": 2.0,
+   "patch": "brick_0",
+   "srgb": 0.7685578472375889,
+   "srgb_cap": false,
+   "lin": 0.25000011148866585,
+   "lin_cap": false
+  },
+  {
+   "r_req": 2.0,
+   "patch": "camera_0",
+   "srgb": 1.2286057106500683,
+   "srgb_cap": false,
+   "lin": 1.1910877424051947,
+   "lin_cap": false
+  },
+  {
+   "r_req": 2.0,
+   "patch": "coffee_0",
+   "srgb": 1.2234574988208742,
+   "srgb_cap": false,
+   "lin": 1.1848575129017829,
+   "lin_cap": false
+  },
+  {
+   "r_req": 2.0,
+   "patch": "immunohistochemistry_0",
+   "srgb": 2.168598897050849,
+   "srgb_cap": false,
+   "lin": 2.1410454637932372,
+   "lin_cap": false
+  },
+  {
+   "r_req": 2.0,
+   "patch": "page_0",
+   "srgb": 0.7821529456091074,
+   "srgb_cap": false,
+   "lin": 0.7740927389852151,
+   "lin_cap": false
+  },
+  {
+   "r_req": 3.0,
+   "patch": "grass_0",
+   "srgb": 2.11927657388613,
+   "srgb_cap": false,
+   "lin": 2.0464274398943245,
+   "lin_cap": false
+  },
+  {
+   "r_req": 3.0,
+   "patch": "brick_0",
+   "srgb": 0.25000202179264325,
+   "srgb_cap": false,
+   "lin": 0.25000008389975115,
+   "lin_cap": false
+  },
+  {
+   "r_req": 3.0,
+   "patch": "camera_0",
+   "srgb": 1.2281046454949145,
+   "srgb_cap": false,
+   "lin": 1.190249690622986,
+   "lin_cap": false
+  },
+  {
+   "r_req": 3.0,
+   "patch": "coffee_0",
+   "srgb": 1.2237704333372141,
+   "srgb_cap": false,
+   "lin": 1.1852788293976484,
+   "lin_cap": false
+  },
+  {
+   "r_req": 3.0,
+   "patch": "immunohistochemistry_0",
+   "srgb": 2.1701702829598504,
+   "srgb_cap": false,
+   "lin": 2.1427086796625496,
+   "lin_cap": false
+  },
+  {
+   "r_req": 3.0,
+   "patch": "page_0",
+   "srgb": 0.7871576771269473,
+   "srgb_cap": false,
+   "lin": 0.7824927641846329,
+   "lin_cap": false
+  },
+  {
+   "r_req": 4.0,
+   "patch": "grass_0",
+   "srgb": 2.122954777035858,
+   "srgb_cap": false,
+   "lin": 2.0503547521027774,
+   "lin_cap": false
+  },
+  {
+   "r_req": 4.0,
+   "patch": "brick_0",
+   "srgb": 0.752227097682408,
+   "srgb_cap": false,
+   "lin": 0.2500000878968182,
+   "lin_cap": false
+  },
+  {
+   "r_req": 4.0,
+   "patch": "camera_0",
+   "srgb": 1.230539136245987,
+   "srgb_cap": false,
+   "lin": 1.1935414711527457,
+   "lin_cap": false
+  },
+  {
+   "r_req": 4.0,
+   "patch": "coffee_0",
+   "srgb": 1.2238669569074334,
+   "srgb_cap": false,
+   "lin": 1.1855070452925711,
+   "lin_cap": false
+  },
+  {
+   "r_req": 4.0,
+   "patch": "immunohistochemistry_0",
+   "srgb": 2.176432690249292,
+   "srgb_cap": false,
+   "lin": 2.1492461424183817,
+   "lin_cap": false
+  },
+  {
+   "r_req": 4.0,
+   "patch": "page_0",
+   "srgb": 0.8003244355110005,
+   "srgb_cap": false,
+   "lin": 0.7964331093757233,
+   "lin_cap": false
+  },
+  {
+   "r_req": 5.0,
+   "patch": "grass_0",
+   "srgb": 2.3518826670163215,
+   "srgb_cap": false,
+   "lin": 2.2480026909982156,
+   "lin_cap": false
+  },
+  {
+   "r_req": 5.0,
+   "patch": "brick_0",
+   "srgb": 1.3909421199617997,
+   "srgb_cap": false,
+   "lin": 1.2781076315593511,
+   "lin_cap": false
+  },
+  {
+   "r_req": 5.0,
+   "patch": "camera_0",
+   "srgb": 1.8783074162581528,
+   "srgb_cap": false,
+   "lin": 1.6570245657625828,
+   "lin_cap": false
+  },
+  {
+   "r_req": 5.0,
+   "patch": "coffee_0",
+   "srgb": 1.2337180651286555,
+   "srgb_cap": false,
+   "lin": 1.198942658263982,
+   "lin_cap": false
+  },
+  {
+   "r_req": 5.0,
+   "patch": "immunohistochemistry_0",
+   "srgb": 2.5006110947403903,
+   "srgb_cap": false,
+   "lin": 2.458790738174071,
+   "lin_cap": false
+  },
+  {
+   "r_req": 5.0,
+   "patch": "page_0",
+   "srgb": 1.7471932035705504,
+   "srgb_cap": false,
+   "lin": 1.7757807505555259,
+   "lin_cap": false
+  },
+  {
+   "r_req": 6.0,
+   "patch": "grass_0",
+   "srgb": 3.890115626553143,
+   "srgb_cap": false,
+   "lin": 3.908778385487478,
+   "lin_cap": false
+  },
+  {
+   "r_req": 6.0,
+   "patch": "brick_0",
+   "srgb": 4.0803314278442375,
+   "srgb_cap": false,
+   "lin": 3.790337742699174,
+   "lin_cap": false
+  },
+  {
+   "r_req": 6.0,
+   "patch": "camera_0",
+   "srgb": 3.2120341000162558,
+   "srgb_cap": false,
+   "lin": 3.2549272228694575,
+   "lin_cap": false
+  },
+  {
+   "r_req": 6.0,
+   "patch": "coffee_0",
+   "srgb": 2.978747381208468,
+   "srgb_cap": false,
+   "lin": 2.621021471091776,
+   "lin_cap": false
+  },
+  {
+   "r_req": 6.0,
+   "patch": "immunohistochemistry_0",
+   "srgb": 4.353324581101813,
+   "srgb_cap": false,
+   "lin": 4.264155355496501,
+   "lin_cap": false
+  },
+  {
+   "r_req": 6.0,
+   "patch": "page_0",
+   "srgb": 4.037088316955214,
+   "srgb_cap": false,
+   "lin": 3.7521969280714162,
+   "lin_cap": false
+  },
+  {
+   "r_req": 8.0,
+   "patch": "grass_0",
+   "srgb": 7.756793450039494,
+   "srgb_cap": false,
+   "lin": 7.805463571320571,
+   "lin_cap": false
+  },
+  {
+   "r_req": 8.0,
+   "patch": "brick_0",
+   "srgb": 7.132763275010569,
+   "srgb_cap": false,
+   "lin": 6.893682838094276,
+   "lin_cap": false
+  },
+  {
+   "r_req": 8.0,
+   "patch": "camera_0",
+   "srgb": 5.934256477066237,
+   "srgb_cap": false,
+   "lin": 6.733165078522874,
+   "lin_cap": false
+  },
+  {
+   "r_req": 8.0,
+   "patch": "coffee_0",
+   "srgb": 5.661696563318711,
+   "srgb_cap": false,
+   "lin": 5.532479476448807,
+   "lin_cap": false
+  },
+  {
+   "r_req": 8.0,
+   "patch": "immunohistochemistry_0",
+   "srgb": 7.844442879639809,
+   "srgb_cap": false,
+   "lin": 7.748157729930844,
+   "lin_cap": false
+  },
+  {
+   "r_req": 8.0,
+   "patch": "page_0",
+   "srgb": 7.28150062640903,
+   "srgb_cap": false,
+   "lin": 6.885743906248385,
+   "lin_cap": false
+  },
+  {
+   "r_req": 10.0,
+   "patch": "grass_0",
+   "srgb": 12.580057392809467,
+   "srgb_cap": false,
+   "lin": 12.633609886447841,
+   "lin_cap": false
+  },
+  {
+   "r_req": 10.0,
+   "patch": "brick_0",
+   "srgb": 11.914437478652678,
+   "srgb_cap": false,
+   "lin": 11.75906060727947,
+   "lin_cap": false
+  },
+  {
+   "r_req": 10.0,
+   "patch": "camera_0",
+   "srgb": 10.73546477272723,
+   "srgb_cap": false,
+   "lin": 11.223100799853887,
+   "lin_cap": false
+  },
+  {
+   "r_req": 10.0,
+   "patch": "coffee_0",
+   "srgb": 9.628838175332165,
+   "srgb_cap": false,
+   "lin": 10.05414973053555,
+   "lin_cap": false
+  },
+  {
+   "r_req": 10.0,
+   "patch": "immunohistochemistry_0",
+   "srgb": 12.282433193491833,
+   "srgb_cap": false,
+   "lin": 12.222245497366012,
+   "lin_cap": false
+  },
+  {
+   "r_req": 10.0,
+   "patch": "page_0",
+   "srgb": 11.726761688425526,
+   "srgb_cap": false,
+   "lin": 11.584944289529258,
+   "lin_cap": false
+  },
+  {
+   "r_req": 12.0,
+   "patch": "grass_0",
+   "srgb": 16.30415986594315,
+   "srgb_cap": false,
+   "lin": 16.848283005941067,
+   "lin_cap": false
+  },
+  {
+   "r_req": 12.0,
+   "patch": "brick_0",
+   "srgb": 16.50398373393225,
+   "srgb_cap": false,
+   "lin": 16.548841223895245,
+   "lin_cap": false
+  },
+  {
+   "r_req": 12.0,
+   "patch": "camera_0",
+   "srgb": 14.298184646609394,
+   "srgb_cap": false,
+   "lin": 14.554766621556466,
+   "lin_cap": false
+  },
+  {
+   "r_req": 12.0,
+   "patch": "coffee_0",
+   "srgb": 13.461659598690172,
+   "srgb_cap": false,
+   "lin": 13.96340542546065,
+   "lin_cap": false
+  },
+  {
+   "r_req": 12.0,
+   "patch": "immunohistochemistry_0",
+   "srgb": 17.068064398269662,
+   "srgb_cap": false,
+   "lin": 16.7853570323266,
+   "lin_cap": false
+  },
+  {
+   "r_req": 12.0,
+   "patch": "page_0",
+   "srgb": 30.855723620213563,
+   "srgb_cap": false,
+   "lin": 17.339863847055586,
+   "lin_cap": false
+  },
+  {
+   "r_req": 16.0,
+   "patch": "grass_0",
+   "srgb": 23.638258992374862,
+   "srgb_cap": false,
+   "lin": 23.690208494589434,
+   "lin_cap": false
+  },
+  {
+   "r_req": 16.0,
+   "patch": "brick_0",
+   "srgb": 23.909883220175455,
+   "srgb_cap": false,
+   "lin": 23.913084837215337,
+   "lin_cap": false
+  },
+  {
+   "r_req": 16.0,
+   "patch": "camera_0",
+   "srgb": 30.793179711794828,
+   "srgb_cap": false,
+   "lin": 20.858308146563026,
+   "lin_cap": false
+  },
+  {
+   "r_req": 16.0,
+   "patch": "coffee_0",
+   "srgb": 22.3484887330702,
+   "srgb_cap": false,
+   "lin": 21.18703990336646,
+   "lin_cap": false
+  },
+  {
+   "r_req": 16.0,
+   "patch": "immunohistochemistry_0",
+   "srgb": 24.795528000478292,
+   "srgb_cap": false,
+   "lin": 23.691493318946264,
+   "lin_cap": false
+  },
+  {
+   "r_req": 16.0,
+   "patch": "page_0",
+   "srgb": 40.66694375470224,
+   "srgb_cap": false,
+   "lin": 23.798397417400416,
+   "lin_cap": false
+  },
+  {
+   "r_req": 19.0,
+   "patch": "grass_0",
+   "srgb": 24.54106136751417,
+   "srgb_cap": false,
+   "lin": 24.627383729823535,
+   "lin_cap": false
+  },
+  {
+   "r_req": 19.0,
+   "patch": "brick_0",
+   "srgb": 24.70385121584248,
+   "srgb_cap": false,
+   "lin": 24.693995503629637,
+   "lin_cap": false
+  },
+  {
+   "r_req": 19.0,
+   "patch": "camera_0",
+   "srgb": 28.10349771669171,
+   "srgb_cap": false,
+   "lin": 22.716732561875958,
+   "lin_cap": false
+  },
+  {
+   "r_req": 19.0,
+   "patch": "coffee_0",
+   "srgb": 24.3017848717347,
+   "srgb_cap": false,
+   "lin": 22.505109316843956,
+   "lin_cap": false
+  },
+  {
+   "r_req": 19.0,
+   "patch": "immunohistochemistry_0",
+   "srgb": 26.966927753652914,
+   "srgb_cap": false,
+   "lin": 25.582792363255948,
+   "lin_cap": false
+  },
+  {
+   "r_req": 19.0,
+   "patch": "page_0",
+   "srgb": 40.78171672202357,
+   "srgb_cap": false,
+   "lin": 25.108527911981245,
+   "lin_cap": false
+  },
+  {
+   "r_req": 1.0,
+   "patch": "coffee_0",
+   "srgb": 1.2392592442236534,
+   "srgb_cap": false,
+   "lin": 1.2129999929920934,
+   "lin_cap": false
+  },
+  {
+   "r_req": 1.0,
+   "patch": "immunohistochemistry_0",
+   "srgb": 2.169884930546208,
+   "srgb_cap": false,
+   "lin": 2.157654511467963,
+   "lin_cap": false
+  },
+  {
+   "r_req": 1.0,
+   "patch": "page_0",
+   "srgb": 0.9017099365375789,
+   "srgb_cap": false,
+   "lin": 0.9153263976095016,
+   "lin_cap": false
+  },
+  {
+   "r_req": 1.0,
+   "patch": "grass_0",
+   "srgb": 2.142531346035227,
+   "srgb_cap": false,
+   "lin": 2.076319261078171,
+   "lin_cap": false
+  },
+  {
+   "r_req": 1.0,
+   "patch": "brick_0",
+   "srgb": 0.8437082756565768,
+   "srgb_cap": false,
+   "lin": 0.25000031963736313,
+   "lin_cap": false
+  },
+  {
+   "r_req": 1.0,
+   "patch": "camera_0",
+   "srgb": 1.1913397335610652,
+   "srgb_cap": false,
+   "lin": 1.1544663436253155,
+   "lin_cap": false
+  },
+  {
+   "r_req": 2.0,
+   "patch": "coffee_0",
+   "srgb": 1.237370006028719,
+   "srgb_cap": false,
+   "lin": 1.2106971763948808,
+   "lin_cap": false
+  },
+  {
+   "r_req": 2.0,
+   "patch": "immunohistochemistry_0",
+   "srgb": 2.1721035289399384,
+   "srgb_cap": false,
+   "lin": 2.1598425880612675,
+   "lin_cap": false
+  },
+  {
+   "r_req": 2.0,
+   "patch": "page_0",
+   "srgb": 0.9036741912673204,
+   "srgb_cap": false,
+   "lin": 0.9180406626235947,
+   "lin_cap": false
+  },
+  {
+   "r_req": 2.0,
+   "patch": "grass_0",
+   "srgb": 2.1430236876153876,
+   "srgb_cap": false,
+   "lin": 2.076633152887139,
+   "lin_cap": false
+  },
+  {
+   "r_req": 2.0,
+   "patch": "brick_0",
+   "srgb": 0.8516426106444089,
+   "srgb_cap": false,
+   "lin": 0.25000039691765696,
+   "lin_cap": false
+  },
+  {
+   "r_req": 2.0,
+   "patch": "camera_0",
+   "srgb": 1.1908836383019286,
+   "srgb_cap": false,
+   "lin": 1.1533184989822738,
+   "lin_cap": false
+  },
+  {
+   "r_req": 3.0,
+   "patch": "coffee_0",
+   "srgb": 1.2368965435245665,
+   "srgb_cap": false,
+   "lin": 1.209958778147431,
+   "lin_cap": false
+  },
+  {
+   "r_req": 3.0,
+   "patch": "immunohistochemistry_0",
+   "srgb": 2.17350072004329,
+   "srgb_cap": false,
+   "lin": 2.16137670661553,
+   "lin_cap": false
+  },
+  {
+   "r_req": 3.0,
+   "patch": "page_0",
+   "srgb": 0.9068891792281394,
+   "srgb_cap": false,
+   "lin": 0.9218469836818203,
+   "lin_cap": false
+  },
+  {
+   "r_req": 3.0,
+   "patch": "grass_0",
+   "srgb": 2.1457191407446783,
+   "srgb_cap": false,
+   "lin": 2.0801760204451796,
+   "lin_cap": false
+  },
+  {
+   "r_req": 3.0,
+   "patch": "brick_0",
+   "srgb": 0.8611679037308461,
+   "srgb_cap": false,
+   "lin": 0.250000545729118,
+   "lin_cap": false
+  },
+  {
+   "r_req": 3.0,
+   "patch": "camera_0",
+   "srgb": 1.1912947532924374,
+   "srgb_cap": false,
+   "lin": 1.153836722387032,
+   "lin_cap": false
+  },
+  {
+   "r_req": 4.0,
+   "patch": "coffee_0",
+   "srgb": 1.239416151970337,
+   "srgb_cap": false,
+   "lin": 1.2128562331666428,
+   "lin_cap": false
+  },
+  {
+   "r_req": 4.0,
+   "patch": "immunohistochemistry_0",
+   "srgb": 2.175708471944449,
+   "srgb_cap": false,
+   "lin": 2.1637776995617735,
+   "lin_cap": false
+  },
+  {
+   "r_req": 4.0,
+   "patch": "page_0",
+   "srgb": 0.9109964637408703,
+   "srgb_cap": false,
+   "lin": 0.9266938245933548,
+   "lin_cap": false
+  },
+  {
+   "r_req": 4.0,
+   "patch": "grass_0",
+   "srgb": 2.1432024747608613,
+   "srgb_cap": false,
+   "lin": 2.0784456553548414,
+   "lin_cap": false
+  },
+  {
+   "r_req": 4.0,
+   "patch": "brick_0",
+   "srgb": 0.8675475350658909,
+   "srgb_cap": false,
+   "lin": 0.25000077647461627,
+   "lin_cap": false
+  },
+  {
+   "r_req": 4.0,
+   "patch": "camera_0",
+   "srgb": 1.192837725178598,
+   "srgb_cap": false,
+   "lin": 1.1553183126183784,
+   "lin_cap": false
+  },
+  {
+   "r_req": 5.0,
+   "patch": "coffee_0",
+   "srgb": 1.55514550564623,
+   "srgb_cap": false,
+   "lin": 1.3844110811122452,
+   "lin_cap": false
+  },
+  {
+   "r_req": 5.0,
+   "patch": "immunohistochemistry_0",
+   "srgb": 2.3412237651580154,
+   "srgb_cap": false,
+   "lin": 2.32504008869881,
+   "lin_cap": false
+  },
+  {
+   "r_req": 5.0,
+   "patch": "page_0",
+   "srgb": 1.2373208322653304,
+   "srgb_cap": false,
+   "lin": 1.2726031973108696,
+   "lin_cap": false
+  },
+  {
+   "r_req": 5.0,
+   "patch": "grass_0",
+   "srgb": 2.1935384070909127,
+   "srgb_cap": false,
+   "lin": 2.13458325991161,
+   "lin_cap": false
+  },
+  {
+   "r_req": 5.0,
+   "patch": "brick_0",
+   "srgb": 1.242549139489075,
+   "srgb_cap": false,
+   "lin": 1.1939532435603892,
+   "lin_cap": false
+  },
+  {
+   "r_req": 5.0,
+   "patch": "camera_0",
+   "srgb": 1.4584925652614724,
+   "srgb_cap": false,
+   "lin": 1.2881789426692987,
+   "lin_cap": false
+  },
+  {
+   "r_req": 6.0,
+   "patch": "coffee_0",
+   "srgb": 3.303668683095741,
+   "srgb_cap": false,
+   "lin": 3.0258431185944246,
+   "lin_cap": false
+  },
+  {
+   "r_req": 6.0,
+   "patch": "immunohistochemistry_0",
+   "srgb": 4.1525074017171715,
+   "srgb_cap": false,
+   "lin": 4.073658931188712,
+   "lin_cap": false
+  },
+  {
+   "r_req": 6.0,
+   "patch": "page_0",
+   "srgb": 4.3285698620909105,
+   "srgb_cap": false,
+   "lin": 3.5972090570276323,
+   "lin_cap": false
+  },
+  {
+   "r_req": 6.0,
+   "patch": "grass_0",
+   "srgb": 3.706369851762337,
+   "srgb_cap": false,
+   "lin": 3.6559371205322964,
+   "lin_cap": false
+  },
+  {
+   "r_req": 6.0,
+   "patch": "brick_0",
+   "srgb": 4.264945631754545,
+   "srgb_cap": false,
+   "lin": 3.9899897483044002,
+   "lin_cap": false
+  },
+  {
+   "r_req": 6.0,
+   "patch": "camera_0",
+   "srgb": 3.319503449538899,
+   "srgb_cap": false,
+   "lin": 3.263242076610528,
+   "lin_cap": false
+  },
+  {
+   "r_req": 8.0,
+   "patch": "coffee_0",
+   "srgb": 7.320352494700682,
+   "srgb_cap": false,
+   "lin": 7.527499391307202,
+   "lin_cap": false
+  },
+  {
+   "r_req": 8.0,
+   "patch": "immunohistochemistry_0",
+   "srgb": 7.643862143467431,
+   "srgb_cap": false,
+   "lin": 7.441092688539014,
+   "lin_cap": false
+  },
+  {
+   "r_req": 8.0,
+   "patch": "page_0",
+   "srgb": 8.192706575813967,
+   "srgb_cap": false,
+   "lin": 7.210295551216485,
+   "lin_cap": false
+  },
+  {
+   "r_req": 8.0,
+   "patch": "grass_0",
+   "srgb": 7.919837598642894,
+   "srgb_cap": false,
+   "lin": 7.931209838257042,
+   "lin_cap": false
+  },
+  {
+   "r_req": 8.0,
+   "patch": "brick_0",
+   "srgb": 7.726770576713201,
+   "srgb_cap": false,
+   "lin": 7.483887087725219,
+   "lin_cap": false
+  },
+  {
+   "r_req": 8.0,
+   "patch": "camera_0",
+   "srgb": 6.202714714742601,
+   "srgb_cap": false,
+   "lin": 6.762506049385513,
+   "lin_cap": false
+  },
+  {
+   "r_req": 10.0,
+   "patch": "coffee_0",
+   "srgb": 11.646340677504718,
+   "srgb_cap": false,
+   "lin": 12.380536194061387,
+   "lin_cap": false
+  },
+  {
+   "r_req": 10.0,
+   "patch": "immunohistochemistry_0",
+   "srgb": 12.35622998200514,
+   "srgb_cap": false,
+   "lin": 12.140677773640814,
+   "lin_cap": false
+  },
+  {
+   "r_req": 10.0,
+   "patch": "page_0",
+   "srgb": 12.148730458921952,
+   "srgb_cap": false,
+   "lin": 12.200444991659772,
+   "lin_cap": false
+  },
+  {
+   "r_req": 10.0,
+   "patch": "grass_0",
+   "srgb": 12.89942062960416,
+   "srgb_cap": false,
+   "lin": 12.972366543979193,
+   "lin_cap": false
+  },
+  {
+   "r_req": 10.0,
+   "patch": "brick_0",
+   "srgb": 12.694706255292864,
+   "srgb_cap": false,
+   "lin": 12.469112047325027,
+   "lin_cap": false
+  },
+  {
+   "r_req": 10.0,
+   "patch": "camera_0",
+   "srgb": 11.910118935448718,
+   "srgb_cap": false,
+   "lin": 12.166882192560225,
+   "lin_cap": false
+  },
+  {
+   "r_req": 12.0,
+   "patch": "coffee_0",
+   "srgb": 15.972844020941862,
+   "srgb_cap": false,
+   "lin": 16.82645581996756,
+   "lin_cap": false
+  },
+  {
+   "r_req": 12.0,
+   "patch": "immunohistochemistry_0",
+   "srgb": 17.089696655498464,
+   "srgb_cap": false,
+   "lin": 16.659004542584036,
+   "lin_cap": false
+  },
+  {
+   "r_req": 12.0,
+   "patch": "page_0",
+   "srgb": 17.93767172483423,
+   "srgb_cap": false,
+   "lin": 17.07995167813469,
+   "lin_cap": false
+  },
+  {
+   "r_req": 12.0,
+   "patch": "grass_0",
+   "srgb": 16.90360613930011,
+   "srgb_cap": false,
+   "lin": 17.18984929617864,
+   "lin_cap": false
+  },
+  {
+   "r_req": 12.0,
+   "patch": "brick_0",
+   "srgb": 17.326195110501743,
+   "srgb_cap": false,
+   "lin": 17.21547516796378,
+   "lin_cap": false
+  },
+  {
+   "r_req": 12.0,
+   "patch": "camera_0",
+   "srgb": 16.188817513392646,
+   "srgb_cap": false,
+   "lin": 16.133580055868904,
+   "lin_cap": false
+  },
+  {
+   "r_req": 16.0,
+   "patch": "coffee_0",
+   "srgb": 25.844841331565043,
+   "srgb_cap": false,
+   "lin": 25.068002136701033,
+   "lin_cap": false
+  },
+  {
+   "r_req": 16.0,
+   "patch": "immunohistochemistry_0",
+   "srgb": 25.60773887453214,
+   "srgb_cap": false,
+   "lin": 24.74096863105589,
+   "lin_cap": false
+  },
+  {
+   "r_req": 16.0,
+   "patch": "page_0",
+   "srgb": 27.179216640010065,
+   "srgb_cap": false,
+   "lin": 25.690699181486643,
+   "lin_cap": false
+  },
+  {
+   "r_req": 16.0,
+   "patch": "grass_0",
+   "srgb": 23.99415977427202,
+   "srgb_cap": false,
+   "lin": 24.141058302877585,
+   "lin_cap": false
+  },
+  {
+   "r_req": 16.0,
+   "patch": "brick_0",
+   "srgb": 25.217717874700416,
+   "srgb_cap": false,
+   "lin": 25.299549327653484,
+   "lin_cap": false
+  },
+  {
+   "r_req": 16.0,
+   "patch": "camera_0",
+   "srgb": 24.89843673894702,
+   "srgb_cap": false,
+   "lin": 23.928500660115468,
+   "lin_cap": false
+  },
+  {
+   "r_req": 19.0,
+   "patch": "coffee_0",
+   "srgb": 28.39756461510527,
+   "srgb_cap": false,
+   "lin": 27.093506924076475,
+   "lin_cap": false
+  },
+  {
+   "r_req": 19.0,
+   "patch": "immunohistochemistry_0",
+   "srgb": 27.325000202606876,
+   "srgb_cap": false,
+   "lin": 26.400418285022397,
+   "lin_cap": false
+  },
+  {
+   "r_req": 19.0,
+   "patch": "page_0",
+   "srgb": 27.609206811983178,
+   "srgb_cap": false,
+   "lin": 26.42083011713708,
+   "lin_cap": false
+  },
+  {
+   "r_req": 19.0,
+   "patch": "grass_0",
+   "srgb": 25.204201398648394,
+   "srgb_cap": false,
+   "lin": 25.315528216262827,
+   "lin_cap": false
+  },
+  {
+   "r_req": 19.0,
+   "patch": "brick_0",
+   "srgb": 25.733269133829953,
+   "srgb_cap": false,
+   "lin": 25.808119507000942,
+   "lin_cap": false
+  },
+  {
+   "r_req": 19.0,
+   "patch": "camera_0",
+   "srgb": 26.35058111808844,
+   "srgb_cap": false,
+   "lin": 25.819199483245008,
+   "lin_cap": false
+  },
+  {
+   "r_req": 1.0,
+   "patch": "grass_1",
+   "srgb": 2.009040067393561,
+   "srgb_cap": false,
+   "lin": 1.917984010188642,
+   "lin_cap": false
+  },
+  {
+   "r_req": 1.0,
+   "patch": "brick_1",
+   "srgb": 0.25000005988126606,
+   "srgb_cap": false,
+   "lin": 0.25000004039924184,
+   "lin_cap": false
+  },
+  {
+   "r_req": 1.0,
+   "patch": "camera_1",
+   "srgb": 1.6728371539562983,
+   "srgb_cap": false,
+   "lin": 1.455761507081724,
+   "lin_cap": false
+  },
+  {
+   "r_req": 1.0,
+   "patch": "coffee_1",
+   "srgb": 1.9915329490450033,
+   "srgb_cap": false,
+   "lin": 1.9517715109161153,
+   "lin_cap": false
+  },
+  {
+   "r_req": 1.0,
+   "patch": "immunohistochemistry_1",
+   "srgb": 2.1733712755865824,
+   "srgb_cap": false,
+   "lin": 2.1181231270029857,
+   "lin_cap": false
+  },
+  {
+   "r_req": 1.0,
+   "patch": "page_1",
+   "srgb": 0.2500000325981366,
+   "srgb_cap": false,
+   "lin": 0.2500001122883385,
+   "lin_cap": false
+  },
+  {
+   "r_req": 2.0,
+   "patch": "grass_1",
+   "srgb": 2.0070634270055208,
+   "srgb_cap": false,
+   "lin": 1.9156190479738857,
+   "lin_cap": false
+  },
+  {
+   "r_req": 2.0,
+   "patch": "brick_1",
+   "srgb": 0.2500000684504978,
+   "srgb_cap": false,
+   "lin": 0.25000004525738034,
+   "lin_cap": false
+  },
+  {
+   "r_req": 2.0,
+   "patch": "camera_1",
+   "srgb": 1.6584735381497944,
+   "srgb_cap": false,
+   "lin": 1.4473710658889571,
+   "lin_cap": false
+  },
+  {
+   "r_req": 2.0,
+   "patch": "coffee_1",
+   "srgb": 1.998563263194637,
+   "srgb_cap": false,
+   "lin": 1.9588735960318726,
+   "lin_cap": false
+  },
+  {
+   "r_req": 2.0,
+   "patch": "immunohistochemistry_1",
+   "srgb": 2.1717918991957212,
+   "srgb_cap": false,
+   "lin": 2.116607454002515,
+   "lin_cap": false
+  },
+  {
+   "r_req": 2.0,
+   "patch": "page_1",
+   "srgb": 0.25000003307756163,
+   "srgb_cap": false,
+   "lin": 0.250000112978379,
+   "lin_cap": false
+  },
+  {
+   "r_req": 3.0,
+   "patch": "grass_1",
+   "srgb": 2.0068983166251813,
+   "srgb_cap": false,
+   "lin": 1.9169963997207038,
+   "lin_cap": false
+  },
+  {
+   "r_req": 3.0,
+   "patch": "brick_1",
+   "srgb": 0.2500000547957809,
+   "srgb_cap": false,
+   "lin": 0.2500000380594467,
+   "lin_cap": false
+  },
+  {
+   "r_req": 3.0,
+   "patch": "camera_1",
+   "srgb": 1.6601843726637624,
+   "srgb_cap": false,
+   "lin": 1.4488775078250646,
+   "lin_cap": false
+  },
+  {
+   "r_req": 3.0,
+   "patch": "coffee_1",
+   "srgb": 2.0034656809759768,
+   "srgb_cap": false,
+   "lin": 1.962823925691461,
+   "lin_cap": false
+  },
+  {
+   "r_req": 3.0,
+   "patch": "immunohistochemistry_1",
+   "srgb": 2.1711824037271983,
+   "srgb_cap": false,
+   "lin": 2.1158958049334853,
+   "lin_cap": false
+  },
+  {
+   "r_req": 3.0,
+   "patch": "page_1",
+   "srgb": 0.2500000319038512,
+   "srgb_cap": false,
+   "lin": 0.2500001144944772,
+   "lin_cap": false
+  },
+  {
+   "r_req": 4.0,
+   "patch": "grass_1",
+   "srgb": 2.007425119490856,
+   "srgb_cap": false,
+   "lin": 1.9174068105759903,
+   "lin_cap": false
+  },
+  {
+   "r_req": 4.0,
+   "patch": "brick_1",
+   "srgb": 0.25000008201826734,
+   "srgb_cap": false,
+   "lin": 0.25000005125096925,
+   "lin_cap": false
+  },
+  {
+   "r_req": 4.0,
+   "patch": "camera_1",
+   "srgb": 1.674498043406122,
+   "srgb_cap": false,
+   "lin": 1.457016630367719,
+   "lin_cap": false
+  },
+  {
+   "r_req": 4.0,
+   "patch": "coffee_1",
+   "srgb": 2.0018145839128723,
+   "srgb_cap": false,
+   "lin": 1.96006487734994,
+   "lin_cap": false
+  },
+  {
+   "r_req": 4.0,
+   "patch": "immunohistochemistry_1",
+   "srgb": 2.173748595476213,
+   "srgb_cap": false,
+   "lin": 2.1189480603996844,
+   "lin_cap": false
+  },
+  {
+   "r_req": 4.0,
+   "patch": "page_1",
+   "srgb": 0.2500000316201212,
+   "srgb_cap": false,
+   "lin": 0.2500001121405603,
+   "lin_cap": false
+  },
+  {
+   "r_req": 5.0,
+   "patch": "grass_1",
+   "srgb": 2.273368298542423,
+   "srgb_cap": false,
+   "lin": 2.2080696647241957,
+   "lin_cap": false
+  },
+  {
+   "r_req": 5.0,
+   "patch": "brick_1",
+   "srgb": 2.279499960206893,
+   "srgb_cap": false,
+   "lin": 2.1102699412610737,
+   "lin_cap": false
+  },
+  {
+   "r_req": 5.0,
+   "patch": "camera_1",
+   "srgb": 1.8962793279168126,
+   "srgb_cap": false,
+   "lin": 1.7012181060821174,
+   "lin_cap": false
+  },
+  {
+   "r_req": 5.0,
+   "patch": "coffee_1",
+   "srgb": 2.2114055860618635,
+   "srgb_cap": false,
+   "lin": 2.181389345381983,
+   "lin_cap": false
+  },
+  {
+   "r_req": 5.0,
+   "patch": "immunohistochemistry_1",
+   "srgb": 2.3313195478813973,
+   "srgb_cap": false,
+   "lin": 2.247353651167671,
+   "lin_cap": false
+  },
+  {
+   "r_req": 5.0,
+   "patch": "page_1",
+   "srgb": 1.1164912943075644,
+   "srgb_cap": false,
+   "lin": 1.1507356588573712,
+   "lin_cap": false
+  },
+  {
+   "r_req": 6.0,
+   "patch": "grass_1",
+   "srgb": 4.045924933407292,
+   "srgb_cap": false,
+   "lin": 4.00932828812965,
+   "lin_cap": false
+  },
+  {
+   "r_req": 6.0,
+   "patch": "brick_1",
+   "srgb": 4.570777375395745,
+   "srgb_cap": false,
+   "lin": 4.385534837781759,
+   "lin_cap": false
+  },
+  {
+   "r_req": 6.0,
+   "patch": "camera_1",
+   "srgb": 3.4155850693144303,
+   "srgb_cap": false,
+   "lin": 3.3241524298974117,
+   "lin_cap": false
+  },
+  {
+   "r_req": 6.0,
+   "patch": "coffee_1",
+   "srgb": 4.215691706459404,
+   "srgb_cap": false,
+   "lin": 4.195787683658261,
+   "lin_cap": false
+  },
+  {
+   "r_req": 6.0,
+   "patch": "immunohistochemistry_1",
+   "srgb": 3.9870181152885404,
+   "srgb_cap": false,
+   "lin": 3.7838681364965967,
+   "lin_cap": false
+  },
+  {
+   "r_req": 6.0,
+   "patch": "page_1",
+   "srgb": 2.96791625241138,
+   "srgb_cap": false,
+   "lin": 3.0396903676210587,
+   "lin_cap": false
+  },
+  {
+   "r_req": 8.0,
+   "patch": "grass_1",
+   "srgb": 8.045420132193234,
+   "srgb_cap": false,
+   "lin": 7.8351894664943496,
+   "lin_cap": false
+  },
+  {
+   "r_req": 8.0,
+   "patch": "brick_1",
+   "srgb": 8.33363028101157,
+   "srgb_cap": false,
+   "lin": 8.174541238876028,
+   "lin_cap": false
+  },
+  {
+   "r_req": 8.0,
+   "patch": "camera_1",
+   "srgb": 7.861867198630648,
+   "srgb_cap": false,
+   "lin": 8.047282760760814,
+   "lin_cap": false
+  },
+  {
+   "r_req": 8.0,
+   "patch": "coffee_1",
+   "srgb": 7.5390085927989565,
+   "srgb_cap": false,
+   "lin": 7.576387984286993,
+   "lin_cap": false
+  },
+  {
+   "r_req": 8.0,
+   "patch": "immunohistochemistry_1",
+   "srgb": 7.873592901709288,
+   "srgb_cap": false,
+   "lin": 7.363045245870569,
+   "lin_cap": false
+  },
+  {
+   "r_req": 8.0,
+   "patch": "page_1",
+   "srgb": 6.431258392330794,
+   "srgb_cap": false,
+   "lin": 6.71396657059078,
+   "lin_cap": false
+  },
+  {
+   "r_req": 10.0,
+   "patch": "grass_1",
+   "srgb": 13.092526140033769,
+   "srgb_cap": false,
+   "lin": 12.960935794092965,
+   "lin_cap": false
+  },
+  {
+   "r_req": 10.0,
+   "patch": "brick_1",
+   "srgb": 13.009715834294822,
+   "srgb_cap": false,
+   "lin": 12.999343860299941,
+   "lin_cap": false
+  },
+  {
+   "r_req": 10.0,
+   "patch": "camera_1",
+   "srgb": 11.532711935382233,
+   "srgb_cap": false,
+   "lin": 12.030636656645157,
+   "lin_cap": false
+  },
+  {
+   "r_req": 10.0,
+   "patch": "coffee_1",
+   "srgb": 10.546604227141652,
+   "srgb_cap": false,
+   "lin": 10.782058419174689,
+   "lin_cap": false
+  },
+  {
+   "r_req": 10.0,
+   "patch": "immunohistochemistry_1",
+   "srgb": 12.584720870442144,
+   "srgb_cap": false,
+   "lin": 11.815061256854285,
+   "lin_cap": false
+  },
+  {
+   "r_req": 10.0,
+   "patch": "page_1",
+   "srgb": 11.85529192056306,
+   "srgb_cap": false,
+   "lin": 11.875142096195061,
+   "lin_cap": false
+  },
+  {
+   "r_req": 12.0,
+   "patch": "grass_1",
+   "srgb": 17.019896330150456,
+   "srgb_cap": false,
+   "lin": 16.849651694891786,
+   "lin_cap": false
+  },
+  {
+   "r_req": 12.0,
+   "patch": "brick_1",
+   "srgb": 16.952546719439123,
+   "srgb_cap": false,
+   "lin": 16.95771994965599,
+   "lin_cap": false
+  },
+  {
+   "r_req": 12.0,
+   "patch": "camera_1",
+   "srgb": 14.939120631793836,
+   "srgb_cap": false,
+   "lin": 16.01185960655803,
+   "lin_cap": false
+  },
+  {
+   "r_req": 12.0,
+   "patch": "coffee_1",
+   "srgb": 14.417795984289558,
+   "srgb_cap": false,
+   "lin": 14.866089741167027,
+   "lin_cap": false
+  },
+  {
+   "r_req": 12.0,
+   "patch": "immunohistochemistry_1",
+   "srgb": 17.64765274024599,
+   "srgb_cap": false,
+   "lin": 16.697420280884735,
+   "lin_cap": false
+  },
+  {
+   "r_req": 12.0,
+   "patch": "page_1",
+   "srgb": 16.03973121992784,
+   "srgb_cap": false,
+   "lin": 16.02153692190166,
+   "lin_cap": false
+  },
+  {
+   "r_req": 16.0,
+   "patch": "grass_1",
+   "srgb": 23.642345144836057,
+   "srgb_cap": false,
+   "lin": 23.325460835376344,
+   "lin_cap": false
+  },
+  {
+   "r_req": 16.0,
+   "patch": "brick_1",
+   "srgb": 23.673934802586174,
+   "srgb_cap": false,
+   "lin": 23.682018034977645,
+   "lin_cap": false
+  },
+  {
+   "r_req": 16.0,
+   "patch": "camera_1",
+   "srgb": 19.654327623872923,
+   "srgb_cap": false,
+   "lin": 21.193880066112627,
+   "lin_cap": false
+  },
+  {
+   "r_req": 16.0,
+   "patch": "coffee_1",
+   "srgb": 22.553912088568637,
+   "srgb_cap": false,
+   "lin": 23.418264347488165,
+   "lin_cap": false
+  },
+  {
+   "r_req": 16.0,
+   "patch": "immunohistochemistry_1",
+   "srgb": 25.273275735809897,
+   "srgb_cap": false,
+   "lin": 24.2426891893163,
+   "lin_cap": false
+  },
+  {
+   "r_req": 16.0,
+   "patch": "page_1",
+   "srgb": 21.98780734317476,
+   "srgb_cap": false,
+   "lin": 21.649149236409755,
+   "lin_cap": false
+  },
+  {
+   "r_req": 19.0,
+   "patch": "grass_1",
+   "srgb": 24.76681725885842,
+   "srgb_cap": false,
+   "lin": 24.516330094468742,
+   "lin_cap": false
+  },
+  {
+   "r_req": 19.0,
+   "patch": "brick_1",
+   "srgb": 24.34325836115808,
+   "srgb_cap": false,
+   "lin": 24.356744492067747,
+   "lin_cap": false
+  },
+  {
+   "r_req": 19.0,
+   "patch": "camera_1",
+   "srgb": 21.140126626309584,
+   "srgb_cap": false,
+   "lin": 23.174052141206964,
+   "lin_cap": false
+  },
+  {
+   "r_req": 19.0,
+   "patch": "coffee_1",
+   "srgb": 24.202993384597605,
+   "srgb_cap": false,
+   "lin": 24.989170276832386,
+   "lin_cap": false
+  },
+  {
+   "r_req": 19.0,
+   "patch": "immunohistochemistry_1",
+   "srgb": 26.970853004226353,
+   "srgb_cap": false,
+   "lin": 25.932368629870975,
+   "lin_cap": false
+  },
+  {
+   "r_req": 19.0,
+   "patch": "page_1",
+   "srgb": 24.003641642761718,
+   "srgb_cap": false,
+   "lin": 23.4342770736,
+   "lin_cap": false
+  },
+  {
+   "r_req": 1.0,
+   "patch": "coffee_1",
+   "srgb": 2.1302746643478923,
+   "srgb_cap": false,
+   "lin": 2.0843126170059794,
+   "lin_cap": false
+  },
+  {
+   "r_req": 1.0,
+   "patch": "immunohistochemistry_1",
+   "srgb": 2.1369265396139667,
+   "srgb_cap": false,
+   "lin": 2.0945382092114238,
+   "lin_cap": false
+  },
+  {
+   "r_req": 1.0,
+   "patch": "page_1",
+   "srgb": 0.0,
+   "srgb_cap": false,
+   "lin": 0.2500004804381356,
+   "lin_cap": false
+  },
+  {
+   "r_req": 1.0,
+   "patch": "grass_1",
+   "srgb": 2.018618186319582,
+   "srgb_cap": false,
+   "lin": 1.9318389808836776,
+   "lin_cap": false
+  },
+  {
+   "r_req": 1.0,
+   "patch": "brick_1",
+   "srgb": 0.0,
+   "srgb_cap": false,
+   "lin": 0.0,
+   "lin_cap": false
+  },
+  {
+   "r_req": 1.0,
+   "patch": "camera_1",
+   "srgb": 2.3319456065915647,
+   "srgb_cap": false,
+   "lin": 2.3604700772233693,
+   "lin_cap": false
+  },
+  {
+   "r_req": 2.0,
+   "patch": "coffee_1",
+   "srgb": 2.1338008101774224,
+   "srgb_cap": false,
+   "lin": 2.087503920728298,
+   "lin_cap": false
+  },
+  {
+   "r_req": 2.0,
+   "patch": "immunohistochemistry_1",
+   "srgb": 2.1391283801719942,
+   "srgb_cap": false,
+   "lin": 2.0968824461187734,
+   "lin_cap": false
+  },
+  {
+   "r_req": 2.0,
+   "patch": "page_1",
+   "srgb": 0.0,
+   "srgb_cap": false,
+   "lin": 0.2500004126292439,
+   "lin_cap": false
+  },
+  {
+   "r_req": 2.0,
+   "patch": "grass_1",
+   "srgb": 2.017944760054655,
+   "srgb_cap": false,
+   "lin": 1.9315481145534468,
+   "lin_cap": false
+  },
+  {
+   "r_req": 2.0,
+   "patch": "brick_1",
+   "srgb": 0.0,
+   "srgb_cap": false,
+   "lin": 0.0,
+   "lin_cap": false
+  },
+  {
+   "r_req": 2.0,
+   "patch": "camera_1",
+   "srgb": 2.334942247390296,
+   "srgb_cap": false,
+   "lin": 2.363317514002056,
+   "lin_cap": false
+  },
+  {
+   "r_req": 3.0,
+   "patch": "coffee_1",
+   "srgb": 2.133553801979493,
+   "srgb_cap": false,
+   "lin": 2.0878140890439347,
+   "lin_cap": false
+  },
+  {
+   "r_req": 3.0,
+   "patch": "immunohistochemistry_1",
+   "srgb": 2.1371823703721216,
+   "srgb_cap": false,
+   "lin": 2.0949622857513566,
+   "lin_cap": false
+  },
+  {
+   "r_req": 3.0,
+   "patch": "page_1",
+   "srgb": 0.0,
+   "srgb_cap": false,
+   "lin": 0.25000035341168925,
+   "lin_cap": false
+  },
+  {
+   "r_req": 3.0,
+   "patch": "grass_1",
+   "srgb": 2.0194787928716313,
+   "srgb_cap": false,
+   "lin": 1.9330679365539367,
+   "lin_cap": false
+  },
+  {
+   "r_req": 3.0,
+   "patch": "brick_1",
+   "srgb": 0.0,
+   "srgb_cap": false,
+   "lin": 0.0,
+   "lin_cap": false
+  },
+  {
+   "r_req": 3.0,
+   "patch": "camera_1",
+   "srgb": 2.337175409537804,
+   "srgb_cap": false,
+   "lin": 2.3666071909860227,
+   "lin_cap": false
+  },
+  {
+   "r_req": 4.0,
+   "patch": "coffee_1",
+   "srgb": 2.1372209181599184,
+   "srgb_cap": false,
+   "lin": 2.0908670070968323,
+   "lin_cap": false
+  },
+  {
+   "r_req": 4.0,
+   "patch": "immunohistochemistry_1",
+   "srgb": 2.137759751549687,
+   "srgb_cap": false,
+   "lin": 2.095377949405807,
+   "lin_cap": false
+  },
+  {
+   "r_req": 4.0,
+   "patch": "page_1",
+   "srgb": 0.0,
+   "srgb_cap": false,
+   "lin": 0.7515535245041529,
+   "lin_cap": false
+  },
+  {
+   "r_req": 4.0,
+   "patch": "grass_1",
+   "srgb": 2.0236069552943357,
+   "srgb_cap": false,
+   "lin": 1.9367342209017275,
+   "lin_cap": false
+  },
+  {
+   "r_req": 4.0,
+   "patch": "brick_1",
+   "srgb": 0.0,
+   "srgb_cap": false,
+   "lin": 0.0,
+   "lin_cap": false
+  },
+  {
+   "r_req": 4.0,
+   "patch": "camera_1",
+   "srgb": 2.334647651197891,
+   "srgb_cap": false,
+   "lin": 2.3623292484259752,
+   "lin_cap": false
+  },
+  {
+   "r_req": 5.0,
+   "patch": "coffee_1",
+   "srgb": 2.589423738258636,
+   "srgb_cap": false,
+   "lin": 2.496184489927673,
+   "lin_cap": false
+  },
+  {
+   "r_req": 5.0,
+   "patch": "immunohistochemistry_1",
+   "srgb": 2.407366749156802,
+   "srgb_cap": false,
+   "lin": 2.3371602841242582,
+   "lin_cap": false
+  },
+  {
+   "r_req": 5.0,
+   "patch": "page_1",
+   "srgb": 1.5464456433437723,
+   "srgb_cap": false,
+   "lin": 1.6646309622607725,
+   "lin_cap": false
+  },
+  {
+   "r_req": 5.0,
+   "patch": "grass_1",
+   "srgb": 2.138255144667903,
+   "srgb_cap": false,
+   "lin": 2.0657556522548175,
+   "lin_cap": false
+  },
+  {
+   "r_req": 5.0,
+   "patch": "brick_1",
+   "srgb": 1.890436688336586,
+   "srgb_cap": false,
+   "lin": 1.6726380770401066,
+   "lin_cap": false
+  },
+  {
+   "r_req": 5.0,
+   "patch": "camera_1",
+   "srgb": 2.6002599538810998,
+   "srgb_cap": false,
+   "lin": 2.6403444545777046,
+   "lin_cap": false
+  },
+  {
+   "r_req": 6.0,
+   "patch": "coffee_1",
+   "srgb": 4.018503891603635,
+   "srgb_cap": false,
+   "lin": 3.9543733920284643,
+   "lin_cap": false
+  },
+  {
+   "r_req": 6.0,
+   "patch": "immunohistochemistry_1",
+   "srgb": 4.318214770909895,
+   "srgb_cap": false,
+   "lin": 4.169556476628842,
+   "lin_cap": false
+  },
+  {
+   "r_req": 6.0,
+   "patch": "page_1",
+   "srgb": 3.242906361127088,
+   "srgb_cap": false,
+   "lin": 3.4227568405253557,
+   "lin_cap": false
+  },
+  {
+   "r_req": 6.0,
+   "patch": "grass_1",
+   "srgb": 3.801511881019814,
+   "srgb_cap": false,
+   "lin": 3.7392384733761475,
+   "lin_cap": false
+  },
+  {
+   "r_req": 6.0,
+   "patch": "brick_1",
+   "srgb": 4.4695524282519745,
+   "srgb_cap": false,
+   "lin": 4.26896843173494,
+   "lin_cap": false
+  },
+  {
+   "r_req": 6.0,
+   "patch": "camera_1",
+   "srgb": 4.152390914225687,
+   "srgb_cap": false,
+   "lin": 4.205535667059772,
+   "lin_cap": false
+  },
+  {
+   "r_req": 8.0,
+   "patch": "coffee_1",
+   "srgb": 7.2318224117780625,
+   "srgb_cap": false,
+   "lin": 7.175842292148926,
+   "lin_cap": false
+  },
+  {
+   "r_req": 8.0,
+   "patch": "immunohistochemistry_1",
+   "srgb": 8.539765119147647,
+   "srgb_cap": false,
+   "lin": 8.111018732079476,
+   "lin_cap": false
+  },
+  {
+   "r_req": 8.0,
+   "patch": "page_1",
+   "srgb": 6.58030576667193,
+   "srgb_cap": false,
+   "lin": 6.701478855123802,
+   "lin_cap": false
+  },
+  {
+   "r_req": 8.0,
+   "patch": "grass_1",
+   "srgb": 8.020677830786067,
+   "srgb_cap": false,
+   "lin": 7.84581831252033,
+   "lin_cap": false
+  },
+  {
+   "r_req": 8.0,
+   "patch": "brick_1",
+   "srgb": 7.483872716815057,
+   "srgb_cap": false,
+   "lin": 7.332129724125369,
+   "lin_cap": false
+  },
+  {
+   "r_req": 8.0,
+   "patch": "camera_1",
+   "srgb": 8.085326511252195,
+   "srgb_cap": false,
+   "lin": 8.537095643938775,
+   "lin_cap": false
+  },
+  {
+   "r_req": 10.0,
+   "patch": "coffee_1",
+   "srgb": 11.316153706471708,
+   "srgb_cap": false,
+   "lin": 11.432880830976734,
+   "lin_cap": false
+  },
+  {
+   "r_req": 10.0,
+   "patch": "immunohistochemistry_1",
+   "srgb": 13.572145991821309,
+   "srgb_cap": false,
+   "lin": 12.816739974642845,
+   "lin_cap": false
+  },
+  {
+   "r_req": 10.0,
+   "patch": "page_1",
+   "srgb": 10.492723610869707,
+   "srgb_cap": false,
+   "lin": 10.484862114920892,
+   "lin_cap": false
+  },
+  {
+   "r_req": 10.0,
+   "patch": "grass_1",
+   "srgb": 12.912135701399617,
+   "srgb_cap": false,
+   "lin": 12.743221935310245,
+   "lin_cap": false
+  },
+  {
+   "r_req": 10.0,
+   "patch": "brick_1",
+   "srgb": 12.090873336652514,
+   "srgb_cap": false,
+   "lin": 12.107114676306416,
+   "lin_cap": false
+  },
+  {
+   "r_req": 10.0,
+   "patch": "camera_1",
+   "srgb": 11.758054823253897,
+   "srgb_cap": false,
+   "lin": 11.930770259051288,
+   "lin_cap": false
+  },
+  {
+   "r_req": 12.0,
+   "patch": "coffee_1",
+   "srgb": 15.018473287291487,
+   "srgb_cap": false,
+   "lin": 15.519966586469002,
+   "lin_cap": false
+  },
+  {
+   "r_req": 12.0,
+   "patch": "immunohistochemistry_1",
+   "srgb": 17.62356081630083,
+   "srgb_cap": false,
+   "lin": 16.702884347326588,
+   "lin_cap": false
+  },
+  {
+   "r_req": 12.0,
+   "patch": "page_1",
+   "srgb": 15.087490925154325,
+   "srgb_cap": false,
+   "lin": 13.792913147878433,
+   "lin_cap": false
+  },
+  {
+   "r_req": 12.0,
+   "patch": "grass_1",
+   "srgb": 16.841461189833385,
+   "srgb_cap": false,
+   "lin": 16.77711321616211,
+   "lin_cap": false
+  },
+  {
+   "r_req": 12.0,
+   "patch": "brick_1",
+   "srgb": 15.685047717222538,
+   "srgb_cap": false,
+   "lin": 15.815633998414137,
+   "lin_cap": false
+  },
+  {
+   "r_req": 12.0,
+   "patch": "camera_1",
+   "srgb": 15.26599370011733,
+   "srgb_cap": false,
+   "lin": 15.440302908093212,
+   "lin_cap": false
+  },
+  {
+   "r_req": 16.0,
+   "patch": "coffee_1",
+   "srgb": 22.18613030517254,
+   "srgb_cap": false,
+   "lin": 23.4575444617116,
+   "lin_cap": false
+  },
+  {
+   "r_req": 16.0,
+   "patch": "immunohistochemistry_1",
+   "srgb": 25.57571939038484,
+   "srgb_cap": false,
+   "lin": 24.424027894367217,
+   "lin_cap": false
+  },
+  {
+   "r_req": 16.0,
+   "patch": "page_1",
+   "srgb": 21.911326659916078,
+   "srgb_cap": false,
+   "lin": 20.7564509347494,
+   "lin_cap": false
+  },
+  {
+   "r_req": 16.0,
+   "patch": "grass_1",
+   "srgb": 24.27629670117985,
+   "srgb_cap": false,
+   "lin": 24.408929816951133,
+   "lin_cap": false
+  },
+  {
+   "r_req": 16.0,
+   "patch": "brick_1",
+   "srgb": 23.77264640993737,
+   "srgb_cap": false,
+   "lin": 23.81081589921033,
+   "lin_cap": false
+  },
+  {
+   "r_req": 16.0,
+   "patch": "camera_1",
+   "srgb": 23.79117600405175,
+   "srgb_cap": false,
+   "lin": 22.972461349844654,
+   "lin_cap": false
+  },
+  {
+   "r_req": 19.0,
+   "patch": "coffee_1",
+   "srgb": 23.76416612934387,
+   "srgb_cap": false,
+   "lin": 25.09895816995392,
+   "lin_cap": false
+  },
+  {
+   "r_req": 19.0,
+   "patch": "immunohistochemistry_1",
+   "srgb": 27.215061323766204,
+   "srgb_cap": false,
+   "lin": 25.997065155103023,
+   "lin_cap": false
+  },
+  {
+   "r_req": 19.0,
+   "patch": "page_1",
+   "srgb": 26.46272459345299,
+   "srgb_cap": false,
+   "lin": 22.718330886656574,
+   "lin_cap": false
+  },
+  {
+   "r_req": 19.0,
+   "patch": "grass_1",
+   "srgb": 25.395715383982328,
+   "srgb_cap": false,
+   "lin": 25.604292801666418,
+   "lin_cap": false
+  },
+  {
+   "r_req": 19.0,
+   "patch": "brick_1",
+   "srgb": 24.380990224745197,
+   "srgb_cap": false,
+   "lin": 24.39984180580854,
+   "lin_cap": false
+  },
+  {
+   "r_req": 19.0,
+   "patch": "camera_1",
+   "srgb": 25.411452353573733,
+   "srgb_cap": false,
+   "lin": 24.376331867683998,
+   "lin_cap": false
+  }
+ ],
+ "v36": [
+  {
+   "scene": "test00",
+   "cell": 1,
+   "r_star": 13.5625,
+   "srgb": 15.659378752471827,
+   "lin": 15.692341124722537,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test00",
+   "cell": 2,
+   "r_star": 9.6875,
+   "srgb": 8.968390795061197,
+   "lin": 7.784814587078172,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test00",
+   "cell": 3,
+   "r_star": 5.8125,
+   "srgb": 5.321148917827542,
+   "lin": 5.147564779001085,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test00",
+   "cell": 5,
+   "r_star": 5.8125,
+   "srgb": 8.752896305015199,
+   "lin": 7.9566630758615124,
+   "ok_srgb": false,
+   "ok_lin": false
+  },
+  {
+   "scene": "test00",
+   "cell": 6,
+   "r_star": 9.6875,
+   "srgb": 10.42704973399175,
+   "lin": 10.311907249080988,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test00",
+   "cell": 7,
+   "r_star": 13.5625,
+   "srgb": 12.915270611367559,
+   "lin": 12.44461546589476,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test01",
+   "cell": 1,
+   "r_star": 13.5625,
+   "srgb": 14.515246857436484,
+   "lin": 14.448177057021296,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test01",
+   "cell": 2,
+   "r_star": 9.6875,
+   "srgb": 9.723522271076108,
+   "lin": 8.17862968752538,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test01",
+   "cell": 3,
+   "r_star": 5.8125,
+   "srgb": 5.029161134915982,
+   "lin": 5.097478569476826,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test01",
+   "cell": 5,
+   "r_star": 5.8125,
+   "srgb": 6.676351105275492,
+   "lin": 6.102687203180678,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test01",
+   "cell": 6,
+   "r_star": 9.6875,
+   "srgb": 13.91468707136688,
+   "lin": 12.13963327356741,
+   "ok_srgb": false,
+   "ok_lin": false
+  },
+  {
+   "scene": "test01",
+   "cell": 7,
+   "r_star": 13.5625,
+   "srgb": 13.630675683787485,
+   "lin": 13.525698523392515,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test02",
+   "cell": 1,
+   "r_star": 9.6875,
+   "srgb": 11.164919836579172,
+   "lin": 10.579996774432711,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test02",
+   "cell": 2,
+   "r_star": 13.5625,
+   "srgb": 12.710227193907416,
+   "lin": 12.657676396489489,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test02",
+   "cell": 3,
+   "r_star": 13.5625,
+   "srgb": 11.655350441733258,
+   "lin": 11.15250983339867,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test02",
+   "cell": 5,
+   "r_star": 9.6875,
+   "srgb": 9.15697095830593,
+   "lin": 8.96620274791837,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test02",
+   "cell": 6,
+   "r_star": 5.8125,
+   "srgb": 6.8308962384813645,
+   "lin": 5.8999553406045,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test02",
+   "cell": 7,
+   "r_star": 5.8125,
+   "srgb": 6.184469648693724,
+   "lin": 6.062429377777478,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test03",
+   "cell": 1,
+   "r_star": 9.6875,
+   "srgb": 11.170118925443798,
+   "lin": 10.977705926097496,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test03",
+   "cell": 2,
+   "r_star": 13.5625,
+   "srgb": 12.964568706479316,
+   "lin": 12.967703403692651,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test03",
+   "cell": 3,
+   "r_star": 13.5625,
+   "srgb": 12.511458024121366,
+   "lin": 12.054610186767947,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test03",
+   "cell": 5,
+   "r_star": 9.6875,
+   "srgb": 8.365181280730413,
+   "lin": 8.561879682574617,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test03",
+   "cell": 6,
+   "r_star": 5.8125,
+   "srgb": 7.183647968491851,
+   "lin": 6.476935914353941,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test03",
+   "cell": 7,
+   "r_star": 5.8125,
+   "srgb": 6.629342834038484,
+   "lin": 6.225137962954711,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test04",
+   "cell": 1,
+   "r_star": 5.8125,
+   "srgb": 6.004907777266179,
+   "lin": 5.626032196537468,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test04",
+   "cell": 2,
+   "r_star": 5.8125,
+   "srgb": 6.743222187157332,
+   "lin": 6.228656202995794,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test04",
+   "cell": 3,
+   "r_star": 9.6875,
+   "srgb": 10.096178210887718,
+   "lin": 9.830988793018733,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test04",
+   "cell": 5,
+   "r_star": 13.5625,
+   "srgb": 13.278043377318955,
+   "lin": 12.10736383655768,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test04",
+   "cell": 6,
+   "r_star": 13.5625,
+   "srgb": 12.206920659676586,
+   "lin": 12.021643420533707,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test04",
+   "cell": 7,
+   "r_star": 9.6875,
+   "srgb": 12.394026524697399,
+   "lin": 11.220830522363498,
+   "ok_srgb": false,
+   "ok_lin": true
+  },
+  {
+   "scene": "test05",
+   "cell": 1,
+   "r_star": 5.8125,
+   "srgb": 6.077336133883332,
+   "lin": 6.012791557326991,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test05",
+   "cell": 2,
+   "r_star": 5.8125,
+   "srgb": 6.899209522852126,
+   "lin": 6.579272365367103,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test05",
+   "cell": 3,
+   "r_star": 9.6875,
+   "srgb": 10.228139775001297,
+   "lin": 9.835491423005179,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test05",
+   "cell": 5,
+   "r_star": 13.5625,
+   "srgb": 15.107839240946303,
+   "lin": 13.335480521627106,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test05",
+   "cell": 6,
+   "r_star": 13.5625,
+   "srgb": 11.854138242962431,
+   "lin": 12.091419116760456,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test05",
+   "cell": 7,
+   "r_star": 9.6875,
+   "srgb": 10.628106774579397,
+   "lin": 9.35949755027425,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test06",
+   "cell": 1,
+   "r_star": 13.5625,
+   "srgb": 14.370967097482716,
+   "lin": 13.033390430211844,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test06",
+   "cell": 2,
+   "r_star": 9.6875,
+   "srgb": 9.553710386543486,
+   "lin": 9.493798331732766,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test06",
+   "cell": 3,
+   "r_star": 5.8125,
+   "srgb": 5.869490765821248,
+   "lin": 5.707555796776609,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test06",
+   "cell": 5,
+   "r_star": 5.8125,
+   "srgb": 6.6901769890483385,
+   "lin": 6.576352026089938,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test06",
+   "cell": 6,
+   "r_star": 9.6875,
+   "srgb": 10.437730660793637,
+   "lin": 9.855292642365448,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test06",
+   "cell": 7,
+   "r_star": 13.5625,
+   "srgb": 11.639645390446503,
+   "lin": 11.448700130271238,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test07",
+   "cell": 1,
+   "r_star": 13.5625,
+   "srgb": 14.34892509008761,
+   "lin": 12.328128354369067,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test07",
+   "cell": 2,
+   "r_star": 9.6875,
+   "srgb": 11.534552879604632,
+   "lin": 9.799504994295127,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test07",
+   "cell": 3,
+   "r_star": 5.8125,
+   "srgb": 6.898928689853977,
+   "lin": 6.567097009606673,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test07",
+   "cell": 5,
+   "r_star": 5.8125,
+   "srgb": 7.258418408597485,
+   "lin": 6.9538499988225215,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test07",
+   "cell": 6,
+   "r_star": 9.6875,
+   "srgb": 10.85198747489792,
+   "lin": 10.39386910311761,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test07",
+   "cell": 7,
+   "r_star": 13.5625,
+   "srgb": 11.542129205230376,
+   "lin": 11.776988559811638,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test08",
+   "cell": 1,
+   "r_star": 9.6875,
+   "srgb": 7.813002114410467,
+   "lin": 7.576876359036312,
+   "ok_srgb": true,
+   "ok_lin": false
+  },
+  {
+   "scene": "test08",
+   "cell": 2,
+   "r_star": 13.5625,
+   "srgb": 14.521022270084519,
+   "lin": 13.07685245469731,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test08",
+   "cell": 3,
+   "r_star": 13.5625,
+   "srgb": 11.8990466968598,
+   "lin": 11.98076004481127,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test08",
+   "cell": 5,
+   "r_star": 9.6875,
+   "srgb": 11.638985154577696,
+   "lin": 10.966044024927015,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test08",
+   "cell": 6,
+   "r_star": 5.8125,
+   "srgb": 6.7115205282830255,
+   "lin": 6.626426469194313,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test08",
+   "cell": 7,
+   "r_star": 5.8125,
+   "srgb": 5.679738360218453,
+   "lin": 4.927843749794588,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test09",
+   "cell": 1,
+   "r_star": 9.6875,
+   "srgb": 8.601069134345362,
+   "lin": 8.6719538916608,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test09",
+   "cell": 2,
+   "r_star": 13.5625,
+   "srgb": 15.387483110109791,
+   "lin": 13.42732435130849,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test09",
+   "cell": 3,
+   "r_star": 13.5625,
+   "srgb": 13.032092406453067,
+   "lin": 12.307179420982695,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test09",
+   "cell": 5,
+   "r_star": 9.6875,
+   "srgb": 11.607168520659458,
+   "lin": 11.11619125411497,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test09",
+   "cell": 6,
+   "r_star": 5.8125,
+   "srgb": 6.588491569203805,
+   "lin": 6.239943868495623,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test09",
+   "cell": 7,
+   "r_star": 5.8125,
+   "srgb": 6.059120418094741,
+   "lin": 5.738283321490654,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test10",
+   "cell": 1,
+   "r_star": 5.8125,
+   "srgb": 6.1791336702171185,
+   "lin": 5.360124801130764,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test10",
+   "cell": 2,
+   "r_star": 5.8125,
+   "srgb": 5.533215012190571,
+   "lin": 5.353257991448586,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test10",
+   "cell": 3,
+   "r_star": 9.6875,
+   "srgb": 11.026949885543669,
+   "lin": 9.679441206605933,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test10",
+   "cell": 5,
+   "r_star": 13.5625,
+   "srgb": 13.273077141913179,
+   "lin": 13.537637586988202,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test10",
+   "cell": 6,
+   "r_star": 13.5625,
+   "srgb": 12.589079386043139,
+   "lin": 12.129232591803786,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test10",
+   "cell": 7,
+   "r_star": 9.6875,
+   "srgb": 11.983603547488823,
+   "lin": 11.839177739614843,
+   "ok_srgb": false,
+   "ok_lin": false
+  },
+  {
+   "scene": "test11",
+   "cell": 1,
+   "r_star": 5.8125,
+   "srgb": 6.054627061261257,
+   "lin": 5.309153114947314,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test11",
+   "cell": 2,
+   "r_star": 5.8125,
+   "srgb": 5.549771115555535,
+   "lin": 5.504503174916334,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test11",
+   "cell": 3,
+   "r_star": 9.6875,
+   "srgb": 12.466473034867319,
+   "lin": 10.866021773559012,
+   "ok_srgb": false,
+   "ok_lin": true
+  },
+  {
+   "scene": "test11",
+   "cell": 5,
+   "r_star": 13.5625,
+   "srgb": 14.141706483015485,
+   "lin": 12.423787747856526,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test11",
+   "cell": 6,
+   "r_star": 13.5625,
+   "srgb": 13.466774861101177,
+   "lin": 13.168131437159241,
+   "ok_srgb": true,
+   "ok_lin": true
+  },
+  {
+   "scene": "test11",
+   "cell": 7,
+   "r_star": 9.6875,
+   "srgb": 12.680885592677262,
+   "lin": 12.27642383874284,
+   "ok_srgb": false,
+   "ok_lin": false
+  }
+ ],
+ "curve_srgb": {
+  "x": [
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0,
+   8.0,
+   10.0,
+   12.0,
+   16.0,
+   19.0
+  ],
+  "y": [
+   1.4007437693801208,
+   1.4007437693801208,
+   1.4007437693801208,
+   1.4007437693801208,
+   1.409448985350803,
+   1.933811529756194,
+   3.8680500005439007,
+   7.44351021794542,
+   11.97029990577262,
+   16.76872409541225,
+   24.88305382733806,
+   26.16985263393741
+  ]
+ },
+ "curve_lin": {
+  "x": [
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0,
+   8.0,
+   10.0,
+   12.0,
+   16.0,
+   19.0
+  ],
+  "y": [
+   1.3369640441959385,
+   1.3369640441959385,
+   1.3369640441959385,
+   1.3369640441959385,
+   1.3584364001011657,
+   1.8621320473431957,
+   3.737337007621336,
+   7.390374168075518,
+   11.991079101196206,
+   16.19158025484733,
+   23.47287510102026,
+   24.86207947146143
+  ]
+ },
+ "curve_r25": {
+  "x": [
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0,
+   8.0,
+   10.0,
+   12.0,
+   16.0,
+   19.0
+  ],
+  "y": [
+   1.3905826238550436,
+   1.3905826238550436,
+   1.3905826238550436,
+   1.3905826238550436,
+   1.399084487922897,
+   1.9338065580925978,
+   3.868083386842013,
+   7.443460383390914,
+   11.969932965402188,
+   16.76850540684751,
+   24.882496726759296,
+   26.16998123894952
+  ]
+ },
+ "check_c1_reproduces_r25": 0.010364497427906016,
+ "requests": {
+  "3": {
+   "srgb": [
+    5.5512187283761385,
+    "ok"
+   ],
+   "lin": [
+    5.606796577846098,
+    "ok"
+   ]
+  },
+  "4": {
+   "srgb": [
+    6.073808679964558,
+    "ok"
+   ],
+   "lin": [
+    6.143805267147081,
+    "ok"
+   ]
+  },
+  "5": {
+   "srgb": [
+    6.633177230694374,
+    "ok"
+   ],
+   "lin": [
+    6.691294907178922,
+    "ok"
+   ]
+  },
+  "6": {
+   "srgb": [
+    7.19254578142419,
+    "ok"
+   ],
+   "lin": [
+    7.238784547210764,
+    "ok"
+   ]
+  },
+  "8": {
+   "srgb": [
+    8.245865092231263,
+    "ok"
+   ],
+   "lin": [
+    8.26501409709445,
+    "ok"
+   ]
+  },
+  "9.69": {
+   "srgb": [
+    8.992531103486217,
+    "ok"
+   ],
+   "lin": [
+    8.999684120304856,
+    "ok"
+   ]
+  },
+  "11.625": {
+   "srgb": [
+    9.84744159566275,
+    "ok"
+   ],
+   "lin": [
+    9.840859561081265,
+    "ok"
+   ]
+  },
+  "13.56": {
+   "srgb": [
+    10.662592564308813,
+    "ok"
+   ],
+   "lin": [
+    10.747016054234418,
+    "ok"
+   ]
+  },
+  "15.5": {
+   "srgb": [
+    11.471191355632303,
+    "ok"
+   ],
+   "lin": [
+    11.670715360120209,
+    "ok"
+   ]
+  }
+ },
+ "v36_summary": {
+  "n": 72,
+  "ok_srgb": 66,
+  "ok_lin": 67,
+  "both": 65,
+  "lin_minus_srgb_median": -0.38576196636241455,
+  "lin_minus_srgb_maxabs": 2.020796735718543
+ }
+}

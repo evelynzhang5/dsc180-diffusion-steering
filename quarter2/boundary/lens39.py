@@ -96,3 +96,34 @@ def naive(fg, bg, d_f, n_side=40):
     a = kernel_blur(fg["alpha"][..., None], cf, n_side)
     B = kernel_blur(to_lin(bg["F"]), cb, n_side)
     return to_srgb(a * F + (1 - a) * B)
+
+
+def raytrace_torch(layers, d_f, n_side=40, device="cuda", radius=None):
+    """raytrace() on the GPU in float64; identical sampling and bilinear interpolation. radius: optional
+    {layer index in `layers`: blur radius px} overriding R * (d - d_f) in magnitude (sign kept from depth order)."""
+    import torch
+    H, W = layers[0]["alpha"].shape
+    order = sorted(range(len(layers)), key=lambda i: -layers[i]["d"])
+    Ps = []
+    for i in order:
+        l = layers[i]
+        c = R * (l["d"] - d_f)
+        if radius is not None and i in radius:
+            c = float(np.sign(c) or 1.0) * radius[i]
+        pad = int(np.ceil(abs(c))) + 2
+        P = np.concatenate([to_lin(l["F"]) * l["alpha"][..., None], l["alpha"][..., None]], -1)
+        P = torch.from_numpy(np.pad(P, ((pad, pad), (pad, pad), (0, 0)), mode="edge")).to(device)
+        Ps.append((P, pad, c))
+    acc = torch.zeros((H, W, 3), dtype=torch.float64, device=device)
+    for ax, ay in aperture(n_side):
+        T = torch.ones((H, W, 1), dtype=torch.float64, device=device)
+        for P, pad, c in Ps:
+            dx, dy = ax * c, ay * c
+            x0, y0 = int(np.floor(dx)), int(np.floor(dy))
+            fx, fy = dx - x0, dy - y0
+            ys, xs = pad + y0, pad + x0
+            s = lambda oy, ox: P[ys + oy: ys + oy + H, xs + ox: xs + ox + W]
+            v = (1 - fy) * ((1 - fx) * s(0, 0) + fx * s(0, 1)) + fy * ((1 - fx) * s(1, 0) + fx * s(1, 1))
+            acc += T * v[..., :3]
+            T = T * (1 - v[..., 3:])
+    return to_srgb((acc / n_side ** 2).cpu().numpy())
