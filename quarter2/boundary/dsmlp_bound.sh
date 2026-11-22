@@ -44,12 +44,14 @@ deactivate
 stamp "Bokehlicious (setting A)"
 if [ ! -d "$BK/.git" ]; then git clone -q https://github.com/TimSeizinger/Bokehlicious "$BK"; fi
 cd "$BK" && git fetch -q origin && git checkout -q $BK_COMMIT && git log -1 --format='bokehlicious commit %H'
-if [ ! -x "$BKV/bin/python" ]; then
-  python3 -m venv "$BKV" && "$BKV/bin/pip" install -q --upgrade pip && \
-  "$BKV/bin/pip" install -q "torch>=2.9.0" "torchvision>=0.24.0" "timm>=1.0.20" opencv-python-headless "torchmetrics>=1.8.2" \
-      "tqdm==4.67.1" scipy scikit-image pillow || { stamp "bokehlicious venv FAILED"; exit 1; }
+# GTX 1080 Ti (sm_61): current torch wheels dropped Pascal; torch 2.5.1+cu121 still ships sm_61 kernels.
+if ! "$BKV/bin/python" -c "import torch, sys; sys.exit(0 if torch.__version__.startswith('2.5.1') else 1)" 2>/dev/null; then
+  rm -rf "$BKV" && python3 -m venv "$BKV" && "$BKV/bin/pip" install -q --upgrade pip && \
+  "$BKV/bin/pip" install -q torch==2.5.1 torchvision==0.20.1 --index-url https://download.pytorch.org/whl/cu121 && \
+  "$BKV/bin/pip" install -q "timm>=1.0.20" opencv-python-headless "torchmetrics>=1.8.2" "tqdm==4.67.1" scipy scikit-image pillow \
+      || { stamp "bokehlicious venv FAILED"; exit 1; }
 fi
-"$BKV/bin/python" -c "import torch; print('bkl torch', torch.__version__, torch.cuda.is_available())"
+"$BKV/bin/python" -c "import torch; print('bkl torch', torch.__version__, torch.cuda.is_available(), torch.cuda.get_arch_list()); print((torch.ones(2, device='cuda') * 2).sum().item())"
 "$BKV/bin/python" "$REPO/quarter2/boundary/bkl39.py" "$R39_OUT" 2>&1 | tee "$R39_OUT/log_bkl.txt" | grep -v Warning
 [ -f "$R39_OUT/bkl.json" ] || stamp "Bokehlicious FAILED (BokehDiff results still analysed)"
 

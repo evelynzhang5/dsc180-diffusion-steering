@@ -116,6 +116,12 @@ That is 15 generations per scene and cell, 2160 in total.
 - A cell is **ESTABLISHED** if ≥ 18 of 24 scenes show one.
 - The round is ESTABLISHED if any cell is. Otherwise no repeatable boundary error survives request adjustment on these scenes, and boundary steering is not needed for them.
 
+**Changes after the smoke run (before any full-run data).**
+- **Checks:** all passed. GPU vs numpy ray tracer 6e-14; repeated generation identical; 1024 vs 4096 samples ≤ 0.021/255 in every edge band; available-information reference identical.
+- **Focus validity is now judged against BokehDiff's own zero-request output, as round 25's rule did.** With zero blur requested, BokehDiff's floor alone moves the gravel foreground 14/255 from the input, so the input-referenced 3.0 limit rejected every setting-A request. One zero-request generation per scene is added. The change relative to the input is still recorded.
+- **The distance profile skips empty bins.** No pixel lies at distance 0, so that bin was empty and crashed the analysis.
+- **Bokehlicious runs on torch 2.5.1+cu121.** The pod's GTX 1080 Ti (sm_61) has no kernels in current torch wheels.
+
 **Second baseline: Bokehlicious, setting A only (`bkl39.py`).**
 - **Model:** small checkpoint, commit `0d2c458`.
 - **Why A only:** the model has no depth or focus input, so only setting A is well posed.

@@ -30,7 +30,7 @@ if not C["checks_ok"]:
     json.dump(res, open(f"{RES}/boundary39.json", "w"), indent=1)
     sys.exit(0)
 rows = C["rows"]
-PROF_AT = [-24, -16, -12, -8, -4, -2, 0, 2, 4, 8, 12, 16, 24]
+PROF_AT = [-24, -16, -12, -8, -4, -2, -1, 1, 2, 4, 8, 12, 16, 24]
 
 
 def summarise(R, base_fn, label):
@@ -51,7 +51,9 @@ def summarise(R, base_fn, label):
                       best_E=best["E"] if best else None, best_band=best["E_band"] if best else None,
                       best_ratio=best["ratio"] if best else None, best_knob=(best.get("mg"), best.get("me"), best.get("av")) if best else None,
                       qualifies=q)
-    med = lambda xs: float(np.median(xs)) if xs else None
+    def med(xs):
+        xs = [x for x in xs if x is not None]
+        return float(np.median(xs)) if xs else None
     prof = {d: med([r["profile"].get(str(d), r["profile"].get(d)) for r in bests]) for d in PROF_AT}
     summ = dict(n=len(scenes), n_qualify=n_q, n_invalid=n_inv, established=n_q >= Q.FRAC_MIN * len(scenes),
                 base_E_median=med([b["E"] for b in bases if b]), best_E_median=med([b["E"] for b in bests]),

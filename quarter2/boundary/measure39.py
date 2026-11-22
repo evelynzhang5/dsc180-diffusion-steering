@@ -10,8 +10,11 @@ Given a BokehDiff output y, the reference ref (aperture-sampled thin lens, linea
   profile     mean signed luminance residual (y - ref - offset, Rec.709 weights) in 1 px distance bins, -32..+32.
 Validity of a request (interior blur must stay right):
   blurred textured fg (B, C)  linear-estimator radius r_hat of the fg interior within max(2, 20 %) of its target
-  sharp fg (A)                fg-interior offset-only MAE to the input <= 3.0 (round 25's focus limit)
-  sharp bg (B)                bg-interior offset-only MAE to the input <= 3.0
+  sharp fg (A)                fg-interior offset-only MAE to the focus reference <= 3.0 (round 25's focus limit)
+  sharp bg (B)                bg-interior offset-only MAE to the focus reference <= 3.0
+  focus reference: BokehDiff's own zero-request output of the scene (round 25's rule: change relative to K = 0;
+  BokehDiff's floor alone moves high-frequency texture by up to ~14/255 from the input). Bokehlicious: the input.
+  The offset-only MAE to the input is also recorded (fg_focus_input / bg_focus_input).
   blurred bg (A, C)           bg-interior error to ref <= 3.0 (a uniform/gradient bg carries no radius information)
 """
 import numpy as np
@@ -37,7 +40,7 @@ def lin_stack_fg(b):
     return np.stack([S39.to_srgb(m18.blur(lin, m18.disk(r)))[m] for r in m18.R_GRID])
 
 
-def measure(y, ref, b, setting, targets, Bfg):
+def measure(y, ref, b, setting, targets, Bfg, focus_ref):
     y, ref = y.astype(np.float64), ref.astype(np.float64)
     bm = b["bands"]
     res = y - ref
@@ -64,10 +67,12 @@ def measure(y, ref, b, setting, targets, Bfg):
         out["r_hat_fg"] = r_hat
         v["fg_radius"] = abs(r_hat - targets["fg"]) <= m18.TOL(targets["fg"])
     else:
-        out["fg_focus"] = off_mae(y, img, bm["in>32"])
+        out["fg_focus"] = off_mae(y, focus_ref, bm["in>32"])
+        out["fg_focus_input"] = off_mae(y, img, bm["in>32"])
         v["fg_focus"] = out["fg_focus"] <= FOCUS_MAX
     if setting == "B":
-        out["bg_focus"] = off_mae(y, img, bm["out>32"])
+        out["bg_focus"] = off_mae(y, focus_ref, bm["out>32"])
+        out["bg_focus_input"] = off_mae(y, img, bm["out>32"])
         v["bg_focus"] = out["bg_focus"] <= FOCUS_MAX
     else:
         v["bg_interior"] = interior["out"] <= FOCUS_MAX

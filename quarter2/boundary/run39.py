@@ -10,7 +10,7 @@ Stage V (checks; the run stops unless all pass):
       mean |diff| in every edge band <= 0.1
   V4  available information: reference with the background reconstructed from visible pixels vs the true one,
       same 6 x 3: mean |diff| in every edge band <= 0.1
-Stage G (per scene x setting x level; 24 x 3 x 2):
+Stage G (per scene: one zero-request generation k0, the focus reference; then per setting x level, 24 x 3 x 2):
   reference  ray tracer (1024 samples) at the target radii; saved to ref/ as float32 .npy
   base       calibrated request (global multiplier 1.0)
   global     multiplier on every blurred pixel's request: 0.6 .. 1.4 step 0.1
@@ -147,6 +147,7 @@ def hijack(pipeline, seed, train_T, accelerator, validation_prompt="an excellent
         b["bands"] = S39.band_masks(b["dist"])
         Image.fromarray(b["img"]).save(f"{OUT}/input/{sc['name']}.png")
         Bfg = Q.lin_stack_fg(b)
+        k0 = run(b["img"], b["disp"], np.zeros((S39.S, S39.S), np.float32), f"{sc['name']}_k0")
         for st in settings:
             for lv in levels:
                 tg = targets(st, S39.LEVELS[lv])
@@ -156,7 +157,7 @@ def hijack(pipeline, seed, train_T, accelerator, validation_prompt="an excellent
 
                 def gen(kind, mg, me):
                     y = run(b["img"], b["disp"], coc_map(b, tg, mg, me), f"{key}_{kind}_g{mg:.2f}_e{me:.2f}")
-                    m = Q.measure(y, ref, b, st, tg, Bfg)
+                    m = Q.measure(y, ref, b, st, tg, Bfg, k0)
                     rows.append(dict(scene=sc["name"], shape=sc["shape"], tex=sc["tex"], bg=sc["bg_kind"], setting=st,
                                      level=lv, targets=tg, kind=kind, mg=mg, me=me, **m))
                     return m

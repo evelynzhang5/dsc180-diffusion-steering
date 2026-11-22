@@ -55,7 +55,7 @@ for sc in plan:
         assert y.shape == b["img"].shape, y.shape
         Image.fromarray(y).save(f"{OUT}/bkl/{sc['name']}_f{av}.png")
         for lv in levels:
-            m = Q.measure(y, refs[lv], b, "A", dict(bg=S39.LEVELS[lv]), None)
+            m = Q.measure(y, refs[lv], b, "A", dict(bg=S39.LEVELS[lv]), None, b["img"])
             rows.append(dict(scene=sc["name"], shape=sc["shape"], tex=sc["tex"], bg=sc["bg_kind"], setting="A",
                              level=lv, av=av, **m))
     best = {lv: min([r for r in rows if r["scene"] == sc["name"] and r["level"] == lv],
