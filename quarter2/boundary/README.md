@@ -69,12 +69,56 @@ The radius estimator's disk stack is rebuilt in linear light, and everything tha
 - Radius results are therefore **nearly**, not entirely, reference-independent. A single cell's radius can move by up to 2 px.
 - The linear curve is the one frozen for step 1.
 
-**Step 1 draft (not launched).**
-- `scenes39.py`: 24 scenes. A foreground cutout (3 shapes × 4 test textures) over uniform or gradient backgrounds; the input is composited in linear light.
-- **Background reconstruction:** rebuilt from visible pixels only, it recovers the true background to ≤ 0.01/255 in all 24 scenes. For these scenes, the available-information reference therefore equals the true one.
-- `lens39.raytrace_torch`: the GPU ray tracer.
-- `measure39.py`: the frozen measurement and validity rules.
-- **Pending:**
-  - a convergence check (1024 vs 4096 aperture samples on these scenes);
-  - the request-adjustment search;
-  - the driver and the analysis.
+## Step 1 (GPU): plan, frozen before generation
+
+**Question.** Does BokehDiff leave a repeatable boundary error that request adjustment cannot remove, while interior blur stays valid?
+
+**Scenes (`scenes39.py`).** 24 scenes: a foreground cutout over a uniform or gradient background.
+- **Foreground:** disk, ellipse or rounded square, filled with gravel, astronaut, chelsea or rocket texture, at disparity 1.
+- **Background:** uniform or gradient, at disparity 0.
+- **Input:** composited in linear light.
+- **Background reconstruction:** rebuilt from visible pixels only, it matches the true background to ≤ 0.01/255. On these scenes the available-information reference therefore equals the true one, and check V4 below confirms this.
+
+**Settings.**
+- **A:** foreground sharp, background blurred to r.
+- **B:** background sharp, foreground blurred to r.
+- **C:** both layers blurred, each to r/2.
+- **Levels:** r = 15.5 (L1) and 11.625 px (L2).
+- **Requests:** from the frozen linear-light curve.
+
+**Reference.** The aperture-sampled thin-lens ray tracer (1024 samples, linear light), on the GPU (`lens39.raytrace_torch`).
+
+**Checks before any result counts (`run39.py`, stage V).**
+- V1: the GPU ray tracer equals the numpy one (≤ 1e-3).
+- V2: repeating a generation gives an identical image.
+- V3: 1024 vs 4096 aperture samples differ by ≤ 0.1/255 in every edge band (6 scenes × A/B/C).
+- V4: the available-information reference matches the true one to ≤ 0.1/255.
+
+**Request adjustment.** Per scene and cell:
+- **Global multiplier** on every blurred pixel's request: 0.6–1.4 in steps of 0.1.
+- **Edge multiplier:** at the best valid global multiplier, the request within 16 px of the edge is multiplied by 0, 0.5, 0.75, 1.25, 1.5 or 2.
+
+That is 15 generations per scene and cell, 2160 in total.
+
+**Measurement (`measure39.py`).**
+- Each side's own interior offset is removed before scoring.
+- **Band error:** the mean |difference| to the reference in distance bands.
+- **Excess E:** the maximum over the bands out8–16, out0–8, in0–8 and in8–16 of (band error − that side's interior error).
+- **Signed luminance profile:** reported against distance from the edge.
+
+**Validity.**
+- A blurred foreground's linear-estimator radius must be within max(2 px, 20 %) of its target.
+- A sharp layer's interior must stay within 3.0/255 of the input.
+- A blurred plain background's interior must be within 3.0/255 of the reference.
+
+**Decision (`analyze39.py`).**
+- After the best valid adjustment, a scene shows a boundary error if E ≥ 2.0/255 and that band's error is ≥ 1.5× its side's interior error.
+- A cell is **ESTABLISHED** if ≥ 18 of 24 scenes show one.
+- The round is ESTABLISHED if any cell is. Otherwise no repeatable boundary error survives request adjustment on these scenes, and boundary steering is not needed for them.
+
+**Second baseline: Bokehlicious, setting A only (`bkl39.py`).**
+- **Model:** small checkpoint, commit `0d2c458`.
+- **Why A only:** the model has no depth or focus input, so only setting A is well posed.
+- **Adjustment:** the f-stop, from {2, 2.8, 4, 5.6, 8, 11, 16}, using the same inputs, references and measurement.
+- **Latency:** recorded.
+- It is reported alongside the decision, not used in it.
