@@ -97,7 +97,7 @@ Run 1's per-arm numbers are kept in `results/run1_rng_bug/arms_run1.json` and ar
   - The t = 11.6 optimisation ran its full 1000 steps.
 
 **Reading.**
-1. **The image-wide leak runs through the downstream GroupNorm statistics.** These are the only image-wide path after up_blocks.1, and holding them at baseline cuts the far-field change from about 1.5 to about 0.25/255.
+1. **The image-wide leak runs through the downstream GroupNorm statistics.** These are the only image-wide path after up_blocks.1, and holding them at baseline cuts the far-field change (96–200 px) of the *same* edit from about 1.4–1.5 to 0.43–0.54/255. Reaching about 0.23/255 required **re-optimising** the edit under frozen statistics (opt_frz). The first shows where the leak travels; the second shows a local correction is reachable. They establish different things.
 2. **A local edit plus frozen statistics can hit a regional latent target while preserving the rest of the image.** This is the first preserving correction in rounds 34–37, but it is a per-image, privileged optimum. As in rounds 34–35 it is high-dimensional, so it is not a steering vector.
 3. **The leak measured in rounds 34–35 was real.** Under the RNG fix, *free* still changes the focus by 2.5–2.7/255. Their qualitative conclusion stands.
 
