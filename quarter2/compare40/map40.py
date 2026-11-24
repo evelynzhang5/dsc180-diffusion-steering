@@ -102,9 +102,11 @@ for meth, (pre, key, xform, desc) in METHODS.items():
               flush=True)
     # RealBokeh: linear MAE to the real captures
     rbm = {}
+    have = [i for i in rbdev if any(r["id"] == i for r in rows)]
+    assert SMOKE or have == rbdev, ("RealBokeh development scenes missing outputs", rbdev, have)
     for a in ["2.0", "second"]:
         per = {}
-        for i in rbdev:
+        for i in have:
             avs = scenes[i]["apertures"]
             av = 2.0 if a == "2.0" else [v for v in avs if v != 2.0][0]
             tgt = C.to_lin(C.img(f"{DATA}/targets/{i}_f{av:g}.png" if os.path.exists(f"{DATA}/targets/{i}_f{av:g}.png")
@@ -114,12 +116,12 @@ for meth, (pre, key, xform, desc) in METHODS.items():
                 if r["id"] == i and "upstreamconv" not in r["file"]:
                     per[i][r[key]] = float(np.abs(C.to_lin(C.img(f"{OUT}/{r['file']}")) - tgt).mean() * 255)
             per[i]["input"] = float(np.abs(C.to_lin(C.img(f"{DATA}/input/{i}.png")) - tgt).mean() * 255)
-        mean = {s: float(np.mean([per[i][s] for i in rbdev if s in per[i]])) for s in settings}
+        mean = {s: float(np.mean([per[i][s] for i in have if s in per[i]])) for s in settings}
         best = min(mean, key=mean.get)
-        rbm[a] = dict(setting=float(best), mean_mae_lin=mean, per_scene=per)
+        rbm[a] = dict(setting=float(best), mean_mae_lin=mean, per_scene=per, scenes=have)
         print(f"{meth:13s} RealBokeh {a:6s} -> {key} {best:g}  mean linear MAE {mean[best]:.2f}/255  per scene "
               + " ".join(f"{i}:{min((v for k, v in per[i].items() if k != 'input')):.2f}@"
-                         f"{min((k for k in per[i] if k != 'input'), key=lambda k: per[i][k]):g}" for i in rbdev),
+                         f"{min((k for k in per[i] if k != 'input'), key=lambda k: per[i][k]):g}" for i in have),
               flush=True)
     out[meth] = dict(settings=settings, mean_curve=curve, n_scenes_per_setting=n_per, responses=resp, gen=gen, rb=rbm)
 
