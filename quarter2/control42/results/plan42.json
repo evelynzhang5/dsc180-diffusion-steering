@@ -1,0 +1,582 @@
+{
+ "test_scenes": [
+  "fur_2",
+  "fur_3",
+  "fur_4",
+  "fur_5",
+  "fur_6",
+  "fur_7",
+  "hair_2",
+  "hair_3",
+  "hair_4",
+  "hair_5",
+  "hair_6",
+  "hair_7",
+  "highlights_2",
+  "highlights_3",
+  "highlights_4",
+  "highlights_5",
+  "highlights_6",
+  "highlights_7",
+  "thin_2",
+  "thin_3",
+  "thin_4",
+  "thin_5",
+  "thin_6",
+  "thin_7"
+ ],
+ "plan": {
+  "fur_2": {
+   "gap": 0.38087573647499084,
+   "targets": {
+    "4": {
+     "fixed_K": 14.923195071025138,
+     "depth_K": 12.995034006274752,
+     "depth_K_unclipped": 12.995034006274752,
+     "clipped": false
+    },
+    "8": {
+     "fixed_K": 21.228115838615565,
+     "depth_K": 24.050766603843357,
+     "depth_K_unclipped": 24.050766603843357,
+     "clipped": false
+    },
+    "12": {
+     "fixed_K": 26.88788490518576,
+     "depth_K": 35.10649920141196,
+     "depth_K_unclipped": 35.10649920141196,
+     "clipped": false
+    }
+   }
+  },
+  "fur_3": {
+   "gap": 0.3812785744667053,
+   "targets": {
+    "4": {
+     "fixed_K": 14.923195071025138,
+     "depth_K": 12.98130416738026,
+     "depth_K_unclipped": 12.98130416738026,
+     "clipped": false
+    },
+    "8": {
+     "fixed_K": 21.228115838615565,
+     "depth_K": 24.025355885364256,
+     "depth_K_unclipped": 24.025355885364256,
+     "clipped": false
+    },
+    "12": {
+     "fixed_K": 26.88788490518576,
+     "depth_K": 35.06940760334825,
+     "depth_K_unclipped": 35.06940760334825,
+     "clipped": false
+    }
+   }
+  },
+  "fur_4": {
+   "gap": 0.2769799828529358,
+   "targets": {
+    "4": {
+     "fixed_K": 14.923195071025138,
+     "depth_K": 17.869497631839373,
+     "depth_K_unclipped": 17.869497631839373,
+     "clipped": false
+    },
+    "8": {
+     "fixed_K": 21.228115838615565,
+     "depth_K": 33.07225796129354,
+     "depth_K_unclipped": 33.07225796129354,
+     "clipped": false
+    },
+    "12": {
+     "fixed_K": 26.88788490518576,
+     "depth_K": 48.275018290747695,
+     "depth_K_unclipped": 48.275018290747695,
+     "clipped": false
+    }
+   }
+  },
+  "fur_5": {
+   "gap": 0.22704318165779114,
+   "targets": {
+    "4": {
+     "fixed_K": 14.923195071025138,
+     "depth_K": 21.7997876506044,
+     "depth_K_unclipped": 21.7997876506044,
+     "clipped": false
+    },
+    "8": {
+     "fixed_K": 21.228115838615565,
+     "depth_K": 40.34630494578699,
+     "depth_K_unclipped": 40.34630494578699,
+     "clipped": false
+    },
+    "12": {
+     "fixed_K": 26.88788490518576,
+     "depth_K": 58.89282224096958,
+     "depth_K_unclipped": 58.89282224096958,
+     "clipped": false
+    }
+   }
+  },
+  "fur_6": {
+   "gap": 0.2432711124420166,
+   "targets": {
+    "4": {
+     "fixed_K": 14.923195071025138,
+     "depth_K": 20.3455852113849,
+     "depth_K_unclipped": 20.3455852113849,
+     "clipped": false
+    },
+    "8": {
+     "fixed_K": 21.228115838615565,
+     "depth_K": 37.65491657054149,
+     "depth_K_unclipped": 37.65491657054149,
+     "clipped": false
+    },
+    "12": {
+     "fixed_K": 26.88788490518576,
+     "depth_K": 54.96424792969807,
+     "depth_K_unclipped": 54.96424792969807,
+     "clipped": false
+    }
+   }
+  },
+  "fur_7": {
+   "gap": 0.5134413838386536,
+   "targets": {
+    "4": {
+     "fixed_K": 14.923195071025138,
+     "depth_K": 9.639840697400427,
+     "depth_K_unclipped": 9.639840697400427,
+     "clipped": false
+    },
+    "8": {
+     "fixed_K": 21.228115838615565,
+     "depth_K": 17.841089034431143,
+     "depth_K_unclipped": 17.841089034431143,
+     "clipped": false
+    },
+    "12": {
+     "fixed_K": 26.88788490518576,
+     "depth_K": 26.042337371461855,
+     "depth_K_unclipped": 26.042337371461855,
+     "clipped": false
+    }
+   }
+  },
+  "hair_2": {
+   "gap": 0.5040651559829712,
+   "targets": {
+    "4": {
+     "fixed_K": 14.923195071025138,
+     "depth_K": 9.819153514004556,
+     "depth_K_unclipped": 9.819153514004556,
+     "clipped": false
+    },
+    "8": {
+     "fixed_K": 21.228115838615565,
+     "depth_K": 18.172955091814394,
+     "depth_K_unclipped": 18.172955091814394,
+     "clipped": false
+    },
+    "12": {
+     "fixed_K": 26.88788490518576,
+     "depth_K": 26.526756669624227,
+     "depth_K_unclipped": 26.526756669624227,
+     "clipped": false
+    }
+   }
+  },
+  "hair_3": {
+   "gap": 0.3746263086795807,
+   "targets": {
+    "4": {
+     "fixed_K": 14.923195071025138,
+     "depth_K": 13.21181410110406,
+     "depth_K_unclipped": 13.21181410110406,
+     "clipped": false
+    },
+    "8": {
+     "fixed_K": 21.228115838615565,
+     "depth_K": 24.451975824425716,
+     "depth_K_unclipped": 24.451975824425716,
+     "clipped": false
+    },
+    "12": {
+     "fixed_K": 26.88788490518576,
+     "depth_K": 35.69213754774737,
+     "depth_K_unclipped": 35.69213754774737,
+     "clipped": false
+    }
+   }
+  },
+  "hair_4": {
+   "gap": 0.5751439332962036,
+   "targets": {
+    "4": {
+     "fixed_K": 14.923195071025138,
+     "depth_K": 8.605660011558218,
+     "depth_K_unclipped": 8.605660011558218,
+     "clipped": false
+    },
+    "8": {
+     "fixed_K": 21.228115838615565,
+     "depth_K": 15.927062623312588,
+     "depth_K_unclipped": 15.927062623312588,
+     "clipped": false
+    },
+    "12": {
+     "fixed_K": 26.88788490518576,
+     "depth_K": 23.248465235066956,
+     "depth_K_unclipped": 23.248465235066956,
+     "clipped": false
+    }
+   }
+  },
+  "hair_5": {
+   "gap": 0.4463379681110382,
+   "targets": {
+    "4": {
+     "fixed_K": 14.923195071025138,
+     "depth_K": 11.089115202554606,
+     "depth_K_unclipped": 11.089115202554606,
+     "clipped": false
+    },
+    "8": {
+     "fixed_K": 21.228115838615565,
+     "depth_K": 20.523356957049362,
+     "depth_K_unclipped": 20.523356957049362,
+     "clipped": false
+    },
+    "12": {
+     "fixed_K": 26.88788490518576,
+     "depth_K": 29.95759871154412,
+     "depth_K_unclipped": 29.95759871154412,
+     "clipped": false
+    }
+   }
+  },
+  "hair_6": {
+   "gap": 0.6937953233718872,
+   "targets": {
+    "4": {
+     "fixed_K": 14.923195071025138,
+     "depth_K": 7.133938469925988,
+     "depth_K_unclipped": 7.133938469925988,
+     "clipped": false
+    },
+    "8": {
+     "fixed_K": 21.228115838615565,
+     "depth_K": 13.203250489650292,
+     "depth_K_unclipped": 13.203250489650292,
+     "clipped": false
+    },
+    "12": {
+     "fixed_K": 26.88788490518576,
+     "depth_K": 19.272562509374595,
+     "depth_K_unclipped": 19.272562509374595,
+     "clipped": false
+    }
+   }
+  },
+  "hair_7": {
+   "gap": 0.30774635076522827,
+   "targets": {
+    "4": {
+     "fixed_K": 14.923195071025138,
+     "depth_K": 16.083027907074314,
+     "depth_K_unclipped": 16.083027907074314,
+     "clipped": false
+    },
+    "8": {
+     "fixed_K": 21.228115838615565,
+     "depth_K": 29.76592060392992,
+     "depth_K_unclipped": 29.76592060392992,
+     "clipped": false
+    },
+    "12": {
+     "fixed_K": 26.88788490518576,
+     "depth_K": 43.448813300785524,
+     "depth_K_unclipped": 43.448813300785524,
+     "clipped": false
+    }
+   }
+  },
+  "highlights_2": {
+   "gap": 0.5064088106155396,
+   "targets": {
+    "4": {
+     "fixed_K": 14.923195071025138,
+     "depth_K": 9.77371057514055,
+     "depth_K_unclipped": 9.77371057514055,
+     "clipped": false
+    },
+    "8": {
+     "fixed_K": 21.228115838615565,
+     "depth_K": 18.08885084738662,
+     "depth_K_unclipped": 18.08885084738662,
+     "clipped": false
+    },
+    "12": {
+     "fixed_K": 26.88788490518576,
+     "depth_K": 26.40399111963269,
+     "depth_K_unclipped": 26.40399111963269,
+     "clipped": false
+    }
+   }
+  },
+  "highlights_3": {
+   "gap": 0.7022499442100525,
+   "targets": {
+    "4": {
+     "fixed_K": 14.923195071025138,
+     "depth_K": 7.048050609993336,
+     "depth_K_unclipped": 7.048050609993336,
+     "clipped": false
+    },
+    "8": {
+     "fixed_K": 21.228115838615565,
+     "depth_K": 13.044292162004027,
+     "depth_K_unclipped": 13.044292162004027,
+     "clipped": false
+    },
+    "12": {
+     "fixed_K": 26.88788490518576,
+     "depth_K": 19.040533714014718,
+     "depth_K_unclipped": 19.040533714014718,
+     "clipped": false
+    }
+   }
+  },
+  "highlights_4": {
+   "gap": 0.5372921228408813,
+   "targets": {
+    "4": {
+     "fixed_K": 14.923195071025138,
+     "depth_K": 9.211922038773748,
+     "depth_K_unclipped": 9.211922038773748,
+     "clipped": false
+    },
+    "8": {
+     "fixed_K": 21.228115838615565,
+     "depth_K": 17.04911174686956,
+     "depth_K_unclipped": 17.04911174686956,
+     "clipped": false
+    },
+    "12": {
+     "fixed_K": 26.88788490518576,
+     "depth_K": 24.88630145496537,
+     "depth_K_unclipped": 24.88630145496537,
+     "clipped": false
+    }
+   }
+  },
+  "highlights_5": {
+   "gap": 0.3872460722923279,
+   "targets": {
+    "4": {
+     "fixed_K": 14.923195071025138,
+     "depth_K": 12.781261068339843,
+     "depth_K_unclipped": 12.781261068339843,
+     "clipped": false
+    },
+    "8": {
+     "fixed_K": 21.228115838615565,
+     "depth_K": 23.655122926881234,
+     "depth_K_unclipped": 23.655122926881234,
+     "clipped": false
+    },
+    "12": {
+     "fixed_K": 26.88788490518576,
+     "depth_K": 34.52898478542262,
+     "depth_K_unclipped": 34.52898478542262,
+     "clipped": false
+    }
+   }
+  },
+  "highlights_6": {
+   "gap": 0.5502864122390747,
+   "targets": {
+    "4": {
+     "fixed_K": 14.923195071025138,
+     "depth_K": 8.99439462355308,
+     "depth_K_unclipped": 8.99439462355308,
+     "clipped": false
+    },
+    "8": {
+     "fixed_K": 21.228115838615565,
+     "depth_K": 16.646519411144737,
+     "depth_K_unclipped": 16.646519411144737,
+     "clipped": false
+    },
+    "12": {
+     "fixed_K": 26.88788490518576,
+     "depth_K": 24.298644198736397,
+     "depth_K_unclipped": 24.298644198736397,
+     "clipped": false
+    }
+   }
+  },
+  "highlights_7": {
+   "gap": 0.3631880283355713,
+   "targets": {
+    "4": {
+     "fixed_K": 14.923195071025138,
+     "depth_K": 13.627908305073074,
+     "depth_K_unclipped": 13.627908305073074,
+     "clipped": false
+    },
+    "8": {
+     "fixed_K": 21.228115838615565,
+     "depth_K": 25.222068813796778,
+     "depth_K_unclipped": 25.222068813796778,
+     "clipped": false
+    },
+    "12": {
+     "fixed_K": 26.88788490518576,
+     "depth_K": 36.81622932252048,
+     "depth_K_unclipped": 36.81622932252048,
+     "clipped": false
+    }
+   }
+  },
+  "thin_2": {
+   "gap": 0.2637529969215393,
+   "targets": {
+    "4": {
+     "fixed_K": 14.923195071025138,
+     "depth_K": 18.76563756782567,
+     "depth_K_unclipped": 18.76563756782567,
+     "clipped": false
+    },
+    "8": {
+     "fixed_K": 21.228115838615565,
+     "depth_K": 34.73080325131606,
+     "depth_K_unclipped": 34.73080325131606,
+     "clipped": false
+    },
+    "12": {
+     "fixed_K": 26.88788490518576,
+     "depth_K": 50.69596893480645,
+     "depth_K_unclipped": 50.69596893480645,
+     "clipped": false
+    }
+   }
+  },
+  "thin_3": {
+   "gap": 0.494978666305542,
+   "targets": {
+    "4": {
+     "fixed_K": 14.923195071025138,
+     "depth_K": 9.999407014043324,
+     "depth_K_unclipped": 9.999407014043324,
+     "clipped": false
+    },
+    "8": {
+     "fixed_K": 21.228115838615565,
+     "depth_K": 18.506562134078766,
+     "depth_K_unclipped": 18.506562134078766,
+     "clipped": false
+    },
+    "12": {
+     "fixed_K": 26.88788490518576,
+     "depth_K": 27.013717254114205,
+     "depth_K_unclipped": 27.013717254114205,
+     "clipped": false
+    }
+   }
+  },
+  "thin_4": {
+   "gap": 0.3824910521507263,
+   "targets": {
+    "4": {
+     "fixed_K": 14.923195071025138,
+     "depth_K": 12.940154076354771,
+     "depth_K_unclipped": 12.940154076354771,
+     "clipped": false
+    },
+    "8": {
+     "fixed_K": 21.228115838615565,
+     "depth_K": 23.949196697592754,
+     "depth_K_unclipped": 23.949196697592754,
+     "clipped": false
+    },
+    "12": {
+     "fixed_K": 26.88788490518576,
+     "depth_K": 34.958239318830735,
+     "depth_K_unclipped": 34.958239318830735,
+     "clipped": false
+    }
+   }
+  },
+  "thin_5": {
+   "gap": 0.26087814569473267,
+   "targets": {
+    "4": {
+     "fixed_K": 14.923195071025138,
+     "depth_K": 18.972433027982003,
+     "depth_K_unclipped": 18.972433027982003,
+     "clipped": false
+    },
+    "8": {
+     "fixed_K": 21.228115838615565,
+     "depth_K": 35.113533249910354,
+     "depth_K_unclipped": 35.113533249910354,
+     "clipped": false
+    },
+    "12": {
+     "fixed_K": 26.88788490518576,
+     "depth_K": 51.2546334718387,
+     "depth_K_unclipped": 51.2546334718387,
+     "clipped": false
+    }
+   }
+  },
+  "thin_6": {
+   "gap": 0.6489620208740234,
+   "targets": {
+    "4": {
+     "fixed_K": 14.923195071025138,
+     "depth_K": 7.626783984972586,
+     "depth_K_unclipped": 7.626783984972586,
+     "clipped": false
+    },
+    "8": {
+     "fixed_K": 21.228115838615565,
+     "depth_K": 14.115392193043546,
+     "depth_K_unclipped": 14.115392193043546,
+     "clipped": false
+    },
+    "12": {
+     "fixed_K": 26.88788490518576,
+     "depth_K": 20.604000401114504,
+     "depth_K_unclipped": 20.604000401114504,
+     "clipped": false
+    }
+   }
+  },
+  "thin_7": {
+   "gap": 0.5109251141548157,
+   "targets": {
+    "4": {
+     "fixed_K": 14.923195071025138,
+     "depth_K": 9.687316224110484,
+     "depth_K_unclipped": 9.687316224110484,
+     "clipped": false
+    },
+    "8": {
+     "fixed_K": 21.228115838615565,
+     "depth_K": 17.92895512325759,
+     "depth_K_unclipped": 17.92895512325759,
+     "clipped": false
+    },
+    "12": {
+     "fixed_K": 26.88788490518576,
+     "depth_K": 26.1705940224047,
+     "depth_K_unclipped": 26.1705940224047,
+     "clipped": false
+    }
+   }
+  }
+ }
+}
