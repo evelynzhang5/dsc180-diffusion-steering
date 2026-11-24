@@ -276,23 +276,62 @@ The mean pixel difference between the two outputs is 0.6–1.4 /255. The choice 
 - **Model:** BokehDiff's delivered blur ≈ 0.93 × K × gap. The gap is the median |normalised depth − focus| over the behind tiles, using BokehDiff's own preprocessing.
 - **Fit on development scenes** (K ≥ 12, 46 points): R² = 0.81.
 - **Held-out test outputs:** correlation 0.88, median absolute prediction error 2.2 px, and 34 of 72 predictions within tolerance of the delivered blur.
-- **Reading:** this is what a fixed aperture does physically. A px target per scene needs a per-scene K, which is roughly target / (0.93 × gap). That rule was **not tested** here; it would need its own frozen run.
+- **Reading:** a fixed aperture-like setting should give different blur at different depths, so this spread is not
+  by itself a model failure. Depth-based selection of K per scene is a **plausible explanation and an untested
+  intervention**; it needs its own frozen run (see "Next round" below).
+
+### Scene-level uncertainty and head-to-head RealBokeh (post hoc, after review #6; `post40_uncertainty.py`, `results/stage3/uncertainty40.json`)
+
+Each scene is aggregated first (72 outputs are 24 scenes, not 72 independent samples), then a percentile bootstrap over
+scenes (10,000 resamples) gives 95% intervals.
+
+| quantity (per scene) | estimate | 95% interval |
+|---|---|---|
+| BokehDiff control within tolerance (mean fraction of the 3 targets, 24 scenes) | 0.24 | 0.10 to 0.39 |
+| Bokehlicious control within tolerance | 0.24 | 0.11 to 0.38 |
+| BokehDiff focus check passed | 0.89 | 0.78 to 0.99 |
+| Bokehlicious focus check passed | 0.71 | 0.57 to 0.85 |
+| subject detail retention, BokehDiff − Bokehlicious (median, all cells) | +0.40 | +0.28 to +0.44 |
+| same, matched cells only (12 scenes) | +0.38 | +0.28 to +0.46 |
+| halo_sharp, BokehDiff − Bokehlicious (median, matched cells, 12 scenes) | +0.15 | **−0.08 to +0.19** (includes 0) |
+
+RealBokeh head to head (20 test scenes; per-scene BokehDiff error − Bokehlicious error, linear /255; positive =
+Bokehlicious closer to the real capture):
+
+| aperture | raw: median diff [95%] | Bokehlicious closer | gain-corrected: median diff [95%] | Bokehlicious closer |
+|---|---|---|---|---|
+| f/2.0 | +2.2 [+0.9, +4.4] | 17/20 | +3.3 [+1.6, +5.0] | 20/20 |
+| second | +3.2 [+2.6, +5.0] | 20/20 | +3.1 [+2.3, +5.2] | 19/20 |
+
+The earlier "beats the input" counts only compare each method with the unedited photo; this paired table is the
+head-to-head comparison. It is still in-domain for Bokehlicious (trained on RealBokeh).
 
 ### Reading (diagnostic pilot; generated test scenes; conditional on the frozen masks, tiles and measures)
 
-- **Choosing how much blur.**
-  - Neither method delivers a specified pixel blur with one global setting: control ok in 3–8 of 24 scenes per target.
-  - For BokehDiff the scene-to-scene spread is largely the depth gap. That is a request-conversion problem (setting K per scene from depth), not evidence that BokehDiff renders the wrong amount for the depth it is given.
-- **Choosing where to blur.**
-  - Bokehlicious frequently softens the subject: 21 of 72 cells fail the focus check, and subject detail retention is 0.24 vs 0.63.
-  - With mask and depth supplied, BokehDiff mostly keeps the subject (64 of 72).
-- **Rendering at matched blur (12 scenes).**
-  - BokehDiff's main remaining defect is a sharp halo of background around the subject (8 of 11 scenes).
-  - Bokehlicious has a lower halo, but at the cost of subject sharpness.
-- **Mapping to the stage 3 decision logic:**
-  - Generated-image failures are mainly in the request: how much (both methods) and where (Bokehlicious).
-  - For BokehDiff, with where and how much supplied, the defect at boundaries is rendering: the halo.
-  - So the next steps are (a) a per-scene, depth-based conversion from target to K, as its own frozen test, and (b) a boundary/halo rendering intervention for BokehDiff.
+| question | what round 40 supports |
+|---|---|
+| Can one fixed setting deliver a chosen blur radius across images? | Poorly, for both tools (about 1 target in 4 per scene). |
+| Can the pipeline keep the intended subject sharp? | BokehDiff does better under the tested interfaces, where it receives a subject mask and Bokehlicious does not. |
+| Which renders blur better at equivalent control? | **Unresolved**: 12 scenes with matched cells, unequal subject information, and a halo measure whose interval includes 0 and which visibly counts near-focus background (round 41 is testing this). |
+
+- **How much blur.** A fixed setting cannot give a fixed pixel blur across scenes; for BokehDiff the spread follows
+  the depth gap (post hoc). Translating "about 8 px of background blur" into a per-scene setting is the open problem.
+- **Where.** Bokehlicious often softens the subject (focus check 0.71 vs 0.89 of targets).
+- **Rendering.** We have **not yet established a repeatable rendering defect under matched control.**
+- Neither result justifies integrating Bokehlicious into diffusion.
+
+### Next round (proposed after review #6, not yet run)
+
+Question: **can a depth-aware controller give BokehDiff reliable, image-specific blur control without changing the
+model or damaging the subject?** Compared on the same held-out scenes, all rules frozen on development scenes first:
+1. one fixed K per target (round 40's baseline);
+2. a depth-based K per image (fitted on development scenes, frozen);
+3. one measured correction (render, estimate the delivered blur, adjust K once, render again);
+4. reference-assisted K search (offline upper bound on what request selection can achieve).
+
+Scored on target attainment, subject preservation and runtime, with scene-level intervals. A learned predictor (e.g.
+a CNN) is justified only if the depth-based rule leaves predictable errors.
+
 - **Limits.**
   - Small n: 8 calibration scenes, 12 scenes with matched cells, 3 RealBokeh calibration scenes.
   - The 21 blinded pairs (`results/stage3/pairs`; only 21 matched cells existed, so fewer than the planned 25) are not yet rated. The pair PNGs (31 MB) are kept out of git; only `ratings.csv` is committed.
