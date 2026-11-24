@@ -170,9 +170,9 @@ That is 15 generations per scene and cell, 2160 in total.
   - On the gravel cutouts it blurs the "subject" heavily: 21/255 at f/2. Its own focus inference does not treat a high-frequency texture cutout as the subject.
 
 **Reading.**
-1. **No boundary error survives request adjustment in ≥ 18/24 scenes.**
-   - B at r = 11.6 px comes closest (16/24). Most of B's error is a mild brightening just outside a blurred foreground over a flat background.
-   - **On these simple scenes, a boundary-steering method has no repeatable target that request adjustment leaves behind.**
+1. **Inconclusive, not a negative.** The required consistency (≥ 18/24) was not reached, but the residual did not disappear: B at r = 11.6 px still qualifies in 16/24 scenes. Most of B's error is a mild brightening just outside a blurred foreground over a flat background.
+   - **The "adjusted" request is an oracle.** It was chosen per scene using the reference image. That shows a suitable request *exists*, not that the frozen calibration, or any method without the reference, would choose it on a new image.
+   - An open question that fits a predictor: can a spatial model choose the request adjustment without seeing the correct output? Its first comparison should be against the existing calibration. Activation editing would then have to add something beyond that.
 2. **The near-miss is specific:** blurred-foreground edges over flat backgrounds, error 1.9–2.5/255 after adjustment. If boundary work continues, that is the case to strengthen. It would need more scenes and textured backgrounds, which require the visible-pixel reconstruction to be validated first.
 3. **Setting A must be redesigned with a textured background** before it can test anything, for BokehDiff or for Bokehlicious.
 4. **A side finding:** BokehDiff changes a sharp foreground by 2–5/255 when only the background's blur is requested. This is the same image-wide leak seen in rounds 35–37.
