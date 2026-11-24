@@ -39,3 +39,16 @@ Same driver, scenes and settings as round 40. Only the depth map handed to Bokeh
   - MODEL: the halo survives a flat background request, so it is made inside the model. Next: an in-model change
     (relax the occlusion-aware blending near the edge, or steer the edge activations toward background ones).
   - MIXED: both contribute.
+
+## Backup candidates if the halo is not a model failure (looked at 2026-11-24, while step 1 ran)
+
+- **In-focus subject loses fine detail** even when almost no blur is requested (K = 4): it keeps 0.56-0.79 of the
+  finest-scale detail, vs 0.42-1.05 for Bokehlicious at f/16. At 2.5x zoom the difference is barely visible (grain
+  and pores), so this is weak as a "clear" failure.
+- **Blur in front of the subject**: 7 scenes; sometimes under-blurred, but behind-tile blur misses in the same scenes.
+  Mixed, so weak.
+- **Transparent subjects** (`figures/candidate_transparent.jpg`; top: highlights_3 at 12 px, input / BokehDiff / mask;
+  bottom: rb_48 at f/2.0, input / BokehDiff / real f/2.0 capture). BokehDiff keeps the garden seen through the glass
+  sharp, and on rb_48 leaves the shelves behind the clear acrylic sign sharp, where the real lens blurs them. One
+  depth per pixel cannot say "sharp surface, far-away scene behind it", so the conditioning cannot ask for the right
+  answer. Only 2 examples so far.
