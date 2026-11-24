@@ -24,7 +24,8 @@ This round tests those prerequisites. It does **not** test whether integrating B
    - **Frozen measurement regions, from the originals only:**
      - subject interior (≥ 8 px inside);
      - boundary band (±16 px);
-     - up to 8 textured background tiles (64 px) with |disparity − focus| ≥ 0.15. An image with fewer than 2 tiles has unmeasurable blur.
+     - up to 8 textured background tiles (64 px) with |depth − focus depth| ≥ 0.15 for at least 90% of the tile's pixels. An image with fewer than 2 tiles has unmeasurable blur.
+     - *Revised after stage 1, before any method ran:* the first rule tested only the tile's median, which admitted tiles up to half covered by in-focus structure (branches and ferns at the subject's depth in fur_3, fur_5, fur_7). Measurable images: 59 → 58 of 65.
    - **Contact sheets** for the mask review.
 2. **Mask review (human, before any method output exists).**
    - Masks are judged on the original images, and on the real f/2.0 capture for RealBokeh.

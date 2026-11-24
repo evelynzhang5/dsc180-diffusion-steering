@@ -6,7 +6,9 @@ V2 Base, disparity in [0, 1]) and mask/<id>.png (BiRefNet salient mask).
   inner      subject pixels >= 8 px inside its contour (preservation region)
   band       pixels within 16 px of the subject contour, either side (boundary region)
   bg tiles   64x64 tiles (stride 32) lying entirely in the background >= 24 px from the subject, with
-             |median tile disparity - focus disparity| >= 0.15 (blur expected) and texture (mean luminance
+             |disparity - focus disparity| >= 0.15 for >= 90% of the tile's pixels (10th percentile of the gap;
+             revised before any method ran: the first version used the tile median, which admitted tiles up to
+             half covered by in-focus structure such as branches at the subject's depth) and texture (mean luminance
              gradient magnitude) >= 4/255; up to 8 non-overlapping tiles, most textured first. These are the only
              places where delivered blur is measured; an image with < 2 tiles has unmeasurable blur.
 Also writes contact sheets (sheets/*.png): input with the subject contour (red) and tiles (cyan), the disparity map,
@@ -45,7 +47,7 @@ for i in ids:
         for x in range(0, W - TILE + 1, STRIDE):
             if dout[y:y + TILE, x:x + TILE].min() < BG_MARGIN:
                 continue
-            g = abs(float(np.median(disp[y:y + TILE, x:x + TILE])) - f_disp)
+            g = float(np.percentile(np.abs(disp[y:y + TILE, x:x + TILE] - f_disp), 10))
             t = float(grad[y:y + TILE, x:x + TILE].mean())
             if g >= GAP and t >= TEX:
                 cands.append((t, y, x, g))
