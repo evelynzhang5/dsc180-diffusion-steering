@@ -171,3 +171,129 @@ One reviewer checked all nine contact sheets visually. That can't certify indivi
 **Blinded pairs.** 25 matched cells from initially-sharp test scenes, excluding mask failures. Seed 0, sides shuffled. Each pair is rated left / right / tie / cannot judge. The key is written outside the results folder.
 
 This compares two editing pipelines on generated images. It does not test whether integrating Bokehlicious into diffusion beats post-processing.
+
+## Stage 3 result (pod run 2026-11-24, log `q2-r40b-20261124-121028.txt`; `results/stage3/`)
+
+All four scoring checks passed:
+- test settings equal the frozen mapping;
+- every blur tile is behind the subject;
+- mask failures are out of the mask-based metrics;
+- existing_blur_6 is out of the blur, control and halo results.
+
+Outputs (not in git) are in `outputs/q2_compare40/s3`. The numbers below are from **24 initially-sharp generated test scenes** unless stated otherwise. Paired differences are taken per scene, as BokehDiff − Bokehlicious.
+
+### Frozen mapping (8 development scenes, `mapping.json`)
+
+| target | BokehDiff K | mean abs. residual | within tol. | Bokehlicious f-number | mean abs. residual | within tol. |
+|---|---|---|---|---|---|---|
+| 4 px | 14.9 | 3.2 px | 1/8 | f/9.5 | 2.7 px | 1/8 |
+| 8 px | 21.2 | 4.8 px | 1/8 | f/5.3 | 5.0 px | 1/8 |
+| 12 px | 26.9 | 5.7 px | 1/8 | f/3.1 | 6.3 px | 1/8 |
+
+- No target was a mapping control failure: every target lies inside both mean curves.
+- One global setting still fits almost no individual scene.
+  - BokehDiff at K = 21 delivers 2.4 px (thin_0) to 15.4 px (highlights_0).
+  - Bokehlicious at f/5.3 delivers 0.3 px (thin_1) to 15.1 px (fur_0).
+  - Bokehlicious hardly blurs thin_1 at any f-number (≤ 1.1 px).
+- Per-scene curves are in `mapping.json`.
+
+### Control on test (status counts out of 24 scenes)
+
+| target | BokehDiff ok / miss / unmeasurable | median abs. error | Bokehlicious ok / miss / unmeasurable | median abs. error |
+|---|---|---|---|---|
+| 4 px | 6 / 18 / 0 | 2.6 px | 8 / 16 / 0 | 3.3 px |
+| 8 px | 6 / 18 / 0 | 4.6 px | 6 / 16 / 2 | 5.5 px |
+| 12 px | 5 / 19 / 0 | 4.9 px | 3 / 13 / 8 | 4.9 px |
+
+- **Delivered blur at the frozen settings (BokehDiff, min / median / max):** 0.9 / 1.9 / 9.4 px at target 4; 1.2 / 6.4 / 16.2 at target 8; 1.9 / 9.6 / 19.4 at target 12.
+- **Existing_blur scenes** (separate group; 2 have no tiles and 1 is flagged): at most 1 ok per cell. No matched cells.
+- **Foreground defocus** (7 scenes with front tiles): median 2.0 px for BokehDiff and 2.4 px for Bokehlicious. It is not used anywhere else.
+
+### Focus selection
+
+The check is whether the subject interior keeps more high-frequency detail than the far background (see Measures). This is a weak criterion: a subject that is visibly softened can still pass it.
+
+| | passes | subject high-frequency retention (all cells, scene median) |
+|---|---|---|
+| BokehDiff | 64 of 72 cells | 0.63 |
+| Bokehlicious | 51 of 72 cells | 0.24 (BokehDiff higher in 21 of 24 scenes) |
+
+Bokehlicious chooses its own focus. In many outputs it softens the subject along with the background: for example hair_5 at 12 px is a matched cell, but the face is blurred. BokehDiff is given the mask, so its subject stays sharp.
+
+Preservation (all cells; scene medians, excluding the cautions):
+
+| | colour shift | high-frequency retention |
+|---|---|---|
+| BokehDiff | 0.67 | 0.62 |
+| Bokehlicious | 1.67 | 0.21 |
+
+### Rendering quality at matched blur
+
+- **Coverage:** 21 of 72 cells are matched, from 12 scenes. Their quality is compared below; the other 51 are not.
+- **Without cautions (11 scenes):**
+
+| metric | BokehDiff | Bokehlicious | scenes where BokehDiff is higher |
+|---|---|---|---|
+| subject high-frequency retention | 0.66 | 0.25 | 10 of 11 |
+| halo_sharp (higher = sharper band outside the subject; depth-gated) | 0.22 | 0.06 | 8 of 11 |
+| thin_loss | | | 6 of 11 (no consistent difference) |
+
+- **Post hoc, cells where both methods pass the focus check** (15 cells, 10 scenes): BokehDiff's halo is still higher in 8 of 10 scenes (median difference +0.18).
+  - Caveat: Bokehlicious softens the whole subject region, so its band is soft too. The halo comparison is therefore not like for like.
+  - What it does show is that BokehDiff, with the subject held sharp, leaves a sharp ring of background around the subject. The ring is visible in the hair_5 matched cell (left shoulder).
+- rim, rim_inner and bleed are exploratory and their signs are mixed. They are kept in `score40.json`.
+
+### RealBokeh (20 test scenes; linear-light MAE in units of /255; median over scenes)
+
+| aperture | Bokehlicious raw / gain-corrected | Bokehlicious beats the input | BokehDiff raw / gain-corrected | BokehDiff beats the input | input |
+|---|---|---|---|---|---|
+| f/2.0 | 7.9 / 5.9 | 18 of 20 | 9.8 / 9.2 | 16 of 20 | 11.5 |
+| second aperture | 3.6 / 3.4 | 19 of 20 | 7.6 / 7.2 | 7 of 20 | 6.0 |
+
+- **Calibration on 3 development scenes:** BokehDiff K 20 (f/2.0) and K 12 (second aperture); Bokehlicious f/2.8 and f/5.6. The per-scene optima disagree (BokehDiff K 16–28 at f/2.0).
+- **Training data:** Bokehlicious was trained on RealBokeh's training split, so this test is in-domain for it and not for BokehDiff.
+
+### Latency (GTX 1080 Ti, median per image)
+
+| | rendering | total |
+|---|---|---|
+| BokehDiff | 11.86 s | 12.65 s (adds depth 0.09 s and segmentation 0.70 s) |
+| Bokehlicious | 0.19 s | 0.19 s |
+
+### Diagnostic: depth convention (8 mapping scenes, K = 20)
+
+The upstream convention gives the same or slightly less blur than the training convention:
+
+| | min | median | max |
+|---|---|---|---|
+| blur, training convention | 1.8 px | 4.9 px | 14.2 px |
+| blur, upstream convention | 1.8 px | 4.3 px | 12.7 px |
+
+The mean pixel difference between the two outputs is 0.6–1.4 /255. The choice of convention does not change any conclusion here.
+
+### Post hoc: why one global K misses (`post40_gap.py`; written after the results, not part of the frozen protocol)
+
+- **Model:** BokehDiff's delivered blur ≈ 0.93 × K × gap. The gap is the median |normalised depth − focus| over the behind tiles, using BokehDiff's own preprocessing.
+- **Fit on development scenes** (K ≥ 12, 46 points): R² = 0.81.
+- **Held-out test outputs:** correlation 0.88, median absolute prediction error 2.2 px, and 34 of 72 predictions within tolerance of the delivered blur.
+- **Reading:** this is what a fixed aperture does physically. A px target per scene needs a per-scene K, which is roughly target / (0.93 × gap). That rule was **not tested** here; it would need its own frozen run.
+
+### Reading (diagnostic pilot; generated test scenes; conditional on the frozen masks, tiles and measures)
+
+- **Choosing how much blur.**
+  - Neither method delivers a specified pixel blur with one global setting: control ok in 3–8 of 24 scenes per target.
+  - For BokehDiff the scene-to-scene spread is largely the depth gap. That is a request-conversion problem (setting K per scene from depth), not evidence that BokehDiff renders the wrong amount for the depth it is given.
+- **Choosing where to blur.**
+  - Bokehlicious frequently softens the subject: 21 of 72 cells fail the focus check, and subject detail retention is 0.24 vs 0.63.
+  - With mask and depth supplied, BokehDiff mostly keeps the subject (64 of 72).
+- **Rendering at matched blur (12 scenes).**
+  - BokehDiff's main remaining defect is a sharp halo of background around the subject (8 of 11 scenes).
+  - Bokehlicious has a lower halo, but at the cost of subject sharpness.
+- **Mapping to the stage 3 decision logic:**
+  - Generated-image failures are mainly in the request: how much (both methods) and where (Bokehlicious).
+  - For BokehDiff, with where and how much supplied, the defect at boundaries is rendering: the halo.
+  - So the next steps are (a) a per-scene, depth-based conversion from target to K, as its own frozen test, and (b) a boundary/halo rendering intervention for BokehDiff.
+- **Limits.**
+  - Small n: 8 calibration scenes, 12 scenes with matched cells, 3 RealBokeh calibration scenes.
+  - The 21 blinded pairs (`results/stage3/pairs`; only 21 matched cells existed, so fewer than the planned 25) are not yet rated. The pair PNGs (31 MB) are kept out of git; only `ratings.csv` is committed.
+  - This compares two editing pipelines and does not test integrating Bokehlicious into diffusion.

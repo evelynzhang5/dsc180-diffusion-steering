@@ -16,3 +16,4 @@ __pycache__/
 concepts.md
 guidance_mnist.ipynb
 plan.md
+quarter2/compare40/results/stage3/pairs/*.png
