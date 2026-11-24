@@ -1,0 +1,35 @@
+{
+ "_note": "Round 40 mask/region review (frozen 2026-11-24, before any method ran). From the contact sheets (one reviewer, visual; cannot certify individual hair or wire pixels). Stage 3 reads this file; nothing here is repaired, only excluded or flagged. All scenes stay in pipeline-coverage counts.",
+ "mask_failure": {
+  "rb_53": "empty mask (segmentation failure)",
+  "rb_77": "empty mask (segmentation failure)",
+  "rb_125": "empty mask (segmentation failure)",
+  "rb_145": "essentially empty: one eroded interior pixel",
+  "rb_72": "mask includes large parts of the dinosaur that are defocused in the real f/2.0 capture",
+  "rb_178": "mask selects the jelly and a window reflection; neither matches the sharp content in the real f/2.0 capture",
+  "rb_186": "mask includes the sharp hat and the clearly defocused figurine behind it",
+  "rb_197": "mask includes the sharp central statue and the heavily defocused foreground statue"
+ },
+ "mask_caution": {
+  "rb_62": "road mask spans depth and does not clearly define the reference's focal subject",
+  "rb_182": "bicycle mask spans visibly different focus levels"
+ },
+ "measurement_flag": {
+  "existing_blur_6": "depth error: the branch the bird sits on is estimated nearer than the bird; do not read blur-radius or halo results as rendering failure; bird mask still used for preservation"
+ },
+ "metric_caution": {
+  "highlights_3": "transparent subject: background visible inside the mask; interior preservation is not a clean damage measure",
+  "rb_48": "transparent subject: background visible inside the mask; interior preservation is not a clean damage measure",
+  "thin_5": "eroded interior is mostly thicker stems/hands; interior preservation is not evidence that thin structures survived",
+  "thin_7": "eroded interior is mostly thicker stems/hands; interior preservation is not evidence that thin structures survived"
+ },
+ "rules": {
+  "mask_failure": "excluded from every mask-dependent comparison (preservation, boundaries, focus agreement, subject-focus settings); counted in coverage",
+  "mask_caution": "kept; every mask-dependent summary is reported with and without them",
+  "measurement_flag": "excluded from blur-radius, control and halo results; kept for preservation",
+  "metric_caution": "kept; preservation summaries reported with and without them; named in any interpretation",
+  "unmeasurable_blur": "regions40.json blur_measurable == false: excluded from blur and control results only"
+ },
+ "realbokeh_dev_after_review": ["rb_12", "rb_120", "rb_140"],
+ "realbokeh_dev_note": "rb_125 and rb_197 were development (calibration) scenes and are mask failures, leaving 3 of 5. No test scene is moved into development; the RealBokeh setting is chosen on these 3."
+}

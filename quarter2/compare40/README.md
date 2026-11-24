@@ -25,6 +25,7 @@ This round tests those prerequisites. It does **not** test whether integrating B
      - subject interior (≥ 8 px inside);
      - boundary band (±16 px);
      - up to 8 textured background tiles (64 px) with |depth − focus depth| ≥ 0.15 for at least 90% of the tile's pixels. An image with fewer than 2 tiles has unmeasurable blur.
+     - Split by side: up to 8 tiles **behind** the subject (background blur, the primary measure) and up to 8 **in front** (foreground defocus, reported separately), chosen independently. *Revised after the mask review, before any method ran:* ranking all tiles together put most tiles in front of the subject in 11 images (for example hair_7's fence).
      - *Revised after stage 1, before any method ran:* the first rule tested only the tile's median, which admitted tiles up to half covered by in-focus structure (branches and ferns at the subject's depth in fur_3, fur_5, fur_7). Measurable images: 59 → 58 of 65.
    - **Contact sheets** for the mask review.
 2. **Mask review (human, before any method output exists).**
@@ -107,3 +108,19 @@ Values cover both radii (7.75 and 15.5 px), which agree within 0.002.
 - Ungated, a detailed in-focus branch covering 13% of the band scores +0.098. That is close to the largest score of a correct output in validation (0.107) and about 40% of a real injected halo (+0.248). The reviewer's concern is real.
 - Gating removes it here. But gating trusts the depth estimate: where Depth Anything places in-focus content off the focus plane, the false positive returns. For example, existing_blur_6's branch is estimated nearer than the bird.
 - halo_sharp on generated scenes therefore stays conditional on the depth map, and is reported with halo_kept.
+
+## Mask and region review (frozen in `review40.json`, before any method ran)
+
+One reviewer checked all nine contact sheets visually. That can't certify individual hair or wire pixels. Nothing was repaired; scenes are only excluded or flagged, and all stay in the pipeline-coverage counts.
+
+| Category | Scenes | Treatment in stage 3 |
+|---|---|---|
+| Mask failure | rb_53, rb_77, rb_125 (empty masks); rb_145 (one interior pixel); rb_72, rb_178, rb_186, rb_197 (mask disagrees with what is sharp in the real f/2.0 capture) | Excluded from every mask-dependent comparison. No generated scene had a clear whole-subject mask failure. |
+| Mask caution | rb_62, rb_182 (mask spans different focus levels) | Kept; mask-dependent summaries reported with and without them |
+| Measurement flag | existing_blur_6 (depth places the bird's branch nearer than the bird) | Excluded from blur, control and halo results; kept for preservation |
+| Metric caution | highlights_3, rb_48 (transparent subjects); thin_5, thin_7 (interior is mostly thicker parts) | Kept; preservation reported with and without them |
+| Background blur unmeasurable (< 2 behind tiles) | existing_blur_0, 1, 3, 7; rb_48, rb_62, rb_133; plus the empty-mask scenes | Excluded from blur and control results only |
+
+**Region change made in response.** The reviewer flagged hair_7: its tiles measured the fence in front of the child, not the distant background. The same happened in 10 other images, so tiles are now chosen separately behind and in front of the subject. That leaves 55 of 65 images with measurable background blur, and 19 with measurable foreground defocus, which is reported separately.
+
+**RealBokeh calibration set.** rb_125 and rb_197 were 2 of the 5 calibration scenes. That leaves 3 (rb_12, rb_120, rb_140). No test scene is moved into calibration.
