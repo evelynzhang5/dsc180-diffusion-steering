@@ -7,7 +7,8 @@ import os
 import sys
 import time
 
-import torch
+os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
+import torch  # noqa: E402
 from diffusers import DPMSolverMultistepScheduler, StableDiffusionXLPipeline
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -20,6 +21,7 @@ pipe = StableDiffusionXLPipeline.from_pretrained("SG161222/RealVisXL_V5.0", torc
 pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config, use_karras_sigmas=True)
 pipe.to("cuda")
 pipe.enable_vae_tiling()
+pipe.enable_vae_slicing()
 rows = []
 for s in (P.scenes()[:2] if SMOKE else P.scenes()):
     t = time.time()
@@ -29,5 +31,7 @@ for s in (P.scenes()[:2] if SMOKE else P.scenes()):
     im.resize((768, 768), resample=3).save(f"{ROOT}/input/{s['id']}.png")
     rows.append(dict(s, seconds=time.time() - t))
     print(s["id"], f"{time.time() - t:.0f}s", flush=True)
+    del im
+    torch.cuda.empty_cache()
 json.dump(dict(model="SG161222/RealVisXL_V5.0@ac93e0d", steps=30, cfg=5.0, size=768, rows=rows),
           open(f"{ROOT}/gen40.json", "w"), indent=1)
