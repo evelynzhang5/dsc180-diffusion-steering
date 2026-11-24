@@ -178,3 +178,41 @@ That is 15 generations per scene and cell, 2160 in total.
 4. **A side finding:** BokehDiff changes a sharp foreground by 2–5/255 when only the background's blur is requested. This is the same image-wide leak seen in rounds 35–37.
 
 Files: `results/boundary39.json` (analysis), `calib_linear.json`. Local only (`outputs/q2_boundary/`): `conds.json`, `bkl.json`, logs, inputs, base and zero-request images, and Bokehlicious outputs. All images and references are on the DSMLP workspace.
+
+## Post hoc 1 (CPU): what is the sharp-foreground change in setting A? (`fg_change.py`, `results/fg_change.json`)
+
+**Design.** BokehDiff's calibrated setting-A output is compared with its zero-request output (k0) of the same scene. The two differ only in the background's blur request. 48 (scene, level) pairs.
+
+| Measure (median) | Value |
+|---|---|
+| Whole foreground, raw change | 4.0/255 (gravel 5.7, astronaut 4.5, chelsea 3.2, rocket 3.1) |
+| Uniform per-channel shift | 1.3/255; luminance −1.2 (slightly darker) |
+| Change after removing that shift (texture) | 3.6/255 |
+| High-frequency energy, output / k0 | **1.43** (sharper than k0, at every distance) |
+| Change by distance inside the edge | 2–8 px: 5.3; 8–16: 3.9; 16–32: 3.1; >32: 2.8 |
+| Dose response over the background request (×0.6 → ×1.4) | 2.71 → 2.82 (nearly flat) |
+| Against the input: high-frequency energy / input | k0 0.42, setting A 0.57 |
+
+**Reading.**
+- Most of the change is **not blur leaking into the foreground.** Requesting *any* background blur makes the foreground sharper than the all-zero request, closer to the input's detail but still well below it. The image also shifts darker by about 1/255. The effect hardly depends on how much blur is requested.
+- So the zero-request output is an atypical state, not a neutral baseline. Round 39 used it as the focus reference, which inflated the measured "foreground change". 11/24 setting-A scenes became invalid against it.
+- An **edge-local part** remains: about +2.5/255 more change within 8 px of the edge than in the interior. That is the same 1 px bright rim seen in the step 1 profile.
+- This is the round 35–37 pattern of a whole-image change from a local request, but **the cause is not established.** It is reported as a preservation observation.
+
+## Post hoc 2 (CPU, references only): positive control for setting A with textured backgrounds (`a_control.py`, `results/a_control.json`)
+
+**Design.** Three foreground cutouts over development textures (gravel over grass, astronaut over brick, chelsea over camera). The background blur r is 0, 5.8, 7.75, 11.6 or 15.5 px. The ray tracer uses 256 aperture samples.
+
+| Check | Result |
+|---|---|
+| (1) The reference changes with background blur | Input vs reference, background interior: 0.17 at r = 0 (rounding only), then **6.7–26/255** for r ≥ 5.8, rising with r |
+| (2) Delivered blur is measurable | Linear estimator on the reference's background interior: r̂ = r within 0.05 px for every case, including 0 |
+| (3) Leaving the input unchanged fails | Its error is 6.7–26/255 against reference sampling noise of 0.06–0.2/255 |
+| (4) Hidden background | Available-information reference (hidden pixels filled from visible ones; the fill itself is crude, 68–93/255 inside the hidden region) vs the true one: **0.8–4.3/255 within 8 px outside the edge**, 0.03–0.9 at 8–16 px, ≤ 0.06 beyond. It grows with r. |
+
+**Reading.** With a textured background, setting A becomes a real test:
+- the correct output differs strongly from the input;
+- the blur actually delivered can be measured;
+- "do nothing" fails badly.
+
+Hidden-background uncertainty is confined to roughly the first r/2 px outside the edge. Any setting-A boundary claim must hold against both references there. Step 1's flat-background version of A should be discarded.

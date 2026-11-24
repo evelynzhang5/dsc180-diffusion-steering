@@ -127,3 +127,26 @@ def raytrace_torch(layers, d_f, n_side=40, device="cuda", radius=None):
             acc += T * v[..., :3]
             T = T * (1 - v[..., 3:])
     return to_srgb((acc / n_side ** 2).cpu().numpy())
+
+
+def raytrace_np_radius(layers, d_f, n_side, radius):
+    """raytrace() with blur-radius magnitudes overridden per layer index (sign from depth order), numpy."""
+    H, W = layers[0]["alpha"].shape
+    order = sorted(range(len(layers)), key=lambda i: -layers[i]["d"])
+    Ps = []
+    for i in order:
+        l = layers[i]
+        c = R * (l["d"] - d_f)
+        if i in radius:
+            c = float(np.sign(c) or 1.0) * radius[i]
+        pad = int(np.ceil(abs(c))) + 2
+        P = np.concatenate([to_lin(l["F"]) * l["alpha"][..., None], l["alpha"][..., None]], -1)
+        Ps.append((np.pad(P, ((pad, pad), (pad, pad), (0, 0)), mode="edge"), pad, c))
+    acc = np.zeros((H, W, 3))
+    for ax, ay in aperture(n_side):
+        T = np.ones((H, W, 1))
+        for P, pad, c in Ps:
+            v = _shift(P, pad, ax * c, ay * c, H, W)
+            acc += T * v[..., :3]
+            T = T * (1 - v[..., 3:])
+    return to_srgb(acc / n_side ** 2)
