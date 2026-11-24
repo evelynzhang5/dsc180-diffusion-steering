@@ -61,3 +61,27 @@ This round tests those prerequisites. It does **not** test whether integrating B
 - **Latency:** rendering-only, and total including depth estimation and segmentation.
 - **Statistics:** aggregated by scene. The three blur targets on one scene are repeated measurements, not independent examples.
 - **Blinded pairs:** 25 shuffled, unlabelled pairs at matched blur, with "tie" and "cannot judge" options. Human rating is optional. One rater makes it a pilot assessment, not a validation of the automatic metrics.
+
+## Stage 2 result (CPU): boundary-measure validation (`validate40.py`, `results/validate40.json`)
+
+**Design.**
+- **Correct outputs:** thin-lens references for an in-focus textured foreground over a blurred textured background, at r = 7.75 and 15.5 px. Scenes: 3 cutouts plus a wheel with 2 px spokes, giving 8 cases.
+- **Injected defects:** a bright rim, colour bleed, a sharp halo, and thin-structure loss.
+- **Rule (frozen):**
+  - the measure's own defect must move it, in every case, by at least 2× its largest |value| on the correct outputs;
+  - its median shift must be at least 2× the shift caused by each other defect.
+
+| Measure | Max \|value\| on correct outputs | Own-defect shift (min / median) | Other defects' median shift | Verdict |
+|---|---|---|---|---|
+| halo_sharp | 0.107 | +0.237 / +0.248 | ≤ 0.007 | **VALIDATED** |
+| thin_loss | 0.121 | +0.761 / +0.824 | ≤ 0.096 | **VALIDATED** |
+| rim (max of inner and outer side) | 8.78 | +0.00 / +3.90 | 3.6–6.1 | exploratory |
+| bleed | 13.7 | +8.59 / +10.08 | up to 3.5 | exploratory |
+
+**Reading.**
+- **halo_sharp and thin_loss** respond to their own defect, not to the others, and stay near zero on the correct thin-lens output. They can be used on generated images.
+- **rim and bleed fail because of the correct output itself.** A correctly blurred background changes the input's luminance and colour just outside the contour by up to 9–14/255, depending on the local content, so a reference-free measure cannot tell a defect from correct blur there. Both stay exploratory, and no conclusion will rest on them.
+- **Post hoc candidate (not validated):** the inner-side rim alone.
+  - It is ≤ 0.36 on all correct outputs and +6.3 to +7.9 under an injected rim, and does not respond to bleed or halo.
+  - But it also moves with thin-structure loss, by up to +9.9 on the wheel.
+  - It was chosen after seeing these results, so it would need a fresh validation set before any claim rests on it. It is reported, but no conclusion will be drawn from it.
