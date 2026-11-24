@@ -332,7 +332,8 @@ model or damaging the subject?** Compared on the same held-out scenes, all rules
 Scored on target attainment, subject preservation and runtime, with scene-level intervals. A learned predictor (e.g.
 a CNN) is justified only if the depth-based rule leaves predictable errors.
 
-- **Limits.**
-  - Small n: 8 calibration scenes, 12 scenes with matched cells, 3 RealBokeh calibration scenes.
-  - The 21 blinded pairs (`results/stage3/pairs`; only 21 matched cells existed, so fewer than the planned 25) are not yet rated. The pair PNGs (31 MB) are kept out of git; only `ratings.csv` is committed.
-  - This compares two editing pipelines and does not test integrating Bokehlicious into diffusion.
+### Limits
+
+- Small n: 8 calibration scenes, 12 scenes with matched cells, 3 RealBokeh calibration scenes.
+- The 21 blinded pairs (`results/stage3/pairs`; only 21 matched cells existed, so fewer than the planned 25) are not yet rated. The pair PNGs (31 MB) are kept out of git; only `ratings.csv` is committed.
+- This compares two editing pipelines and does not test integrating Bokehlicious into diffusion.
