@@ -124,3 +124,50 @@ One reviewer checked all nine contact sheets visually. That can't certify indivi
 **Region change made in response.** The reviewer flagged hair_7: its tiles measured the fence in front of the child, not the distant background. The same happened in 10 other images, so tiles are now chosen separately behind and in front of the subject. That leaves 55 of 65 images with measurable background blur, and 19 with measurable foreground defocus, which is reported separately.
 
 **RealBokeh calibration set.** rb_125 and rb_197 were 2 of the 5 calibration scenes. That leaves 3 (rb_12, rb_120, rb_140). No test scene is moved into calibration.
+
+## Stage 3 protocol (frozen before any method output; code: `common40`, `blur40`, `bd40`, `bkl40`, `map40`, `score40`, `lat40`, `dsmlp_stage3.sh`)
+
+**What "blur" means.** Delivered blur is the effective **additional** disk radius, in px at the 768-px input scale. It is fitted between the input and the output in linear light, on the frozen tiles **behind** the subject, with a per-channel gain and offset (the round 18/19 estimator).
+- A tile counts only if R² ≥ 0.90 and the fit is not at the grid end. An output's value is the median over counting tiles. With fewer than 2 counting tiles it is unmeasurable.
+- Total blur (existing plus added) is not estimated.
+- The existing_blur category is reported separately from the initially-sharp categories, and never enters the mapping.
+- Tiles in front of the subject give a separate foreground-defocus value; they never enter the mapping or the blur results.
+
+**Mapping (development scenes only).** Each method gets one global setting per target (4, 8, 12 px):
+- **Scenes:** the 8 initially-sharp development scenes with measurable blur and no review exclusion. BokehDiff's setting is K, from a grid of 4–64; Bokehlicious's is the f-number, f/2–f/16.
+- **Objective:** equal weight per scene. Each scene contributes one value, whatever its tile count, and the curve is the mean over scenes. The frozen setting is where this curve first crosses the target, interpolated (K linearly, f-number in log).
+- **Unreachable target:** if the curve never reaches the target, the nearest grid end is used and the target is a **control failure** for that method. Its outputs are then never treated as matched unless the delivered blur itself lands within tolerance.
+- **Reported:** every scene's response at every grid setting, and each scene's residual at the frozen setting.
+
+**Test phase.** The frozen settings are applied unchanged. Scoring checks that each recorded setting equals the frozen one, and fails the run otherwise; a tampered setting was confirmed to trigger the failure.
+
+**Control vs quality.**
+- **Control:** every test scene × target, with a status: ok, miss, unmeasurable output, no tiles, or excluded by a review flag. Failures are counted, not dropped.
+- **Quality** (preservation and boundary): compared only on matched cells, where both methods' delivered blur is measurable and within max(2 px, 20%) of each other. The number excluded is reported.
+
+**Coverage.** 55 of 65 is raw tile availability, not a sample size. Counts are reported for every metric, split, method and category, after the review exclusions (`review40.json`).
+
+**RealBokeh.**
+- Settings are chosen on the 3 remaining calibration scenes, by linear-light error to the f/2.0 capture and, separately, to each scene's second aperture.
+- Each scene's own calibration curve is reported, because 3 scenes can disagree.
+- Test error is reported raw and after a per-channel gain fit (exposure), against the input's own error as a baseline.
+
+**BokehDiff inputs.**
+- **Depth convention (finding, frozen before any output).** BokehDiff's `prepare_data.py` stores 1 − normalised(Depth Anything output), so larger = **farther**; the contact sheets show subjects dark. But BokehDiff was trained on disparity with larger = **nearer** (`dataset.py`: disp = 1/depth), and its attention processor samples "from the point to the camera (disp=1)".
+  - The blur map |d − focus| is identical either way; the occlusion ordering inside the attention is reversed.
+  - Main runs use the training convention (1 − stored map). The 8 mapping scenes are also run at K = 20 with the stored, upstream convention, as a reported diagnostic only.
+- **Processing size.** As upstream, the short side is ≥ 1024, then the output is resized back. The size is rounded to a multiple of 64 (upstream: 8), because the attention recovers its down-sampling factor from the depth map's size, and 4:3 images would otherwise mismatch.
+
+**Latency.**
+- Rendering-only time is the model call, synchronised.
+- BokehDiff's total adds Depth Anything V2 Base plus BiRefNet, timed on the GPU with models loaded. Upstream `prepare_data.py` runs depth on the CPU, which would be slower.
+- Bokehlicious needs neither, so its total equals its rendering time.
+
+**Dry run (CPU, fake outputs).** The mapping and scoring were run on synthetic outputs with known disk blur (r = K/4 and r = 24/f).
+- The mapping recovered K = 15.91 / 31.97 / 47.99 (true 16 / 32 / 48) and f/6.07 / 3.03 / 2.00 (true f/6 / 3 / 2).
+- All checks passed: settings, behind-only tiles, exclusions.
+- Smoke-run checks on the pod: exclusions applied, front tiles never in calibration, frozen settings reused.
+
+**Blinded pairs.** 25 matched cells from initially-sharp test scenes, excluding mask failures. Seed 0, sides shuffled. Each pair is rated left / right / tie / cannot judge. The key is written outside the results folder.
+
+This compares two editing pipelines on generated images. It does not test whether integrating Bokehlicious into diffusion beats post-processing.
