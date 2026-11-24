@@ -74,15 +74,36 @@ This round tests those prerequisites. It does **not** test whether integrating B
 
 | Measure | Max \|value\| on correct outputs | Own-defect shift (min / median) | Other defects' median shift | Verdict |
 |---|---|---|---|---|
-| halo_sharp | 0.107 | +0.237 / +0.248 | ≤ 0.007 | **VALIDATED** |
-| thin_loss | 0.121 | +0.761 / +0.824 | ≤ 0.096 | **VALIDATED** |
+| halo_sharp | 0.107 | +0.237 / +0.248 | ≤ 0.007 | **passed the specified controls** |
+| thin_loss | 0.121 | +0.761 / +0.824 | ≤ 0.096 | **passed the specified controls** |
 | rim (max of inner and outer side) | 8.78 | +0.00 / +3.90 | 3.6–6.1 | exploratory |
 | bleed | 13.7 | +8.59 / +10.08 | up to 3.5 | exploratory |
 
 **Reading.**
-- **halo_sharp and thin_loss** respond to their own defect, not to the others, and stay near zero on the correct thin-lens output. They can be used on generated images.
+- **halo_sharp and thin_loss passed the specified synthetic controls.** They respond to their own defect, not to the others, and stay near zero on the correct thin-lens output.
+- **Scope of that result.** The controls have one sharp foreground over one uniformly blurred background. Generated scenes need not have that layout, so generated-scene readings of these two measures stay conditional on the local geometry (what lies just outside the mask and at what depth).
 - **rim and bleed fail because of the correct output itself.** A correctly blurred background changes the input's luminance and colour just outside the contour by up to 9–14/255, depending on the local content, so a reference-free measure cannot tell a defect from correct blur there. Both stay exploratory, and no conclusion will rest on them.
 - **Post hoc candidate (not validated):** the inner-side rim alone.
   - It is ≤ 0.36 on all correct outputs and +6.3 to +7.9 under an injected rim, and does not respond to bleed or halo.
   - But it also moves with thin-structure loss, by up to +9.9 on the wheel.
   - It was chosen after seeing these results, so it would need a fresh validation set before any claim rests on it. It is reported, but no conclusion will be drawn from it.
+
+### Addendum (after review, before stage 3): depth-gated halo_sharp
+
+**Problem.** halo_sharp compares sharpness just outside the subject with distant background tiles. Content outside the mask that genuinely lies near the focus plane, such as a branch the subject sits on, is correctly kept sharp, and that would be scored as halo. The stricter tile rule cleans the tiles, not the edge band.
+
+**Change (frozen before stage 3).** When a depth map is given, halo_sharp uses only edge-band pixels with |depth − focus| ≥ 0.15, the tile threshold. It reports how many band pixels remain (halo_px, halo_kept). With fewer than 500 px it is not measurable. Re-running the validation with depth supplied leaves every number in the table above unchanged.
+
+**Control** (`validate40.py`, `branch_control` in `results/validate40.json`): the disk scene plus a sharp horizontal bar at the focus depth, outside the mask, crossing the band on both sides. The thin-lens reference keeps the bar sharp, which is correct, so the right score is ≈ 0.
+
+| Bar texture | Bar half-width (px) | Band covered | Ungated halo_sharp | Gated halo_sharp |
+|---|---|---|---|---|
+| smooth (rocket) | 3 / 12 / 24 | 2% / 7% / 13% | +0.011 to +0.015 | +0.007 to +0.008 |
+| high-detail (grass) | 3 / 12 / 24 | 2% / 7% / 13% | +0.023 / +0.057 / +0.098 | +0.005 to +0.008 |
+
+Values cover both radii (7.75 and 15.5 px), which agree within 0.002.
+
+**Reading.**
+- Ungated, a detailed in-focus branch covering 13% of the band scores +0.098. That is close to the largest score of a correct output in validation (0.107) and about 40% of a real injected halo (+0.248). The reviewer's concern is real.
+- Gating removes it here. But gating trusts the depth estimate: where Depth Anything places in-focus content off the focus plane, the false positive returns. For example, existing_blur_6's branch is estimated nearer than the bird.
+- halo_sharp on generated scenes therefore stays conditional on the depth map, and is reported with halo_kept.

@@ -7,6 +7,10 @@ Regions: din / dout = distance inside / outside the subject contour (px); bg til
   halo_sharp   residual background sharpness next to the subject: HF retention (output / input high-frequency
                energy, Gaussian sigma 1 px) in the outer band 2-12 px, minus the median HF retention over the
                background tiles. > 0 means the background next to the subject was left sharper than further away.
+               Depth-gated (added before stage 3, after review): when a depth map is given, only band pixels with
+               |depth - focus| >= 0.15 count, so content outside the mask that lies near the focus plane (a branch
+               the subject sits on) and is correctly kept sharp is not scored as halo. halo_px / halo_kept report
+               how many band pixels remained; with < 500 px the score is NaN (not measurable).
   rim          max |signed luminance change (y - x)| in the 0-3 px band on either side of the contour, minus that
                side's typical change (inner: subject interior >= 8 px; outer: background tiles). Bright or dark
                outline.
@@ -48,15 +52,17 @@ def _hfr(hy, hx, m):
     return float((hy[m] ** 2).mean() / max((hx[m] ** 2).mean(), 1e-9))
 
 
-def boundary(x, y, subj, tiles):
+def boundary(x, y, subj, tiles, depth=None, focus=None, gap=0.15, min_px=500):
     x, y = x.astype(np.float64), y.astype(np.float64)
     din, dout = geometry(subj)
     hx, hy = hf(x), hf(y)
     T = tile_mask(subj.shape, tiles)
     tile_r = [_hfr(hy, hx, tile_mask(subj.shape, [t])) for t in tiles]
     far = float(np.median(tile_r)) if tile_r else float("nan")
-    outer = (dout >= 2) & (dout <= 12)
-    halo = _hfr(hy, hx, outer) - far
+    band = (dout >= 2) & (dout <= 12)
+    outer = band & (np.abs(depth - focus) >= gap) if depth is not None else band
+    halo_px = int(outer.sum())
+    halo = _hfr(hy, hx, outer) - far if halo_px >= min_px else float("nan")
     dl = (y - x) @ LUM
     interior = din >= 8
     ri = float(dl[(din > 0) & (din <= 3)].mean() - np.median(dl[interior]))
@@ -71,7 +77,7 @@ def boundary(x, y, subj, tiles):
     edge_in = (din > 0) & (din <= 6)
     thin = 1 - _hfr(hy, hx, edge_in) / max(_hfr(hy, hx, interior), 1e-9)
     return dict(halo_sharp=float(halo), rim=rim, rim_inner=ri, rim_outer=ro, bleed=bleed, thin_loss=float(thin),
-                far_hf_retention=far)
+                far_hf_retention=far, halo_px=halo_px, halo_kept=halo_px / max(int(band.sum()), 1))
 
 
 def preservation(x, y, subj):
