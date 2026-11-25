@@ -109,3 +109,95 @@ reference):
 - SEP error 0.00-0.01/255 on T1 and T2.
 - The round 46 numbers for A, S, M2 and O are reproduced exactly.
 - The decision logic runs end to end.
+
+## Result (`results/run/score47.json`; run 2026-11-25 on an A30)
+
+**Controls: passed.**
+- Pipeline check: rendering the true background reproduces round 46's reference exactly (max diff 0) for all 6
+  backgrounds.
+- No-glass control: the separator finds almost no glass where there is none (mean alpha_hat in the pane 0.001-0.023,
+  limit 0.05). It shifts the background by 2.0-6.4/255.
+- All 1,860 PISA calls computed in fp32.
+
+**Training (8,000 steps each, 296 backgrounds), final training losses:**
+
+| model | alpha | B | F | reconstruction |
+|---|---|---|---|---|
+| full | 0.017 | 0.014 | 0.080 | 0.017 |
+| oracle-alpha | (given) | 0.009 | 0.041 | 0.015 |
+
+**T1, round 46 benchmark** (error against the reference, ×255, linear light, background-level means):
+
+| method | pane | surface (α ≥ 0.8) | transmission (α ≤ 0.2) | overlap | outside | high-pass corr. |
+|---|---|---|---|---|---|---|
+| O, output blend (round 46) | 8.48 | 26.1 | 7.08 | 17.1 | 1.35 | 0.82 |
+| A, original map | 8.57 | 23.4 | 8.08 | 12.0 | 2.43 | 0.77 |
+| **SEP_full (separate → render → composite)** | **5.46** | 24.9 | **3.95** | **9.8** | 2.09 | **0.92** |
+| SEP_oracle (alpha given) | 2.86 | 10.9 | 2.29 | 3.5 | 1.67 | 0.99 |
+
+- SEP_full − O on the pane: −3.01 [−4.10, −1.88], better on 6/6 backgrounds.
+- Relative changes: pane −36%, surface −5%, transmission −44%, overlap −43%.
+- SEP_oracle − O: −5.62 [−6.83, −4.29], 6/6 backgrounds (−66%).
+- Separation errors: alpha 0.053 (full); F 14.0/255 (full) vs 7.1/255 (oracle); B 12.6/255 (full) vs 4.8/255 (oracle).
+
+Pane error by surface type:
+
+| surface type | O | SEP_full | SEP_oracle |
+|---|---|---|---|
+| etched | 8.28 | 5.28 | 2.56 |
+| grid | 16.08 | 6.71 | 3.28 |
+| specular | 2.65 | 3.25 | 1.72 |
+| tinted | 6.89 | 6.61 | 3.87 |
+
+**Pre-set decision: SUCCESS.** SEP_full lowers pane error by 36% (≥ 25%), the CI excludes 0, and no region is worse.
+
+**T2, held-out families** (text, dots; reported, not decided):
+
+| method | pane error | vs O (paired, 95% CI) | backgrounds better |
+|---|---|---|---|
+| O | 3.24 | | |
+| SEP_full | 5.08 | +1.84 [+1.47, +2.19] (worse) | 0/6 |
+| SEP_oracle | 2.13 | −1.11 [−1.87, −0.35] | 5/6 |
+
+- The full separator's surface-colour error jumps to 36/255 on these unseen patterns. It does not recognise text and
+  dots as glass.
+- Given alpha, the colour split still generalises.
+
+**T3, real acrylic sign rb_48** (round 43's see-through ratio; reported, not decided):
+
+| condition | ratio |
+|---|---|
+| real f/2.0 lens | 0.84 |
+| round 43, original | 0.13 |
+| round 43, see-through | 0.46 |
+| round 43, see-through + rim | 0.45 |
+| SEP_full | 0.45 |
+
+- The separator assigns almost no glass to the real sign: mean alpha_hat 0.028 inside the mask, while the printed logo
+  is effectively opaque surface. So the pipeline behaves like the see-through map.
+- It also darkens the counter below the sign (`figures/round47_real_rb48.png`).
+
+**Reading.**
+- **On the trained kind of glass, separating the layers before rendering works.**
+  - Pane error falls by about a third versus the output blend, and the ghosting and smearing of rounds 43 and 46
+    disappear (`figures/round47_examples.png`).
+  - With the true surface fraction the error falls by two thirds. The remaining gap is mostly in estimating alpha.
+- **It does not yet generalise.**
+  - Unseen surface patterns (T2): estimating alpha fails, and the full pipeline is worse than the output blend.
+  - The one real photograph (T3): the separator finds almost no glass.
+  - The colour split itself generalises when alpha is known (T2 oracle).
+- **This is the first approach that clearly improves transparent content, and it lies entirely outside BokehDiff**
+  (learned decomposition before rendering, compositing after). Round 46's internal feature blend lost on the same
+  benchmark with the same information.
+
+**Limits.**
+- Synthetic panes over 6 backgrounds; the pane region is privileged.
+- The reference is BokehDiff's own background render.
+- One real example.
+- The training families resemble T1's families (different instances, same kinds).
+
+**Next (proposed, not run).**
+- Train alpha estimation on a much wider set of surface patterns: text, logos, dots and real transparent-object mattes
+  (e.g. Trans10K masks), or combine it with a transparent-object matting model.
+- Test on more real glass photographs.
+- The pane region would come from a transparent-object segmenter.
