@@ -51,7 +51,43 @@ git switch q2-sd-dof        # or any branch below; the round's README is quarter
 | 38 | CPU diagnostics on round 36's outputs: is depth readable at boundaries (probe on edge tokens, labels per side)? what is the calibrated request's remaining error made of? (post hoc) is the sRGB disk reference itself the problem? | `q2-edge-diag` | `edge_diag/` | Nov 20 | Boundary rule fails (closer side 89 % vs blur-only 83 %, position-only 83 %; same-blur subset only 8 edges, 2 configurations), but a modest depth-order signal remains at edges beyond blur and position (partial r 0.34; 0.51 on free–free edges); none in interiors. Remaining error: radius explains ~2 %, contrast ≈ right, residual mostly low-frequency. **Post hoc: a linear-light disk reference fits BokehDiff far better (72/72 test cells, median 2.99 → 2.02; coins 9.2 → 2.5). Rescored, round 34's sRGB teacher is worse than request-only (1.63×), round 31's LoRA gain vanishes, coins is no longer an outlier.** Error-based results of rounds 29–37 were measured against an sRGB reference and should be read with that caveat | Closed |
 | 39 (step 0) | Boundary reference: aperture-sampled thin-lens ray tracer (linear light) vs analytic layered composites, two flat layers, three focus settings, three backgrounds | `q2-boundary` | `boundary/` | Nov 21 | Premultiplied composite equals the ray tracer whenever one layer is in focus; off by up to 2.5/255 at textured edges when both are blurred (ray tracer is the reference). Hidden background behind the foreground changes edge bands by 18–23/255, so boundary errors need an available-information reference too; sRGB blending is off by 7–13/255. Step 1 (GPU: establish a repeatable boundary error) not yet run | Open |
 | 39 (step 1) | Does BokehDiff leave a repeatable boundary error that request adjustment cannot remove? 24 cutout scenes over flat or gradient backgrounds, settings A/B/C at 2 radii, linear-light ray-traced reference (validated), 15 request adjustments each; Bokehlicious on setting A | `q2-boundary` | `boundary/` | Nov 22 | Checks passed. Inconclusive (NOT ESTABLISHED by the frozen rule): best cell B (blurred fg over sharp bg) 16/24, need 18, and the per-scene best request was chosen with the reference (an oracle); the residual is a mild brightening 0–8 px outside the edge, mostly on flat backgrounds. Setting A turned out degenerate (with a flat background the correct output is the input), so its BokehDiff and Bokehlicious numbers test only whether the image is left alone. Side finding: requesting background blur changes a sharp foreground by 2–5/255 relative to the zero-request output. Post hoc, this is mostly a switch away from the softer zero-request state (sharper, dose-flat) plus an edge rim. A textured-background positive control for A passes (CPU) | Closed |
+| 40 | BokehDiff vs Bokehlicious, same inputs: blur control, focus, matched quality, RealBokeh, latency. 40 generated scenes (8 dev mapping, 24 test) + 25 RealBokeh scenes; one frozen setting per target per method | `q2-compare40` | `compare40/` | Nov 22-24 | Control within tolerance 0.24 for both [scene CIs overlap]; focus check BokehDiff 0.89 vs Bokehlicious 0.71; Bokehlicious unmeasurable at 12 px in 8/24; on RealBokeh Bokehlicious closer to the real capture (17-20/20 scenes, paired CIs exclude 0); 12.7 s vs 0.19 s. No repeatable rendering defect established under matched control. Post hoc: BokehDiff blur ≈ 0.93·K·depth gap | Closed |
+| 41 | Is BokehDiff's sharp band just outside the subject (halo) a model failure? 8 dev scenes, original vs flat background depth vs hard-edged depth | `q2-halo41` | `halo41/` | Nov 24 | MIXED by the frozen rule (flat depth −38 %, 5/8). Inspection: the band is near-focus background or subject material outside the mask (hair, object edges). Halo dropped as a failure candidate | Closed |
+| 42 | Depth-aware control: can choosing K per image from the depth gap hit a requested blur? 24 held-out scenes × 4/8/12 px; fixed vs depth rule vs one measured correction vs search | `q2-control42` | `control42/` | Nov 24 | Target attainment 0.24 → 0.51 (+0.28 [+0.11, +0.43], SUBSTANTIAL), no extra subject-detail loss vs fixed; correction +0.10 (not shown); search 0.96 (not an independent ceiling: selection used the scored tiles). Misses concentrated at 4 px. Review #7: ran fp16 PISA as shipped (round 21 staircase), so the 4 px misses may be numerical; precision check pending | Open (precision check) |
+| 43 | Transparent subjects: is BokehDiff's sharp see-through content a depth-input or model failure? 16 generated + 6 RealBokeh scenes (10 scored after input-only review); original vs see-through depth vs see-through + outline | `q2-transparent43` | `transparent43/` | Nov 24-25 | Original keeps the through-content sharp (rho 0.04; 0.12 at K = 64). A see-through depth makes BokehDiff blur it (0.99), but the object's own structure blurs too (outline 0.22): EDGE_TRADEOFF. None of the three tested maps gives both; rho is relative detail loss, 1 real reference. Continues round 15 | Open (controlled feasibility test proposed) |
 
-Where things stand (Nov 15, 2026): after rounds 5-6 the project returned to improving steering itself. Rounds 7-8 (CIFAR-10): tune NA-RFM's strength; no simple alternative direction beats the paper's. Rounds 9-13 (SD 1.5 depth of field): no direction is selective, and the measured selectivity depends on the mask convention; masking the edit makes the softness selective but the scene still changes; local measured-response corrections do not help (paused); delaying the edit keeps the layout but then it cannot blur. At both a mild and a visible blur, post-hoc blur beats every steering variant. By the frozen rule this direction-and-layer approach stops here. Open question for any follow-up: scene-preserving control (compare against reference-grounded attention, as in Bokeh Diffusion), not masking or timing. Earlier (Nov 10): reference-set bias does carry over into unintended changes (rounds 2 and 3), but
-on Stable Diffusion we have not found a steering target that works cleanly enough for a matched-target comparison
-(rounds 3 and 4).
+## Where things stand (Nov 25, 2026)
+
+**Supported findings.**
+- Tuning matters more than the direction: tuning NA-RFM's strength removed the apparent interference (round 7, mean FID
+  43.7 → 38.5 on the three-class confirmation); no alternative direction beat the tuned baseline (round 8).
+- Numerical precision matters: BokehDiff's shipped fp16 PISA attention makes mild blur a staircase that skips about 3 px;
+  fp32 attention makes it continuous (rounds 20-22).
+- Scene-aware input control works: choosing BokehDiff's K from the depth gap raised target attainment from 24 % to 51 % at
+  unchanged runtime (round 42; precision check pending).
+- BokehDiff follows its depth input: with a corrected depth it blurs content seen through glass (round 43); with its own
+  depth it keeps it sharp at every tested setting.
+
+**Superseded or corrected claims.**
+- Error-based results of rounds 29-37 used an sRGB disk reference; a linear-light reference fits far better and removes
+  most of the "shape error" (round 38).
+- Round 33's teacher transplantation had a design flaw (it encoded "keep as is").
+- Round 41's halo was mostly near-focus background or mask imprecision, not a model failure.
+
+**Inconclusive.**
+- Repeatable boundary error (round 39 step 1, NOT ESTABLISHED).
+- Learned blur operator vs direct image model (round 14): helps synthetic boundaries but did not beat the direct model.
+
+**Bounded negatives.**
+- Steering directions, masking, timing (rounds 9-13); attention-level levers (rounds 24-26); feature edits, readouts, LoRA
+  block scaling and measured-error steering (rounds 29-32): none beat adjusting the request under the tested designs.
+- Optimised activation edits (rounds 34-37): a preserving correction was reachable, but only toward the unsuitable sRGB target.
+
+**Open questions.**
+- Does fp32 PISA remove round 42's 4 px misses, and does a monotone low-end rule hold on fresh scenes? (Finish the
+  controller; no open-ended predictor search.)
+- Transparency: given the same surface information, does a two-render blend or a surface-aware single map already give
+  the two-layer result? Only a remaining gap would justify an internal method.
+
+Earlier summary (Nov 15): rounds 9-13 stopped the direction-and-layer approach on SD 1.5; post-hoc blur beat every
+steering variant at mild and visible blur.
