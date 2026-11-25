@@ -49,3 +49,50 @@ first, then bootstrapped over scenes for 95% intervals.
 **CPU dry run** (round 40 images as stand-ins for the arms): the scorer, pairing and decisions run end to end.
 
 **Order.** Launched after round 41 step 1 finishes (one GPU at a time).
+
+## Result (`results/run/score42.json`; 24 held-out scenes × 3 targets; run 2026-11-24)
+
+**Determinism.** The re-rendered fixed outputs match round 40 exactly (max diff 0), so the fixed arm is a valid baseline.
+
+| arm | within tolerance [95% CI] | held-out tiles | median abs error | subject hf_ratio | focus check | renders | time / output |
+|---|---|---|---|---|---|---|---|
+| fixed | 0.24 [0.10, 0.39] | 0.18 | 4.21 px | 0.63 | 0.89 | 1 | 11.8 s |
+| depth | 0.51 [0.42, 0.61] | 0.42 | 1.98 px | 0.62 | 0.78 | 1 | 11.6 s |
+| correct | 0.61 [0.50, 0.72] | 0.47 | 1.58 px | 0.61 | 0.92 | 1.9 | 25.2 s |
+| oracle | 0.96 [0.90, 1.00] | 0.76 | 0.14 px | 0.60 | 0.93 | 10 | 118 s |
+
+Paired, scene-level: depth − fixed +0.28 [+0.11, +0.43]; correct − fixed +0.38 [+0.24, +0.51];
+correct − depth +0.10 [−0.01, +0.21]; hf_ratio changes ≤ 0.013 in every comparison.
+
+**Pre-set decisions.**
+- D1 depth vs fixed: **SUBSTANTIAL** (+0.28, interval excludes 0).
+- D2 subject not damaged: **yes** for depth and correct (hf_ratio lower bounds −0.019 and −0.035, above −0.05).
+- D3 one measured correction adds: **NOT SHOWN** (+0.10, interval includes 0; same on held-out tiles).
+- D4 oracle ceiling: 0.96, so a setting that hits the target exists for almost every image.
+- D5 learned predictor: **not justified**. The depth rule misses 49% of cells, but only 25% of its log error is
+  between scenes; most of the error varies with the target within a scene.
+
+**Per target (within tolerance, out of 24; post hoc breakdown).**
+
+| target | fixed | depth | correct | oracle |
+|---|---|---|---|---|
+| 4 px | 6 | 1 (median 1.2 px delivered) | 14 | 22 |
+| 8 px | 6 | 19 | 17 | 23 |
+| 12 px | 5 | 17 | 13 | 24 |
+
+**Reading.**
+- Choosing the setting from depth substantially improves blur control at no cost to the subject or runtime. At 8 and
+  12 px it hits the target in about three quarters of cases.
+- Almost all of the depth rule's misses are at 4 px, where it delivers too little blur. The rule was fitted only on
+  2–20 px responses, and BokehDiff's response at low settings is not linear (it barely blurs until the setting passes
+  a threshold). This explains D5: the error is a shared low-end bias, not a scene-specific one a CNN would learn.
+- The correction step fixes 4 px (1 → 14) but overshoots at 8 and 12 px, so its net gain is not established.
+- The depth arm's lower focus-check rate (0.78) comes entirely from 4 px (12/24). There the background stays almost
+  sharp, so "subject sharper than background" fails without the subject changing (hf_ratio is unchanged).
+
+**Limits.** The per-target breakdown and the low-end explanation are post hoc. Same 24 test scenes as round 40 (see
+Disclosure). Generated scenes only; blur is measured by our own estimator.
+
+**Next (proposed, not run).** Refit the rule with the low end included (e.g. a threshold term, or a monotone curve over
+the full development response) and apply the correction step only when the first render is far from the target. Test it
+on new held-out scenes, since these 24 have now been used.
