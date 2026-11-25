@@ -1,0 +1,29 @@
+{
+ "date": "2026-11-25",
+ "protocol": "Chosen on the INPUT contact sheets (outputs/q2_transparent43/data/sheets) before any round 43 output was pulled or viewed. Keep a numbered candidate if, in the input, it mainly shows scene content seen through the object; drop it if it mainly shows the object's own features (logos, labels, rims, water or liquid, stems/flowers inside, facets/ribs, reflections) or content at the object's own depth (the surface it stands on).",
+ "see_tiles": {
+  "glass_0": [9, 10],
+  "glass_1": [1, 3, 4],
+  "glass_3": [0, 1, 3, 4],
+  "glass_6": [5, 9],
+  "glass_7": [0, 1, 2, 5, 6, 7, 11],
+  "glass_9": [7, 8],
+  "glass_10": [0, 5, 8],
+  "glass_11": [4, 6, 7, 10, 11],
+  "glass_14": [8, 9, 10],
+  "rb_48": [8, 10, 11]
+ },
+ "exclude": ["glass_2", "glass_4", "glass_5", "glass_8", "glass_12", "glass_13", "glass_15", "rb_51", "rb_116"],
+ "exclude_reasons": {
+  "glass_2": "vase filled by leaves and stems; no candidate shows the window through clear glass",
+  "glass_4": "only one candidate (2) shows the wall through the jar; 0 shows another jar, 1 is sweets inside",
+  "glass_5": "candidates are the engraved logo and label",
+  "glass_8": "cut and ribbed glass: every candidate is dominated by the object's own ribs/facets",
+  "glass_12": "mask failure: holes across the candle holder; second glass with water",
+  "glass_13": "mask failure: mask also covers the opaque jars next to the perfume bottle (and depth already sees through)",
+  "glass_15": "carafe filled with stems and leaves; no clean see-through candidate",
+  "rb_51": "mask selects the opaque flowers, vase and elephants, not the window",
+  "rb_116": "mask selects filled pepper grinders and candle holder; nothing seen through"
+ },
+ "not_rendered": {"rb_49": "mask is the dog behind the windscreen, no candidate inside it", "rb_129": "mask is the logo only", "rb_131": "mask is the opaque pumpkin"}
+}
