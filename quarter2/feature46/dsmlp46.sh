@@ -21,7 +21,7 @@ python quarter2/feature46/compose46.py "$REPO/outputs/q2_confirm45/data" "$R46_D
 [ -f "$R46_DATA/compose46.json" ] || { stamp "compose FAILED"; exit 1; }
 stamp "render"
 cd "$W17/repo" && git checkout -q $COMMIT
-python "$REPO/quarter2/feature46/bd46.py" --test_data_dir "$R46_DATA/input/flat__tinted.png" --output_dir "$R46_OUT/unused" \
+python "$REPO/quarter2/feature46/bd46.py" --test_data_dir "$REPO/outputs/q2_confirm45/data/input/f_fur_0.png" --output_dir "$R46_OUT/unused" \
     --data_id up --K 20 --mixed_precision fp16 --seed 0 2>&1 | grep -v -i -e warn -e "it/s" | tee "$R46_OUT/log_bd46.txt" | tail -4
 cd "$REPO"
 [ -f "$R46_OUT/bd46.json" ] || { stamp "render FAILED"; exit 1; }
