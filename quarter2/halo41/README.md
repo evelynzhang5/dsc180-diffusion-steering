@@ -52,3 +52,32 @@ Same driver, scenes and settings as round 40. Only the depth map handed to Bokeh
   sharp, and on rb_48 leaves the shelves behind the clear acrylic sign sharp, where the real lens blurs them. One
   depth per pixel cannot say "sharp surface, far-away scene behind it", so the conditioning cannot ask for the right
   answer. Only 2 examples so far.
+
+## Step 1 result (8 mapping scenes × 3 targets, `results/measure41.json`)
+
+| scene | halo original | halo two-layer depth | halo hard-edge depth |
+|---|---|---|---|
+| fur_0 | 0.348 | 0.099 | 0.351 |
+| fur_1 | 0.167 | 0.188 | 0.194 |
+| hair_0 | 0.025 | 0.049 | 0.032 |
+| hair_1 | 0.328 | 0.334 | 0.331 |
+| highlights_0 | 0.296 | 0.200 | 0.210 |
+| highlights_1 | 0.469 | 0.430 | 0.519 |
+| thin_0 | 0.148 | 0.043 | 0.156 |
+| thin_1 | 0.164 | 0.071 | 0.163 |
+| **median** | **0.231** | **0.143** | **0.202** |
+
+**Pre-set verdict: MIXED.** A flat background depth lowers the median halo by 38% and lowers it in 5/8 scenes:
+neither the "follows the depth" threshold (≤ 50%, ≥ 6/8) nor the "model" threshold (≥ 75% or ≤ 4/8) is met.
+Background blur is unchanged within tolerance in every scene. Hard-edging the depth within 24 px of the mask barely
+changes anything (0.231 → 0.202), so smoothed depth at the subject edge is not the cause.
+
+**What the remaining halo is.** In fur_0, thin_0 and thin_1 the halo disappears once the depth map says the background
+is far: there it was near-focus background, as suspected. In the scenes where it persists (hair_1, highlights_1, fur_1),
+the sharp band is the subject's own material just outside the mask: flyaway hair strands (`figures/hair_1_41.jpg`)
+and the machine's outer edges (`figures/highlights_1_41.jpg`). BokehDiff keeps these sharp even when the depth input
+says "far", which looks correct to the eye rather than defective.
+
+**Conclusion.** Round 41 does not establish a halo failure. The metric is dominated by near-focus background and by
+mask imprecision. The halo is dropped as a failure candidate; transparent subjects stay the strongest remaining
+candidate, and the control question moves to round 42.
