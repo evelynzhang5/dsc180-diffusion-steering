@@ -91,3 +91,73 @@ zero-intervention check verifies that the extra channel changes nothing.
 
 Renders: 6 references + 24 × 6 methods + checks (6 endpoint renders + 1 zero-intervention render on the first composite,
 plus the flat composite) ≈ 165.
+
+## Result (`results/run/score46.json`; run 2026-11-25 on an A30; 6 backgrounds × 4 surface types)
+
+**Controls: all passed.**
+- Zero intervention and both endpoints (α := 1 → A, α := 0 → S) reproduce exactly (max diff 0) for every blend
+  location, on the first composite and on the flat composite.
+- Flat colour, additional brightness change relative to the α-weighted endpoint renders (×255): C_pisa −0.71 and
+  C_dec −0.85 pass; **C_latent −2.08 fails** (> 1/255), so C_latent's quality numbers are not interpretable.
+- All 3,042 PISA calls computed in float32.
+
+Mean absolute error against the reference (×255, linear light), background-level means:
+
+| method | pane | surface (α ≥ 0.8) | transmission (α ≤ 0.2) | overlap | outside | high-pass corr. |
+|---|---|---|---|---|---|---|
+| A, original map | 8.57 | **23.4** | 8.08 | **12.0** | 2.43 | 0.77 |
+| S, see-through (negative control) | 12.41 | 77.2 | 7.49 | 34.0 | 1.35 | 0.38 |
+| M2, surface-aware single map | 9.62 | 57.2 | **5.92** | 23.1 | 2.31 | 0.60 |
+| **O, output blend** | **8.48** | 26.1 | 7.08 | 17.1 | 1.35 | **0.82** |
+| **C_pisa, feature blend (primary)** | 11.33 | 56.7 | 7.00 | 31.7 | 1.31 | 0.46 |
+| C_latent (exploratory; flat control failed) | 11.09 | 55.6 | 6.99 | 31.5 | 1.33 | 0.53 |
+| C_dec (exploratory) | 10.99 | 54.4 | 6.95 | 31.3 | 1.33 | 0.58 |
+
+Paired against O (whole pane, bootstrap over 6 backgrounds):
+
+| method | difference [95% CI] | backgrounds better |
+|---|---|---|
+| C_pisa | +2.85 [+2.11, +3.65] | 0/6 |
+| C_dec | +2.51 | 0/6 |
+| M2 | +1.14 | 1/6 |
+| A | +0.10 | 3/6 |
+| S | +3.93 | 0/6 |
+
+Whole-pane error by surface type:
+
+| surface type | O | C_pisa | C_dec | M2 | A |
+|---|---|---|---|---|---|
+| etched | 8.28 | 10.79 | 10.87 | **7.10** | 8.73 |
+| grid | 16.08 | 23.27 | 22.78 | 17.76 | **9.75** |
+| specular | **2.65** | 2.73 | 2.73 | 3.52 | 7.36 |
+| tinted | **6.89** | 8.51 | 7.58 | 10.08 | 8.43 |
+
+**Pre-set decision: No advantage is established for the tested feature blends; output blending remains the practical
+baseline.** C_pisa is 34% worse than O on the pane, and more than twice as wrong on surface-dominant pixels.
+
+**Reading.**
+- **Why the internal blends lose:** they mix at the model's feature resolution. The PISA block works at 1/16 of the image
+  resolution (one cell ≈ 16 px at the processing scale), the latent at 1/8. α has to be averaged over a cell, so thin,
+  sharp surface structure (2-4 px strokes and grid lines) cannot be mixed separately from the background around it. The
+  surface error roughly doubles, and transmission is unchanged.
+- **Where α is smooth, blending location does not matter.** On specular streaks every blend gives the same error (2.7).
+- **No method is close to the reference.** The output blend's pane error (8.5) is about 6× the error outside the pane
+  (1.35, BokehDiff's own background reproduction). Its surface-dominant error is 26/255 and its overlap error 17/255.
+  The input image already mixes surface and background, so neither render contains the sharp surface alone or the
+  background alone.
+- **No method wins everywhere.** Keeping the pane solid (A) is best on surface and overlap pixels. The surface-aware map
+  (M2) is best on transmission. The output blend is the best compromise and has the best high-pass agreement (0.82).
+
+**Limits.**
+- 6 backgrounds; synthetic panes and α known exactly (privileged).
+- The reference uses BokehDiff's own background render, not physical ground truth.
+- One K per background (12 px target, approximate).
+- C_latent failed the flat-colour control.
+
+**What this means.**
+- With the same information, mixing BokehDiff's internal features does not beat blending its outputs. The tested
+  internal location's resolution is coarser than the surface detail that has to be kept.
+- An internal method would need finer-resolution access, or a way to separate surface from background before blending,
+  not a different blending point.
+- Two-source attention acts at the same 1/16 resolution, so this result gives no reason to expect it to do better.
+  It is not launched.
