@@ -88,8 +88,8 @@ not select the transparent object.
 
 **Reading.**
 - **The failure is real and no setting fixes it.** With its own depth map, BokehDiff keeps the scene seen through a
-  transparent object sharp (it keeps 96% of that content's detail loss-free while the background around it is blurred),
-  even at the strongest setting.
+  transparent object sharp: that content gets 4% of the detail loss of the background around it (12% at K = 64, the
+  strongest setting).
 - **BokehDiff follows the depth map.** Told that the through-content is far, it blurs it like the surrounding background
   (rho 0.99). So the failure starts in the input, not in the model's ability to blur.
 - **But one depth per pixel cannot describe a transparent object.** In the see-through conditions the object's own
