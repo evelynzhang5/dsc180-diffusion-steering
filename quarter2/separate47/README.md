@@ -1,4 +1,4 @@
-# Round 47 (design, not built): does learned layer separation fix transparent content?
+# Round 47: does learned layer separation fix transparent content?
 
 Branch `q2-separate47` (from `q2-feature46`). Round 46: with the same information, mixing BokehDiff's internal features
 does not beat blending its outputs (the internal features are too coarse for thin surface detail), and even the output
@@ -84,3 +84,28 @@ than the output blend? Does it hold for surface patterns of a held-out family? D
 - Separation from one image is ambiguous: a sharp detail can be on the glass or behind it.
 - Synthetic training may not transfer to real glass. T3 is a single real example.
 - The pane-region mask is privileged.
+
+## Build (2026-11-25; frozen before training)
+
+Files:
+- `synth47.py`: procedural surfaces. Training families: strokes, grid, specular, tint, rim, dust. Held out: text, dots.
+- `train47.py`: U-Net, 4.9M parameters, 8,000 steps, batch 16, 256-px crops.
+- `build47.py`: T2 composites.
+- `infer47.py`: runs the separators.
+- `bd47.py`: BokehDiff renders with fp32 PISA.
+- `score47.py`: scoring.
+- `dsmlp47.sh`: one pod run.
+
+Changes from the draft:
+- **Training backgrounds:** 82 from rounds 40 and 45 plus about 214 RealBokeh f/22 sources (transparent-object scenes
+  and round 46's test backgrounds excluded).
+- **Held-out families densified:** text and dots were made denser before freezing (neither family is used in training),
+  so that T2 has an overlap region. T2 has no surface-dominant region (≥ 0.8).
+- **T3 input:** rendered with round 43's see-through map, focus and K for rb_48. Measured with round 43's see-through
+  ratio on its frozen tiles, next to the real f/2.0 capture and round 43's three conditions.
+
+**CPU dry run with perfect-separation stand-ins** (separator outputs set to the true layers; renders = round 46's
+reference):
+- SEP error 0.00-0.01/255 on T1 and T2.
+- The round 46 numbers for A, S, M2 and O are reproduced exactly.
+- The decision logic runs end to end.
