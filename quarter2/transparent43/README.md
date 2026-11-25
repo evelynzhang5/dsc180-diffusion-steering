@@ -87,7 +87,7 @@ not select the transparent object.
 8 px gives the same picture. **Pre-set decision: FAILURE: EDGE_TRADEOFF** at both 12 and 8 px.
 
 **Reading.**
-- **The failure is real and no setting fixes it.** With its own depth map, BokehDiff keeps the scene seen through a
+- **The failure is real, and no tested setting fixes it.** With its own depth map, BokehDiff keeps the scene seen through a
   transparent object sharp: that content gets 4% of the detail loss of the background around it (12% at K = 64, the
   strongest setting).
 - **BokehDiff follows the depth map.** Told that the through-content is far, it blurs it like the surrounding background
@@ -98,8 +98,10 @@ not select the transparent object.
   outline). Keeping the depth of a thin outline does not help much (0.22): BokehDiff works on 8x8-pixel latents, and the
   facets and liquid are inside the object, not on its outline. A real lens keeps the object's surface sharp while
   blurring the scene behind it (`r43_rb_48.jpg`, last panel).
-- **Neither depth map gives the right picture.** The correct image needs two depths at the same pixel (the glass at the
-  focus, the scene behind it far away), which BokehDiff's input cannot express.
+- **None of the tested depth conditions both blurred the transmitted content and kept the object's structure.** A
+  correct image plausibly needs two depths at the same pixel (the glass at the focus, the scene behind it far away).
+  Only three maps were tested (original, filled interior, filled interior with a thin outline). Surface-aware maps,
+  independent blur-map control and compositing were not tested.
 
 **Limits.**
 - 10 scenes, only 1 real scene with a reference capture. The see tiles and exclusions were chosen by eye, from inputs only.
@@ -108,9 +110,25 @@ not select the transparent object.
 - rb_48's planned K was clipped at 64, and BokehDiff blurs its background little at any setting (round 40).
 
 **What this means for steering.**
-- This is the first failure we have found that no single input map can fix: the input format lacks the second layer.
+- This is the first failure where none of the tested single input maps works. It does not show that no input can fix it.
 - A cheap baseline still has to be tried before any steering: render twice (original depth, then see-through depth)
   and blend the two with a matte of the object's own structure. The hard part is that matte, which any method would
   need too.
 - A steering method has a clear target only if it can produce the two-layer result from one render better than that
   blend.
+
+## Corrections after review #7 (2026-11-25)
+
+- **rho measures relative detail loss, not blur accuracy.** rho ≈ 1 says the through-content lost as much mid-scale
+  detail as the background around it. It does not establish the right kernel or a correct image: contrast loss or
+  destroyed object structure would also raise it. The outline measure mixes surface and background, so the next test
+  needs a preservation target where surface and transmitted content are separately known.
+- **Continuation of round 15.** Round 15 (`q2-real-bokeh`) already showed, on synthetic glass and reflections, that a
+  single-depth representation cannot express transmission. Round 43 adds evidence on BokehDiff with generated glass.
+- **Thin real-world evidence.** 10 of 22 planned scenes were scored, and the only real reference (rb_48) was also used to
+  choose the measure in the dry run.
+- **Next (proposed, not run).** A controlled feasibility comparison with the surface known: original depth, corrected
+  depth, a surface-aware single map and a two-render blend, all given the same (privileged, labelled) surface mask, on a
+  case where surface and transmitted content are known separately. First check that the score rewards keeping surface
+  detail while blurring the background, not just smoothing. Then confirm on fresh real examples. An internal method is
+  worth building only if a clear gap remains beyond these controls.
