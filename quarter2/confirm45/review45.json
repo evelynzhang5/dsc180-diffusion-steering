@@ -1,0 +1,6 @@
+{
+ "date": "2026-11-25",
+ "protocol": "Input contact sheets only (outputs/q2_confirm45/data/sheets), reviewed before any round 45 output was pulled or viewed. Exclude a scene for a mask failure (mask misses or swallows the subject) or a measurement flag (behind tiles on subject material or not behind the subject).",
+ "exclude": [],
+ "notes": "21 eligible scenes reviewed; no mask failure or measurement flag found. Not eligible by the automatic rule (< 4 behind tiles): f_highlights_5 (1), f_thin_2 (0, spider web: depth treats the web as background), f_thin_5 (3)."
+}
