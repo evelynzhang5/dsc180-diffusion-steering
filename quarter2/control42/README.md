@@ -96,3 +96,19 @@ Disclosure). Generated scenes only; blur is measured by our own estimator.
 **Next (proposed, not run).** Refit the rule with the low end included (e.g. a threshold term, or a monotone curve over
 the full development response) and apply the correction step only when the first render is far from the target. Test it
 on new held-out scenes, since these 24 have now been used.
+
+## Corrections after review #7 (2026-11-25)
+
+- **Precision not verified.** `bd42.py` (like round 40's `bd40.py`) runs BokehDiff under fp16 autocast and does not
+  install round 20-22's fp32 wrapper for PISA attention, so PISA most likely ran in fp16 as shipped. Round 21 showed
+  that fp16 PISA makes the response a staircase that skips mild blur (about 3 px). The depth rule's misses at 4 px may
+  therefore be partly this known numerical effect rather than the shape of the fitted curve. To be checked by recording
+  PISA dtypes and re-running the low end with the fp32 wrapper before any new calibration.
+- **The 96% search result is not an independent ceiling.** The search picks K using all behind tiles, and the
+  "held-out" odd tiles are among them, so neither 0.96 nor 0.76 measures generalisation to unseen regions. It shows that
+  a better setting usually exists under this measurement procedure.
+- **"Subject not damaged"** means: no additional loss of subject detail relative to the fixed arm under the hf_ratio
+  criterion (lower bound ≥ −0.05). It does not mean the subject is reproduced exactly (subject hf_ratio is about 0.6 in
+  every arm, including fixed).
+- **D5 does not rule out a CNN.** It is a necessary condition for a predictor of per-scene offsets. A model of
+  interactions between content and requested blur is not excluded. The low-end correction is simply the cheaper first test.
