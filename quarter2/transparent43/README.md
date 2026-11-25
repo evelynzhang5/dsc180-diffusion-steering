@@ -68,3 +68,49 @@ chosen on them (dry run). Neither is among the 16 generated scenes; rb_48 is amo
 
 **Run.** One GPU job (`dsmlp43.sh`): generate, fetch, prepare, regions, render. Then, on CPU: input-sheet review
 → `review43.json` committed → `score43.py`.
+
+## Result (`results/run/score43.json`; run 2026-11-24/25)
+
+**Scenes scored: 10** (9 generated and rb_48). The see tiles were chosen on the input sheets before any output was
+viewed (`review43.json`, committed first). 9 rendered scenes were excluded by that review (mask failures, vases full of
+stems, logos, ribbed glass, masks on opaque objects); rb_49, rb_129 and rb_131 were not rendered because the mask did
+not select the transparent object.
+
+| condition | rho at 12 px [95% CI] | scenes with rho ≥ 0.7 | outline kept (rim_keep) |
+|---|---|---|---|
+| original | 0.04 [0.02, 0.13] | 0/10 (10/10 ≤ 0.3) | 1 (reference) |
+| original, K = 64 | 0.12 [0.07, 0.22] | 0/10 (8/10 ≤ 0.3) | 1 |
+| see-through | 0.99 [0.68, 1.07] | 8/10 | 0.14 [0.07, 0.23] |
+| see-through + outline | 0.98 [0.70, 1.05] | 8/10 | 0.22 [0.08, 0.29] |
+| real f/2.0 lens (rb_48 only) | 0.84 | | |
+
+8 px gives the same picture. **Pre-set decision: FAILURE: EDGE_TRADEOFF** at both 12 and 8 px.
+
+**Reading.**
+- **The failure is real and no setting fixes it.** With its own depth map, BokehDiff keeps the scene seen through a
+  transparent object sharp (it keeps 96% of that content's detail loss-free while the background around it is blurred),
+  even at the strongest setting.
+- **BokehDiff follows the depth map.** Told that the through-content is far, it blurs it like the surrounding background
+  (rho 0.99). So the failure starts in the input, not in the model's ability to blur.
+- **But one depth per pixel cannot describe a transparent object.** In the see-through conditions the object's own
+  structure (rim, cut facets, the wine, the handle, the beer) is blurred together with what is behind it, and the glass
+  turns into a ghost (`figures/r43_glass_0.jpg`, `r43_glass_10.jpg`: input, original, see-through, see-through +
+  outline). Keeping the depth of a thin outline does not help much (0.22): BokehDiff works on 8x8-pixel latents, and the
+  facets and liquid are inside the object, not on its outline. A real lens keeps the object's surface sharp while
+  blurring the scene behind it (`r43_rb_48.jpg`, last panel).
+- **Neither depth map gives the right picture.** The correct image needs two depths at the same pixel (the glass at the
+  focus, the scene behind it far away), which BokehDiff's input cannot express.
+
+**Limits.**
+- 10 scenes, only 1 real scene with a reference capture. The see tiles and exclusions were chosen by eye, from inputs only.
+- rim_keep partly counts background seen through the edge band, which should blur, so it understates the outline that
+  is kept. The visual check above shows the object's interior structure is lost as well.
+- rb_48's planned K was clipped at 64, and BokehDiff blurs its background little at any setting (round 40).
+
+**What this means for steering.**
+- This is the first failure we have found that no single input map can fix: the input format lacks the second layer.
+- A cheap baseline still has to be tried before any steering: render twice (original depth, then see-through depth)
+  and blend the two with a matte of the object's own structure. The hard part is that matte, which any method would
+  need too.
+- A steering method has a clear target only if it can produce the two-layer result from one render better than that
+  blend.
